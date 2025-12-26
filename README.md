@@ -34,6 +34,18 @@ A RESTful API for managing university operations including students and courses.
 - Course registration and enrollment
 - Student-course relationship handling
 
+### 4. [Mini_Store_API](./Mini_Store_API)
+
+A RESTful API for a simple e-commerce system managing products and orders with automated inventory management.
+
+**Key Features:**
+
+- Product management with stock tracking
+- Order processing with multiple products
+- Automated inventory management (stock deduction/restoration)
+- Database transactions for data integrity
+- Unique order number generation
+
 ## Technologies
 
 All projects are built using:
