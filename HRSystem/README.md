@@ -1,32 +1,32 @@
-# HR System API
+# واجهة برمجة تطبيقات نظام الموارد البشرية
 
-A simple RESTful API for managing HR operations including employees and departments, built with Laravel.
+واجهة برمجة تطبيقات RESTful بسيطة لإدارة عمليات الموارد البشرية بما في ذلك الموظفين والأقسام، مبنية باستخدام Laravel.
 
-## Features
+## المميزات
 
--   **CRUD Operations**: Create, Read, Update, and Delete employees and departments.
--   **Department Management**: Manage organizational departments with full CRUD capabilities.
--   **Employee Management**: Manage employee records with department associations.
--   **Validation**: Robust validation for input data (e.g., required fields, data integrity).
--   **API Resources**: Uses Laravel's API resources for consistent JSON responses.
+-   **عمليات CRUD**: إنشاء، قراءة، تحديث، وحذف الموظفين والأقسام.
+-   **إدارة الأقسام**: إدارة أقسام المنظمة بإمكانيات CRUD كاملة.
+-   **إدارة الموظفين**: إدارة سجلات الموظفين مع ربطهم بالأقسام.
+-   **التحقق من الصحة**: تحقق قوي من صحة البيانات المدخلة (مثل الحقول المطلوبة، سلامة البيانات).
+-   **موارد API**: استخدام موارد Laravel API للحصول على استجابات JSON متسقة.
 
-## Technologies Used
+## التقنيات المستخدمة
 
--   **Laravel**: The PHP framework used for building the API.
--   **SQLite**: The database used for storing HR information.
--   **PHP**: The server-side scripting language.
+-   **Laravel**: إطار عمل PHP المستخدم لبناء الواجهة.
+-   **SQLite**: قاعدة البيانات المستخدمة لتخزين معلومات الموارد البشرية.
+-   **PHP**: لغة البرمجة من جانب الخادم.
 
-## API Endpoints
+## نقاط النهاية (API Endpoints)
 
-### Departments
+### الأقسام
 
-#### 1. List All Departments
+#### 1. عرض جميع الأقسام
 
 -   **URL**: `/api/departments`
 -   **Method**: `GET`
--   **Description**: Retrieves a list of all departments.
+-   **الوصف**: يسترجع قائمة بجميع الأقسام.
 
-#### 2. Create a Department
+#### 2. إنشاء قسم
 
 -   **URL**: `/api/departments`
 -   **Method**: `POST`
@@ -37,15 +37,15 @@ A simple RESTful API for managing HR operations including employees and departme
         "description": "Information Technology"
     }
     ```
--   **Description**: Adds a new department to the system.
+-   **الوصف**: إضافة قسم جديد إلى النظام.
 
-#### 3. Get a Single Department
+#### 3. عرض قسم واحد
 
 -   **URL**: `/api/departments/{id}`
 -   **Method**: `GET`
--   **Description**: Retrieves details of a specific department by ID.
+-   **الوصف**: يسترجع تفاصيل قسم معين بواسطة المعرف.
 
-#### 4. Update a Department
+#### 4. تحديث قسم
 
 -   **URL**: `/api/departments/{id}`
 -   **Method**: `PUT` or `PATCH`
@@ -56,23 +56,23 @@ A simple RESTful API for managing HR operations including employees and departme
         "description": "Updated Description"
     }
     ```
--   **Description**: Updates an existing department.
+-   **الوصف**: تحديث قسم موجود.
 
-#### 5. Delete a Department
+#### 5. حذف قسم
 
 -   **URL**: `/api/departments/{id}`
 -   **Method**: `DELETE`
--   **Description**: Removes a department from the system.
+-   **الوصف**: إزالة قسم من النظام.
 
-### Employees
+### الموظفون
 
-#### 1. List All Employees
+#### 1. عرض جميع الموظفين
 
 -   **URL**: `/api/employees`
 -   **Method**: `GET`
--   **Description**: Retrieves a list of all employees.
+-   **الوصف**: يسترجع قائمة بجميع الموظفين.
 
-#### 2. Create an Employee
+#### 2. إنشاء موظف
 
 -   **URL**: `/api/employees`
 -   **Method**: `POST`
@@ -85,15 +85,15 @@ A simple RESTful API for managing HR operations including employees and departme
         "department_id": 1
     }
     ```
--   **Description**: Adds a new employee to the system.
+-   **الوصف**: إضافة موظف جديد إلى النظام.
 
-#### 3. Get a Single Employee
+#### 3. عرض موظف واحد
 
 -   **URL**: `/api/employees/{id}`
 -   **Method**: `GET`
--   **Description**: Retrieves details of a specific employee by ID.
+-   **الوصف**: يسترجع تفاصيل موظف معين بواسطة المعرف.
 
-#### 4. Update an Employee
+#### 4. تحديث موظف
 
 -   **URL**: `/api/employees/{id}`
 -   **Method**: `PUT` or `PATCH`
@@ -106,41 +106,41 @@ A simple RESTful API for managing HR operations including employees and departme
         "department_id": 2
     }
     ```
--   **Description**: Updates an existing employee.
+-   **الوصف**: تحديث موظف موجود.
 
-#### 5. Delete an Employee
+#### 5. حذف موظف
 
 -   **URL**: `/api/employees/{id}`
 -   **Method**: `DELETE`
--   **Description**: Removes an employee from the system.
+-   **الوصف**: إزالة موظف من النظام.
 
-## Installation
+## التثبيت
 
-1. Clone the repository:
+1. استنساخ المستودع:
     ```bash
     git clone <repository-url>
     ```
-2. Install dependencies:
+2. تثبيت الحزم:
     ```bash
     composer install
     ```
-3. Copy `.env.example` to `.env` and configure your database settings:
+3. نسخ `.env.example` إلى `.env` وتكوين إعدادات قاعدة البيانات:
     ```bash
     cp .env.example .env
     ```
-4. Generate the application key:
+4. توليد مفتاح التطبيق:
     ```bash
     php artisan key:generate
     ```
-5. Run migrations:
+5. تشغيل الهجرات:
     ```bash
     php artisan migrate
     ```
-6. Serve the application:
+6. تشغيل التطبيق:
     ```bash
     php artisan serve
     ```
 
-## License
+## الترخيص
 
-This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+هذا المشروع مرخص تحت [ترخيص MIT](https://opensource.org/licenses/MIT).

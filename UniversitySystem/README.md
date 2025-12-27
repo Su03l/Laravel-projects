@@ -1,33 +1,33 @@
-# University System API
+# واجهة برمجة تطبيقات النظام الجامعي
 
-A simple RESTful API for managing university operations including students and courses, built with Laravel.
+واجهة برمجة تطبيقات RESTful بسيطة لإدارة عمليات الجامعة بما في ذلك الطلاب والمواد الدراسية، مبنية باستخدام Laravel.
 
-## Features
+## المميزات
 
--   **CRUD Operations**: Create, Read, Update, and Delete students and courses.
--   **Course Management**: Manage university courses with full CRUD capabilities.
--   **Student Management**: Manage student records with course enrollment.
--   **Course Registration**: Register students for courses and manage enrollments.
--   **Validation**: Robust validation for input data (e.g., required fields, data integrity).
--   **API Resources**: Uses Laravel's API resources for consistent JSON responses.
+-   **عمليات CRUD**: إنشاء، قراءة، تحديث، وحذف الطلاب والمواد الدراسية.
+-   **إدارة المواد**: إدارة المواد الدراسية بإمكانيات CRUD كاملة.
+-   **إدارة الطلاب**: إدارة سجلات الطلاب مع التسجيل في المواد.
+-   **تسجيل المواد**: تسجيل الطلاب في المواد وإدارة الالتحاقات.
+-   **التحقق من الصحة**: تحقق قوي من صحة البيانات المدخلة (مثل الحقول المطلوبة، سلامة البيانات).
+-   **موارد API**: استخدام موارد Laravel API للحصول على استجابات JSON متسقة.
 
-## Technologies Used
+## التقنيات المستخدمة
 
--   **Laravel**: The PHP framework used for building the API.
--   **SQLite**: The database used for storing university information.
--   **PHP**: The server-side scripting language.
+-   **Laravel**: إطار عمل PHP المستخدم لبناء الواجهة.
+-   **SQLite**: قاعدة البيانات المستخدمة لتخزين معلومات الجامعة.
+-   **PHP**: لغة البرمجة من جانب الخادم.
 
-## API Endpoints
+## نقاط النهاية (API Endpoints)
 
-### Students
+### الطلاب
 
-#### 1. List All Students
+#### 1. عرض جميع الطلاب
 
 -   **URL**: `/api/students`
 -   **Method**: `GET`
--   **Description**: Retrieves a list of all students.
+-   **الوصف**: يسترجع قائمة بجميع الطلاب.
 
-#### 2. Create a Student
+#### 2. إنشاء طالب
 
 -   **URL**: `/api/students`
 -   **Method**: `POST`
@@ -40,15 +40,15 @@ A simple RESTful API for managing university operations including students and c
         "major": "Computer Science"
     }
     ```
--   **Description**: Adds a new student to the system.
+-   **الوصف**: إضافة طالب جديد إلى النظام.
 
-#### 3. Get a Single Student
+#### 3. عرض طالب واحد
 
 -   **URL**: `/api/students/{id}`
 -   **Method**: `GET`
--   **Description**: Retrieves details of a specific student by ID.
+-   **الوصف**: يسترجع تفاصيل طالب معين بواسطة المعرف.
 
-#### 4. Update a Student
+#### 4. تحديث طالب
 
 -   **URL**: `/api/students/{id}`
 -   **Method**: `PUT` or `PATCH`
@@ -61,15 +61,15 @@ A simple RESTful API for managing university operations including students and c
         "major": "Software Engineering"
     }
     ```
--   **Description**: Updates an existing student.
+-   **الوصف**: تحديث طالب موجود.
 
-#### 5. Delete a Student
+#### 5. حذف طالب
 
 -   **URL**: `/api/students/{id}`
 -   **Method**: `DELETE`
--   **Description**: Removes a student from the system.
+-   **الوصف**: إزالة طالب من النظام.
 
-#### 6. Register Student for Course
+#### 6. تسجيل طالب في مادة
 
 -   **URL**: `/api/students/{student}/courses`
 -   **Method**: `POST`
@@ -79,9 +79,9 @@ A simple RESTful API for managing university operations including students and c
         "course_id": 1
     }
     ```
--   **Description**: Registers a student for a specific course.
+-   **الوصف**: تسجيل طالب في مادة محددة.
 
-#### 7. Cancel Course Registration
+#### 7. إلغاء تسجيل المادة
 
 -   **URL**: `/api/students/{student}/courses`
 -   **Method**: `DELETE`
@@ -91,17 +91,17 @@ A simple RESTful API for managing university operations including students and c
         "course_id": 1
     }
     ```
--   **Description**: Cancels a student's course registration.
+-   **الوصف**: إلغاء تسجيل طالب في مادة.
 
-### Courses
+### المواد الدراسية
 
-#### 1. List All Courses
+#### 1. عرض جميع المواد
 
 -   **URL**: `/api/courses`
 -   **Method**: `GET`
--   **Description**: Retrieves a list of all courses.
+-   **الوصف**: يسترجع قائمة بجميع المواد الدراسية.
 
-#### 2. Create a Course
+#### 2. إنشاء مادة
 
 -   **URL**: `/api/courses`
 -   **Method**: `POST`
@@ -114,15 +114,15 @@ A simple RESTful API for managing university operations including students and c
         "description": "Basic programming concepts"
     }
     ```
--   **Description**: Adds a new course to the system.
+-   **الوصف**: إضافة مادة جديدة إلى النظام.
 
-#### 3. Get a Single Course
+#### 3. عرض مادة واحدة
 
 -   **URL**: `/api/courses/{id}`
 -   **Method**: `GET`
--   **Description**: Retrieves details of a specific course by ID.
+-   **الوصف**: يسترجع تفاصيل مادة معينة بواسطة المعرف.
 
-#### 4. Update a Course
+#### 4. تحديث مادة
 
 -   **URL**: `/api/courses/{id}`
 -   **Method**: `PUT` or `PATCH`
@@ -135,41 +135,41 @@ A simple RESTful API for managing university operations including students and c
         "description": "Advanced programming concepts"
     }
     ```
--   **Description**: Updates an existing course.
+-   **الوصف**: تحديث مادة موجودة.
 
-#### 5. Delete a Course
+#### 5. حذف مادة
 
 -   **URL**: `/api/courses/{id}`
 -   **Method**: `DELETE`
--   **Description**: Removes a course from the system.
+-   **الوصف**: إزالة مادة من النظام.
 
-## Installation
+## التثبيت
 
-1. Clone the repository:
+1. استنساخ المستودع:
     ```bash
     git clone <repository-url>
     ```
-2. Install dependencies:
+2. تثبيت الحزم:
     ```bash
     composer install
     ```
-3. Copy `.env.example` to `.env` and configure your database settings:
+3. نسخ `.env.example` إلى `.env` وتكوين إعدادات قاعدة البيانات:
     ```bash
     cp .env.example .env
     ```
-4. Generate the application key:
+4. توليد مفتاح التطبيق:
     ```bash
     php artisan key:generate
     ```
-5. Run migrations:
+5. تشغيل الهجرات:
     ```bash
     php artisan migrate
     ```
-6. Serve the application:
+6. تشغيل التطبيق:
     ```bash
     php artisan serve
     ```
 
-## License
+## الترخيص
 
-This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+هذا المشروع مرخص تحت [ترخيص MIT](https://opensource.org/licenses/MIT).

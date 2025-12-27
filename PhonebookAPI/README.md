@@ -1,31 +1,33 @@
-# Phonebook API
+# واجهة برمجة تطبيقات دفتر الهاتف
 
-A simple RESTful API for managing phonebook contacts, built with Laravel.
+واجهة برمجة تطبيقات RESTful بسيطة لإدارة جهات الاتصال الهاتفية، مبنية باستخدام Laravel.
 
-## Features
+## المميزات
 
-- **CRUD Operations**: Create, Read, Update, and Delete phonebook contacts.
-- **Search**: Search for contacts by phone number.
-- **Validation**: Robust validation for input data (e.g., unique phone numbers, required fields).
-- **API Resources**: Uses Laravel's API resources for consistent JSON responses.
+-   **عمليات CRUD**: إنشاء، قراءة، تحديث، وحذف جهات الاتصال.
+-   **البحث**: البحث عن جهات الاتصال برقم الهاتف.
+-   **التحقق من الصحة**: تحقق قوي من صحة البيانات المدخلة (مثل أرقام هواتف فريدة، حقول مطلوبة).
+-   **موارد API**: استخدام موارد Laravel API للحصول على استجابات JSON متسقة.
 
-## Technologies Used
+## التقنيات المستخدمة
 
-- **Laravel**: The PHP framework used for building the API.
-- **SQLite**: The database used for storing contact information.
-- **PHP**: The server-side scripting language.
+-   **Laravel**: إطار عمل PHP المستخدم لبناء الواجهة.
+-   **SQLite**: قاعدة البيانات المستخدمة لتخزين معلومات جهات الاتصال.
+-   **PHP**: لغة البرمجة من جانب الخادم.
 
-## API Endpoints
+## نقاط النهاية (API Endpoints)
 
-### 1. List All Contacts
-- **URL**: `/api/phonenumbers`
-- **Method**: `GET`
-- **Description**: Retrieves a list of all contacts.
+### 1. عرض جميع جهات الاتصال
 
-### 2. Create a Contact
-- **URL**: `/api/phonenumbers`
-- **Method**: `POST`
-- **Body**:
+-   **URL**: `/api/phonenumbers`
+-   **Method**: `GET`
+-   **الوصف**: يسترجع قائمة بجميع جهات الاتصال.
+
+### 2. إنشاء جهة اتصال
+
+-   **URL**: `/api/phonenumbers`
+-   **Method**: `POST`
+-   **Body**:
     ```json
     {
         "name": "John Doe",
@@ -34,17 +36,19 @@ A simple RESTful API for managing phonebook contacts, built with Laravel.
         "relation": "Friend"
     }
     ```
-- **Description**: Adds a new contact to the phonebook.
+-   **الوصف**: إضافة جهة اتصال جديدة إلى دفتر الهاتف.
 
-### 3. Get a Single Contact
-- **URL**: `/api/phonenumbers/{id}`
-- **Method**: `GET`
-- **Description**: Retrieves details of a specific contact by ID.
+### 3. عرض جهة اتصال واحدة
 
-### 4. Update a Contact
-- **URL**: `/api/phonenumbers/{id}`
-- **Method**: `PUT` or `PATCH`
-- **Body**:
+-   **URL**: `/api/phonenumbers/{id}`
+-   **Method**: `GET`
+-   **الوصف**: يسترجع تفاصيل جهة اتصال معينة بواسطة المعرف.
+
+### 4. تحديث جهة اتصال
+
+-   **URL**: `/api/phonenumbers/{id}`
+-   **Method**: `PUT` or `PATCH`
+-   **Body**:
     ```json
     {
         "name": "John Doe Updated",
@@ -53,45 +57,47 @@ A simple RESTful API for managing phonebook contacts, built with Laravel.
         "relation": "Family"
     }
     ```
-- **Description**: Updates an existing contact.
+-   **الوصف**: تحديث جهة اتصال موجودة.
 
-### 5. Delete a Contact
-- **URL**: `/api/phonenumbers/{id}`
-- **Method**: `DELETE`
-- **Description**: Removes a contact from the phonebook.
+### 5. حذف جهة اتصال
 
-### 6. Search by Number
-- **URL**: `/api/phonenumbers/search/{number}`
-- **Method**: `GET`
-- **Description**: Searches for a contact by their phone number.
+-   **URL**: `/api/phonenumbers/{id}`
+-   **Method**: `DELETE`
+-   **الوصف**: إزالة جهة اتصال من دفتر الهاتف.
 
-## Installation
+### 6. البحث برقم الهاتف
 
-1. Clone the repository:
+-   **URL**: `/api/phonenumbers/search/{number}`
+-   **Method**: `GET`
+-   **الوصف**: البحث عن جهة اتصال برقم الهاتف.
+
+## التثبيت
+
+1. استنساخ المستودع:
     ```bash
     git clone <repository-url>
     ```
-2. Install dependencies:
+2. تثبيت الحزم:
     ```bash
     composer install
     ```
-3. Copy `.env.example` to `.env` and configure your database settings:
+3. نسخ `.env.example` إلى `.env` وتكوين إعدادات قاعدة البيانات:
     ```bash
     cp .env.example .env
     ```
-4. Generate the application key:
+4. توليد مفتاح التطبيق:
     ```bash
     php artisan key:generate
     ```
-5. Run migrations:
+5. تشغيل الهجرات:
     ```bash
     php artisan migrate
     ```
-6. Serve the application:
+6. تشغيل التطبيق:
     ```bash
     php artisan serve
     ```
 
-## License
+## الترخيص
 
-This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+هذا المشروع مرخص تحت [ترخيص MIT](https://opensource.org/licenses/MIT).

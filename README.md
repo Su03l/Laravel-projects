@@ -1,76 +1,89 @@
-# Laravel Projects Collection
+# مجموعة مشاريع Laravel
 
-A collection of Laravel-based RESTful APIs for different domain applications.
+مجموعة من واجهات برمجة التطبيقات (APIs) المبنية على Laravel لتطبيقات مختلفة.
 
-## Projects
+## المشاريع
 
 ### 1. [PhonebookAPI](./PhonebookAPI)
 
-A RESTful API for managing phonebook contacts with search capabilities.
+واجهة برمجة تطبيقات RESTful لإدارة جهات الاتصال الهاتفية مع إمكانية البحث.
 
-**Key Features:**
+**المميزات الرئيسية:**
 
-- Complete CRUD operations for phonebook contacts
-- Search contacts by phone number
-- Input validation and data integrity
+- عمليات CRUD كاملة لجهات الاتصال
+- البحث عن جهات الاتصال برقم الهاتف
+- التحقق من صحة البيانات وسلامتها
 
 ### 2. [HRSystem](./HRSystem)
 
-A RESTful API for managing HR operations including employees and departments.
+واجهة برمجة تطبيقات RESTful لإدارة عمليات الموارد البشرية بما في ذلك الموظفين والأقسام.
 
-**Key Features:**
+**المميزات الرئيسية:**
 
-- Department management
-- Employee management with department associations
-- Comprehensive HR data handling
+- إدارة الأقسام
+- إدارة الموظفين مع ربطهم بالأقسام
+- معالجة شاملة لبيانات الموارد البشرية
 
 ### 3. [UniversitySystem](./UniversitySystem)
 
-A RESTful API for managing university operations including students and courses.
+واجهة برمجة تطبيقات RESTful لإدارة عمليات الجامعة بما في ذلك الطلاب والمواد الدراسية.
 
-**Key Features:**
+**المميزات الرئيسية:**
 
-- Student and course management
-- Course registration and enrollment
-- Student-course relationship handling
+- إدارة الطلاب والمواد الدراسية
+- تسجيل المواد والالتحاق بها
+- معالجة العلاقة بين الطلاب والمواد
 
 ### 4. [Mini_Store_API](./Mini_Store_API)
 
-A RESTful API for a simple e-commerce system managing products and orders with automated inventory management.
+واجهة برمجة تطبيقات RESTful لنظام تجارة إلكترونية بسيط يدير المنتجات والطلبات مع إدارة تلقائية للمخزون.
 
-**Key Features:**
+**المميزات الرئيسية:**
 
-- Product management with stock tracking
-- Order processing with multiple products
-- Automated inventory management (stock deduction/restoration)
-- Database transactions for data integrity
-- Unique order number generation
+- إدارة المنتجات مع تتبع المخزون
+- معالجة الطلبات مع دعم منتجات متعددة
+- إدارة تلقائية للمخزون (خصم/استعادة الكميات)
+- معاملات قاعدة البيانات لضمان سلامة البيانات
+- توليد أرقام فريدة للطلبات
 
 ### 5. [Car_Rental_API](./Car_Rental_API)
 
-A robust RESTful API for managing a car rental business with automated cost calculation and strict state management for vehicles.
+واجهة برمجة تطبيقات RESTful قوية لإدارة أعمال تأجير السيارات مع حساب تلقائي للتكاليف وإدارة صارمة لحالة المركبات.
 
-**Key Features:**
+**المميزات الرئيسية:**
 
-- Fleet management with status tracking (available, rented, maintenance)
-- Customer management with unique identification
-- Automated billing based on rental duration
-- State management (car status changes)
-- Conflict prevention for rented vehicles
-- Database transactions for data integrity
+- إدارة الأسطول مع تتبع الحالة (متاح، مؤجر، صيانة)
+- إدارة العملاء مع تحديد فريد للهوية
+- حساب تلقائي للفواتير بناءً على مدة الإيجار
+- إدارة الحالة (تغيير حالة السيارة)
+- منع التعارضات للمركبات المؤجرة
+- معاملات قاعدة البيانات لضمان سلامة البيانات
 
-## Technologies
+### 6. [pixel-positions](./pixel-positions)
 
-All projects are built using:
+منصة شاملة للوظائف تربط أصحاب العمل بالباحثين عن العمل من خلال واجهة سهلة الاستخدام.
 
-- **Laravel** - PHP framework
-- **SQLite** - Database
-- **PHP** - Server-side language
+**المميزات الرئيسية:**
 
-## Getting Started
+- نظام نشر وإدارة الوظائف
+- مصادقة وتفويض المستخدمين
+- تصنيف الوظائف بواسطة الوسوم
+- وظيفة بحث متقدمة
+- ملفات تعريف أصحاب العمل مع قوائم الوظائف
+- واجهة مستخدم حديثة باستخدام Tailwind CSS
 
-Each project has its own README with detailed installation and usage instructions. Navigate to the respective project directory to learn more.
+## التقنيات المستخدمة
 
-## License
+جميع المشاريع مبنية باستخدام:
 
-All projects are open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- **Laravel** - إطار عمل PHP
+- **SQLite** - قاعدة البيانات
+- **PHP** - لغة البرمجة من جانب الخادم
+
+## البدء
+
+كل مشروع له ملف README خاص به يحتوي على تعليمات مفصلة للتثبيت والاستخدام. انتقل إلى مجلد المشروع المعني لمعرفة المزيد.
+
+## الترخيص
+
+جميع المشاريع مرخصة تحت [ترخيص MIT](https://opensource.org/licenses/MIT).

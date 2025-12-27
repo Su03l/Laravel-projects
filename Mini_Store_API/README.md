@@ -1,36 +1,36 @@
-# Mini Store API
+# واجهة برمجة تطبيقات متجر صغير
 
-A RESTful API for a simple e-commerce system managing products and orders, built with Laravel. It features advanced Many-to-Many relationships and automated inventory management.
+واجهة برمجة تطبيقات RESTful لنظام تجارة إلكترونية بسيط يدير المنتجات والطلبات، مبنية باستخدام Laravel. تتميز بعلاقات متقدمة متعدد-إلى-متعدد وإدارة تلقائية للمخزون.
 
-## Features
+## المميزات
 
--   **Product Management:** Full CRUD operations for store products with stock tracking.
--   **Order Processing:** Create orders with multiple products and specific quantities.
--   **Inventory Management:**
-    -   Automatically **deducts stock** when an order is placed.
-    -   Automatically **restores stock** when an order is deleted.
-    -   Prevents orders if stock is insufficient.
--   **Automated Logic:** Auto-generation of unique Order Numbers.
--   **Validation:** Strict validation for inputs and stock availability.
--   **Database Transactions:** Ensures data integrity during order creation and cancellation.
+-   **إدارة المنتجات:** عمليات CRUD كاملة لمنتجات المتجر مع تتبع المخزون.
+-   **معالجة الطلبات:** إنشاء طلبات مع منتجات متعددة وكميات محددة.
+-   **إدارة المخزون:**
+    -   **خصم تلقائي للمخزون** عند تقديم الطلب.
+    -   **استعادة تلقائية للمخزون** عند حذف الطلب.
+    -   منع الطلبات في حالة عدم كفاية المخزون.
+-   **منطق تلقائي:** توليد تلقائي لأرقام طلبات فريدة.
+-   **التحقق من الصحة:** تحقق صارم من المدخلات وتوفر المخزون.
+-   **معاملات قاعدة البيانات:** ضمان سلامة البيانات أثناء إنشاء وإلغاء الطلبات.
 
-## Technologies Used
+## التقنيات المستخدمة
 
--   **Laravel:** The PHP framework used for building the API.
--   **SQLite:** The database used for development.
--   **PHP:** The server-side scripting language.
+-   **Laravel:** إطار عمل PHP المستخدم لبناء الواجهة.
+-   **SQLite:** قاعدة البيانات المستخدمة للتطوير.
+-   **PHP:** لغة البرمجة من جانب الخادم.
 
-## API Endpoints
+## نقاط النهاية (API Endpoints)
 
-### Products
+### المنتجات
 
-#### 1. List All Products
+#### 1. عرض جميع المنتجات
 
 -   **URL:** `/api/products`
 -   **Method:** `GET`
--   **Description:** Retrieves a list of all products in the store.
+-   **الوصف:** يسترجع قائمة بجميع المنتجات في المتجر.
 
-#### 2. Create a Product
+#### 2. إنشاء منتج
 
 -   **URL:** `/api/products`
 -   **Method:** `POST`
@@ -42,15 +42,15 @@ A RESTful API for a simple e-commerce system managing products and orders, built
         "stock": 10
     }
     ```
--   **Description:** Adds a new product to the inventory.
+-   **الوصف:** إضافة منتج جديد إلى المخزون.
 
-#### 3. Get a Single Product
+#### 3. عرض منتج واحد
 
 -   **URL:** `/api/products/{id}`
 -   **Method:** `GET`
--   **Description:** Retrieves details of a specific product.
+-   **الوصف:** يسترجع تفاصيل منتج معين.
 
-#### 4. Update a Product
+#### 4. تحديث منتج
 
 -   **URL:** `/api/products/{id}`
 -   **Method:** `PUT` or `PATCH`
@@ -61,25 +61,25 @@ A RESTful API for a simple e-commerce system managing products and orders, built
         "stock": 15
     }
     ```
--   **Description:** Updates product details (e.g., restocking or price change).
+-   **الوصف:** تحديث تفاصيل المنتج (مثل إعادة التخزين أو تغيير السعر).
 
-#### 5. Delete a Product
+#### 5. حذف منتج
 
 -   **URL:** `/api/products/{id}`
 -   **Method:** `DELETE`
--   **Description:** Removes a product from the system.
+-   **الوصف:** إزالة منتج من النظام.
 
 ---
 
-### Orders
+### الطلبات
 
-#### 1. List All Orders
+#### 1. عرض جميع الطلبات
 
 -   **URL:** `/api/orders`
 -   **Method:** `GET`
--   **Description:** Retrieves a list of all orders with their associated products and quantities.
+-   **الوصف:** يسترجع قائمة بجميع الطلبات مع المنتجات والكميات المرتبطة بها.
 
-#### 2. Create an Order (Checkout)
+#### 2. إنشاء طلب (الدفع)
 
 -   **URL:** `/api/orders`
 -   **Method:** `POST`
@@ -99,69 +99,69 @@ A RESTful API for a simple e-commerce system managing products and orders, built
         ]
     }
     ```
--   **Description:** Creates a new order. It automatically checks stock availability, deducts the quantity from products, and generates a unique Order Number.
+-   **الوصف:** إنشاء طلب جديد. يتحقق تلقائياً من توفر المخزون، ويخصم الكمية من المنتجات، ويولد رقم طلب فريد.
 
-#### 3. Get a Single Order
+#### 3. عرض طلب واحد
 
 -   **URL:** `/api/orders/{id}`
 -   **Method:** `GET`
--   **Description:** Retrieves details of a specific order including products ordered.
+-   **الوصف:** يسترجع تفاصيل طلب معين بما في ذلك المنتجات المطلوبة.
 
-#### 4. Update an Order
+#### 4. تحديث طلب
 
 -   **URL:** `/api/orders/{id}`
 -   **Method:** `PUT` or `PATCH`
--   **Description:** Updates order details or syncs product list.
+-   **الوصف:** تحديث تفاصيل الطلب أو مزامنة قائمة المنتجات.
 
-#### 5. Delete an Order (Cancel)
+#### 5. حذف طلب (إلغاء)
 
 -   **URL:** `/api/orders/{id}`
 -   **Method:** `DELETE`
--   **Description:** Cancels the order and automatically restores the ordered quantities back to the product stock.
+-   **الوصف:** إلغاء الطلب واستعادة الكميات المطلوبة تلقائياً إلى مخزون المنتجات.
 
 ---
 
-## Installation
+## التثبيت
 
-1. **Clone the repository:**
+1. **استنساخ المستودع:**
 
     ```bash
     git clone <repository-url>
     ```
 
-2. **Install dependencies:**
+2. **تثبيت الحزم:**
 
     ```bash
     composer install
     ```
 
-3. **Configure Environment:**
-   Copy `.env.example` to `.env` and configure your database settings:
+3. **تكوين البيئة:**
+   نسخ `.env.example` إلى `.env` وتكوين إعدادات قاعدة البيانات:
 
     ```bash
     cp .env.example .env
     ```
 
-4. **Generate Application Key:**
+4. **توليد مفتاح التطبيق:**
 
     ```bash
     php artisan key:generate
     ```
 
-5. **Run Migrations & Seeders:**
-   (Optional: Use `--seed` to populate dummy data)
+5. **تشغيل الهجرات والبذور:**
+   (اختياري: استخدم `--seed` لملء بيانات تجريبية)
 
     ```bash
     php artisan migrate --seed
     ```
 
-6. **Serve the Application:**
+6. **تشغيل التطبيق:**
     ```bash
     php artisan serve
     ```
 
 ---
 
-## License
+## الترخيص
 
-This project is open-sourced software licensed under the MIT license.
+هذا المشروع مرخص تحت ترخيص MIT.

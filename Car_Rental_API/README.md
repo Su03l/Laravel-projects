@@ -1,30 +1,30 @@
-# Car Rental System API
+# واجهة برمجة تطبيقات نظام تأجير السيارات
 
-A robust RESTful API for managing a car rental business, built with Laravel. It features automated cost calculation, strict state management for vehicles, and transactional data integrity.
+واجهة برمجة تطبيقات RESTful قوية لإدارة أعمال تأجير السيارات، مبنية باستخدام Laravel. تتميز بحساب تلقائي للتكاليف، وإدارة صارمة لحالة المركبات، وسلامة البيانات المعاملاتية.
 
-## Key Features
+## المميزات الرئيسية
 
--   **Fleet Management:** Full CRUD for cars with status tracking (`available`, `rented`, `maintenance`).
--   **Customer Management:** Manage customer profiles with unique identification checks.
--   **Rental Logic:**
-    -   **Automated Billing:** Automatically calculates total cost based on rental duration and daily rate.
-    -   **State Management:** Automatically switches car status to `rented` upon booking and back to `available` upon return.
-    -   **Conflict Prevention:** Prevents booking of currently rented or unavailable vehicles.
--   **Database Transactions:** Ensures data consistency across all rental operations (renting, returning, canceling).
+-   **إدارة الأسطول:** عمليات CRUD كاملة للسيارات مع تتبع الحالة (`متاح`، `مؤجر`، `صيانة`).
+-   **إدارة العملاء:** إدارة ملفات العملاء مع فحص الهوية الفريدة.
+-   **منطق التأجير:**
+    -   **الفوترة التلقائية:** حساب تلقائي للتكلفة الإجمالية بناءً على مدة الإيجار والسعر اليومي.
+    -   **إدارة الحالة:** تبديل تلقائي لحالة السيارة إلى `مؤجر` عند الحجز وإلى `متاح` عند الإرجاع.
+    -   **منع التعارضات:** منع حجز المركبات المؤجرة حالياً أو غير المتاحة.
+-   **معاملات قاعدة البيانات:** ضمان اتساق البيانات عبر جميع عمليات التأجير (الإيجار، الإرجاع، الإلغاء).
 
-## Technologies Used
+## التقنيات المستخدمة
 
--   **Laravel:** Core PHP framework.
--   **SQLite:** Database (Development).
--   **Carbon:** Date manipulation and duration calculation.
+-   **Laravel:** إطار عمل PHP الأساسي.
+-   **SQLite:** قاعدة البيانات (التطوير).
+-   **Carbon:** معالجة التواريخ وحساب المدة.
 
-## API Endpoints
+## نقاط النهاية (API Endpoints)
 
-### Cars
+### السيارات
 
-1. **List All Cars**
+1. **عرض جميع السيارات**
     - `GET /api/cars`
-2. **Add New Car**
+2. **إضافة سيارة جديدة**
     - `POST /api/cars`
     - **Body:**
         ```json
@@ -35,17 +35,17 @@ A robust RESTful API for managing a car rental business, built with Laravel. It 
             "daily_price": 250.0
         }
         ```
-3. **Update Car**
+3. **تحديث سيارة**
     - `PUT /api/cars/{id}`
-4. **Delete Car**
+4. **حذف سيارة**
     - `DELETE /api/cars/{id}`
-    - _Note: Cannot delete a car if it is currently rented._
+    - _ملاحظة: لا يمكن حذف سيارة مؤجرة حالياً._
 
-### Customers
+### العملاء
 
-1. **List All Customers**
+1. **عرض جميع العملاء**
     - `GET /api/customers`
-2. **Register Customer**
+2. **تسجيل عميل**
     - `POST /api/customers`
     - **Body:**
         ```json
@@ -56,11 +56,11 @@ A robust RESTful API for managing a car rental business, built with Laravel. It 
         }
         ```
 
-### Rentals (The Core Logic)
+### الإيجارات (المنطق الأساسي)
 
-#### 1. Create Rental Contract (Rent a Car)
+#### 1. إنشاء عقد إيجار (تأجير سيارة)
 
-Creates a new contract, calculates the total cost, and **locks** the car (sets status to `rented`).
+ينشئ عقداً جديداً، يحسب التكلفة الإجمالية، ويقفل السيارة (يضبط الحالة إلى `مؤجر`).
 
 -   **URL:** `/api/rentals`
 -   **Method:** `POST`
@@ -82,65 +82,65 @@ Creates a new contract, calculates the total cost, and **locks** the car (sets s
     }
     ```
 
-#### 2. Return Car (Close Contract)
+#### 2. إرجاع السيارة (إغلاق العقد)
 
-Marks the contract as completed and unlocks the car (sets status back to `available`).
+يحدد العقد كمكتمل ويفتح قفل السيارة (يعيد الحالة إلى `متاح`).
 
 -   **URL:** `/api/rentals/{id}/return`
 -   **Method:** `POST`
 
-#### 3. Cancel Contract (Delete)
+#### 3. إلغاء العقد (حذف)
 
-Deletes the contract and restores the car status to `available` if the contract was active.
+يحذف العقد ويستعيد حالة السيارة إلى `متاح` إذا كان العقد نشطاً.
 
 -   **URL:** `/api/rentals/{id}`
 -   **Method:** `DELETE`
 
-#### 4. Update Contract
+#### 4. تحديث العقد
 
-Updates dates and re-calculates the total cost automatically.
+يحدث التواريخ ويعيد حساب التكلفة الإجمالية تلقائياً.
 
 -   **URL:** `/api/rentals/{id}`
 -   **Method:** `PUT`
 
-## Installation
+## التثبيت
 
-1. **Clone the repository:**
+1. **استنساخ المستودع:**
 
     ```bash
     git clone <repository-url>
     ```
 
-2. **Install dependencies:**
+2. **تثبيت الحزم:**
 
     ```bash
     composer install
     ```
 
-3. **Configure Environment:**
+3. **تكوين البيئة:**
 
     ```bash
     cp .env.example .env
-    # Configure your database in .env
+    # قم بتكوين قاعدة البيانات في .env
     ```
 
-4. **Generate Key:**
+4. **توليد المفتاح:**
 
     ```bash
     php artisan key:generate
     ```
 
-5. **Run Migrations & Seeders:** (This will create dummy cars and customers)
+5. **تشغيل الهجرات والبذور:** (سينشئ سيارات وعملاء تجريبية)
 
     ```bash
     php artisan migrate --seed
     ```
 
-6. **Serve:**
+6. **تشغيل التطبيق:**
     ```bash
     php artisan serve
     ```
 
-## License
+## الترخيص
 
-This project is open-sourced software licensed under the MIT license.
+هذا المشروع مرخص تحت ترخيص MIT.
