@@ -21,6 +21,11 @@ class Rental extends Model
 
     protected $guarded = [];
 
+    public function car()
+    {
+        return $this->belongsTo(Car::class);
+    }
+
     public function customer()
     {
         return $this->belongsTo(Customer::class);
