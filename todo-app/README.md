@@ -1,20 +1,20 @@
-# Todo App - Laravel API
+# تطبيق قائمة المهام - Laravel API
 
-This is the backend API for a Todo application, built with Laravel. It provides a RESTful interface for user authentication and for managing todos.
+هذا هو الواجهة الخلفية (Backend API) لتطبيق قائمة المهام، مبني باستخدام Laravel. يوفر واجهة RESTful لمصادقة المستخدمين وإدارة المهام.
 
-The API uses Laravel Sanctum for cookie-based SPA authentication.
+يستخدم API نظام Laravel Sanctum للمصادقة المستندة إلى الكوكيز للتطبيقات أحادية الصفحة (SPA).
 
-## Environment Setup
+## إعداد البيئة
 
-To set up the project, copy the `.env.example` file to a new file named `.env` and configure the necessary variables.
+لإعداد المشروع، انسخ ملف `.env.example` إلى ملف جديد باسم `.env` وقم بتكوين المتغيرات اللازمة.
 
 ```sh
 cp .env.example .env
 ```
 
-### Example `.env` Configuration
+### مثال على تكوين `.env`
 
-Here are the key variables you need to configure for this application to work correctly with a frontend SPA.
+هذه هي المتغيرات الأساسية التي تحتاج إلى تكوينها لكي يعمل هذا التطبيق بشكل صحيح مع تطبيق SPA الأمامي.
 
 ```dotenv
 APP_NAME="Laravel"
@@ -23,7 +23,7 @@ APP_KEY=base64:your-app-key-here
 APP_DEBUG=true
 APP_URL=http://localhost:8000
 
-# This should be the URL of your frontend application
+# يجب أن يكون هذا عنوان URL لتطبيق الواجهة الأمامية
 SANCTUM_STATEFUL_DOMAINS=localhost:3000,127.0.0.1:3000
 SESSION_DOMAIN=localhost
 SESSION_LIFETIME=120
@@ -38,74 +38,75 @@ DB_PASSWORD=your_database_password
 
 ---
 
-## API Endpoints
+## نقاط النهاية (API Endpoints)
 
-The base URL for all endpoints is `http://127.0.0.1:8000`, or `http://localhost:8000` depending on your environment.
+عنوان URL الأساسي لجميع نقاط النهاية هو `http://127.0.0.1:8000`، أو `http://localhost:8000` حسب بيئتك.
 
-### Authentication
+### المصادقة
 
-These endpoints handle user registration, login, and session management.
+هذه النقاط تتعامل مع تسجيل المستخدمين، تسجيل الدخول، وإدارة الجلسات.
 
-| Method | Endpoint                    | Description                                                 | Authentication |
-| :----- | :-------------------------- | :---------------------------------------------------------- | :------------- |
-| `GET`  | `/sanctum/csrf-cookie`      | Initializes CSRF protection for the session.                | None           |
-| `POST` | `/register`                 | Creates a new user account.                                 | None           |
-| `POST` | `/login`                    | Authenticates a user and starts a session.                  | None           |
-| `POST` | `/logout`                   | Destroys the authenticated session.                         | Required       |
-| `GET`  | `/api/user`                 | Fetches the currently authenticated user's data.            | Required       |
-
----
-
-### User Profile
-
-These endpoints are for managing the authenticated user's profile.
-
-| Method | Endpoint                | Description                                  | Authentication |
-| :----- | :---------------------- | :------------------------------------------- | :------------- |
-| `PUT`  | `/api/user/profile`     | Updates the user's profile information.      | Required       |
-| `PUT`  | `/api/user/password`    | Updates the user's password.                 | Required       |
-
-#### Update Profile Body
-
-```json
-{
-  "fname": "Jane",
-  "lname": "Doe",
-  "username": "janedoe",
-  "email": "jane.doe@example.com"
-}
-```
-*(Note: All fields are optional. Send only the ones you want to update.)*
-
-#### Change Password Body
-
-```json
-{
-  "current_password": "their-old-password",
-  "password": "their-new-secure-password",
-  "password_confirmation": "their-new-secure-password"
-}
-```
+| الطريقة | النقطة                 | الوصف                                       | المصادقة   |
+| :------ | :--------------------- | :------------------------------------------ | :--------- |
+| `GET`   | `/sanctum/csrf-cookie` | يبدأ حماية CSRF للجلسة.                     | غير مطلوبة |
+| `POST`  | `/register`            | ينشئ حساب مستخدم جديد.                      | غير مطلوبة |
+| `POST`  | `/login`               | يصادق على المستخدم ويبدأ جلسة.              | غير مطلوبة |
+| `POST`  | `/logout`              | يدمر الجلسة المصادق عليها.                  | مطلوبة     |
+| `GET`   | `/api/user`            | يسترجع بيانات المستخدم المصادق عليه حالياً. | مطلوبة     |
 
 ---
 
-### Todos
+### الملف الشخصي للمستخدم
 
-These endpoints are for managing todos and require authentication.
+هذه النقاط لإدارة الملف الشخصي للمستخدم المصادق عليه.
 
-| Method   | Endpoint          | Description                                  |
-| :------- | :---------------- | :------------------------------------------- |
-| `GET`    | `/api/todos`      | Retrieves the list of all todos.             |
-| `POST`   | `/api/todos`      | Creates a new todo.                          |
-| `PUT`    | `/api/todos/{id}` | Updates an existing todo.                    |
-| `DELETE` | `/api/todos/{id}` | Deletes a specific todo.                     |
+| الطريقة | النقطة               | الوصف                                | المصادقة |
+| :------ | :------------------- | :----------------------------------- | :------- |
+| `PUT`   | `/api/user/profile`  | تحديث معلومات الملف الشخصي للمستخدم. | مطلوبة   |
+| `PUT`   | `/api/user/password` | تحديث كلمة مرور المستخدم.            | مطلوبة   |
 
-#### Todo Body
+#### محتوى تحديث الملف الشخصي
 
 ```json
 {
-  "title": "My New Todo",
-  "description": "A detailed description of the task.",
-  "is_completed": false
+    "fname": "Jane",
+    "lname": "Doe",
+    "username": "janedoe",
+    "email": "jane.doe@example.com"
+}
+```
+
+_(ملاحظة: جميع الحقول اختيارية. أرسل فقط الحقول التي تريد تحديثها.)_
+
+#### محتوى تغيير كلمة المرور
+
+```json
+{
+    "current_password": "their-old-password",
+    "password": "their-new-secure-password",
+    "password_confirmation": "their-new-secure-password"
+}
+```
+
+---
+
+### المهام
+
+هذه النقاط لإدارة المهام وتتطلب المصادقة.
+
+| الطريقة  | النقطة            | الوصف                      |
+| :------- | :---------------- | :------------------------- |
+| `GET`    | `/api/todos`      | يسترجع قائمة بجميع المهام. |
+| `POST`   | `/api/todos`      | ينشئ مهمة جديدة.           |
+| `PUT`    | `/api/todos/{id}` | يحدث مهمة موجودة.          |
+| `DELETE` | `/api/todos/{id}` | يحذف مهمة محددة.           |
+
+#### محتوى المهمة
+
+```json
+{
+    "title": "My New Todo",
+    "description": "A detailed description of the task.",
+    "is_completed": false
 }
 ```
