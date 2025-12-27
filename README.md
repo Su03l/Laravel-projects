@@ -46,6 +46,19 @@ A RESTful API for a simple e-commerce system managing products and orders with a
 - Database transactions for data integrity
 - Unique order number generation
 
+### 5. [Car_Rental_API](./Car_Rental_API)
+
+A robust RESTful API for managing a car rental business with automated cost calculation and strict state management for vehicles.
+
+**Key Features:**
+
+- Fleet management with status tracking (available, rented, maintenance)
+- Customer management with unique identification
+- Automated billing based on rental duration
+- State management (car status changes)
+- Conflict prevention for rented vehicles
+- Database transactions for data integrity
+
 ## Technologies
 
 All projects are built using:
