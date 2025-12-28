@@ -40,12 +40,4 @@ class TaskController extends Controller
             'data' => $task
         ]);
     }
-
-    public function destroy(Task $task)
-    {
-        $task->delete();
-        return response()->json([
-            'message' => 'تم حذف المهمة ️'
-        ]);
-    }
 }
