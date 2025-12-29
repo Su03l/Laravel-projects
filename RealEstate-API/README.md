@@ -45,13 +45,14 @@ GET /api/properties/search?city=Jeddah&type=villa&max_price=2000000&area=400
 
 العمليات الأساسية للإضافة والتعديل والحذف.
 
-| الطريقة | الرابط                 | الوصف                                    |
-| :------ | :--------------------- | :--------------------------------------- |
-| GET     | `/api/properties`      | عرض جميع العقارات (مع التصفح Pagination) |
-| POST    | `/api/properties`      | إضافة عقار جديد                          |
-| GET     | `/api/properties/{id}` | عرض تفاصيل عقار محدد                     |
-| PUT     | `/api/properties/{id}` | تعديل بيانات العقار                      |
-| DELETE  | `/api/properties/{id}` | حذف العقار                               |
+| الطريقة | الرابط                   | الوصف                                    |
+| :------ | :----------------------- | :--------------------------------------- |
+| GET     | `/api/properties/search` | البحث المتقدم في العقارات                |
+| GET     | `/api/properties`        | عرض جميع العقارات (مع التصفح Pagination) |
+| POST    | `/api/properties`        | إضافة عقار جديد                          |
+| GET     | `/api/properties/{id}`   | عرض تفاصيل عقار محدد                     |
+| PUT     | `/api/properties/{id}`   | تعديل بيانات العقار                      |
+| DELETE  | `/api/properties/{id}`   | حذف العقار                               |
 
 ## التثبيت والتشغيل
 
