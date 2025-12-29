@@ -14,7 +14,7 @@
 
 -   **Laravel 10/11**
 -   **Eloquent ORM** (Builder & Scopes)
--   **MySQL**
+-   **SQLite**
 -   **API Resources**
 
 ## نقاط الوصول (API Endpoints)
@@ -67,6 +67,18 @@ composer install
 ```bash
 cp .env.example .env
 php artisan key:generate
+```
+
+إنشاء ملف قاعدة البيانات SQLite:
+
+```bash
+touch database/database.sqlite
+```
+
+أو في Windows:
+
+```powershell
+New-Item database/database.sqlite -ItemType File
 ```
 
 قاعدة البيانات والبيانات الوهمية:
