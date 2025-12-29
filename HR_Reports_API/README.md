@@ -1,59 +1,81 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# نظام تقارير الموارد البشرية (HR Reports & Export API) 📊📉
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+نظام API متخصص لإدارة سجلات الموظفين، يركز بشكل أساسي على **توليد التقارير** و **تصدير البيانات**. يتيح للمدراء تصفية الموظفين بناءً على معايير دقيقة (القسم، الراتب، سنة التعيين) وتحميل النتائج فوراً كملف **Excel/CSV** عبر تقنية الـ Streaming.
 
-## About Laravel
+## 🚀 أبرز المميزات
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+-   **تصدير البيانات (CSV Export):** إمكانية تحميل تقارير الموظفين بضغطة زر، مع دعم الفلترة قبل التحميل.
+-   **أداء عالي (Streamed Response):** استخدام تقنية الـ Streaming لتصدير الملفات الضخمة دون استهلاك ذاكرة السيرفر.
+-   **فلترة مالية وزمنية:** البحث عن الموظفين حسب نطاق الراتب أو سنة التعيين.
+-   **توثيق تلقائي:** استخدام `FormRequest` لدعم أدوات التوثيق مثل Scramble.
+-   **فصل المهام:** تخصيص Endpoints مستقلة للبحث (`/search`) والتصدير (`/export`).
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🛠️ التقنيات المستخدمة
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+-   **Laravel 10/11**
+-   **PHP Streams** (للتصدير الفعال)
+-   **Eloquent Scopes**
+-   **MySQL**
 
-## Learning Laravel
+## 📡 نقاط الوصول (API Endpoints)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### 📥 التصدير والتقارير (Export)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+**GET** `/api/employees/export`
 
-## Laravel Sponsors
+يقوم هذا الرابط بتحميل ملف `.csv` يحتوي على بيانات الموظفين المفلترة.
+_ملاحظة: جرب هذا الرابط في المتصفح مباشرة لتحميل الملف._
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+| المعامل (Parameter) | النوع     | الوصف                    |
+| :------------------ | :-------- | :----------------------- |
+| `department`        | `string`  | القسم (مثال: IT, HR)     |
+| `min_salary`        | `number`  | الحد الأدنى للراتب       |
+| `year`              | `integer` | سنة التعيين (مثال: 2024) |
 
-### Premium Partners
+**مثال للرابط (ضعه في المتصفح):**
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+```
+http://localhost:8000/api/employees/export?department=IT&min_salary=5000
+```
 
-## Contributing
+### 🔍 البحث (Search)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+**GET** `/api/employees/search`
+يعرض نتائج البحث كـ JSON (للعرض في الواجهات).
 
-## Code of Conduct
+### 🏗️ إدارة الموظفين (CRUD)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+| الطريقة  | الرابط                | الوصف        |
+| :------- | :-------------------- | :----------- |
+| `GET`    | `/api/employees`      | عرض الكل     |
+| `POST`   | `/api/employees`      | توظيف جديد   |
+| `PUT`    | `/api/employees/{id}` | تعديل بيانات |
+| `DELETE` | `/api/employees/{id}` | فصل موظف     |
 
-## Security Vulnerabilities
+## ⚙️ التثبيت والتشغيل
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 1. نسخ المستودع:
 
-## License
+```bash
+git clone <repo-url>
+composer install
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 2. إعداد البيئة:
+
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+### 3. زراعة 200 موظف للتجربة:
+
+```bash
+php artisan migrate --seed
+```
+
+### 4. تشغيل السيرفر:
+
+```bash
+php artisan serve
+```
