@@ -15,7 +15,8 @@
 -   **Laravel 10/11**
 -   **PHP Streams** (للتصدير الفعال)
 -   **Eloquent Scopes**
--   **MySQL**
+-   **SQLite**
+-   **Scramble** (API Documentation)
 
 ## نقاط الوصول (API Endpoints)
 
