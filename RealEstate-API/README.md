@@ -16,6 +16,7 @@
 -   **Eloquent ORM** (Builder & Scopes)
 -   **SQLite**
 -   **API Resources**
+-   **Scramble** (API Documentation)
 
 ## نقاط الوصول (API Endpoints)
 
