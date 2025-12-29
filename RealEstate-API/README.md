@@ -1,59 +1,83 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# نظام إدارة العقارات والبحث المتقدم (Real Estate API)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+نظام API مرن لإدارة العقارات مبني باستخدام **Laravel**، يركز بشكل أساسي على **نطاقات الاستعلام (Query Scopes)** و **الفلترة الديناميكية (Dynamic Filtering)**. يتيح للمستخدمين البحث عن العقارات بناءً على معايير متعددة ومعقدة (المدينة، نطاق السعر، المساحة التقريبية، وغيرها) بكفاءة عالية ومن خلال نقطة وصول واحدة.
 
-## About Laravel
+## أبرز المميزات
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+-   **محرك بحث متقدم:** فلترة النتائج حسب المدينة، النوع، الحالة، السعر، والمزيد باستخدام Endpoint واحد فقط.
+-   **سكوبات ذكية (Smart Scopes):** استخدام `Local Scopes` داخل المودل للحفاظ على نظافة الكنترولر وقابليته للصيانة.
+-   **البحث التقريبي (Fuzzy Search):** منطق ذكي للبحث عن المساحة بنطاق تسامح (±20 متر)، لضمان عدم فقدان النتائج القريبة.
+-   **التحقق والتوثيق:** استخدام `FormRequest` لضمان صحة المدخلات وتوليد توثيق تلقائي للحقول في أدوات مثل Scramble.
+-   **حل تعارض الروابط:** معالجة مشكلة الأولوية بين الروابط المخصصة (`/search`) وروابط الموارد القياسية (`/{id}`).
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## التقنيات المستخدمة
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+-   **Laravel 10/11**
+-   **Eloquent ORM** (Builder & Scopes)
+-   **MySQL**
+-   **API Resources**
 
-## Learning Laravel
+## نقاط الوصول (API Endpoints)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### البحث المتقدم (Advanced Search)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+**GET** `/api/properties/search`
 
-## Laravel Sponsors
+يسمح هذا الرابط بفلترة البيانات بأي مزيج من المعايير التالية:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+| المعامل (Parameter) | النوع     | الوصف                                     |
+| :------------------ | :-------- | :---------------------------------------- |
+| `city`              | `string`  | اسم المدينة (مثال: Riyadh)                |
+| `type`              | `string`  | نوع العقار (`apartment`, `villa`, `land`) |
+| `status`            | `string`  | حالة العقار (`sale`, `rent`)              |
+| `min_price`         | `number`  | الحد الأدنى للسعر                         |
+| `max_price`         | `number`  | الحد الأعلى للسعر                         |
+| `rooms`             | `integer` | الحد الأدنى لعدد الغرف                    |
+| `area`              | `integer` | المساحة المطلوبة (يبحث في نطاق ±20 متر)   |
 
-### Premium Partners
+**مثال للطلب:**
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+```http
+GET /api/properties/search?city=Jeddah&type=villa&max_price=2000000&area=400
+```
 
-## Contributing
+### إدارة العقارات (CRUD)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+العمليات الأساسية للإضافة والتعديل والحذف.
 
-## Code of Conduct
+| الطريقة | الرابط                 | الوصف                                    |
+| :------ | :--------------------- | :--------------------------------------- |
+| GET     | `/api/properties`      | عرض جميع العقارات (مع التصفح Pagination) |
+| POST    | `/api/properties`      | إضافة عقار جديد                          |
+| GET     | `/api/properties/{id}` | عرض تفاصيل عقار محدد                     |
+| PUT     | `/api/properties/{id}` | تعديل بيانات العقار                      |
+| DELETE  | `/api/properties/{id}` | حذف العقار                               |
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## التثبيت والتشغيل
 
-## Security Vulnerabilities
+نسخ المستودع:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+git clone <repo-url>
+composer install
+```
 
-## License
+إعداد البيئة:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+قاعدة البيانات والبيانات الوهمية:
+(سيقوم هذا الأمر بإنشاء الجدول وزراعة 100 عقار للتجربة فوراً)
+
+```bash
+php artisan migrate --seed
+```
+
+تشغيل السيرفر:
+
+```bash
+php artisan serve
+```
