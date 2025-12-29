@@ -95,3 +95,13 @@ php artisan migrate --seed
 ```bash
 php artisan serve
 ```
+
+## توثيق API (Scramble)
+
+بعد تشغيل السيرفر، يمكنك الوصول إلى التوثيق التفاعلي لـ API عبر:
+
+```
+http://localhost:8000/docs/api
+```
+
+يوفر Scramble واجهة تفاعلية لاستكشاف جميع endpoints، معاينة المعاملات، وتجربة الطلبات مباشرة.
