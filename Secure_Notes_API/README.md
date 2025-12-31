@@ -15,6 +15,7 @@
 -   **Laravel Sanctum** (Token Based Auth)
 -   **Eloquent Relationships** (One-to-Many)
 -   **Middleware Protection**
+-   **SQLite**
 
 ## نقاط الوصول (API Endpoints)
 
