@@ -1,59 +1,136 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# نظام إدارة المهام والصلاحيات (Task Manager API with RBAC)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+نظام واجهة برمجية (API) متقدم يحاكي الأنظمة المؤسسية، يركز بشكل أساسي على **إدارة الصلاحيات (Authorization)** وتوزيع الأدوار بين **المدير (Admin)** و**الموظف (User)**. يستخدم المشروع **Laravel Policies** لفصل منطق الحماية، مما يضمن أمان البيانات وخصوصيتها بناءً على رتبة المستخدم.
 
-## About Laravel
+## أبرز المميزات
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+-   **نظام الرتب (Role-Based Access Control):**
+    -   **المدير (Admin):** يمتلك صلاحيات مطلقة (God Mode) لإدارة المهام والمستخدمين.
+    -   **الموظف (User):** صلاحيات محدودة (Scoped Access) تقتصر على بياناته الخاصة.
+-   **سياسات الحماية (Policies):** استخدام Laravel Policies لحماية جميع العمليات (CRUD) في الخلفية.
+-   **إدارة المستخدمين:** لوحة تحكم خاصة بالمدير لإضافة، تعديل، أو فصل الموظفين.
+-   **مجال الرؤية الذكي:**
+    -   عند طلب المهام، المدير يرى مهام الجميع.
+    -   الموظف يرى مهامه فقط.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## مصفوفة الصلاحيات (Permissions Matrix)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+يوضح الجدول التالي ما يمكن لكل رتبة فعله في النظام:
 
-## Learning Laravel
+| الإجراء (Action)     | المدير (Admin)    | الموظف (User)   |
+| :------------------- | :---------------- | :-------------- |
+| **عرض كل المهام**    | مسموح             | (يرى مهامه فقط) |
+| **إنشاء مهمة**       | مسموح             | مسموح           |
+| **تعديل مهمة**       | أي مهمة           | مهامه فقط       |
+| **حذف مهمة**         | أي مهمة           | ممنوع           |
+| **إدارة المستخدمين** | (عرض، تعديل، حذف) | ممنوع نهائياً   |
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## التقنيات المستخدمة
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+-   **Laravel 10/11**
+-   **Sanctum** (Token Based Authentication)
+-   **Policies & Gates** (Authorization Logic)
+-   **Database Seeding** (For Testing Roles)
 
-## Laravel Sponsors
+## نقاط الوصول (API Endpoints)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### المصادقة (Auth)
 
-### Premium Partners
+| الطريقة | الرابط          | الوصف                        |
+| :------ | :-------------- | :--------------------------- |
+| `POST`  | `/api/register` | تسجيل موظف جديد (Role: User) |
+| `POST`  | `/api/login`    | تسجيل الدخول                 |
+| `POST`  | `/api/logout`   | تسجيل الخروج                 |
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### إدارة المستخدمين (Users)
 
-## Contributing
+_ملاحظة: هذه الروابط متاحة للمدير (Admin) فقط، باستثناء عرض الملف الشخصي._
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+| الطريقة  | الرابط            | الوصف                           |
+| :------- | :---------------- | :------------------------------ |
+| `GET`    | `/api/users`      | عرض قائمة الموظفين (Admin Only) |
+| `GET`    | `/api/users/{id}` | عرض تفاصيل موظف                 |
+| `PUT`    | `/api/users/{id}` | تعديل بيانات/رتبة موظف          |
+| `DELETE` | `/api/users/{id}` | حذف حساب موظف (Admin Only)      |
 
-## Code of Conduct
+### إدارة المهام (Tasks)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+| الطريقة  | الرابط            | الوصف                     |
+| :------- | :---------------- | :------------------------ |
+| `GET`    | `/api/tasks`      | عرض المهام (حسب الصلاحية) |
+| `POST`   | `/api/tasks`      | إنشاء مهمة جديدة          |
+| `PUT`    | `/api/tasks/{id}` | تحديث الحالة/التفاصيل     |
+| `DELETE` | `/api/tasks/{id}` | حذف المهمة (Admin Only)   |
 
-## Security Vulnerabilities
+## التثبيت والتشغيل (Local Setup)
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 1. نسخ المستودع وتثبيت الحزم:
 
-## License
+```bash
+git clone <repo-url>
+cd Task_Manager_with_Roles
+composer install
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 2. إعداد البيئة:
+
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+_(قم بضبط إعدادات قاعدة البيانات في ملف `.env`)_
+
+### 3. بناء الجداول وزراعة البيانات:
+
+**هذا الأمر سينشئ حساب "مدير" وحساب "موظف" للتجربة.**
+
+```bash
+php artisan migrate --seed
+```
+
+**بيانات الدخول للتجربة (Test Credentials):**
+
+-   **المدير:** `admin@app.com` / `password`
+-   **الموظف:** `user@app.com` / `password`
+
+### 4. تشغيل السيرفر:
+
+```bash
+php artisan serve
+```
+
+## أمثلة الاستخدام
+
+### تسجيل الدخول كمدير:
+
+```bash
+POST /api/login
+{
+    "email": "admin@app.com",
+    "password": "password"
+}
+```
+
+### إنشاء مهمة جديدة:
+
+```bash
+POST /api/tasks
+Authorization: Bearer {token}
+{
+    "title": "إنجاز التقرير الشهري",
+    "description": "إعداد تقرير الأداء للشهر الحالي",
+    "status": "pending"
+}
+```
+
+### عرض جميع المهام (كمدير):
+
+```bash
+GET /api/tasks
+Authorization: Bearer {admin_token}
+```
+
+## الترخيص
+
+هذا المشروع مرخص تحت [ترخيص MIT](https://opensource.org/licenses/MIT).
