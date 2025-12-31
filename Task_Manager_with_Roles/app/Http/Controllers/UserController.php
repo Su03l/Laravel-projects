@@ -17,7 +17,7 @@ class UserController extends Controller
         return response()->json(User::all());
     }
 
-    // 2. عرض موظف واحد 👤
+    // 2. عرض موظف واحد 
     public function show($id)
     {
         $user = User::findOrFail($id);
