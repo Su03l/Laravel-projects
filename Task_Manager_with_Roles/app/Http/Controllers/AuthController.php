@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
 
-    // تسجيل حساب جديد (دائماً برتبة موظف User)
     public function register(Request $request)
     {
         $fields = $request->validate([
