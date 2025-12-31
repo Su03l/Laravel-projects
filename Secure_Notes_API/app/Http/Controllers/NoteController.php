@@ -60,28 +60,4 @@ class NoteController extends Controller
             'message' => 'تم حذف المذكرة '
         ]);
     }
-
-    public function search(Request $request)
-    {
-        $query = $request->input('query');
-
-        // إذا ما كتب شي في البحث، نرجع له كل مذكراته
-        if (!$query) {
-            return response()->json($request->user()->notes);
-        }
-
-        $notes = $request->user()->notes()
-            ->where(function ($q) use ($query) {
-                $q->where('title', 'like', "%$query%")
-                    ->orWhere('content', 'like', "%$query%");
-            })
-            ->latest()
-            ->get();
-
-        return response()->json([
-            'message' => 'نتائج البحث في مذكراتك ',
-            'count' => $notes->count(),
-            'data' => $notes
-        ]);
-    }
 }
