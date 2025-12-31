@@ -14,5 +14,12 @@ class TaskFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition(): array {}
+    public function definition(): array
+    {
+        return [
+            'title' => fake()->sentence(),
+            'description' => fake()->paragraph(),
+            'status' => fake()->randomElement(['pending', 'completed']),
+        ];
+    }
 }
