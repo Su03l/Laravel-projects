@@ -17,7 +17,7 @@
 
 -   **Laravel 10/11** Framework.
 -   **Laravel Sanctum** (Authentication).
--   **MySQL** (Database).
+-   **SQLite** (Database).
 -   **Multipart/Form-Data** (For Image Uploads).
 -   **PHP Traits & Eloquent Relationships.**
 
