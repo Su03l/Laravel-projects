@@ -1,59 +1,127 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# نظام إدارة تذاكر الدعم الفني (Smart Support Ticket API)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+نظام خلفي (Backend) متكامل لإدارة طلبات الدعم الفني، مبني باستخدام **Laravel**. يهدف المشروع إلى محاكاة بيئة العمل المؤسسية (Enterprise Environment) من خلال التركيز على أمن البيانات، فصل الصلاحيات، واستخدام علاقات قواعد البيانات المتقدمة لتقليل التكرار.
 
-## About Laravel
+## أبرز المميزات التقنية (Core Features)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### 1. تعدد الأشكال (Polymorphic Relationships)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+بدلاً من إنشاء جداول متعددة للمرفقات (مثل `ticket_images`, `reply_files`)، تم تصميم نظام مرفقات مركزي وذكي:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+-   جدول واحد `attachments` يخدم النظام بالكامل.
+-   يمكن إرفاق الملفات مع **التذاكر** أو **الردود** ديناميكياً باستخدام علاقة `MorphMany`.
+-   هذا التصميم يجعل النظام قابلاً للتوسع مستقبلاً (مثلاً: إضافة صور للملف الشخصي دون إنشاء جداول جديدة).
 
-## Learning Laravel
+### 2. الصلاحيات والأدوار (RBAC & Scoping)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+النظام ذكي في التعامل مع البيانات بناءً على هوية المستخدم:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+-   **المستخدم العادي:** يرى فقط التذاكر الخاصة به (Global Scope Logic).
+-   **المشرف (Admin):** يمتلك صلاحية الوصول لجميع التذاكر، إدارة المستخدمين، وتعديل حالات التذاكر.
+-   **الحماية:** منع المستخدمين من الوصول لتذاكر غيرهم حتى عبر الروابط المباشرة (IDOR Protection).
 
-## Laravel Sponsors
+### 3. منطق الأعمال المؤتمت (Automated Logic)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+-   **تتبع الحالة:** تتحول حالة التذكرة تلقائياً إلى `In Progress` بمجرد رد المشرف عليها.
+-   **توليد المعرفات:** إنشاء رقم مرجعي فريد لكل تذكرة (مثل `TCK-X9YB2`) تلقائياً عند الإنشاء.
 
-### Premium Partners
+### 4. كود نظيف وقابل للصيانة (Clean Architecture)
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+-   **Request Classes:** فصل منطق التحقق (Validation) عن الكنترولر.
+-   **API Resources:** تنسيق مخرجات JSON لضمان توحيد شكل البيانات وإخفاء الحقول الحساسة.
+-   **Enums:** استخدام PHP Enums لضبط حالات التذاكر والأولويات (Type Safety).
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## التقنيات المستخدمة (Tech Stack)
 
-## Code of Conduct
+-   **Framework:** Laravel 11
+-   **Language:** PHP 8.2+
+-   **Database:** MySQL
+-   **Authentication:** Laravel Sanctum
+-   **Architecture:** RESTful API
+-   **Tools:** Postman, Git
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+## هيكلة قاعدة البيانات (Database Schema)
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+-   **Users:** (id, name, email, password, role [admin/user])
+-   **Tickets:** (id, uuid, user_id, title, status, priority)
+-   **Replies:** (id, ticket_id, user_id, message)
+-   **Attachments:** (id, file_path, attachable_id, attachable_type) -> _Polymorphic_
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## دليل الروابط (API Endpoints)
+
+### 1. المصادقة (Auth)
+
+| Method | Endpoint        | الوصف                          |
+| :----- | :-------------- | :----------------------------- |
+| `POST` | `/api/login`    | تسجيل الدخول والحصول على Token |
+| `POST` | `/api/register` | إنشاء حساب جديد                |
+| `POST` | `/api/logout`   | تسجيل الخروج وحذف التوكن       |
+
+### 2. التذاكر (Tickets)
+
+| Method | Endpoint            | الوصف                                 |
+| :----- | :------------------ | :------------------------------------ |
+| `GET`  | `/api/tickets`      | عرض التذاكر (فلترة تلقائية حسب الدور) |
+| `POST` | `/api/tickets`      | إنشاء تذكرة (يدعم رفع الملفات)        |
+| `GET`  | `/api/tickets/{id}` | عرض تفاصيل تذكرة مع المرفقات          |
+| `PUT`  | `/api/tickets/{id}` | تحديث الحالة (للأدمن) أو التفاصيل     |
+
+### 3. الردود والمرفقات (Replies)
+
+| Method | Endpoint                | الوصف                            |
+| :----- | :---------------------- | :------------------------------- |
+| `GET`  | `/tickets/{id}/replies` | عرض المحادثة داخل التذكرة        |
+| `POST` | `/tickets/{id}/replies` | إضافة رد جديد (يدعم رفع الملفات) |
+
+### 4. لوحة تحكم المشرف (Admin Dashboard)
+
+| Method   | Endpoint          | الوصف                            |
+| :------- | :---------------- | :------------------------------- |
+| `GET`    | `/api/users`      | عرض جميع المستخدمين والبحث عنهم  |
+| `POST`   | `/api/users`      | إضافة موظف أو مستخدم جديد        |
+| `PUT`    | `/api/users/{id}` | تعديل بيانات وصلاحيات المستخدمين |
+| `DELETE` | `/api/users/{id}` | حذف مستخدم                       |
+
+---
+
+## طريقة التثبيت والتشغيل (Installation)
+
+1. **نسخ المستودع:**
+
+    ```bash
+    git clone https://github.com/your-username/support-ticket-system.git
+    ```
+
+2. **تثبيت الحزم:**
+
+    ```bash
+    composer install
+    ```
+
+3. **إعداد البيئة:**
+
+    - قم بنسخ ملف `.env.example` إلى `.env`.
+    - قم بإعداد اتصال قاعدة البيانات.
+
+4. **ربط التخزين (للمرفقات):**
+
+    ```bash
+    php artisan storage:link
+    ```
+
+5. **تجهيز قاعدة البيانات:**
+
+    ```bash
+    php artisan migrate
+    ```
+
+6. **تشغيل السيرفر:**
+    ```bash
+    php artisan serve
+    ```
