@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-// استدعاء طلبات التحقق للأدمن
 use App\Http\Requests\Admin\StoreUserRequest;
 use App\Http\Requests\Admin\UpdateUserRequest;
 
-// استدعاء طلبات التحقق لليوزر (تحديث بروفايله)
 use App\Http\Requests\User\UpdateProfileRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
