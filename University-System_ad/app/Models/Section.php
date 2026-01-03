@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Section extends Model
 {
-    /** @use HasFactory<\Database\Factories\SectionFactory> */
     use HasFactory;
 
     protected $guarded = [];
