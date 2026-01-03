@@ -34,6 +34,8 @@ class User extends Authenticatable
         ];
     }
 
+
+    // All Relationships for User
     public function sections()
     {
         return $this->belongsToMany(Section::class, 'section_user')
