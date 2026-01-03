@@ -40,7 +40,7 @@
 
 -   **Framework:** Laravel 11
 -   **Language:** PHP 8.2+
--   **Database:** MySQL
+-   **Database:** SQLite
 -   **Authentication:** Laravel Sanctum
 -   **Architecture:** RESTful API, Service-Oriented Logic
 
