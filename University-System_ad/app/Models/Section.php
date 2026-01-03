@@ -11,6 +11,7 @@ class Section extends Model
 
     protected $guarded = [];
 
+    // All Relationships for Section
     public function course()
     {
         return $this->belongsTo(Course::class);
