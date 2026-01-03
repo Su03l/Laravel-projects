@@ -19,6 +19,7 @@
 | 11  | [Task_Manager_with_Roles](./Task_Manager_with_Roles) | نظام مهام مع صلاحيات Admin/User                  | RBAC، Policies، Scoped Access                               |
 | 12  | [ECommerce-API](./ECommerce-API)                     | متجر إلكتروني متقدم مع Transactions وإدارة ملفات | DB Transactions، Race Conditions، Smart Stock، File Uploads |
 | 13  | [University-System_ad](./University-System_ad)       | نظام تسجيل جامعي ذكي مع إدارة شاملة للطلاب       | Student Management، Polymorphic Relations، Advanced Search  |
+| 14  | [Support-Ticket-System](./Support-Ticket-System)     | نظام دعم فني متقدم مع مرفقات ذكية وصلاحيات       | Polymorphic Attachments، RBAC، Auto Status، UUID Generation |
 
 ## التقنيات المستخدمة
 
