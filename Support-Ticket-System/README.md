@@ -37,7 +37,7 @@
 
 -   **Framework:** Laravel 11
 -   **Language:** PHP 8.2+
--   **Database:** MySQL
+-   **Database:** SQLite
 -   **Authentication:** Laravel Sanctum
 -   **Architecture:** RESTful API
 -   **Tools:** Postman, Git
@@ -49,7 +49,7 @@
 -   **Users:** (id, name, email, password, role [admin/user])
 -   **Tickets:** (id, uuid, user_id, title, status, priority)
 -   **Replies:** (id, ticket_id, user_id, message)
--   **Attachments:** (id, file_path, attachable_id, attachable_type) -> _Polymorphic_
+-   **Attachments:** (id, file*path, attachable_id, attachable_type) -> \_Polymorphic*
 
 ---
 
