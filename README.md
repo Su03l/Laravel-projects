@@ -18,6 +18,7 @@
 | 10  | [Secure_Notes_API](./Secure_Notes_API)               | ملاحظات شخصية آمنة مع حماية البيانات             | Token Auth، Scoped Queries، Data Ownership                  |
 | 11  | [Task_Manager_with_Roles](./Task_Manager_with_Roles) | نظام مهام مع صلاحيات Admin/User                  | RBAC، Policies، Scoped Access                               |
 | 12  | [ECommerce-API](./ECommerce-API)                     | متجر إلكتروني متقدم مع Transactions وإدارة ملفات | DB Transactions، Race Conditions، Smart Stock، File Uploads |
+| 13  | [University-System_ad](./University-System_ad)       | نظام تسجيل جامعي ذكي مع إدارة شاملة للطلاب       | Student Management، Polymorphic Relations، Advanced Search  |
 
 ## التقنيات المستخدمة
 
