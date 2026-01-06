@@ -35,7 +35,7 @@ class AuthController extends Controller
     {
         if (!Auth::attempt($request->only('email', 'password'))) {
             return response()->json([
-                'message' => 'Invalid login details'
+                'message' => 'لو سمحت وخر ترا غلط'
             ], 401);
         }
 
@@ -43,7 +43,7 @@ class AuthController extends Controller
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
-            'message' => 'Login success',
+            'message' => 'يسلام عليك معلوماتك صحيحة يريس',
             'token' => $token,
         ]);
     }
