@@ -21,6 +21,7 @@ class WalletController extends Controller
         return new WalletResource($wallet);
     }
 
+    // show user wallet
     public function show(Request $request)
     {
         return new WalletResource($request->user()->wallet);
