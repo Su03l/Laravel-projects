@@ -105,7 +105,7 @@ $receiver = User::where('email', $input)
 1. **نسخ المستودع:**
 
     ```bash
-    git clone https://github.com/your-username/neobank-api.git
+    git clone https://github.com/Su03l/Laravel-projects/tree/main/NeoBank
     ```
 
 2. **تثبيت الحزم:**
