@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\DB;
 
 class WalletController extends Controller
 {
+
+    // show user wallet
     public function index(Request $request)
     {
         $wallet = $request->user()->wallet;
@@ -63,7 +65,6 @@ class WalletController extends Controller
                 'message' => 'Deposit successful',
                 'balance' => $user->wallet->fresh()->balance,
             ]);
-
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json([
@@ -131,7 +132,6 @@ class WalletController extends Controller
                 'message' => 'Transfer successful',
                 'balance' => $senderWallet->fresh()->balance
             ]);
-
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;
