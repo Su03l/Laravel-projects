@@ -22,12 +22,12 @@ class AuthController extends Controller
         ]);
 
         // create The Token
-        $token = $user->createToken('auth_token')->plainTextToken;
+        // $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
             'message' => 'User registered & Wallet created successfully',
             'user' => $user,
-            'token' => $token,
+            // 'token' => $token,
         ], 201);
     }
 
