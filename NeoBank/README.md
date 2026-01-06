@@ -43,7 +43,7 @@
 
 -   **Framework:** Laravel 11
 -   **Language:** PHP 8.2+
--   **Database:** MySQL
+-   **Database:** SQLite
 -   **Authentication:** Laravel Sanctum
 -   **Concepts:** ACID, Pessimistic Locking, Polymorphic Logic, Observers
 
