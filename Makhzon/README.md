@@ -38,7 +38,7 @@
 
 -   **Framework:** Laravel 11
 -   **Language:** PHP 8.2+
--   **Database:** MySQL / SQLite
+-   **Database:** SQLite
 -   **Authentication:** Laravel Sanctum
 -   **Excel Export:** Maatwebsite Excel
 -   **Architecture:** RESTful API, API Resources
