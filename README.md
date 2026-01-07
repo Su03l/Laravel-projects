@@ -20,6 +20,7 @@
 | 12  | [ECommerce-API](./ECommerce-API)                     | متجر إلكتروني متقدم مع Transactions وإدارة ملفات | DB Transactions، Race Conditions، Smart Stock، File Uploads |
 | 13  | [University-System_ad](./University-System_ad)       | نظام تسجيل جامعي ذكي مع إدارة شاملة للطلاب       | Student Management، Polymorphic Relations، Advanced Search  |
 | 14  | [Support-Ticket-System](./Support-Ticket-System)     | نظام دعم فني متقدم مع مرفقات ذكية وصلاحيات       | Polymorphic Attachments، RBAC، Auto Status، UUID Generation |
+| 15  | [NeoBank](./NeoBank)                                 | نظام محفظة بنكية ذكي مع تحويلات متعددة المعرفات  | Smart Transfer، IBAN Generation، Atomic Locks، Sanctum Auth |
 
 ## التقنيات المستخدمة
 
