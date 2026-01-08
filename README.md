@@ -22,6 +22,7 @@
 | 14  | [Support-Ticket-System](./Support-Ticket-System)     | نظام دعم فني متقدم مع مرفقات ذكية وصلاحيات       | Polymorphic Attachments، RBAC، Auto Status، UUID Generation    |
 | 15  | [NeoBank](./NeoBank)                                 | نظام محفظة بنكية ذكي مع تحويلات متعددة المعرفات  | Smart Transfer، IBAN Generation، Atomic Locks، Sanctum Auth    |
 | 16  | [Makhzon](./Makhzon)                                 | نظام إدارة مخزون متكامل مع حركات وتقارير         | Transactions Engine، Excel Export، Dashboard، Low Stock Alerts |
+| 17  | [nuzul-API](./nuzul-API)                             | نظام حجوزات وحدات سكنية مشابه لـ Gathern         | Availability Engine، Smart Search، 48h Cancellation Policy     |
 
 ## التقنيات المستخدمة
 
