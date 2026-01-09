@@ -7,13 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Booking extends Model
 {
-    /** @use HasFactory<\Database\Factories\BookingFactory> */
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 'listing_id',
-        'check_in', 'check_out',
-        'total_price', 'status'
+        'user_id',
+        'listing_id',
+        'check_in',
+        'check_out',
+        'total_price',
+        'status'
     ];
 
     protected $casts = [
