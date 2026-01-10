@@ -7,9 +7,7 @@ use App\Models\User;
 
 class ProjectPolicy
 {
-    /**
-     * هل يحق للمستخدم عرض المشروع؟
-     */
+
     public function view(User $user, Project $project): bool
     {
         return $user->id === $project->user_id;
