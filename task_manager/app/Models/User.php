@@ -11,11 +11,7 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable, hasApitokens;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
+
     protected $fillable = [
         'first_name',
         'last_name',
