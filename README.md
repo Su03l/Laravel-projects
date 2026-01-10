@@ -23,6 +23,7 @@
 | 15  | [NeoBank](./NeoBank)                                 | نظام محفظة بنكية ذكي مع تحويلات متعددة المعرفات  | Smart Transfer، IBAN Generation، Atomic Locks، Sanctum Auth    |
 | 16  | [Makhzon](./Makhzon)                                 | نظام إدارة مخزون متكامل مع حركات وتقارير         | Transactions Engine، Excel Export، Dashboard، Low Stock Alerts |
 | 17  | [nuzul-API](./nuzul-API)                             | نظام حجوزات وحدات سكنية مشابه لـ Gathern         | Availability Engine، Smart Search، 48h Cancellation Policy     |
+| 18  | [task_manager](./task_manager)                       | نظام إدارة مهام ومشاريع مع رفع صور وفلترة ذكية   | Sanctum Auth، Spatie Media، Query Builder، Policies            |
 
 ## التقنيات المستخدمة
 
