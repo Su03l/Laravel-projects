@@ -1,59 +1,176 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Task Manager API (نظام إدارة المهام والمشاريع)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+واجهة برمجية متكاملة (RESTful API) مبنية باستخدام إطار عمل Laravel. النظام مصمم ليحاكي بيئة العمل الحقيقية في الشركات (Production Ready)، حيث يتيح للمستخدمين التسجيل وإنشاء "مشاريع" خاصة بهم، وداخل كل مشروع يمكنهم إضافة "مهام" متعددة، مع إمكانية رفع الصور للمهام، وفلترة البيانات وترتيبها، كل ذلك ضمن بيئة آمنة تضمن خصوصية بيانات كل مستخدم.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## المميزات الرئيسية (Key Features)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+1.  **نظام حماية ومصادقة (Authentication):**
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+    -   استخدام Laravel Sanctum لإدارة الرموز (Tokens).
+    -   دعم الدخول باستخدام البريد الإلكتروني أو اسم المستخدم.
+    -   تسجيل خروج آمن بحذف التوكن الحالي.
 
-## Learning Laravel
+2.  **سياسات أمان صارمة (Authorization Policies):**
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+    -   لا يمكن لأي مستخدم رؤية أو تعديل أو حذف مشاريع أو مهام لا يملكها.
+    -   تم استخدام Laravel Policies لضمان الحماية في كل العمليات (CRUD).
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+3.  **إدارة المرفقات والوسائط (Media Library):**
 
-## Laravel Sponsors
+    -   دعم رفع الصور وربطها بالمهام باستخدام مكتبة Spatie Media Library.
+    -   يتم تخزين الصور وتنظيمها وعرض روابطها تلقائياً في الـ API.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+4.  **فلترة وبحث ذكي (Advanced Filtering):**
 
-### Premium Partners
+    -   إمكانية البحث عن المهام حسب (العنوان، الحالة، الأولوية، المشروع).
+    -   إمكانية ترتيب النتائج (Sorting) حسب التاريخ أو الأولوية.
+    -   استخدام مكتبة Spatie Query Builder.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+5.  **الأتمتة الذكية (Observers):**
 
-## Contributing
+    -   فور تسجيل أي مستخدم جديد، يقوم النظام تلقائياً بإنشاء "مشروع تجريبي" يحتوي على مهام تعليمية لتعريف المستخدم بالنظام (Onboarding).
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+6.  **أداء عالي وهيكلية نظيفة:**
 
-## Code of Conduct
+    -   استخدام API Resources لتوحيد شكل البيانات (JSON).
+    -   استخدام Pagination لتقسيم البيانات وعدم تحميل السيرفر فوق طاقته.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+## التقنيات المستخدمة (Tech Stack)
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+-   **Framework:** Laravel Framework (PHP)
+-   **Database:** MySQL
+-   **Authentication:** Laravel Sanctum
+-   **Media Management:** Spatie Laravel Media Library
+-   **Filtering & Search:** Spatie Laravel Query Builder
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## طريقة التثبيت والتشغيل (Installation)
+
+### 1. استنساخ المشروع
+
+```bash
+git clone <رابط-المشروع-الخاص-بك>
+cd task_manager
+```
+
+### 2. تثبيت المكتبات
+
+```bash
+composer install
+```
+
+### 3. إعداد البيئة
+
+قم بنسخ ملف البيئة وتوليد مفتاح التشفير:
+
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+ثم افتح ملف `.env` وعدل بيانات قاعدة البيانات (`DB_DATABASE`, `DB_USERNAME`, ...).
+
+### 4. إعداد قاعدة البيانات
+
+نقوم بإنشاء الجداول وزراعة البيانات الوهمية للتجربة:
+
+```bash
+php artisan migrate:fresh --seed
+```
+
+(هذا الأمر سينشئ لك حساب Admin جاهز: `admin@admin.com` / `password`)
+
+### 5. ربط التخزين
+
+خطوة مهمة جداً لكي تظهر الصور المرفوعة:
+
+```bash
+php artisan storage:link
+```
+
+### 6. تشغيل السيرفر
+
+```bash
+php artisan serve
+```
+
+سيعمل المشروع على: `http://127.0.0.1:8000/api/v1`
+
+---
+
+## دليل الروابط (API Endpoints)
+
+جميع الروابط تبدأ بـ: `/api/v1`
+
+### المصادقة (Auth)
+
+| Method | Endpoint         | Description     | Required Body                                                           |
+| ------ | ---------------- | --------------- | ----------------------------------------------------------------------- |
+| POST   | `/auth/register` | تسجيل حساب جديد | first_name, last_name, username, email, password, password_confirmation |
+| POST   | `/auth/login`    | تسجيل دخول      | identifier (ايميل أو يوزرنيم), password                                 |
+| POST   | `/auth/logout`   | تسجيل خروج      | (يتطلب Token في الهيدر)                                                 |
+
+### المستخدم (User)
+
+| Method | Endpoint                | Description            |
+| ------ | ----------------------- | ---------------------- |
+| GET    | `/user/profile`         | عرض بيانات المستخدم    |
+| PUT    | `/user/update`          | تحديث البيانات الشخصية |
+| POST   | `/user/change-password` | تغيير كلمة المرور      |
+
+### المشاريع (Projects)
+
+| Method | Endpoint         | Description                     |
+| ------ | ---------------- | ------------------------------- |
+| GET    | `/projects`      | عرض كل المشاريع (يدعم الفلترة)  |
+| POST   | `/projects`      | إنشاء مشروع جديد                |
+| GET    | `/projects/{id}` | عرض تفاصيل مشروع محدد           |
+| PUT    | `/projects/{id}` | تعديل مشروع                     |
+| DELETE | `/projects/{id}` | حذف مشروع (يحذف مهامه تلقائياً) |
+
+### المهام (Tasks)
+
+| Method | Endpoint      | Description   | Notes                                |
+| ------ | ------------- | ------------- | ------------------------------------ |
+| GET    | `/tasks`      | عرض كل المهام | يدعم الفلترة: `?filter[status]=done` |
+| POST   | `/tasks`      | إضافة مهمة    | project_id, title, image (اختياري)   |
+| GET    | `/tasks/{id}` | عرض مهمة      | يعيد رابط الصورة إن وجدت             |
+| PUT    | `/tasks/{id}` | تعديل مهمة    | -                                    |
+| DELETE | `/tasks/{id}` | حذف مهمة      | -                                    |
+
+---
+
+## أمثلة الفلترة (Filtering Examples)
+
+```bash
+# جلب المهام المنتهية فقط
+GET /tasks?filter[status]=done
+
+# جلب المهام ذات الأولوية العالية
+GET /tasks?filter[priority]=high
+
+# ترتيب المهام حسب الأحدث
+GET /tasks?sort=-created_at
+
+# بحث عن المشاريع بعنوان معين
+GET /projects?filter[title]=MyProject
+```
+
+---
+
+## ملاحظات هامة
+
+-   عند إرسال طلبات POST أو PUT، تأكد من ضبط الهيدر:
+
+    ```
+    Accept: application/json
+    Content-Type: application/json
+    Authorization: Bearer {your-token}
+    ```
+
+-   جميع العمليات على المشاريع والمهام تتطلب توكن صالح.
