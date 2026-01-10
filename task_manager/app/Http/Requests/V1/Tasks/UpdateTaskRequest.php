@@ -1,0 +1,33 @@
+<?php
+
+namespace App\Http\Requests\V1\Tasks;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class UpdateTaskRequest extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     */
+    public function rules(): array
+    {
+        return [
+            'project_id' => ['sometimes', 'integer', 'exists:projects,id'],
+            'title' => ['sometimes', 'required', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
+            'priority' => ['sometimes', 'in:low,medium,high'],
+            'status' => ['sometimes', 'in:todo,in_progress,done'],
+            'due_date' => ['nullable', 'date'],
+        ];
+    }
+}
