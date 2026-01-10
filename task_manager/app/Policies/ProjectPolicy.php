@@ -18,9 +18,7 @@ class ProjectPolicy
         return $user->id === $project->user_id;
     }
 
-    /**
-     * هل يحق للمستخدم حذف المشروع؟
-     */
+
     public function delete(User $user, Project $project): bool
     {
         return $user->id === $project->user_id;
