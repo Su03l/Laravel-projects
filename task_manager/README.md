@@ -42,7 +42,7 @@
 ## التقنيات المستخدمة (Tech Stack)
 
 -   **Framework:** Laravel Framework (PHP)
--   **Database:** MySQL
+-   **Database:** SQLite
 -   **Authentication:** Laravel Sanctum
 -   **Media Management:** Spatie Laravel Media Library
 -   **Filtering & Search:** Spatie Laravel Query Builder
