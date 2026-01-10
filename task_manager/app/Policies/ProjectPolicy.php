@@ -13,9 +13,6 @@ class ProjectPolicy
         return $user->id === $project->user_id;
     }
 
-    /**
-     * هل يحق للمستخدم تحديث المشروع؟
-     */
     public function update(User $user, Project $project): bool
     {
         return $user->id === $project->user_id;
