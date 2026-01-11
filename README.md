@@ -25,6 +25,14 @@
 | 17  | [nuzul-API](./nuzul-API)                             | نظام حجوزات وحدات سكنية مشابه لـ Gathern         | Availability Engine، Smart Search، 48h Cancellation Policy     |
 | 18  | [task_manager](./task_manager)                       | نظام إدارة مهام ومشاريع مع رفع صور وفلترة ذكية   | Sanctum Auth، Spatie Media، Query Builder، Policies            |
 
+---
+
+## تحدي 30 يوم 30 مشروع
+
+|  #  | اسم المشروع                                        | الوصف                                     | المميزات الرئيسية                               |
+| :-: | :------------------------------------------------- | :---------------------------------------- | :---------------------------------------------- |
+|  1  | [day01-notes](./Challange%2030%20Days/day01-notes) | تطبيق ملاحظات شخصية مع واجهة أمامية React | CRUD، Validation، Scramble Docs، React Frontend |
+
 ## التقنيات المستخدمة
 
 جميع المشاريع مبنية باستخدام:
