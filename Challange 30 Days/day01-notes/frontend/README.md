@@ -1,36 +1,103 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# واجهة تطبيق الملاحظات (Quick Notes Frontend)
 
-## Getting Started
+## اسم الفكرة
 
-First, run the development server:
+واجهة مستخدم لنظام إدارة الملاحظات
+
+## شرح تفصيلي للفكرة
+
+هذا المشروع هو الواجهة الأمامية لتطبيق الملاحظات السريعة، وهو جزء من تحدي "30 يوم 30 مشروع". تم بناؤه باستخدام Next.js مع تصميم عصري وحديث يدعم اللغة العربية (RTL).
+
+الواجهة تتصل مباشرة بالـ Backend API المبني على Laravel لتنفيذ جميع عمليات CRUD على الملاحظات.
+
+## المميزات
+
+### تصميم حديث وعصري:
+
+- استخدام Tailwind CSS v4 مع تأثيرات Glassmorphism
+- ألوان متدرجة (Gradients) جذابة
+- حركات سلسة (Animations) للتفاعلات
+- دعم الوضع الداكن (Dark Mode)
+
+### دعم كامل للعربية:
+
+- اتجاه RTL للنصوص
+- رسائل وتسميات بالعربية
+- تنسيق التواريخ بالتقويم الهجري/الميلادي
+
+### واجهة مستخدم متكاملة:
+
+- عرض الملاحظات في شبكة بطاقات (Grid)
+- Modal لإضافة وتعديل الملاحظات
+- حالة التحميل (Loading State)
+- حالة الفراغ (Empty State)
+- معالجة الأخطاء (Error Handling)
+
+### التحقق من البيانات:
+
+- التحقق من العنوان (مطلوب، 3 أحرف على الأقل)
+- التحقق من المحتوى (مطلوب)
+- رسائل خطأ واضحة
+
+## التقنيات المستخدمة
+
+| التقنية        | الوصف           |
+| -------------- | --------------- |
+| الإطار البرمجي | Next.js 16      |
+| مكتبة الواجهات | React 19        |
+| التنسيق        | Tailwind CSS v4 |
+| طلبات API      | Axios           |
+| اللغة          | TypeScript      |
+
+## هيكل الملفات
+
+```
+frontend/
+├── app/
+│   ├── globals.css      # الأنماط العامة
+│   ├── layout.tsx       # التخطيط الرئيسي
+│   └── page.tsx         # الصفحة الرئيسية
+├── components/
+│   ├── NoteCard.tsx     # بطاقة عرض الملاحظة
+│   └── NoteForm.tsx     # نموذج الإضافة/التعديل
+├── lib/
+│   └── api.ts           # دوال الاتصال بالـ API
+└── types/
+    └── note.ts          # أنواع TypeScript
+```
+
+## طريقة التشغيل
+
+### 1. تثبيت الحزم:
+
+```bash
+npm install
+```
+
+### 2. تشغيل السيرفر:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 3. فتح المتصفح:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+افتح الرابط: http://localhost:3000
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## ملاحظات هامة
 
-## Learn More
+- تأكد من تشغيل الـ Backend أولاً على المنفذ 8000
+- الـ API يعمل على: http://localhost:8000/api
+- في حالة ظهور خطأ اتصال، تحقق من تشغيل السيرفر الخلفي
 
-To learn more about Next.js, take a look at the following resources:
+## الربط مع الـ Backend
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+الواجهة تتصل بالـ API عبر المسارات التالية:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| العملية       | الطريقة | الرابط          |
+| ------------- | ------- | --------------- |
+| جلب الملاحظات | GET     | /api/notes      |
+| إضافة ملاحظة  | POST    | /api/notes      |
+| عرض ملاحظة    | GET     | /api/notes/{id} |
+| تعديل ملاحظة  | PUT     | /api/notes/{id} |
+| حذف ملاحظة    | DELETE  | /api/notes/{id} |
