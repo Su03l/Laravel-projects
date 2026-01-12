@@ -4,9 +4,10 @@
 
 ## المشاريع
 
-| #   | اسم المشروع | الوصف                                     | المميزات الرئيسية                               |
-| --- | ----------- | ----------------------------------------- | ----------------------------------------------- |
-| 1   | day01-notes | تطبيق ملاحظات شخصية مع واجهة أمامية React | CRUD، Validation، Scramble Docs، React Frontend |
+| #   | اسم المشروع                                                                                                | الوصف                                        | المميزات الرئيسية                                     |
+| --- | ---------------------------------------------------------------------------------------------------------- | -------------------------------------------- | ----------------------------------------------------- |
+| 1   | [day01-notes](https://github.com/Su03l/Laravel-projects/tree/main/Challange%2030%20Days/day01-notes)       | تطبيق ملاحظات شخصية مع واجهة أمامية React    | CRUD، Validation، Scramble Docs، React Frontend       |
+| 2   | [day02-blog](https://github.com/Su03l/Laravel-projects/tree/main/Challange%2030%20Days/day02-blog%20--api) | نظام إدارة مقالات مع الأقسام (Mini Blog API) | Relationships، Eager Loading، Cascade Delete، Seeding |
 
 ## التقنيات المستخدمة
 
