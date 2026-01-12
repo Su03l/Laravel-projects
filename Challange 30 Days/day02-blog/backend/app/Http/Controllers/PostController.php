@@ -15,16 +15,17 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'title' => 'required|string|min:2|max:255',
-            'content' => 'required|string|min:10',
-            'category_id' => 'required|exists:categories,id',
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'category_id' => 'required|exists:categories,id'
         ]);
 
         $post = Post::create($data);
+
         return response()->json([
-            'message' => 'Post created successfully',
-            'post' => $post->load('category'),
-        ], 201);
+            'message' => 'Post created',
+            'post' => $post
+        ]);
     }
 
     public function show($id)
@@ -32,30 +33,29 @@ class PostController extends Controller
         return Post::with('category')->findOrFail($id);
     }
 
-    public function update($id, Request $request)
+    public function update(Request $request, $id)
     {
         $post = Post::findOrFail($id);
 
         $data = $request->validate([
-            'title' => 'required|string|min:2|max:255',
-            'content' => 'required|string|min:10',
-            'category_id' => 'required|exists:categories,id',
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'category_id' => 'required|exists:categories,id'
         ]);
 
         $post->update($data);
 
         return response()->json([
-            'message' => 'Post updated successfully',
-            'post' => $post->load('category'),
+            'message' => 'Post updated',
+            'post' => $post
         ]);
     }
 
     public function destroy($id)
     {
-        $post = Post::findOrFail($id);
-        $post->delete();
+        Post::findOrFail($id)->delete();
         return response()->json([
-            'message' => 'Post deleted successfully',
+            'message' => 'Post deleted'
         ]);
     }
 }
