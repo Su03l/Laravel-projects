@@ -9,7 +9,7 @@ class PostController extends Controller
 {
     public function index()
     {
-        return Post::with('category')->get();
+        return response()->json(Post::with('category')->get());
     }
 
     public function store(Request $request)
@@ -30,7 +30,7 @@ class PostController extends Controller
 
     public function show($id)
     {
-        return Post::with('category')->findOrFail($id);
+        return response()->json(Post::with('category')->findOrFail($id));
     }
 
     public function update(Request $request, $id)

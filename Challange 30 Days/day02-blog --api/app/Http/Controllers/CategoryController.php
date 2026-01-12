@@ -9,7 +9,7 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        return Category::all();
+        return response()->json(Category::all());
     }
 
     public function store(Request $request)
@@ -27,10 +27,10 @@ class CategoryController extends Controller
 
     public function show($id)
     {
-        return Category::findOrFail($id);
+        return response()->json(Category::findOrFail($id));
     }
 
-    public function update($id, Request $request)
+    public function update(Request $request, $id)
     {
         $category = Category::findOrFail($id);
 
