@@ -1,36 +1,128 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# نظام التعليقات المتعددة | Polymorphic Comments System
 
-## Getting Started
+![Day 04 - Comments System](./public/day04.png)
 
-First, run the development server:
+## الفكرة
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+نظام تعليقات متعدد الأنواع (Polymorphic) يسمح بإضافة تعليقات على المنشورات والفيديوهات باستخدام علاقة polymorphic واحدة في قاعدة البيانات.
+
+---
+
+## المميزات
+
+- عرض قائمة المنشورات والفيديوهات
+- إنشاء منشورات وفيديوهات جديدة
+- تعديل وحذف المنشورات والفيديوهات
+- نظام تعليقات polymorphic موحد
+- إضافة، تعديل، وحذف التعليقات
+- Toast notifications لجميع العمليات
+- تصميم عصري باللون الأسود والأبيض
+- دعم كامل للغة العربية (RTL)
+- تصميم متجاوب (Responsive)
+
+---
+
+## التقنيات المستخدمة
+
+### Frontend
+
+- **Next.js 16** - React Framework
+- **React 19** - UI Library
+- **TypeScript 5** - Type Safety
+- **Tailwind CSS 4** - Styling
+- **Axios** - HTTP Client
+- **React Hot Toast** - Notifications
+
+### Backend
+
+- **Laravel** - PHP Framework
+- **MySQL** - Database
+- **Polymorphic Relations** - للتعليقات
+
+---
+
+## هيكل المشروع
+
+```
+frontend/
+├── app/
+│   ├── layout.tsx          # Layout الرئيسي (RTL)
+│   ├── page.tsx             # الصفحة الرئيسية
+│   ├── globals.css          # الأنماط العامة
+│   ├── posts/[id]/page.tsx  # تفاصيل المنشور
+│   └── videos/[id]/page.tsx # تفاصيل الفيديو
+├── components/
+│   ├── CommentSection.tsx   # قسم التعليقات
+│   ├── PostCard.tsx         # بطاقة المنشور
+│   ├── VideoCard.tsx        # بطاقة الفيديو
+│   ├── CreatePostForm.tsx   # نموذج إنشاء منشور
+│   └── CreateVideoForm.tsx  # نموذج إضافة فيديو
+└── lib/
+    └── api.ts               # إعدادات API
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## طريقة التشغيل
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 1. تشغيل Backend (Laravel)
 
-## Learn More
+```bash
+cd backend
+php artisan serve
+```
 
-To learn more about Next.js, take a look at the following resources:
+سيعمل على: `http://127.0.0.1:8000`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 2. تشغيل Frontend (Next.js)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-## Deploy on Vercel
+سيعمل على: `http://localhost:3000`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## API Endpoints
+
+| Method | Endpoint            | الوصف               |
+| ------ | ------------------- | ------------------- |
+| GET    | `/api/posts`        | جلب جميع المنشورات  |
+| POST   | `/api/posts`        | إنشاء منشور جديد    |
+| GET    | `/api/posts/:id`    | جلب منشور محدد      |
+| PUT    | `/api/posts/:id`    | تحديث منشور         |
+| DELETE | `/api/posts/:id`    | حذف منشور           |
+| GET    | `/api/videos`       | جلب جميع الفيديوهات |
+| POST   | `/api/videos`       | إضافة فيديو جديد    |
+| GET    | `/api/videos/:id`   | جلب فيديو محدد      |
+| PUT    | `/api/videos/:id`   | تحديث فيديو         |
+| DELETE | `/api/videos/:id`   | حذف فيديو           |
+| POST   | `/api/comments`     | إضافة تعليق         |
+| PUT    | `/api/comments/:id` | تحديث تعليق         |
+| DELETE | `/api/comments/:id` | حذف تعليق           |
+
+---
+
+## الصفحات
+
+1. **الصفحة الرئيسية** - عرض المنشورات والفيديوهات مع tabs للتنقل
+2. **تفاصيل المنشور** - عرض المنشور مع التعليقات
+3. **تفاصيل الفيديو** - عرض الفيديو (مع دعم YouTube) مع التعليقات
+
+---
+
+## التصميم
+
+- **ألوان**: أسود وأبيض (Dark Theme)
+- **اتجاه**: RTL للغة العربية
+- **خطوط**: Geist Sans & Mono
+- **تأثيرات**: Hover animations, Transitions
+
+---
+
+## Day 04 - Laravel 30 Days Challenge
+
+هذا المشروع هو جزء من تحدي 30 يوم Laravel لتطوير مهارات البرمجة.
