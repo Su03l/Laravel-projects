@@ -1,59 +1,95 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# متجر إلكتروني مصغر (Mini Store API)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## اسم الفكرة
 
-## About Laravel
+نظام إدارة منتجات متعدد التصنيفات (Many-to-Many)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## شرح تفصيلي للفكرة
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+هذا هو المشروع الثالث في تحدي "30 يوم 30 مشروع". التركيز الأساسي هنا هو فهم وإتقان علاقات قواعد البيانات من نوع Many-to-Many (متعدد لمتعدد).
+في المتاجر الحقيقية، المنتج الواحد (مثل "لعبة فيفا") قد يندرج تحت عدة أقسام (مثل: "ألعاب بلايستيشن"، "عروض خاصة"، "الأكثر مبيعاً") في نفس الوقت. هذا المشروع يحل هذه المعضلة باستخدام جدول وسيط (Pivot Table) يربط المنتجات بالأقسام بمرونة عالية.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## المميزات بالتفصيل الممل
 
-## Learning Laravel
+### علاقات متشابكة (Many-to-Many):
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+-   إمكانية ربط منتج واحد بأكثر من قسم (Array of IDs).
+-   إمكانية عرض القسم وجلب جميع المنتجات المندرجة تحته.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### إدارة مخزون ذكية (Custom Logic):
 
-## Laravel Sponsors
+-   المنتجات الملموسة لها كمية محددة (stock).
+-   المنتجات الرقمية (مثل قسم "أونلاين") يتم ضبط مخزونها تلقائياً ليكون مفتوحاً (Unlimited) برقم 999999.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### بيانات واقعية (Custom Seeding):
 
-### Premium Partners
+-   تم الاستغناء عن البيانات العشوائية للأقسام واستبدالها بأقسام واقعية محددة (ألعاب، أفلام سينما، مسرح، حجز تذاكر، أونلاين).
+-   مولد البيانات ينشئ منتجات ويربطها بهذه الأقسام تلقائياً.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### عمليات CRUD كاملة وموحدة:
 
-## Contributing
+-   جميع الردود (Responses) موحدة بصيغة JSON.
+-   استخدام sync عند التعديل لضمان تحديث العلاقات بدقة (حذف القديم وإضافة الجديد).
+-   التحقق من صحة مصفوفة الأقسام (exists:categories,id) قبل الحفظ.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## التقنيات المستخدمة
 
-## Code of Conduct
+-   الإطار البرمجي: Laravel 11 (API Mode)
+-   قاعدة البيانات: SQLite.
+-   نوع العلاقة: BelongsToMany + Pivot Table.
+-   التوثيق: Dedoc Scramble.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## جدول الروابط (API Routes)
 
-## Security Vulnerabilities
+| الطريقة | الرابط               | الوصف                 | البيانات المطلوبة (JSON)               |
+| :------ | :------------------- | :-------------------- | :------------------------------------- |
+| GET     | /api/categories      | عرض الأقسام           | -                                      |
+| POST    | /api/categories      | إنشاء قسم             | name                                   |
+| GET     | /api/categories/{id} | عرض قسم ومنتجاته      | -                                      |
+| PUT     | /api/categories/{id} | تعديل قسم             | name                                   |
+| DELETE  | /api/categories/{id} | حذف قسم               | -                                      |
+| GET     | /api/products        | عرض المنتجات وأقسامها | -                                      |
+| POST    | /api/products        | إنشاء منتج            | name, price, stock, categories (Array) |
+| GET     | /api/products/{id}   | عرض منتج وتفاصيله     | -                                      |
+| PUT     | /api/products/{id}   | تعديل منتج            | name, price, stock, categories         |
+| DELETE  | /api/products/{id}   | حذف منتج              | -                                      |
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## طريقة التنزيل والتثبيت
 
-## License
+1. استنساخ المشروع:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+git clone <repository_link>
+cd day03-store
+```
+
+2. تثبيت الحزم:
+
+```bash
+composer install
+```
+
+3. إعداد البيئة:
+
+```bash
+cp .env.example .env
+# Windows
+type nul > database/database.sqlite
+# (تأكد من DB_CONNECTION=sqlite)
+```
+
+4. بناء الجداول وتعبئة البيانات المخصصة:
+
+```bash
+php artisan migrate:fresh --seed
+```
+
+(سيتم إنشاء الأقسام: ألعاب، سينما، أونلاين... وإضافة منتجات لها).
+
+5. تشغيل السيرفر:
+
+```bash
+php artisan serve
+```
+
+الآن، اختبر المشروع عبر Scramble: http://127.0.0.1:8000/docs/api
