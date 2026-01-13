@@ -30,6 +30,12 @@ export default function RootLayout({
                   المنتجات
                 </Link>
                 <Link
+                  href="/categories"
+                  className="text-black hover:text-gray-600 font-medium transition-colors"
+                >
+                  الأقسام
+                </Link>
+                <Link
                   href="/products/create"
                   className="px-4 py-2 bg-black text-white hover:bg-gray-800 transition-colors"
                 >
