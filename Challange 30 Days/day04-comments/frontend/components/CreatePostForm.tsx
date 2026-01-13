@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { postsApi } from '@/lib/api';
+import toast from 'react-hot-toast';
 
 interface CreatePostFormProps {
     onSuccess?: () => void;
@@ -12,22 +13,21 @@ export default function CreatePostForm({ onSuccess, onCancel }: CreatePostFormPr
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [error, setError] = useState('');
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!title.trim() || !content.trim() || isSubmitting) return;
 
         setIsSubmitting(true);
-        setError('');
 
         try {
             await postsApi.create({ title, content });
             setTitle('');
             setContent('');
+            toast.success('Post created successfully!');
             onSuccess?.();
         } catch (err) {
-            setError('Failed to create post. Please try again.');
+            toast.error('Failed to create post');
             console.error('Error creating post:', err);
         } finally {
             setIsSubmitting(false);
@@ -42,12 +42,6 @@ export default function CreatePostForm({ onSuccess, onCancel }: CreatePostFormPr
                 </svg>
                 Create New Post
             </h3>
-
-            {error && (
-                <div className="bg-red-500/10 border border-red-500/30 text-red-400 rounded-lg p-3 mb-4 text-sm">
-                    {error}
-                </div>
-            )}
 
             <div className="space-y-4">
                 <div>
