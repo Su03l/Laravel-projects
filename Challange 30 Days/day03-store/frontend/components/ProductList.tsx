@@ -5,6 +5,7 @@ import api from '@/lib/api';
 import ProductCard from './ProductCard';
 import Link from 'next/link';
 import { useToast } from './Toast';
+import { useConfirm } from './ConfirmDialog';
 
 interface Category {
     id: number;
@@ -24,6 +25,7 @@ export default function ProductList() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const { showToast } = useToast();
+    const { confirm } = useConfirm();
 
     const fetchProducts = async () => {
         try {
@@ -44,7 +46,14 @@ export default function ProductList() {
     }, []);
 
     const handleDelete = async (id: number) => {
-        if (!confirm('هل أنت متأكد من حذف هذا المنتج؟')) return;
+        const confirmed = await confirm({
+            title: 'حذف المنتج',
+            message: 'هل أنت متأكد من حذف هذا المنتج؟ لا يمكن التراجع عن هذا الإجراء.',
+            confirmText: 'نعم، احذف',
+            cancelText: 'إلغاء',
+        });
+
+        if (!confirmed) return;
 
         try {
             await api.delete(`/products/${id}`);

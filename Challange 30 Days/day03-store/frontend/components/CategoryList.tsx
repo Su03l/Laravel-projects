@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import api from '@/lib/api';
 import Link from 'next/link';
 import { useToast } from './Toast';
+import { useConfirm } from './ConfirmDialog';
 
 interface Category {
     id: number;
@@ -19,6 +20,7 @@ export default function CategoryList() {
     const [editingName, setEditingName] = useState('');
     const [saving, setSaving] = useState(false);
     const { showToast } = useToast();
+    const { confirm } = useConfirm();
 
     const fetchCategories = async () => {
         try {
@@ -73,7 +75,14 @@ export default function CategoryList() {
     };
 
     const handleDelete = async (id: number) => {
-        if (!confirm('هل أنت متأكد من حذف هذا القسم؟')) return;
+        const confirmed = await confirm({
+            title: 'حذف القسم',
+            message: 'هل أنت متأكد من حذف هذا القسم؟ لا يمكن التراجع عن هذا الإجراء.',
+            confirmText: 'نعم، احذف',
+            cancelText: 'إلغاء',
+        });
+
+        if (!confirmed) return;
 
         try {
             await api.delete(`/categories/${id}`);

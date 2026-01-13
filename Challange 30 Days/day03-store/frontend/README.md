@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Mini Store Frontend - واجهة المتجر الإلكتروني
 
-## Getting Started
+واجهة أمامية لمشروع المتجر الإلكتروني المصغر (Mini Store API) - اليوم الثالث من تحدي "30 يوم 30 مشروع".
 
-First, run the development server:
+## اسم الفكرة
+
+نظام إدارة منتجات متعدد التصنيفات (Many-to-Many) مع واجهة مستخدم عصرية بالأبيض والأسود.
+
+## صورة المشروع
+
+![صفحة المنتجات](./public/pageHome.png)
+
+## التقنيات المستخدمة
+
+- **Next.js 16** - إطار عمل React
+- **TypeScript** - للكتابة الآمنة
+- **Tailwind CSS 4** - للتنسيق
+- **Axios** - للتواصل مع API
+
+## المميزات
+
+- عرض المنتجات في شبكة Grid
+- إدارة الأقسام (إضافة، تعديل، حذف)
+- إدارة المنتجات (إضافة، تعديل، حذف)
+- اختيار أقسام متعددة للمنتج الواحد
+- Toast Notifications للإشعارات
+- Confirm Dialog مخصص للحذف
+- تصميم RTL للعربية
+- ثيم أبيض وأسود عصري
+
+## طريقة التشغيل
+
+1. تثبيت الحزم:
+
+```bash
+npm install
+```
+
+2. تشغيل السيرفر:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. افتح المتصفح: [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+> **ملاحظة:** تأكد من تشغيل الـ Backend أولاً على المنفذ 8000.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## هيكل المجلدات
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+frontend/
+├── app/
+│   ├── layout.tsx          # التخطيط الرئيسي
+│   ├── page.tsx             # صفحة المنتجات
+│   ├── globals.css          # الأنماط العامة
+│   ├── categories/          # صفحة الأقسام
+│   └── products/            # صفحات المنتجات
+├── components/
+│   ├── ProductList.tsx      # قائمة المنتجات
+│   ├── ProductCard.tsx      # بطاقة المنتج
+│   ├── ProductForm.tsx      # نموذج المنتج
+│   ├── CategoryList.tsx     # قائمة الأقسام
+│   ├── Toast.tsx            # الإشعارات
+│   └── ConfirmDialog.tsx    # مربع التأكيد
+└── lib/
+    └── api.ts               # إعدادات Axios
+```
