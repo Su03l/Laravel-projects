@@ -1,59 +1,106 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# نظام التعليقات الشامل (Universal Comments API)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## اسم الفكرة
 
-## About Laravel
+نظام إدارة محتوى مع تعليقات متعددة الأشكال (Polymorphic)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## شرح تفصيلي للفكرة
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+هذا هو المشروع الرابع في تحدي "30 يوم 30 مشروع". المشروع عبارة عن نظام "Backend-End" متكامل لمنصة محتوى.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+يحتوي النظام على إدارة للمقالات والفيديوهات، ولكن الميزة الأقوى هي نظام التعليقات الذكي (Polymorphic Relationships). بدلاً من تكرار جداول التعليقات، نستخدم جدولاً واحداً (comments) يرتبط ديناميكياً بأي محتوى (سواء كان مقالاً أو فيديو) بناءً على النوع (post أو video).
 
-## Learning Laravel
+## المميزات بالتفصيل المملي
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### إدارة كاملة للمحتوى (CRUD):
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+-   API كامل لإدارة المقالات (Posts).
+-   API كامل لإدارة الفيديوهات (Videos).
+-   عند طلب عرض مقال أو فيديو، يتم جلب التعليقات المرتبطة به تلقائياً (Eager Loading).
 
-## Laravel Sponsors
+### جدول تعليقات واحد للجميع (The Joker):
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+-   استخدام تقنية MorphMany لربط جدول التعليقات بجدولي المقالات والفيديوهات.
+-   النظام يخزن commentable_type و commentable_id للتمييز بين التعليقات.
 
-### Premium Partners
+### كنترولر تعليقات ذكي:
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+-   يستقبل الطلب ويحدد نوع المودل (App\Models\Post أو App\Models\Video) تلقائياً ويربط التعليق به.
 
-## Contributing
+### جاهز للفرونت إند (React/Vue):
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+-   تم تعطيل حماية CSRF (validateCsrfTokens) لتسهيل الربط مع تطبيقات SPA الخارجية.
+-   الردود موحدة بصيغة JSON.
 
-## Code of Conduct
+## التقنيات المستخدمة
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+-   **الإطار البرمجي**: Laravel 11 (API Mode)
+-   **قاعدة البيانات**: SQLite
+-   **نوع العلاقة**: Polymorphic (MorphMany & MorphTo)
+-   **التوثيق**: Dedoc Scramble
 
-## Security Vulnerabilities
+## جدول الروابط (API Routes)
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+| الطريقة | الرابط             | الوصف                          | البيانات المطلوبة (JSON Body) |
+| ------- | ------------------ | ------------------------------ | ----------------------------- |
+| GET     | /api/posts         | عرض كل المقالات مع تعليقاتها   | -                             |
+| POST    | /api/posts         | إنشاء مقال                     | title, content                |
+| GET     | /api/posts/{id}    | عرض مقال واحد                  | -                             |
+| PUT     | /api/posts/{id}    | تعديل مقال                     | title, content                |
+| DELETE  | /api/posts/{id}    | حذف مقال                       | -                             |
+| GET     | /api/videos        | عرض كل الفيديوهات مع تعليقاتها | -                             |
+| POST    | /api/videos        | إنشاء فيديو                    | title, url                    |
+| PUT     | /api/videos/{id}   | تعديل فيديو                    | title, url                    |
+| DELETE  | /api/videos/{id}   | حذف فيديو                      | -                             |
+| GET     | /api/comments      | عرض كل التعليقات (Admin)       | -                             |
+| POST    | /api/comments      | إضافة تعليق                    | body, type (post/video), id   |
+| DELETE  | /api/comments/{id} | حذف تعليق                      | -                             |
 
-## License
+### مثال JSON لإضافة تعليق:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```json
+{
+    "body": "شرح ممتاز جدا!",
+    "type": "post",
+    "id": 1
+}
+```
+
+## طريقة التنزيل والتثبيت
+
+### 1. استنساخ المشروع:
+
+```bash
+git clone <repository_link>
+cd day04-comments
+```
+
+### 2. تثبيت الحزم:
+
+```bash
+composer install
+```
+
+### 3. إعداد البيئة وقاعدة البيانات:
+
+```bash
+cp .env.example .env
+touch database/database.sqlite
+# (تأكد من DB_CONNECTION=sqlite)
+```
+
+### 4. تعطيل CSRF (لأغراض التطوير مع React):
+
+تأكد من إضافة `$middleware->validateCsrfTokens(except: ['*']);` في ملف `bootstrap/app.php`.
+
+### 5. بناء الجداول وتعبئة البيانات:
+
+```bash
+php artisan migrate:fresh --seed
+```
+
+### 6. تشغيل السيرفر:
+
+```bash
+php artisan serve
+```
