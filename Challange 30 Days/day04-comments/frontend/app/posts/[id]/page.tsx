@@ -17,7 +17,7 @@ export default function PostDetails({ params }: { params: Promise<{ id: string }
                 const response = await postsApi.getOne(Number(resolvedParams.id));
                 setPost(response.data);
             } catch (err) {
-                setError('Failed to load post');
+                setError('فشل في تحميل المنشور');
                 console.error('Error fetching post:', err);
             } finally {
                 setLoading(false);
@@ -27,10 +27,18 @@ export default function PostDetails({ params }: { params: Promise<{ id: string }
         fetchPost();
     }, [resolvedParams.id]);
 
+    const formatDate = (dateString: string) => {
+        return new Date(dateString).toLocaleDateString('ar-SA', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+        });
+    };
+
     if (loading) {
         return (
             <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
-                <div className="animate-pulse text-gray-400">Loading...</div>
+                <div className="animate-pulse text-gray-400">جاري التحميل...</div>
             </div>
         );
     }
@@ -39,9 +47,9 @@ export default function PostDetails({ params }: { params: Promise<{ id: string }
         return (
             <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
                 <div className="text-center">
-                    <p className="text-red-400 mb-4">{error || 'Post not found'}</p>
+                    <p className="text-red-400 mb-4">{error || 'المنشور غير موجود'}</p>
                     <Link href="/" className="text-white hover:underline">
-                        ← Back to Home
+                        → العودة للرئيسية
                     </Link>
                 </div>
             </div>
@@ -57,10 +65,10 @@ export default function PostDetails({ params }: { params: Promise<{ id: string }
                         href="/"
                         className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
                     >
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-5 h-5 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                         </svg>
-                        Back to Home
+                        العودة للرئيسية
                     </Link>
                 </div>
             </header>
@@ -75,13 +83,9 @@ export default function PostDetails({ params }: { params: Promise<{ id: string }
                             </svg>
                         </div>
                         <div>
-                            <span className="text-sm text-gray-500">Post</span>
+                            <span className="text-sm text-gray-500">منشور</span>
                             <p className="text-xs text-gray-600">
-                                {new Date(post.created_at).toLocaleDateString('en-US', {
-                                    year: 'numeric',
-                                    month: 'long',
-                                    day: 'numeric',
-                                })}
+                                {formatDate(post.created_at)}
                             </p>
                         </div>
                     </div>

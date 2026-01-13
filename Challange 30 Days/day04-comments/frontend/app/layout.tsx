@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Comments System",
-  description: "Polymorphic comments system for posts and videos",
+  title: "نظام التعليقات",
+  description: "نظام تعليقات متعدد الأنواع للمنشورات والفيديوهات",
 };
 
 export default function RootLayout({
@@ -24,12 +24,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ar" dir="rtl">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Toaster
-          position="bottom-right"
+          position="bottom-left"
           toastOptions={{
             duration: 3000,
             style: {
@@ -37,6 +37,7 @@ export default function RootLayout({
               color: '#fff',
               border: '1px solid #2a2a2a',
               borderRadius: '12px',
+              fontFamily: 'system-ui, -apple-system, sans-serif',
             },
             success: {
               iconTheme: {

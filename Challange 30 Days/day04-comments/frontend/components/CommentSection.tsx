@@ -32,10 +32,10 @@ export default function CommentSection({ type, id, comments, onCommentAdded }: C
 
             setLocalComments([...localComments, response.data.comment]);
             setNewComment('');
-            toast.success('Comment added successfully!');
+            toast.success('تم إضافة التعليق بنجاح!');
             onCommentAdded?.();
         } catch (error) {
-            toast.error('Failed to add comment');
+            toast.error('فشل في إضافة التعليق');
             console.error('Error adding comment:', error);
         } finally {
             setIsSubmitting(false);
@@ -43,14 +43,14 @@ export default function CommentSection({ type, id, comments, onCommentAdded }: C
     };
 
     const handleDelete = async (commentId: number) => {
-        if (!confirm('Are you sure you want to delete this comment?')) return;
+        if (!confirm('هل أنت متأكد من حذف هذا التعليق؟')) return;
 
         try {
             await commentsApi.delete(commentId);
             setLocalComments(localComments.filter(c => c.id !== commentId));
-            toast.success('Comment deleted successfully!');
+            toast.success('تم حذف التعليق بنجاح!');
         } catch (error) {
-            toast.error('Failed to delete comment');
+            toast.error('فشل في حذف التعليق');
             console.error('Error deleting comment:', error);
         }
     };
@@ -70,15 +70,15 @@ export default function CommentSection({ type, id, comments, onCommentAdded }: C
             ));
             setEditingId(null);
             setEditBody('');
-            toast.success('Comment updated successfully!');
+            toast.success('تم تحديث التعليق بنجاح!');
         } catch (error) {
-            toast.error('Failed to update comment');
+            toast.error('فشل في تحديث التعليق');
             console.error('Error updating comment:', error);
         }
     };
 
     const formatDate = (dateString: string) => {
-        return new Date(dateString).toLocaleDateString('en-US', {
+        return new Date(dateString).toLocaleDateString('ar-SA', {
             year: 'numeric',
             month: 'short',
             day: 'numeric',
@@ -93,7 +93,7 @@ export default function CommentSection({ type, id, comments, onCommentAdded }: C
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                 </svg>
-                Comments ({localComments.length})
+                التعليقات ({localComments.length})
             </h3>
 
             {/* Comment Form */}
@@ -102,14 +102,14 @@ export default function CommentSection({ type, id, comments, onCommentAdded }: C
                     <textarea
                         value={newComment}
                         onChange={(e) => setNewComment(e.target.value)}
-                        placeholder="Write a comment..."
-                        className="w-full bg-[#1a1a1a] border border-[#2a2a2a] rounded-xl p-4 pr-24 text-white placeholder-gray-500 resize-none focus:outline-none focus:border-white/30 transition-all duration-200 min-h-[100px]"
+                        placeholder="اكتب تعليقك..."
+                        className="w-full bg-[#1a1a1a] border border-[#2a2a2a] rounded-xl p-4 pl-24 text-white placeholder-gray-500 resize-none focus:outline-none focus:border-white/30 transition-all duration-200 min-h-[100px]"
                         rows={3}
                     />
                     <button
                         type="submit"
                         disabled={isSubmitting || !newComment.trim()}
-                        className="absolute bottom-4 right-4 bg-white text-black px-4 py-2 rounded-lg font-medium hover:bg-gray-200 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="absolute bottom-4 left-4 bg-white text-black px-4 py-2 rounded-lg font-medium hover:bg-gray-200 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         {isSubmitting ? (
                             <span className="flex items-center gap-2">
@@ -117,10 +117,10 @@ export default function CommentSection({ type, id, comments, onCommentAdded }: C
                                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
                                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                                 </svg>
-                                Sending
+                                جاري الإرسال
                             </span>
                         ) : (
-                            'Send'
+                            'إرسال'
                         )}
                     </button>
                 </div>
@@ -133,7 +133,7 @@ export default function CommentSection({ type, id, comments, onCommentAdded }: C
                         <svg className="w-12 h-12 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                         </svg>
-                        <p>No comments yet. Be the first to comment!</p>
+                        <p>لا توجد تعليقات بعد. كن أول من يعلق!</p>
                     </div>
                 ) : (
                     localComments.map((comment) => (
@@ -154,13 +154,13 @@ export default function CommentSection({ type, id, comments, onCommentAdded }: C
                                             onClick={() => handleUpdate(comment.id)}
                                             className="bg-white text-black px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors"
                                         >
-                                            Save
+                                            حفظ
                                         </button>
                                         <button
                                             onClick={() => setEditingId(null)}
                                             className="border border-[#3a3a3a] px-4 py-2 rounded-lg text-sm text-gray-400 hover:bg-[#2a2a2a] transition-colors"
                                         >
-                                            Cancel
+                                            إلغاء
                                         </button>
                                     </div>
                                 </div>
@@ -179,7 +179,7 @@ export default function CommentSection({ type, id, comments, onCommentAdded }: C
                                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                                 </svg>
-                                                Edit
+                                                تعديل
                                             </button>
                                             <button
                                                 onClick={() => handleDelete(comment.id)}
@@ -188,7 +188,7 @@ export default function CommentSection({ type, id, comments, onCommentAdded }: C
                                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                                 </svg>
-                                                Delete
+                                                حذف
                                             </button>
                                         </div>
                                     </div>

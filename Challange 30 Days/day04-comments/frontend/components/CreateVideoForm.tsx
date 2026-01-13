@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { videosApi } from '@/lib/api';
+import toast from 'react-hot-toast';
 
 interface CreateVideoFormProps {
     onSuccess?: () => void;
@@ -12,22 +13,21 @@ export default function CreateVideoForm({ onSuccess, onCancel }: CreateVideoForm
     const [title, setTitle] = useState('');
     const [url, setUrl] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [error, setError] = useState('');
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!title.trim() || !url.trim() || isSubmitting) return;
 
         setIsSubmitting(true);
-        setError('');
 
         try {
             await videosApi.create({ title, url });
             setTitle('');
             setUrl('');
+            toast.success('تم إضافة الفيديو بنجاح!');
             onSuccess?.();
         } catch (err) {
-            setError('Failed to create video. Please try again.');
+            toast.error('فشل في إضافة الفيديو');
             console.error('Error creating video:', err);
         } finally {
             setIsSubmitting(false);
@@ -40,30 +40,24 @@ export default function CreateVideoForm({ onSuccess, onCancel }: CreateVideoForm
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
                 </svg>
-                Add New Video
+                إضافة فيديو جديد
             </h3>
-
-            {error && (
-                <div className="bg-red-500/10 border border-red-500/30 text-red-400 rounded-lg p-3 mb-4 text-sm">
-                    {error}
-                </div>
-            )}
 
             <div className="space-y-4">
                 <div>
-                    <label className="block text-sm text-gray-400 mb-2">Title</label>
+                    <label className="block text-sm text-gray-400 mb-2">العنوان</label>
                     <input
                         type="text"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
-                        placeholder="Enter video title..."
+                        placeholder="أدخل عنوان الفيديو..."
                         className="w-full bg-[#1a1a1a] border border-[#2a2a2a] rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-white/30 transition-colors"
                         required
                     />
                 </div>
 
                 <div>
-                    <label className="block text-sm text-gray-400 mb-2">Video URL</label>
+                    <label className="block text-sm text-gray-400 mb-2">رابط الفيديو</label>
                     <input
                         type="url"
                         value={url}
@@ -81,7 +75,7 @@ export default function CreateVideoForm({ onSuccess, onCancel }: CreateVideoForm
                             onClick={onCancel}
                             className="flex-1 px-4 py-3 border border-[#2a2a2a] rounded-xl text-gray-400 hover:bg-[#1a1a1a] transition-colors"
                         >
-                            Cancel
+                            إلغاء
                         </button>
                     )}
                     <button
@@ -89,7 +83,7 @@ export default function CreateVideoForm({ onSuccess, onCancel }: CreateVideoForm
                         disabled={isSubmitting || !title.trim() || !url.trim()}
                         className="flex-1 bg-white text-black px-4 py-3 rounded-xl font-medium hover:bg-gray-200 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                        {isSubmitting ? 'Adding...' : 'Add Video'}
+                        {isSubmitting ? 'جاري الإضافة...' : 'إضافة الفيديو'}
                     </button>
                 </div>
             </div>

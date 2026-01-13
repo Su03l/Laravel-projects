@@ -6,6 +6,7 @@ import PostCard from '@/components/PostCard';
 import VideoCard from '@/components/VideoCard';
 import CreatePostForm from '@/components/CreatePostForm';
 import CreateVideoForm from '@/components/CreateVideoForm';
+import toast from 'react-hot-toast';
 
 type TabType = 'posts' | 'videos';
 
@@ -22,6 +23,7 @@ export default function Home() {
       const response = await postsApi.getAll();
       setPosts(response.data);
     } catch (error) {
+      toast.error('فشل في تحميل المنشورات');
       console.error('Error fetching posts:', error);
     }
   };
@@ -31,6 +33,7 @@ export default function Home() {
       const response = await videosApi.getAll();
       setVideos(response.data);
     } catch (error) {
+      toast.error('فشل في تحميل الفيديوهات');
       console.error('Error fetching videos:', error);
     }
   };
@@ -67,8 +70,8 @@ export default function Home() {
                 </svg>
               </div>
               <div>
-                <h1 className="text-xl font-bold">Comments System</h1>
-                <p className="text-sm text-gray-500">Polymorphic comments for posts & videos</p>
+                <h1 className="text-xl font-bold">نظام التعليقات</h1>
+                <p className="text-sm text-gray-500">تعليقات متعددة الأنواع للمنشورات والفيديوهات</p>
               </div>
             </div>
 
@@ -80,7 +83,7 @@ export default function Home() {
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
               </svg>
-              {activeTab === 'posts' ? 'New Post' : 'New Video'}
+              {activeTab === 'posts' ? 'منشور جديد' : 'فيديو جديد'}
             </button>
           </div>
 
@@ -89,15 +92,15 @@ export default function Home() {
             <button
               onClick={() => setActiveTab('posts')}
               className={`px-6 py-2.5 rounded-lg font-medium transition-all duration-200 ${activeTab === 'posts'
-                  ? 'bg-white text-black'
-                  : 'text-gray-400 hover:text-white'
+                ? 'bg-white text-black'
+                : 'text-gray-400 hover:text-white'
                 }`}
             >
               <span className="flex items-center gap-2">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
-                Posts
+                المنشورات
                 {posts.length > 0 && (
                   <span className={`text-xs px-2 py-0.5 rounded-full ${activeTab === 'posts' ? 'bg-black/10' : 'bg-white/10'
                     }`}>
@@ -109,15 +112,15 @@ export default function Home() {
             <button
               onClick={() => setActiveTab('videos')}
               className={`px-6 py-2.5 rounded-lg font-medium transition-all duration-200 ${activeTab === 'videos'
-                  ? 'bg-white text-black'
-                  : 'text-gray-400 hover:text-white'
+                ? 'bg-white text-black'
+                : 'text-gray-400 hover:text-white'
                 }`}
             >
               <span className="flex items-center gap-2">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
                 </svg>
-                Videos
+                الفيديوهات
                 {videos.length > 0 && (
                   <span className={`text-xs px-2 py-0.5 rounded-full ${activeTab === 'videos' ? 'bg-black/10' : 'bg-white/10'
                     }`}>
@@ -139,7 +142,7 @@ export default function Home() {
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
               </svg>
-              <p className="text-gray-500">Loading content...</p>
+              <p className="text-gray-500">جاري التحميل...</p>
             </div>
           </div>
         ) : (
@@ -159,19 +162,24 @@ export default function Home() {
                     <svg className="w-16 h-16 mx-auto mb-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
-                    <h3 className="text-lg font-medium text-gray-400 mb-2">No posts yet</h3>
-                    <p className="text-gray-600 mb-4">Create your first post to get started</p>
+                    <h3 className="text-lg font-medium text-gray-400 mb-2">لا توجد منشورات</h3>
+                    <p className="text-gray-600 mb-4">أنشئ أول منشور للبدء</p>
                     <button
                       onClick={() => setShowPostForm(true)}
                       className="bg-white text-black px-5 py-2.5 rounded-xl font-medium hover:bg-gray-200 transition-all"
                     >
-                      Create Post
+                      إنشاء منشور
                     </button>
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                     {posts.map((post) => (
-                      <PostCard key={post.id} post={post} />
+                      <PostCard
+                        key={post.id}
+                        post={post}
+                        onDelete={fetchPosts}
+                        onUpdate={fetchPosts}
+                      />
                     ))}
                   </div>
                 )}
@@ -193,19 +201,24 @@ export default function Home() {
                     <svg className="w-16 h-16 mx-auto mb-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
                     </svg>
-                    <h3 className="text-lg font-medium text-gray-400 mb-2">No videos yet</h3>
-                    <p className="text-gray-600 mb-4">Add your first video to get started</p>
+                    <h3 className="text-lg font-medium text-gray-400 mb-2">لا توجد فيديوهات</h3>
+                    <p className="text-gray-600 mb-4">أضف أول فيديو للبدء</p>
                     <button
                       onClick={() => setShowVideoForm(true)}
                       className="bg-white text-black px-5 py-2.5 rounded-xl font-medium hover:bg-gray-200 transition-all"
                     >
-                      Add Video
+                      إضافة فيديو
                     </button>
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                     {videos.map((video) => (
-                      <VideoCard key={video.id} video={video} />
+                      <VideoCard
+                        key={video.id}
+                        video={video}
+                        onDelete={fetchVideos}
+                        onUpdate={fetchVideos}
+                      />
                     ))}
                   </div>
                 )}
@@ -218,7 +231,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="border-t border-[#1a1a1a] py-6 mt-12">
         <div className="max-w-6xl mx-auto px-6 text-center text-sm text-gray-600">
-          Polymorphic Comments System • Built with Next.js & Laravel
+          تحدي 30 يوم - 30 مشروع | اليوم الرابع
         </div>
       </footer>
     </div>

@@ -17,7 +17,7 @@ export default function VideoDetails({ params }: { params: Promise<{ id: string 
                 const response = await videosApi.getOne(Number(resolvedParams.id));
                 setVideo(response.data);
             } catch (err) {
-                setError('Failed to load video');
+                setError('فشل في تحميل الفيديو');
                 console.error('Error fetching video:', err);
             } finally {
                 setLoading(false);
@@ -32,10 +32,18 @@ export default function VideoDetails({ params }: { params: Promise<{ id: string 
         return match ? `https://www.youtube.com/embed/${match[1]}` : null;
     };
 
+    const formatDate = (dateString: string) => {
+        return new Date(dateString).toLocaleDateString('ar-SA', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+        });
+    };
+
     if (loading) {
         return (
             <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
-                <div className="animate-pulse text-gray-400">Loading...</div>
+                <div className="animate-pulse text-gray-400">جاري التحميل...</div>
             </div>
         );
     }
@@ -44,9 +52,9 @@ export default function VideoDetails({ params }: { params: Promise<{ id: string 
         return (
             <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
                 <div className="text-center">
-                    <p className="text-red-400 mb-4">{error || 'Video not found'}</p>
+                    <p className="text-red-400 mb-4">{error || 'الفيديو غير موجود'}</p>
                     <Link href="/" className="text-white hover:underline">
-                        ← Back to Home
+                        → العودة للرئيسية
                     </Link>
                 </div>
             </div>
@@ -64,10 +72,10 @@ export default function VideoDetails({ params }: { params: Promise<{ id: string 
                         href="/"
                         className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
                     >
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-5 h-5 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                         </svg>
-                        Back to Home
+                        العودة للرئيسية
                     </Link>
                 </div>
             </header>
@@ -99,7 +107,7 @@ export default function VideoDetails({ params }: { params: Promise<{ id: string 
                                     rel="noopener noreferrer"
                                     className="text-white hover:underline"
                                 >
-                                    Open Video in New Tab →
+                                    ← فتح الفيديو في تبويب جديد
                                 </a>
                             </div>
                         </div>
@@ -115,11 +123,7 @@ export default function VideoDetails({ params }: { params: Promise<{ id: string 
                             </svg>
                         </div>
                         <span className="text-sm text-gray-500">
-                            {new Date(video.created_at).toLocaleDateString('en-US', {
-                                year: 'numeric',
-                                month: 'long',
-                                day: 'numeric',
-                            })}
+                            {formatDate(video.created_at)}
                         </span>
                     </div>
 
@@ -132,6 +136,7 @@ export default function VideoDetails({ params }: { params: Promise<{ id: string 
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-2 text-gray-400 hover:text-white text-sm transition-colors"
+                        dir="ltr"
                     >
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />

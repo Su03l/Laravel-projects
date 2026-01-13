@@ -24,10 +24,10 @@ export default function CreatePostForm({ onSuccess, onCancel }: CreatePostFormPr
             await postsApi.create({ title, content });
             setTitle('');
             setContent('');
-            toast.success('Post created successfully!');
+            toast.success('تم إنشاء المنشور بنجاح!');
             onSuccess?.();
         } catch (err) {
-            toast.error('Failed to create post');
+            toast.error('فشل في إنشاء المنشور');
             console.error('Error creating post:', err);
         } finally {
             setIsSubmitting(false);
@@ -40,28 +40,28 @@ export default function CreatePostForm({ onSuccess, onCancel }: CreatePostFormPr
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v16m8-8H4" />
                 </svg>
-                Create New Post
+                إنشاء منشور جديد
             </h3>
 
             <div className="space-y-4">
                 <div>
-                    <label className="block text-sm text-gray-400 mb-2">Title</label>
+                    <label className="block text-sm text-gray-400 mb-2">العنوان</label>
                     <input
                         type="text"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
-                        placeholder="Enter post title..."
+                        placeholder="أدخل عنوان المنشور..."
                         className="w-full bg-[#1a1a1a] border border-[#2a2a2a] rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-white/30 transition-colors"
                         required
                     />
                 </div>
 
                 <div>
-                    <label className="block text-sm text-gray-400 mb-2">Content</label>
+                    <label className="block text-sm text-gray-400 mb-2">المحتوى</label>
                     <textarea
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
-                        placeholder="Write your post content..."
+                        placeholder="اكتب محتوى المنشور..."
                         rows={4}
                         className="w-full bg-[#1a1a1a] border border-[#2a2a2a] rounded-xl px-4 py-3 text-white placeholder-gray-500 resize-none focus:outline-none focus:border-white/30 transition-colors"
                         required
@@ -75,7 +75,7 @@ export default function CreatePostForm({ onSuccess, onCancel }: CreatePostFormPr
                             onClick={onCancel}
                             className="flex-1 px-4 py-3 border border-[#2a2a2a] rounded-xl text-gray-400 hover:bg-[#1a1a1a] transition-colors"
                         >
-                            Cancel
+                            إلغاء
                         </button>
                     )}
                     <button
@@ -83,7 +83,7 @@ export default function CreatePostForm({ onSuccess, onCancel }: CreatePostFormPr
                         disabled={isSubmitting || !title.trim() || !content.trim()}
                         className="flex-1 bg-white text-black px-4 py-3 rounded-xl font-medium hover:bg-gray-200 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                        {isSubmitting ? 'Creating...' : 'Create Post'}
+                        {isSubmitting ? 'جاري الإنشاء...' : 'إنشاء المنشور'}
                     </button>
                 </div>
             </div>
