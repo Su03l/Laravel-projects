@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import api from '@/lib/api';
 import ProductCard from './ProductCard';
 import Link from 'next/link';
+import { useToast } from './Toast';
 
 interface Category {
     id: number;
@@ -22,6 +23,7 @@ export default function ProductList() {
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const { showToast } = useToast();
 
     const fetchProducts = async () => {
         try {
@@ -47,8 +49,9 @@ export default function ProductList() {
         try {
             await api.delete(`/products/${id}`);
             setProducts(products.filter(p => p.id !== id));
+            showToast('تم حذف المنتج بنجاح', 'success');
         } catch (err) {
-            alert('فشل في حذف المنتج');
+            showToast('فشل في حذف المنتج', 'error');
             console.error(err);
         }
     };
