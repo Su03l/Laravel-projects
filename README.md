@@ -29,11 +29,12 @@
 
 ## تحدي 30 يوم 30 مشروع
 
-|  #  | اسم المشروع                                              | الوصف                                        | المميزات الرئيسية                                              |
-| :-: | :------------------------------------------------------- | :------------------------------------------- | :------------------------------------------------------------- |
-|  1  | [day01-notes](./Challange%2030%20Days/day01-notes)       | تطبيق ملاحظات شخصية مع واجهة أمامية React    | CRUD، Validation، Scramble Docs، React Frontend                |
-|  2  | [day02-blog](./Challange%2030%20Days/day02-blog%20--api) | نظام إدارة مقالات مع الأقسام (Mini Blog API) | Relationships، Eager Loading، Cascade Delete، Seeding          |
-|  3  | [day03-store](./Challange%2030%20Days/day03-store)       | متجر إلكتروني مصغر (Mini Store API)          | Many-to-Many، Pivot Table، React Frontend، Toast Notifications |
+|  #  | اسم المشروع                                              | الوصف                                          | المميزات الرئيسية                                              |
+| :-: | :------------------------------------------------------- | :--------------------------------------------- | :------------------------------------------------------------- |
+|  1  | [day01-notes](./Challange%2030%20Days/day01-notes)       | تطبيق ملاحظات شخصية مع واجهة أمامية React      | CRUD، Validation، Scramble Docs، React Frontend                |
+|  2  | [day02-blog](./Challange%2030%20Days/day02-blog%20--api) | نظام إدارة مقالات مع الأقسام (Mini Blog API)   | Relationships، Eager Loading، Cascade Delete، Seeding          |
+|  3  | [day03-store](./Challange%2030%20Days/day03-store)       | متجر إلكتروني مصغر (Mini Store API)            | Many-to-Many، Pivot Table، React Frontend، Toast Notifications |
+|  4  | [day04-comments](./Challange%2030%20Days/day04-comments) | نظام التعليقات الشامل (Universal Comments API) | Polymorphic Relations، MorphMany، MorphTo، Dedoc Scramble      |
 
 ## التقنيات المستخدمة
 
