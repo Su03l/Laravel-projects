@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import api from '@/lib/api';
+import { useToast } from './Toast';
 
 interface Category {
     id: number;
@@ -15,6 +16,7 @@ interface ProductFormProps {
 
 export default function ProductForm({ productId }: ProductFormProps) {
     const router = useRouter();
+    const { showToast } = useToast();
     const isEditing = !!productId;
 
     const [formData, setFormData] = useState({
@@ -81,16 +83,17 @@ export default function ProductForm({ productId }: ProductFormProps) {
         try {
             if (isEditing) {
                 await api.put(`/products/${productId}`, payload);
+                showToast('تم تحديث المنتج بنجاح', 'success');
             } else {
                 await api.post('/products', payload);
+                showToast('تم إضافة المنتج بنجاح', 'success');
             }
             router.push('/');
         } catch (err: any) {
             if (err.response?.data?.errors) {
                 setErrors(err.response.data.errors);
-            } else {
-                alert('حدث خطأ أثناء الحفظ');
             }
+            showToast('حدث خطأ أثناء الحفظ', 'error');
             console.error(err);
         } finally {
             setLoading(false);

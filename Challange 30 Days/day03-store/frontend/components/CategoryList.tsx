@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import api from '@/lib/api';
 import Link from 'next/link';
+import { useToast } from './Toast';
 
 interface Category {
     id: number;
@@ -17,6 +18,7 @@ export default function CategoryList() {
     const [editingId, setEditingId] = useState<number | null>(null);
     const [editingName, setEditingName] = useState('');
     const [saving, setSaving] = useState(false);
+    const { showToast } = useToast();
 
     const fetchCategories = async () => {
         try {
@@ -43,8 +45,9 @@ export default function CategoryList() {
             await api.post('/categories', { name: newCategoryName });
             setNewCategoryName('');
             fetchCategories();
+            showToast('تم إضافة القسم بنجاح', 'success');
         } catch (err) {
-            alert('فشل في إضافة القسم');
+            showToast('فشل في إضافة القسم', 'error');
             console.error(err);
         } finally {
             setSaving(false);
@@ -60,8 +63,9 @@ export default function CategoryList() {
             setEditingId(null);
             setEditingName('');
             fetchCategories();
+            showToast('تم تحديث القسم بنجاح', 'success');
         } catch (err) {
-            alert('فشل في تحديث القسم');
+            showToast('فشل في تحديث القسم', 'error');
             console.error(err);
         } finally {
             setSaving(false);
@@ -74,8 +78,9 @@ export default function CategoryList() {
         try {
             await api.delete(`/categories/${id}`);
             setCategories(categories.filter(c => c.id !== id));
+            showToast('تم حذف القسم بنجاح', 'success');
         } catch (err) {
-            alert('فشل في حذف القسم');
+            showToast('فشل في حذف القسم', 'error');
             console.error(err);
         }
     };
