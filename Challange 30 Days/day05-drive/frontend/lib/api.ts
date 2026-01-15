@@ -34,10 +34,7 @@ export const getFiles = async (): Promise<FileItem[]> => {
     return response.data;
 };
 
-/**
- * Upload a new file
- * @param file - File object to upload
- */
+
 export const uploadFile = async (file: File): Promise<ApiResponse<FileItem>> => {
     const formData = new FormData();
     formData.append('file', file);
