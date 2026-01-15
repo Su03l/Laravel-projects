@@ -10,6 +10,7 @@
 | 2   | [day02-blog](https://github.com/Su03l/Laravel-projects/tree/main/Challange%2030%20Days/day02-blog%20--api) | نظام إدارة مقالات مع الأقسام (Mini Blog API)   | Relationships، Eager Loading، Cascade Delete، Seeding          |
 | 3   | [day03-store](https://github.com/Su03l/Laravel-projects/tree/main/Challange%2030%20Days/day03-store)       | متجر إلكتروني مصغر (Mini Store API)            | Many-to-Many، Pivot Table، React Frontend، Toast Notifications |
 | 4   | [day04-comments](https://github.com/Su03l/Laravel-projects/tree/main/Challange%2030%20Days/day04-comments) | نظام التعليقات الشامل (Universal Comments API) | Polymorphic Relations، MorphMany، MorphTo، Dedoc Scramble      |
+| 5   | [day05-drive](https://github.com/Su03l/Laravel-projects/tree/main/Challange%2030%20Days/day05-drive)       | مدير الملفات الذكي (Smart File Manager API)    | File Upload، Soft Deletes، Trash & Restore، Storage Link       |
 
 ## التقنيات المستخدمة
 
