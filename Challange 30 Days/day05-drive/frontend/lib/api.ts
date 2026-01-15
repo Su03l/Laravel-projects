@@ -53,10 +53,7 @@ export const renameFile = async (id: number, name: string): Promise<ApiResponse<
     return response.data;
 };
 
-/**
- * Delete a file (move to trash)
- * @param id - File ID
- */
+
 export const deleteFile = async (id: number): Promise<ApiResponse<null>> => {
     const response = await apiClient.delete<ApiResponse<null>>(`/files/${id}`);
     return response.data;
