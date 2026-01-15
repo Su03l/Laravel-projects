@@ -85,7 +85,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Links List */}
           <LinkList refreshTrigger={refreshTrigger} onShowToast={showToast} />
         </div>
       </main>
