@@ -33,7 +33,6 @@ body {
   animation: fade-in 0.4s ease-out;
 }
 
-/* Gradient Background Pattern */
 .gradient-bg {
   background: radial-gradient(
       ellipse 80% 50% at 50% -20%,
