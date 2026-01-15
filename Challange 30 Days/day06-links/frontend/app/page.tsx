@@ -58,7 +58,6 @@ export default function Home() {
 
           <ShortenerForm onLinkCreated={handleLinkCreated} onShowToast={showToast} />
 
-          {/* Stats Cards */}
           <div className="mt-16 grid grid-cols-1 gap-4 md:grid-cols-3">
             <div className="group rounded-2xl border border-white/10 bg-white/5 p-6 transition-all duration-300 hover:border-white/20 hover:bg-white/10">
               <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-xl bg-white/10">
