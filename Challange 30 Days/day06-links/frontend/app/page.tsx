@@ -50,7 +50,6 @@ export default function Home() {
 
       {/* Hero Section */}
       <main className="relative">
-        {/* Decorative Grid */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute left-1/2 top-0 h-[500px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/5 blur-3xl" />
         </div>
