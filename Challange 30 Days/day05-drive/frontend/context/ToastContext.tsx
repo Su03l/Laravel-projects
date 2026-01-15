@@ -18,7 +18,6 @@ interface ToastContextType {
 
 const ToastContext = createContext<ToastContextType | undefined>(undefined);
 
-// Generate unique ID
 const generateId = () => Math.random().toString(36).substr(2, 9);
 
 export function ToastProvider({ children }: { children: ReactNode }) {
