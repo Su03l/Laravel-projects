@@ -1,5 +1,4 @@
-// API Service for File Manager
-// Using Axios for all HTTP requests
+
 
 import axios from 'axios';
 
