@@ -64,7 +64,6 @@ export default function TrashPage() {
                     )}
                 </div>
 
-                {/* File Grid */}
                 <FileGrid
                     files={files}
                     isLoading={isLoading}
