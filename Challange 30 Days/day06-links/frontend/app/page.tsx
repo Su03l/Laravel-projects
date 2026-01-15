@@ -56,7 +56,6 @@ export default function Home() {
         <div className="relative z-10 mx-auto max-w-7xl px-6 py-20">
 
 
-          {/* Shortener Form */}
           <ShortenerForm onLinkCreated={handleLinkCreated} onShowToast={showToast} />
 
           {/* Stats Cards */}
