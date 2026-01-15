@@ -33,7 +33,6 @@ export function ToastProvider({ children }: { children: ReactNode }) {
 
         setToasts((prev) => [...prev, newToast]);
 
-        // Auto remove after 3 seconds
         setTimeout(() => {
             removeToast(id);
         }, 3000);
