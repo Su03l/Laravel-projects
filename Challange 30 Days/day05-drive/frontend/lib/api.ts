@@ -11,7 +11,6 @@ const apiClient = axios.create({
     },
 });
 
-// Types
 export interface FileItem {
     id: number;
     name: string;
