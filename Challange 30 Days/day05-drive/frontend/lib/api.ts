@@ -47,11 +47,7 @@ export const uploadFile = async (file: File): Promise<ApiResponse<FileItem>> => 
     return response.data;
 };
 
-/**
- * Rename a file
- * @param id - File ID
- * @param name - New file name
- */
+
 export const renameFile = async (id: number, name: string): Promise<ApiResponse<FileItem>> => {
     const response = await apiClient.put<ApiResponse<FileItem>>(`/files/${id}`, { name });
     return response.data;
