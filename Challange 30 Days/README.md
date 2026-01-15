@@ -11,6 +11,7 @@
 | 3   | [day03-store](https://github.com/Su03l/Laravel-projects/tree/main/Challange%2030%20Days/day03-store)       | متجر إلكتروني مصغر (Mini Store API)            | Many-to-Many، Pivot Table، React Frontend، Toast Notifications |
 | 4   | [day04-comments](https://github.com/Su03l/Laravel-projects/tree/main/Challange%2030%20Days/day04-comments) | نظام التعليقات الشامل (Universal Comments API) | Polymorphic Relations، MorphMany، MorphTo، Dedoc Scramble      |
 | 5   | [day05-drive](https://github.com/Su03l/Laravel-projects/tree/main/Challange%2030%20Days/day05-drive)       | مدير الملفات الذكي (Smart File Manager API)    | File Upload، Soft Deletes، Trash & Restore، Storage Link       |
+| 6   | [day06-links](https://github.com/Su03l/Laravel-projects/tree/main/Challange%2030%20Days/day06-links)       | مختصر الروابط (URL Shortener API)              | Unique Codes، Redirection، Visit Analytics، URL Validation     |
 
 ## التقنيات المستخدمة
 
