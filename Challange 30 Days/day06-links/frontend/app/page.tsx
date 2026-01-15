@@ -97,7 +97,6 @@ export default function Home() {
         </div>
       </footer>
 
-      {/* Toast */}
       <Toast message={toast.message} isVisible={toast.isVisible} onClose={hideToast} />
     </div>
   );
