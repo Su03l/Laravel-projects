@@ -28,10 +28,6 @@ export interface ApiResponse<T> {
     file?: T;
 }
 
-// ===============================
-// FILE OPERATIONS
-// ===============================
-
 /**
  * Get all files (not in trash)
  */
