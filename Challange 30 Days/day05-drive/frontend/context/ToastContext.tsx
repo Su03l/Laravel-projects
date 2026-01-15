@@ -2,7 +2,6 @@
 
 import React, { createContext, useContext, useState, useCallback, ReactNode } from 'react';
 
-// Toast Types
 export type ToastType = 'success' | 'error' | 'info';
 
 export interface Toast {
