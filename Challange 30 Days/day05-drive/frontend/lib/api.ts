@@ -28,9 +28,7 @@ export interface ApiResponse<T> {
     file?: T;
 }
 
-/**
- * Get all files (not in trash)
- */
+
 export const getFiles = async (): Promise<FileItem[]> => {
     const response = await apiClient.get<FileItem[]>('/files');
     return response.data;
