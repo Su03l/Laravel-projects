@@ -97,9 +97,7 @@ export default function ContactForm({ isOpen, onClose, onSubmit, editingContact 
                 onClick={onClose}
             />
 
-            {/* Modal */}
             <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 max-h-[90vh] overflow-y-auto" dir="rtl">
-                {/* Header */}
                 <div className="flex items-center justify-between p-6 border-b border-gray-200">
                     <h2 className="text-2xl font-bold text-black">
                         {editingContact ? 'تعديل جهة الاتصال' : 'إضافة جهة اتصال جديدة'}
@@ -112,9 +110,7 @@ export default function ContactForm({ isOpen, onClose, onSubmit, editingContact 
                     </button>
                 </div>
 
-                {/* Form */}
                 <form onSubmit={handleSubmit} className="p-6 space-y-5">
-                    {/* Image Upload */}
                     <div className="flex flex-col items-center">
                         <div
                             onClick={() => fileInputRef.current?.click()}
@@ -151,7 +147,6 @@ export default function ContactForm({ isOpen, onClose, onSubmit, editingContact 
                         )}
                     </div>
 
-                    {/* First Name */}
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
                             الاسم الأول *
@@ -166,7 +161,6 @@ export default function ContactForm({ isOpen, onClose, onSubmit, editingContact 
                         />
                     </div>
 
-                    {/* Last Name */}
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
                             اسم العائلة *
@@ -181,7 +175,6 @@ export default function ContactForm({ isOpen, onClose, onSubmit, editingContact 
                         />
                     </div>
 
-                    {/* Phone */}
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
                             رقم الهاتف *
@@ -203,7 +196,6 @@ export default function ContactForm({ isOpen, onClose, onSubmit, editingContact 
                                 required
                                 value={formData.phone}
                                 onChange={(e) => {
-                                    // Only allow numbers
                                     const value = e.target.value.replace(/\D/g, '');
                                     setFormData({ ...formData, phone: value });
                                 }}
@@ -213,7 +205,6 @@ export default function ContactForm({ isOpen, onClose, onSubmit, editingContact 
                         </div>
                     </div>
 
-                    {/* Details */}
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
                             ملاحظات
@@ -227,7 +218,6 @@ export default function ContactForm({ isOpen, onClose, onSubmit, editingContact 
                         />
                     </div>
 
-                    {/* Submit Button */}
                     <button
                         type="submit"
                         disabled={isSubmitting}
