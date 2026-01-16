@@ -40,7 +40,6 @@ export default function ContactCard({ contact, onView, onEdit, onDelete }: Conta
                 {contact.first_name} {contact.last_name}
             </h3>
 
-            {/* Phone */}
             <p className="text-gray-600 text-center text-lg mb-2" dir="ltr">
                 {contact.full_phone}
             </p>
