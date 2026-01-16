@@ -24,7 +24,6 @@ export function useContacts() {
         setToasts((prev) => [...prev, { id, message, type }]);
     }, []);
 
-    // Remove toast
     const removeToast = useCallback((id: number) => {
         setToasts((prev) => prev.filter((toast) => toast.id !== id));
     }, []);
