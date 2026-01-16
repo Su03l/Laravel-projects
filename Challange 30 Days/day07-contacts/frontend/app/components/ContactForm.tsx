@@ -28,7 +28,6 @@ export default function ContactForm({ isOpen, onClose, onSubmit, editingContact 
     useEffect(() => {
         if (isOpen) {
             if (editingContact) {
-                // Parse country code and phone from full_phone
                 const fullPhone = editingContact.full_phone || '';
                 let countryCode = '+966';
                 let phone = fullPhone;
