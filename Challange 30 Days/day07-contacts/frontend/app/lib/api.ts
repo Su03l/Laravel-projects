@@ -63,7 +63,6 @@ export const createContact = async (data: ContactFormData): Promise<Contact> => 
     return response.data;
 };
 
-// Update an existing contact
 export const updateContact = async (id: number, data: ContactFormData): Promise<Contact> => {
     const formData = new FormData();
     formData.append('first_name', data.first_name);
