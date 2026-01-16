@@ -33,7 +33,6 @@ export default function ContactForm({ isOpen, onClose, onSubmit, editingContact 
                 let countryCode = '+966';
                 let phone = fullPhone;
 
-                // Try to extract country code
                 for (const cc of COUNTRY_CODES) {
                     if (fullPhone.startsWith(cc.code)) {
                         countryCode = cc.code;
