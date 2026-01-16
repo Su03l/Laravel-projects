@@ -50,7 +50,6 @@ export default function ContactCard({ contact, onView, onEdit, onDelete }: Conta
                 </p>
             )}
 
-            {/* Action Buttons */}
             <div className="flex gap-3 mt-6" onClick={(e) => e.stopPropagation()}>
                 <button
                     onClick={() => onView(contact)}
