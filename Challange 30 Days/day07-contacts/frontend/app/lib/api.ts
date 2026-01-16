@@ -35,7 +35,6 @@ export interface ContactFormData {
     photo?: File | null;
 }
 
-// Get contacts with pagination and search
 export const getContacts = async (page: number = 1, search: string = ''): Promise<PaginatedResponse> => {
     const response = await api.get('/contacts', {
         params: { page, search },
