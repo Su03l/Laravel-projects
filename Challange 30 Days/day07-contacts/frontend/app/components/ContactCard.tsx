@@ -2,7 +2,6 @@
 
 import { Contact } from '../types';
 import { Pencil, Trash2, Eye } from 'lucide-react';
-import Image from 'next/image';
 
 interface ContactCardProps {
     contact: Contact;
