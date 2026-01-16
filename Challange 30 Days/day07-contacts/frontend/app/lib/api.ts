@@ -42,7 +42,6 @@ export const getContacts = async (page: number = 1, search: string = ''): Promis
     return response.data;
 };
 
-// Create a new contact
 export const createContact = async (data: ContactFormData): Promise<Contact> => {
     const formData = new FormData();
     formData.append('first_name', data.first_name);
