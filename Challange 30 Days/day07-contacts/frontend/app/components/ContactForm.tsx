@@ -25,7 +25,6 @@ export default function ContactForm({ isOpen, onClose, onSubmit, editingContact 
     const [isSubmitting, setIsSubmitting] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
-    // Reset form when modal opens/closes or editing contact changes
     useEffect(() => {
         if (isOpen) {
             if (editingContact) {
