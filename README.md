@@ -37,6 +37,7 @@
 |  4  | [day04-comments](./Challange%2030%20Days/day04-comments) | نظام التعليقات الشامل (Universal Comments API) | Polymorphic Relations، MorphMany، MorphTo، Dedoc Scramble      |
 |  5  | [day05-drive](./Challange%2030%20Days/day05-drive)       | مدير الملفات الذكي (Smart File Manager API)    | File Upload، Soft Deletes، Trash & Restore، Storage Link       |
 |  6  | [day06-links](./Challange%2030%20Days/day06-links)       | مختصر الروابط (URL Shortener API)              | Unique Codes، Redirection، Visit Analytics، URL Validation     |
+|  7  | [day07-contacts](./Challange%2030%20Days/day07-contacts) | نظام إدارة جهات الاتصال (Smart Contacts API)   | Pagination، Media Upload، Model Scopes، Computed Fields        |
 
 ## التقنيات المستخدمة
 
