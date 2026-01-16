@@ -19,7 +19,6 @@ export function useContacts() {
     const [searchQuery, setSearchQuery] = useState('');
     const [toasts, setToasts] = useState<Toast[]>([]);
 
-    // Add toast notification
     const addToast = useCallback((message: string, type: ToastType = 'success') => {
         const id = Date.now();
         setToasts((prev) => [...prev, { id, message, type }]);
