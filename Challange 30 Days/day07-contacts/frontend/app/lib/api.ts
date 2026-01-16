@@ -85,7 +85,6 @@ export const updateContact = async (id: number, data: ContactFormData): Promise<
     return response.data;
 };
 
-// Delete a contact
 export const deleteContact = async (id: number): Promise<void> => {
     await api.delete(`/contacts/${id}`);
 };
