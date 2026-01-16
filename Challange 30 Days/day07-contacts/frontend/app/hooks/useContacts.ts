@@ -28,7 +28,6 @@ export function useContacts() {
         setToasts((prev) => prev.filter((toast) => toast.id !== id));
     }, []);
 
-    // Fetch contacts
     const fetchContacts = useCallback(async (page: number = 1, search: string = '') => {
         setLoading(true);
         try {
