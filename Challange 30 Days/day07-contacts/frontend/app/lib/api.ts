@@ -69,7 +69,7 @@ export const updateContact = async (id: number, data: ContactFormData): Promise<
     formData.append('last_name', data.last_name);
     formData.append('country_code', data.country_code);
     formData.append('phone', data.phone);
-    formData.append('_method', 'PUT'); // Laravel method override
+    formData.append('_method', 'PUT'); 
     if (data.details) {
         formData.append('details', data.details);
     }
