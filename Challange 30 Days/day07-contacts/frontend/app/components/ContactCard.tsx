@@ -36,7 +36,6 @@ export default function ContactCard({ contact, onView, onEdit, onDelete }: Conta
                 )}
             </div>
 
-            {/* Name */}
             <h3 className="text-xl font-bold text-center text-black mb-2">
                 {contact.first_name} {contact.last_name}
             </h3>
