@@ -44,7 +44,6 @@ export default function ContactCard({ contact, onView, onEdit, onDelete }: Conta
                 {contact.full_phone}
             </p>
 
-            {/* Details */}
             {contact.details && (
                 <p className="text-gray-400 text-center text-sm mb-4 line-clamp-2">
                     {contact.details}
