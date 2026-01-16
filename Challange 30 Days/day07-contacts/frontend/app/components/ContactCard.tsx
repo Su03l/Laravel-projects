@@ -22,7 +22,6 @@ export default function ContactCard({ contact, onView, onEdit, onDelete }: Conta
             dir="rtl"
             onClick={() => onView(contact)}
         >
-            {/* Avatar Section */}
             <div className="flex justify-center mb-6">
                 {contact.photo_url ? (
                     <img
