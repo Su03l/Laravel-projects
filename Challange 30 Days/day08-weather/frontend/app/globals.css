@@ -12,7 +12,6 @@
   --font-mono: var(--font-geist-mono);
 }
 
-/* Force dark mode - no light mode */
 html {
   color-scheme: dark;
 }
