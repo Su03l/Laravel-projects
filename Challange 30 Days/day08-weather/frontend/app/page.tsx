@@ -100,7 +100,6 @@ export default function Home() {
           )}
         </AnimatePresence>
 
-        {/* Weather Display */}
         <AnimatePresence mode="wait">
           {weatherData && (
             <motion.div
