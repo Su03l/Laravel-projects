@@ -85,10 +85,8 @@ export default function Home() {
           </p>
         </motion.div>
 
-        {/* Search Input */}
         <SearchInput onSearch={handleSearch} isLoading={isSearching} />
 
-        {/* Error Display */}
         <AnimatePresence>
           {error && (
             <motion.div
