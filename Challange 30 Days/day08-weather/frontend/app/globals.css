@@ -100,12 +100,9 @@ body::before {
   border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-/* Text glow effect */
 .text-glow {
   text-shadow: 0 0 40px rgba(255, 255, 255, 0.3);
 }
-
-/* Smooth focus outline */
 *:focus-visible {
   outline: 2px solid rgba(255, 255, 255, 0.3);
   outline-offset: 2px;
