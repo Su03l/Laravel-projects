@@ -116,7 +116,6 @@ export default function Home() {
         </AnimatePresence>
       </main>
 
-      {/* Trending Section */}
       <motion.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
