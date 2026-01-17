@@ -86,7 +86,6 @@ body::before {
   background: rgba(255, 255, 255, 0.2);
 }
 
-/* Glass effect utilities */
 .glass {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
