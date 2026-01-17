@@ -39,7 +39,6 @@ export default function Home() {
     }
   };
 
-  // Handle search
   const handleSearch = useCallback(async (city: string) => {
     setIsSearching(true);
     setError(null);
