@@ -15,7 +15,6 @@ export default function Home() {
   const [isTrendingLoading, setIsTrendingLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch trending cities on mount
   useEffect(() => {
     const fetchTrending = async () => {
       try {
