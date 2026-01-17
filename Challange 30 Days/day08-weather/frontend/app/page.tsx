@@ -134,7 +134,6 @@ export default function Home() {
         </div>
       </motion.section>
 
-      {/* Footer */}
       <footer className="relative z-10 py-8 text-center border-t border-white/5">
         <p className="text-gray-400 text-sm mb-2">
           تحدي 30 يوم 30 مشروع
