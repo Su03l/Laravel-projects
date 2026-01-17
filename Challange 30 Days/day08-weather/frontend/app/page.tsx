@@ -61,7 +61,6 @@ export default function Home() {
     }
   }, []);
 
-  // Handle trending city click
   const handleTrendingClick = useCallback((cityName: string) => {
     handleSearch(cityName);
   }, [handleSearch]);
