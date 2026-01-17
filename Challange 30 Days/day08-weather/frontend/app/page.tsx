@@ -30,7 +30,6 @@ export default function Home() {
     fetchTrending();
   }, []);
 
-  // Refresh trending after a search
   const refreshTrending = async () => {
     try {
       const data = await weatherApi.getTrendingCities();
