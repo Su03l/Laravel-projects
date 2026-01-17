@@ -71,7 +71,6 @@ export default function Home() {
       <div className="ambient-orb ambient-orb-2" />
 
       <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-4 py-12">
-        {/* Hero Section */}
         <motion.div
           initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
