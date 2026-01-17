@@ -12,9 +12,7 @@ const apiClient = axios.create({
 });
 
 export const weatherApi = {
-    /**
-     * Get weather data for a specific city
-     */
+
     getWeather: async (city: string): Promise<WeatherResponse> => {
         const response = await apiClient.get<WeatherResponse>(`/weather/${encodeURIComponent(city)}`);
         return response.data;
