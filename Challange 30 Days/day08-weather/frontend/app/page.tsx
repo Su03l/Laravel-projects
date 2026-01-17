@@ -67,11 +67,9 @@ export default function Home() {
 
   return (
     <div className="relative min-h-screen flex flex-col">
-      {/* Ambient lighting orbs */}
       <div className="ambient-orb ambient-orb-1" />
       <div className="ambient-orb ambient-orb-2" />
 
-      {/* Main Content */}
       <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-4 py-12">
         {/* Hero Section */}
         <motion.div
