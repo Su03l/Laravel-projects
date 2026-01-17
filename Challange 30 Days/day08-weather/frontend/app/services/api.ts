@@ -18,9 +18,7 @@ export const weatherApi = {
         return response.data;
     },
 
-    /**
-     * Get trending/top searched cities
-     */
+
     getTrendingCities: async (): Promise<TrendingCity[]> => {
         const response = await apiClient.get<TrendingCity[]>('/weather/top');
         return response.data;
