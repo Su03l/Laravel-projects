@@ -46,7 +46,6 @@ export default function Home() {
     try {
       const data = await weatherApi.getWeather(city);
       setWeatherData(data);
-      // Refresh trending list after successful search
       await refreshTrending();
     } catch (err: unknown) {
       console.error('Failed to fetch weather:', err);
