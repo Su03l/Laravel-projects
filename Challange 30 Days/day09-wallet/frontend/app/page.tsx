@@ -85,7 +85,6 @@ export default function Dashboard() {
           </button>
         </div>
 
-        {/* Stats Cards */}
         <StatsCards stats={stats} loading={loading} />
 
         {/* Transactions Section */}
