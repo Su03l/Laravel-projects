@@ -1,7 +1,6 @@
 import api from './axios';
 import { Stats, Transaction, TransactionFormData } from '@/types';
 
-// Stats API
 export const getStats = async (): Promise<Stats> => {
     const response = await api.get('/wallet/stats');
     return response.data;
