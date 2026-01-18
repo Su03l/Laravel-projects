@@ -112,7 +112,6 @@ export default function TransactionModal({
                         />
                     </div>
 
-                    {/* Amount */}
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                             المبلغ
@@ -130,7 +129,6 @@ export default function TransactionModal({
                         />
                     </div>
 
-                    {/* Type */}
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                             النوع
@@ -159,7 +157,6 @@ export default function TransactionModal({
                         </div>
                     </div>
 
-                    {/* Date */}
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                             التاريخ
@@ -174,7 +171,6 @@ export default function TransactionModal({
                         />
                     </div>
 
-                    {/* Actions */}
                     <div className="flex gap-3 pt-4">
                         <button
                             type="button"
