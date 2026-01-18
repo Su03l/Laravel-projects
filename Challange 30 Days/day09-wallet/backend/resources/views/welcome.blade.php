@@ -80,7 +80,6 @@
                 </div>
             </div>
 
-            <!-- Right Section: Visual -->
             <div
                 class="flex-1 bg-gray-50 dark:bg-[#161616] p-8 lg:p-12 flex items-center justify-center border-r border-gray-100 dark:border-white/5">
                 <div class="grid grid-cols-2 gap-4 w-full max-w-md">
