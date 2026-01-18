@@ -34,7 +34,6 @@
 
         <div class="flex flex-col lg:flex-row-reverse">
 
-            <!-- Left Section: Content -->
             <div class="flex-1 p-8 lg:p-16 flex flex-col justify-center text-right">
                 <div class="mb-6">
                     <span
