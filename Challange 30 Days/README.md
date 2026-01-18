@@ -14,6 +14,7 @@
 | 6   | [day06-links](https://github.com/Su03l/Laravel-projects/tree/main/Challange%2030%20Days/day06-links)       | مختصر الروابط (URL Shortener API)              | Unique Codes، Redirection، Visit Analytics، URL Validation     |
 | 7   | [day07-contacts](https://github.com/Su03l/Laravel-projects/tree/main/Challange%2030%20Days/day07-contacts) | نظام إدارة جهات الاتصال (Smart Contacts API)   | Pagination، Media Upload، Model Scopes، Computed Fields        |
 | 8   | [day08-weather](https://github.com/Su03l/Laravel-projects/tree/main/Challange%2030%20Days/day08-weather)   | نظام الطقس والتحليلات (Weather Proxy API)      | Secure Proxy، Smart Caching، Search Analytics، Trending Cities |
+| 9   | [day09-wallet](https://github.com/Su03l/Laravel-projects/tree/main/Challange%2030%20Days/day09-wallet)     | نظام المحفظة الذكية (Smart Wallet API)         | CRUD Operations، Dashboard Stats، Advanced Filtering، RESTful  |
 
 ## التقنيات المستخدمة
 
