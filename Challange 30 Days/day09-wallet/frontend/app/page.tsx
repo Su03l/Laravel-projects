@@ -97,7 +97,6 @@ export default function Dashboard() {
           />
         </div>
 
-        {/* Transaction Modal */}
         <TransactionModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
