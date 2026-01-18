@@ -6,7 +6,6 @@ export const getStats = async (): Promise<Stats> => {
     return response.data;
 };
 
-// Transactions API
 export const getTransactions = async (type?: string): Promise<Transaction[]> => {
     const params = type ? { type } : {};
     const response = await api.get('/transactions', { params });
