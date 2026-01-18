@@ -87,7 +87,6 @@ export default function Dashboard() {
 
         <StatsCards stats={stats} loading={loading} />
 
-        {/* Transactions Section */}
         <div className="mb-6">
           <h2 className="text-xl font-bold text-black mb-4">المعاملات الأخيرة</h2>
           <TransactionTable
