@@ -138,7 +138,6 @@
             </div>
         </div>
 
-        <!-- Footer -->
         <div
             class="bg-gray-50 dark:bg-[#0c0c0c] px-8 py-4 border-t border-gray-100 dark:border-white/5 flex justify-between items-center flex-row-reverse">
             <p class="text-xs text-gray-400 font-medium uppercase tracking-widest">© 2026 محفظتي الرقمية | Wallet App
