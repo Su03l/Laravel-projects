@@ -42,13 +42,13 @@ export function ToastProvider({ children }: { children: ReactNode }) {
             {children}
 
             {/* Toast Container */}
-            <div className="fixed top-4 right-4 z-50 flex flex-col gap-3">
+            <div className="fixed top-4 left-4 z-50 flex flex-col gap-3">
                 {toasts.map((toast) => (
                     <div
                         key={toast.id}
                         className={`
               flex items-center gap-3 px-4 py-3 rounded-xl shadow-lg border backdrop-blur-sm
-              animate-in slide-in-from-right duration-300
+              animate-in slide-in-from-left duration-300
               ${toast.type === 'success'
                                 ? 'bg-white border-neutral-200 text-neutral-900'
                                 : 'bg-white border-red-200 text-red-900'}
@@ -62,7 +62,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
                         <p className="text-sm font-medium">{toast.message}</p>
                         <button
                             onClick={() => removeToast(toast.id)}
-                            className="ml-2 p-1 hover:bg-neutral-100 rounded-lg transition-colors"
+                            className="mr-2 p-1 hover:bg-neutral-100 rounded-lg transition-colors"
                         >
                             <X className="w-4 h-4 text-neutral-500" />
                         </button>

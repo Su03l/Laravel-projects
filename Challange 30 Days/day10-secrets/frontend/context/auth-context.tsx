@@ -22,11 +22,17 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [mounted, setMounted] = useState(false);
     const router = useRouter();
+
+    // Handle mounting to prevent hydration mismatch
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     const refreshUser = useCallback(async () => {
         try {
-            const token = localStorage.getItem('token');
+            const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
             if (!token) {
                 setIsLoading(false);
                 return;
@@ -35,8 +41,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             const response = await api.get<User>('/user/profile');
             setUser(response.data);
         } catch {
-            localStorage.removeItem('token');
-            localStorage.removeItem('user');
+            if (typeof window !== 'undefined') {
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+            }
             setUser(null);
         } finally {
             setIsLoading(false);
@@ -44,8 +52,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }, []);
 
     useEffect(() => {
-        refreshUser();
-    }, [refreshUser]);
+        if (mounted) {
+            refreshUser();
+        }
+    }, [mounted, refreshUser]);
 
     const login = async (credentials: LoginCredentials) => {
         const response = await api.post<AuthResponse>('/auth/login', credentials);
@@ -89,6 +99,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const changePassword = async (data: ChangePasswordData) => {
         await api.post('/user/change-password', data);
     };
+
+    // Show loading state until mounted to prevent hydration mismatch
+    if (!mounted) {
+        return (
+            <AuthContext.Provider
+                value={{
+                    user: null,
+                    isLoading: true,
+                    isAuthenticated: false,
+                    login,
+                    register,
+                    logout,
+                    updateProfile,
+                    changePassword,
+                    refreshUser,
+                }}
+            >
+                {children}
+            </AuthContext.Provider>
+        );
+    }
 
     return (
         <AuthContext.Provider

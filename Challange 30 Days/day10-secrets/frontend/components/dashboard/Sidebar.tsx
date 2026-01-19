@@ -12,8 +12,8 @@ import {
 } from 'lucide-react';
 
 const navigation = [
-    { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
-    { name: 'Settings', href: '/dashboard/settings', icon: Settings },
+    { name: 'لوحة التحكم', href: '/dashboard', icon: LayoutDashboard },
+    { name: 'الإعدادات', href: '/dashboard/settings', icon: Settings },
 ];
 
 export default function Sidebar() {
@@ -21,18 +21,20 @@ export default function Sidebar() {
     const { user, logout } = useAuth();
 
     const handleLogout = async () => {
+        // Remove middleware cookie
+        document.cookie = 'token=; path=/; max-age=0';
         await logout();
     };
 
     return (
-        <aside className="fixed left-0 top-0 h-screen w-64 bg-white border-r border-neutral-200 flex flex-col">
+        <aside className="fixed right-0 top-0 h-screen w-64 bg-white border-l border-neutral-200 flex flex-col">
             {/* Logo */}
             <div className="h-16 flex items-center px-6 border-b border-neutral-100">
                 <Link href="/dashboard" className="flex items-center gap-2">
                     <div className="w-8 h-8 bg-neutral-900 rounded-lg flex items-center justify-center">
                         <Shield className="w-4 h-4 text-white" />
                     </div>
-                    <span className="font-semibold text-neutral-900">Identity Hub</span>
+                    <span className="font-semibold text-neutral-900">مركز الهوية</span>
                 </Link>
             </div>
 
@@ -73,7 +75,7 @@ export default function Sidebar() {
                         <p className="text-sm font-medium text-neutral-900 truncate">
                             {user?.name}
                         </p>
-                        <p className="text-xs text-neutral-500 truncate">
+                        <p className="text-xs text-neutral-500 truncate" dir="ltr">
                             @{user?.username}
                         </p>
                     </div>
@@ -89,7 +91,7 @@ export default function Sidebar() {
           "
                 >
                     <LogOut className="w-5 h-5" />
-                    Logout
+                    تسجيل الخروج
                 </button>
             </div>
         </aside>

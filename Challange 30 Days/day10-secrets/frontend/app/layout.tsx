@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Identity Hub - Secure Authentication",
-  description: "A modern identity and user management system",
+  title: "مركز الهوية - نظام مصادقة آمن",
+  description: "نظام حديث لإدارة الهوية والمستخدمين",
 };
 
 export default function RootLayout({
@@ -25,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ar" dir="rtl">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

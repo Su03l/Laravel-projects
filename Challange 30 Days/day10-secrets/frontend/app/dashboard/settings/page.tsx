@@ -6,6 +6,7 @@ import { useAuth } from '@/context/auth-context';
 import { useToast } from '@/context/toast-context';
 import { UpdateProfileData, ChangePasswordData, ApiError } from '@/types';
 import Input from '@/components/ui/Input';
+import PasswordInput from '@/components/ui/PasswordInput';
 import Button from '@/components/ui/Button';
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from '@/components/ui/Card';
 import { User, Lock, Check } from 'lucide-react';
@@ -18,16 +19,16 @@ export default function SettingsPage() {
     const { user } = useAuth();
 
     const tabs = [
-        { id: 'profile' as const, name: 'Edit Profile', icon: User },
-        { id: 'security' as const, name: 'Security', icon: Lock },
+        { id: 'profile' as const, name: 'تعديل الملف الشخصي', icon: User },
+        { id: 'security' as const, name: 'الأمان', icon: Lock },
     ];
 
     return (
         <div className="space-y-8">
             {/* Header */}
             <div>
-                <h1 className="text-2xl font-bold text-neutral-900">Settings</h1>
-                <p className="text-neutral-500 mt-1">Manage your account preferences</p>
+                <h1 className="text-2xl font-bold text-neutral-900">الإعدادات</h1>
+                <p className="text-neutral-500 mt-1">إدارة تفضيلات حسابك</p>
             </div>
 
             {/* Tabs */}
@@ -79,18 +80,18 @@ function ProfileTab({ user }: { user: { name: string; username: string; email: s
         setIsLoading(true);
         try {
             await updateProfile(data);
-            showSuccess('Profile updated successfully!');
+            showSuccess('تم تحديث الملف الشخصي بنجاح!');
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 const apiError = error.response?.data as ApiError;
                 if (apiError?.errors) {
                     const firstError = Object.values(apiError.errors)[0]?.[0];
-                    showError(firstError || 'Update failed.');
+                    showError(firstError || 'فشل التحديث.');
                 } else {
-                    showError(apiError?.message || 'Failed to update profile.');
+                    showError(apiError?.message || 'فشل تحديث الملف الشخصي.');
                 }
             } else {
-                showError('An unexpected error occurred.');
+                showError('حدث خطأ غير متوقع.');
             }
         } finally {
             setIsLoading(false);
@@ -100,54 +101,54 @@ function ProfileTab({ user }: { user: { name: string; username: string; email: s
     return (
         <Card>
             <CardHeader>
-                <CardTitle>Profile Information</CardTitle>
-                <CardDescription>Update your personal details</CardDescription>
+                <CardTitle>معلومات الملف الشخصي</CardTitle>
+                <CardDescription>تحديث بياناتك الشخصية</CardDescription>
             </CardHeader>
             <CardContent>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 max-w-lg">
                     <Input
                         id="name"
-                        label="Full Name"
+                        label="الاسم الكامل"
                         type="text"
                         error={errors.name?.message}
                         {...register('name', {
-                            required: 'Name is required',
-                            minLength: { value: 2, message: 'Name must be at least 2 characters' },
+                            required: 'الاسم مطلوب',
+                            minLength: { value: 2, message: 'الاسم يجب أن يكون حرفين على الأقل' },
                         })}
                     />
 
                     <Input
                         id="username"
-                        label="Username"
+                        label="اسم المستخدم"
                         type="text"
                         error={errors.username?.message}
                         {...register('username', {
-                            required: 'Username is required',
-                            minLength: { value: 3, message: 'Username must be at least 3 characters' },
+                            required: 'اسم المستخدم مطلوب',
+                            minLength: { value: 3, message: 'اسم المستخدم يجب أن يكون 3 أحرف على الأقل' },
                             pattern: {
                                 value: /^[a-zA-Z0-9_]+$/,
-                                message: 'Username can only contain letters, numbers, and underscores',
+                                message: 'اسم المستخدم يمكن أن يحتوي على أحرف وأرقام و _',
                             },
                         })}
                     />
 
                     <Input
                         id="email"
-                        label="Email Address"
+                        label="البريد الإلكتروني"
                         type="email"
                         error={errors.email?.message}
                         {...register('email', {
-                            required: 'Email is required',
+                            required: 'البريد الإلكتروني مطلوب',
                             pattern: {
                                 value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                message: 'Invalid email address',
+                                message: 'بريد إلكتروني غير صالح',
                             },
                         })}
                     />
 
                     <Button type="submit" isLoading={isLoading}>
-                        <Check className="w-4 h-4 mr-2" />
-                        Save Changes
+                        <Check className="w-4 h-4 ml-2" />
+                        حفظ التغييرات
                     </Button>
                 </form>
             </CardContent>
@@ -174,19 +175,19 @@ function SecurityTab() {
         setIsLoading(true);
         try {
             await changePassword(data);
-            showSuccess('Password changed successfully!');
+            showSuccess('تم تغيير كلمة المرور بنجاح!');
             reset();
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 const apiError = error.response?.data as ApiError;
                 if (apiError?.errors) {
                     const firstError = Object.values(apiError.errors)[0]?.[0];
-                    showError(firstError || 'Password change failed.');
+                    showError(firstError || 'فشل تغيير كلمة المرور.');
                 } else {
-                    showError(apiError?.message || 'Failed to change password.');
+                    showError(apiError?.message || 'فشل تغيير كلمة المرور.');
                 }
             } else {
-                showError('An unexpected error occurred.');
+                showError('حدث خطأ غير متوقع.');
             }
         } finally {
             setIsLoading(false);
@@ -196,49 +197,46 @@ function SecurityTab() {
     return (
         <Card>
             <CardHeader>
-                <CardTitle>Change Password</CardTitle>
-                <CardDescription>Update your password to keep your account secure</CardDescription>
+                <CardTitle>تغيير كلمة المرور</CardTitle>
+                <CardDescription>حدّث كلمة مرورك للحفاظ على أمان حسابك</CardDescription>
             </CardHeader>
             <CardContent>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 max-w-lg">
-                    <Input
+                    <PasswordInput
                         id="current_password"
-                        label="Current Password"
-                        type="password"
-                        placeholder="Enter your current password"
+                        label="كلمة المرور الحالية"
+                        placeholder="أدخل كلمة المرور الحالية"
                         error={errors.current_password?.message}
                         {...register('current_password', {
-                            required: 'Current password is required',
+                            required: 'كلمة المرور الحالية مطلوبة',
                         })}
                     />
 
-                    <Input
+                    <PasswordInput
                         id="password"
-                        label="New Password"
-                        type="password"
-                        placeholder="Enter your new password"
+                        label="كلمة المرور الجديدة"
+                        placeholder="أدخل كلمة المرور الجديدة"
                         error={errors.password?.message}
                         {...register('password', {
-                            required: 'New password is required',
-                            minLength: { value: 8, message: 'Password must be at least 8 characters' },
+                            required: 'كلمة المرور الجديدة مطلوبة',
+                            minLength: { value: 8, message: 'كلمة المرور يجب أن تكون 8 أحرف على الأقل' },
                         })}
                     />
 
-                    <Input
+                    <PasswordInput
                         id="password_confirmation"
-                        label="Confirm New Password"
-                        type="password"
-                        placeholder="Confirm your new password"
+                        label="تأكيد كلمة المرور الجديدة"
+                        placeholder="أكد كلمة المرور الجديدة"
                         error={errors.password_confirmation?.message}
                         {...register('password_confirmation', {
-                            required: 'Please confirm your new password',
-                            validate: (value) => value === password || 'Passwords do not match',
+                            required: 'يرجى تأكيد كلمة المرور الجديدة',
+                            validate: (value) => value === password || 'كلمات المرور غير متطابقة',
                         })}
                     />
 
                     <Button type="submit" isLoading={isLoading}>
-                        <Lock className="w-4 h-4 mr-2" />
-                        Update Password
+                        <Lock className="w-4 h-4 ml-2" />
+                        تحديث كلمة المرور
                     </Button>
                 </form>
             </CardContent>

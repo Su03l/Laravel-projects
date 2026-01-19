@@ -8,9 +8,10 @@ import { useAuth } from '@/context/auth-context';
 import { useToast } from '@/context/toast-context';
 import { LoginCredentials, ApiError } from '@/types';
 import Input from '@/components/ui/Input';
+import PasswordInput from '@/components/ui/PasswordInput';
 import Button from '@/components/ui/Button';
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from '@/components/ui/Card';
-import { Shield, ArrowRight } from 'lucide-react';
+import { Shield, ArrowLeft } from 'lucide-react';
 import axios from 'axios';
 
 export default function LoginPage() {
@@ -42,9 +43,9 @@ export default function LoginPage() {
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 const apiError = error.response?.data as ApiError;
-                showError(apiError?.message || 'Login failed. Please try again.');
+                showError(apiError?.message || 'فشل تسجيل الدخول. حاول مرة أخرى.');
             } else {
-                showError('An unexpected error occurred.');
+                showError('حدث خطأ غير متوقع.');
             }
         } finally {
             setIsLoading(false);
@@ -53,50 +54,49 @@ export default function LoginPage() {
 
     if (authLoading) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-neutral-50">
-                <div className="animate-pulse text-neutral-500">Loading...</div>
+            <div className="min-h-screen flex items-center justify-center bg-neutral-50" dir="rtl">
+                <div className="animate-pulse text-neutral-500">جاري التحميل...</div>
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-neutral-50 px-4">
+        <div className="min-h-screen flex items-center justify-center bg-neutral-50 px-4" dir="rtl">
             <div className="w-full max-w-md">
                 {/* Logo */}
                 <div className="text-center mb-8">
                     <div className="inline-flex items-center justify-center w-14 h-14 bg-neutral-900 rounded-2xl mb-4">
                         <Shield className="w-7 h-7 text-white" />
                     </div>
-                    <h1 className="text-2xl font-bold text-neutral-900">Identity Hub</h1>
-                    <p className="text-neutral-500 mt-1">Secure authentication system</p>
+                    <h1 className="text-2xl font-bold text-neutral-900">مركز الهوية</h1>
+                    <p className="text-neutral-500 mt-1">نظام مصادقة آمن</p>
                 </div>
 
                 <Card>
                     <CardHeader>
-                        <CardTitle>Welcome back</CardTitle>
-                        <CardDescription>Sign in to your account to continue</CardDescription>
+                        <CardTitle>مرحباً بعودتك</CardTitle>
+                        <CardDescription>سجّل دخولك للمتابعة</CardDescription>
                     </CardHeader>
                     <CardContent>
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                             <Input
                                 id="login"
-                                label="Email or Username"
+                                label="البريد الإلكتروني أو اسم المستخدم"
                                 type="text"
-                                placeholder="Enter your email or username"
+                                placeholder="أدخل الإيميل أو اسم المستخدم"
                                 error={errors.login?.message}
                                 {...register('login', {
-                                    required: 'This field is required',
+                                    required: 'هذا الحقل مطلوب',
                                 })}
                             />
 
-                            <Input
+                            <PasswordInput
                                 id="password"
-                                label="Password"
-                                type="password"
-                                placeholder="Enter your password"
+                                label="كلمة المرور"
+                                placeholder="أدخل كلمة المرور"
                                 error={errors.password?.message}
                                 {...register('password', {
-                                    required: 'Password is required',
+                                    required: 'كلمة المرور مطلوبة',
                                 })}
                             />
 
@@ -106,19 +106,19 @@ export default function LoginPage() {
                                 size="lg"
                                 isLoading={isLoading}
                             >
-                                Sign In
-                                <ArrowRight className="w-4 h-4 ml-2" />
+                                تسجيل الدخول
+                                <ArrowLeft className="w-4 h-4 mr-2" />
                             </Button>
                         </form>
 
                         <div className="mt-6 text-center">
                             <p className="text-sm text-neutral-500">
-                                Don&apos;t have an account?{' '}
+                                ليس لديك حساب؟{' '}
                                 <Link
                                     href="/register"
                                     className="font-medium text-neutral-900 hover:underline"
                                 >
-                                    Create one
+                                    أنشئ حساباً
                                 </Link>
                             </p>
                         </div>

@@ -20,8 +20,8 @@ export default function DashboardPage() {
         <div className="space-y-8">
             {/* Header */}
             <div>
-                <h1 className="text-2xl font-bold text-neutral-900">Dashboard</h1>
-                <p className="text-neutral-500 mt-1">Welcome back, {user?.name}</p>
+                <h1 className="text-2xl font-bold text-neutral-900">لوحة التحكم</h1>
+                <p className="text-neutral-500 mt-1">مرحباً بعودتك، {user?.name}</p>
             </div>
 
             {/* Stats Cards */}
@@ -32,8 +32,8 @@ export default function DashboardPage() {
                             <Shield className="w-6 h-6 text-neutral-700" />
                         </div>
                         <div>
-                            <p className="text-sm text-neutral-500">Account Status</p>
-                            <p className="text-lg font-semibold text-neutral-900">Active</p>
+                            <p className="text-sm text-neutral-500">حالة الحساب</p>
+                            <p className="text-lg font-semibold text-neutral-900">نشط</p>
                         </div>
                     </CardContent>
                 </Card>
@@ -44,8 +44,8 @@ export default function DashboardPage() {
                             <User className="w-6 h-6 text-neutral-700" />
                         </div>
                         <div>
-                            <p className="text-sm text-neutral-500">Username</p>
-                            <p className="text-lg font-semibold text-neutral-900">@{user?.username}</p>
+                            <p className="text-sm text-neutral-500">اسم المستخدم</p>
+                            <p className="text-lg font-semibold text-neutral-900" dir="ltr">@{user?.username}</p>
                         </div>
                     </CardContent>
                 </Card>
@@ -56,11 +56,11 @@ export default function DashboardPage() {
                             <Calendar className="w-6 h-6 text-neutral-700" />
                         </div>
                         <div>
-                            <p className="text-sm text-neutral-500">Member Since</p>
+                            <p className="text-sm text-neutral-500">تاريخ الانضمام</p>
                             <p className="text-lg font-semibold text-neutral-900">
                                 {user?.created_at
-                                    ? new Date(user.created_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
-                                    : 'N/A'
+                                    ? new Date(user.created_at).toLocaleDateString('ar-SA', { month: 'short', year: 'numeric' })
+                                    : 'غير متوفر'
                                 }
                             </p>
                         </div>
@@ -71,8 +71,8 @@ export default function DashboardPage() {
             {/* Profile Card */}
             <Card>
                 <CardHeader>
-                    <CardTitle>Profile Information</CardTitle>
-                    <CardDescription>Your personal account details</CardDescription>
+                    <CardTitle>معلومات الملف الشخصي</CardTitle>
+                    <CardDescription>تفاصيل حسابك الشخصي</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <div className="flex items-start gap-6">
@@ -90,7 +90,7 @@ export default function DashboardPage() {
                                     <User className="w-5 h-5 text-neutral-600" />
                                 </div>
                                 <div>
-                                    <p className="text-xs text-neutral-500 uppercase tracking-wider">Full Name</p>
+                                    <p className="text-xs text-neutral-500 uppercase tracking-wider">الاسم الكامل</p>
                                     <p className="text-sm font-medium text-neutral-900">{user?.name}</p>
                                 </div>
                             </div>
@@ -100,8 +100,8 @@ export default function DashboardPage() {
                                     <AtSign className="w-5 h-5 text-neutral-600" />
                                 </div>
                                 <div>
-                                    <p className="text-xs text-neutral-500 uppercase tracking-wider">Username</p>
-                                    <p className="text-sm font-medium text-neutral-900">@{user?.username}</p>
+                                    <p className="text-xs text-neutral-500 uppercase tracking-wider">اسم المستخدم</p>
+                                    <p className="text-sm font-medium text-neutral-900" dir="ltr">@{user?.username}</p>
                                 </div>
                             </div>
 
@@ -110,8 +110,8 @@ export default function DashboardPage() {
                                     <Mail className="w-5 h-5 text-neutral-600" />
                                 </div>
                                 <div>
-                                    <p className="text-xs text-neutral-500 uppercase tracking-wider">Email Address</p>
-                                    <p className="text-sm font-medium text-neutral-900">{user?.email}</p>
+                                    <p className="text-xs text-neutral-500 uppercase tracking-wider">البريد الإلكتروني</p>
+                                    <p className="text-sm font-medium text-neutral-900" dir="ltr">{user?.email}</p>
                                 </div>
                             </div>
                         </div>

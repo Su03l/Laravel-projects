@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/auth-context';
 import Button from '@/components/ui/Button';
-import { Shield, ArrowRight, Check, Lock, User, Zap } from 'lucide-react';
+import { Shield, ArrowLeft, Check, Lock, User, Zap } from 'lucide-react';
 
 export default function HomePage() {
   const { isAuthenticated, isLoading } = useAuth();
@@ -20,23 +20,23 @@ export default function HomePage() {
   const features = [
     {
       icon: Lock,
-      title: 'Secure Authentication',
-      description: 'Token-based auth with Laravel Sanctum',
+      title: 'مصادقة آمنة',
+      description: 'نظام مصادقة بالتوكن باستخدام Laravel Sanctum',
     },
     {
       icon: User,
-      title: 'Dual Login',
-      description: 'Login with email or username',
+      title: 'تسجيل دخول مزدوج',
+      description: 'سجّل دخولك بالإيميل أو اسم المستخدم',
     },
     {
       icon: Zap,
-      title: 'Fast & Modern',
-      description: 'Built with Next.js 16+ and TypeScript',
+      title: 'سريع وحديث',
+      description: 'مبني بـ Next.js 16+ و TypeScript',
     },
   ];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white" dir="rtl">
       {/* Navbar */}
       <nav className="border-b border-neutral-100">
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
@@ -44,17 +44,17 @@ export default function HomePage() {
             <div className="w-8 h-8 bg-neutral-900 rounded-lg flex items-center justify-center">
               <Shield className="w-4 h-4 text-white" />
             </div>
-            <span className="font-semibold text-neutral-900">Identity Hub</span>
+            <span className="font-semibold text-neutral-900">مركز الهوية</span>
           </Link>
 
           <div className="flex items-center gap-3">
             <Link href="/login">
-              <Button variant="ghost">Sign In</Button>
+              <Button variant="ghost">تسجيل الدخول</Button>
             </Link>
             <Link href="/register">
               <Button>
-                Get Started
-                <ArrowRight className="w-4 h-4 ml-2" />
+                ابدأ الآن
+                <ArrowLeft className="w-4 h-4 mr-2" />
               </Button>
             </Link>
           </div>
@@ -66,29 +66,29 @@ export default function HomePage() {
         <div className="max-w-4xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-neutral-100 rounded-full text-sm text-neutral-600 mb-6">
             <Check className="w-4 h-4 text-green-600" />
-            Secure & Modern Authentication
+            مصادقة آمنة وحديثة
           </div>
 
           <h1 className="text-5xl font-bold text-neutral-900 leading-tight">
-            Identity Management<br />
-            <span className="text-neutral-400">Made Simple</span>
+            إدارة الهوية<br />
+            <span className="text-neutral-400">بكل سهولة</span>
           </h1>
 
           <p className="mt-6 text-lg text-neutral-500 max-w-2xl mx-auto">
-            A powerful, secure authentication system with dual login support,
-            profile management, and token-based security built on Laravel Sanctum.
+            نظام مصادقة قوي وآمن مع دعم تسجيل الدخول المزدوج،
+            إدارة الملف الشخصي، وأمان مبني على Laravel Sanctum.
           </p>
 
           <div className="mt-10 flex items-center justify-center gap-4">
             <Link href="/register">
               <Button size="lg">
-                Create Account
-                <ArrowRight className="w-4 h-4 ml-2" />
+                إنشاء حساب
+                <ArrowLeft className="w-4 h-4 mr-2" />
               </Button>
             </Link>
             <Link href="/login">
               <Button variant="secondary" size="lg">
-                Sign In
+                تسجيل الدخول
               </Button>
             </Link>
           </div>
@@ -99,8 +99,8 @@ export default function HomePage() {
       <section className="py-20 px-6 bg-neutral-50">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-neutral-900">Features</h2>
-            <p className="mt-3 text-neutral-500">Everything you need for secure authentication</p>
+            <h2 className="text-3xl font-bold text-neutral-900">المميزات</h2>
+            <p className="mt-3 text-neutral-500">كل ما تحتاجه لمصادقة آمنة</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -125,10 +125,10 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2 text-neutral-500 text-sm">
             <Shield className="w-4 h-4" />
-            Identity Hub
+            مركز الهوية
           </div>
           <p className="text-sm text-neutral-400">
-            30 Days Challenge - Day 10
+            تحدي 30 يوم - اليوم 10
           </p>
         </div>
       </footer>
