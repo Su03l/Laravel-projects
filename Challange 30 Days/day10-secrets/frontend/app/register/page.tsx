@@ -17,7 +17,7 @@ import axios from 'axios';
 export default function RegisterPage() {
     const [isLoading, setIsLoading] = useState(false);
     const { register: registerUser, isAuthenticated, isLoading: authLoading } = useAuth();
-    const { showError } = useToast();
+    const { showSuccess, showError } = useToast();
     const router = useRouter();
 
     const {
@@ -39,8 +39,12 @@ export default function RegisterPage() {
         setIsLoading(true);
         try {
             await registerUser(data);
-            // Set cookie for middleware
-            document.cookie = `token=true; path=/; max-age=${60 * 60 * 24 * 7}`;
+            // Show success toast
+            showSuccess('تم إنشاء الحساب بنجاح! يرجى تسجيل الدخول.');
+            // Wait 2 seconds then redirect to login
+            setTimeout(() => {
+                router.push('/login');
+            }, 2000);
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 const apiError = error.response?.data as ApiError;

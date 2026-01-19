@@ -169,7 +169,7 @@ function SecurityTab() {
         formState: { errors },
     } = useForm<ChangePasswordData>();
 
-    const password = watch('password');
+    const newPassword = watch('new_password');
 
     const onSubmit = async (data: ChangePasswordData) => {
         setIsLoading(true);
@@ -213,24 +213,24 @@ function SecurityTab() {
                     />
 
                     <PasswordInput
-                        id="password"
+                        id="new_password"
                         label="كلمة المرور الجديدة"
                         placeholder="أدخل كلمة المرور الجديدة"
-                        error={errors.password?.message}
-                        {...register('password', {
+                        error={errors.new_password?.message}
+                        {...register('new_password', {
                             required: 'كلمة المرور الجديدة مطلوبة',
                             minLength: { value: 8, message: 'كلمة المرور يجب أن تكون 8 أحرف على الأقل' },
                         })}
                     />
 
                     <PasswordInput
-                        id="password_confirmation"
+                        id="new_password_confirmation"
                         label="تأكيد كلمة المرور الجديدة"
                         placeholder="أكد كلمة المرور الجديدة"
-                        error={errors.password_confirmation?.message}
-                        {...register('password_confirmation', {
+                        error={errors.new_password_confirmation?.message}
+                        {...register('new_password_confirmation', {
                             required: 'يرجى تأكيد كلمة المرور الجديدة',
-                            validate: (value) => value === password || 'كلمات المرور غير متطابقة',
+                            validate: (value) => value === newPassword || 'كلمات المرور غير متطابقة',
                         })}
                     />
 

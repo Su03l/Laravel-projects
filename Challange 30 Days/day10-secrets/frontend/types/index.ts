@@ -28,8 +28,8 @@ export interface UpdateProfileData {
 
 export interface ChangePasswordData {
     current_password: string;
-    password: string;
-    password_confirmation: string;
+    new_password: string;
+    new_password_confirmation: string;
 }
 
 export interface ApiError {

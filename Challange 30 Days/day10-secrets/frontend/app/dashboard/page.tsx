@@ -59,7 +59,14 @@ export default function DashboardPage() {
                             <p className="text-sm text-neutral-500">تاريخ الانضمام</p>
                             <p className="text-lg font-semibold text-neutral-900">
                                 {user?.created_at
-                                    ? new Date(user.created_at).toLocaleDateString('ar-SA', { month: 'short', year: 'numeric' })
+                                    ? new Date(user.created_at).toLocaleDateString('ar-SA', {
+                                        day: 'numeric',
+                                        month: 'long',
+                                        year: 'numeric',
+                                        hour: 'numeric',
+                                        minute: '2-digit',
+                                        hour12: true
+                                    })
                                     : 'غير متوفر'
                                 }
                             </p>
