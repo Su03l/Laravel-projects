@@ -1,59 +1,190 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Identity Hub API - الخادم الخلفي
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+<div align="center">
 
-## About Laravel
+![Laravel](https://img.shields.io/badge/Laravel-12-FF2D20?style=for-the-badge&logo=laravel) ![PHP](https://img.shields.io/badge/PHP-8.2+-777BB4?style=for-the-badge&logo=php) ![SQLite](https://img.shields.io/badge/SQLite-Database-003B57?style=for-the-badge&logo=sqlite) ![Sanctum](https://img.shields.io/badge/Sanctum-Auth-38BDF8?style=for-the-badge&logo=laravel)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+**تحدي 30 يوم 30 مشروع - اليوم 10**
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+</div>
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## نظرة عامة
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+نظام مركزي لإدارة الهوية والمستخدمين (User Management System). يمثل هذا المشروع حجر الأساس لأي تطبيق حديث، حيث يوفر نظام مصادقة آمن ومرن يدعم تسجيل الدخول باسم المستخدم أو البريد الإلكتروني، مع إدارة كاملة للملف الشخصي.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## المشكلات التي يحلها
 
-## Laravel Sponsors
+| المشكلة              | الحل                                      |
+| -------------------- | ----------------------------------------- |
+| تعقيد أنظمة المصادقة | نظام مصادقة جاهز ومرن باستخدام Sanctum    |
+| صعوبة تسجيل الدخول   | دعم تسجيل الدخول بالإيميل أو اسم المستخدم |
+| إدارة الملف الشخصي   | واجهة API متكاملة لعرض وتحديث البيانات    |
+| أمان كلمات المرور    | التحقق من كلمة المرور الحالية قبل التغيير |
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## المميزات التقنية
 
-### Premium Partners
+`Dual Login` `Token Based Auth` `Profile Management` `Password Security` `Laravel Sanctum` `RESTful API`
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## توثيق الـ API
 
-## Contributing
+### تسجيل حساب جديد
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```http
+POST /api/auth/register
+```
 
-## Code of Conduct
+**البيانات المطلوبة:**
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```json
+{
+    "name": "أحمد محمد",
+    "username": "ahmed_m",
+    "email": "ahmed@example.com",
+    "password": "password123",
+    "password_confirmation": "password123"
+}
+```
 
-## Security Vulnerabilities
+### تسجيل الدخول
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```http
+POST /api/auth/login
+```
 
-## License
+**البيانات المطلوبة:**
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```json
+{
+    "login": "ahmed@example.com",
+    "password": "password123"
+}
+```
+
+> يمكن استخدام البريد الإلكتروني أو اسم المستخدم في حقل `login`
+
+### تسجيل الخروج
+
+```http
+POST /api/auth/logout
+Authorization: Bearer {token}
+```
+
+### عرض الملف الشخصي
+
+```http
+GET /api/user/profile
+Authorization: Bearer {token}
+```
+
+**الاستجابة:**
+
+```json
+{
+    "id": 1,
+    "name": "أحمد محمد",
+    "username": "ahmed_m",
+    "email": "ahmed@example.com"
+}
+```
+
+### تحديث الملف الشخصي
+
+```http
+PUT /api/user/profile
+Authorization: Bearer {token}
+```
+
+**البيانات المطلوبة:**
+
+```json
+{
+    "name": "أحمد محمد علي",
+    "username": "ahmed_ali",
+    "email": "ahmed.ali@example.com"
+}
+```
+
+### تغيير كلمة المرور
+
+```http
+POST /api/user/change-password
+Authorization: Bearer {token}
+```
+
+**البيانات المطلوبة:**
+
+```json
+{
+    "current_password": "password123",
+    "password": "newpassword456",
+    "password_confirmation": "newpassword456"
+}
+```
+
+## هيكل المشروع
+
+```
+backend/
+├── app/
+│   ├── Http/Controllers/
+│   │   ├── Auth/
+│   │   │   └── AuthController.php       # متحكم المصادقة
+│   │   └── User/
+│   │       └── UserController.php       # متحكم الملف الشخصي
+│   └── Models/
+│       └── User.php                     # نموذج المستخدم
+├── database/
+│   └── migrations/                      # جداول قاعدة البيانات
+└── routes/
+    └── api.php                          # مسارات الـ API
+```
+
+## التثبيت والإعداد
+
+### 1. تثبيت الحزم
+
+```bash
+composer install
+```
+
+### 2. إعداد البيئة
+
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+### 3. إعداد قاعدة البيانات
+
+```bash
+php artisan migrate
+```
+
+### 4. تشغيل الخادم
+
+```bash
+php artisan serve
+```
+
+> الخادم يعمل على: `http://127.0.0.1:8000`
+
+## نقاط الاتصال
+
+| الطريقة | المسار                      | الوصف                       |
+| :------ | :-------------------------- | :-------------------------- |
+| POST    | `/api/auth/register`        | تسجيل حساب جديد             |
+| POST    | `/api/auth/login`           | تسجيل دخول (Email/Username) |
+| POST    | `/api/auth/logout`          | تسجيل خروج (يتطلب Token)    |
+| GET     | `/api/user/profile`         | عرض بيانات المستخدم         |
+| PUT     | `/api/user/profile`         | تحديث البيانات              |
+| POST    | `/api/user/change-password` | تغيير كلمة المرور           |
+
+---
+
+<div align="center">
+
+**صُنع ضمن تحدي 30 يوم 30 مشروع**
+
+</div>
