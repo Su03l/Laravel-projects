@@ -27,7 +27,9 @@
 
 ---
 
-## تحدي 30 يوم 30 مشروع
+##  [تحدي 30 يوم 30 مشروع](https://github.com/Su03l/Laravel-projects/tree/main/Challange%2030%20Days)
+
+> تحدي برمجي لبناء 30 مشروع Laravel خلال 30 يوم! كل مشروع يركز على مفهوم أو تقنية مختلفة لتطوير المهارات بشكل تدريجي.
 
 |  #  | اسم المشروع                                                      | الوصف                                            | المميزات الرئيسية                                              |
 | :-: | :--------------------------------------------------------------- | :----------------------------------------------- | :------------------------------------------------------------- |
@@ -42,6 +44,8 @@
 |  9  | [day09-wallet](./Challange%2030%20Days/day09-wallet)             | نظام المحفظة الذكية (Smart Wallet API)           | CRUD Operations، Dashboard Stats، Advanced Filtering، RESTful  |
 | 10  | [day10-secrets](./Challange%2030%20Days/day10-secrets)           | نظام إدارة الهوية والمستخدمين (Identity Hub API) | Dual Login، Token Based Auth، Profile Management، Sanctum      |
 | 11  | [day11-mini-twitter](./Challange%2030%20Days/day11-mini-twitter) | منصة تويتر مصغرة (Mini Twitter)                  | Tweets، User Profiles، Follow System، React Frontend           |
+
+---
 
 ## التقنيات المستخدمة
 
