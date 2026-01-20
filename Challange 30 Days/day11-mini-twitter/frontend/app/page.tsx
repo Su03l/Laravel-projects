@@ -93,7 +93,6 @@ export default function HomePage() {
           </div>
         )}
 
-        {/* Timeline */}
         <div className="timeline">
           {isLoadingTweets ? (
             <div className="loading">
