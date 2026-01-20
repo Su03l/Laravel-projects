@@ -58,7 +58,6 @@ export default function HomePage() {
   };
 
   const handleDeleteTweet = async (id: number) => {
-    // Optimistic UI - remove immediately
     setTweets(tweets.filter(tweet => tweet.id !== id));
 
     try {
