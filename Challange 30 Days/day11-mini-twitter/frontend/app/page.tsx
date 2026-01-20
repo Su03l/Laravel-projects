@@ -79,7 +79,6 @@ export default function HomePage() {
           <h1>Home</h1>
         </header>
 
-        {/* Create Tweet Form - Only for authenticated users */}
         {!isLoading && isAuthenticated && (
           <CreateTweetForm onTweetCreated={handleTweetCreated} />
         )}
