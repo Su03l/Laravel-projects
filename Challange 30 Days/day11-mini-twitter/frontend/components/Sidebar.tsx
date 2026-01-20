@@ -20,7 +20,6 @@ export default function Sidebar() {
     return (
         <aside className="sidebar">
             <div className="sidebar-content">
-                {/* Logo */}
                 <Link href="/" className="logo">
                     <span className="logo-text">MT</span>
                 </Link>
