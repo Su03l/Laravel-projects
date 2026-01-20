@@ -10,7 +10,6 @@ export default function RightSidebar() {
                 <input type="text" placeholder="Search" className="search-input" />
             </div>
 
-            {/* Who to follow */}
             <div className="who-to-follow">
                 <h2>Who to follow</h2>
                 <div className="follow-suggestion">
