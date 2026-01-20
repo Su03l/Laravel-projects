@@ -83,7 +83,6 @@ export default function HomePage() {
           <CreateTweetForm onTweetCreated={handleTweetCreated} />
         )}
 
-        {/* Login Banner - Only for guests */}
         {!isLoading && !isAuthenticated && (
           <div className="login-banner">
             <p>Login to share your thoughts</p>
