@@ -66,7 +66,6 @@ export default function HomePage() {
     } catch (error) {
       console.error('Failed to delete tweet:', error);
       showToast('فشل في حذف التغريدة', 'error');
-      // Refetch on error to restore state
       fetchTweets();
     }
   };
