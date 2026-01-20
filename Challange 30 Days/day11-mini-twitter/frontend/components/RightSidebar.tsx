@@ -5,7 +5,6 @@ import { Search } from 'lucide-react';
 export default function RightSidebar() {
     return (
         <aside className="right-sidebar">
-            {/* Search */}
             <div className="search-box">
                 <Search size={18} className="search-icon" />
                 <input type="text" placeholder="Search" className="search-input" />
