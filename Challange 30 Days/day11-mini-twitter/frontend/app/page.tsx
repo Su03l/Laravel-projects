@@ -54,7 +54,6 @@ export default function HomePage() {
 
   const handleTweetCreated = () => {
     showToast('تم نشر التغريدة بنجاح!', 'success');
-    // Reload tweets from server
     fetchTweets();
   };
 
