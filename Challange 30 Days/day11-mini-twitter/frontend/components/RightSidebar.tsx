@@ -38,7 +38,6 @@ export default function RightSidebar() {
                 </div>
             </div>
 
-            {/* Trending */}
             <div className="trending">
                 <h2>Trending</h2>
                 <div className="trend-item">
