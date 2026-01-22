@@ -111,7 +111,6 @@ export default function ProfileDashboardPage() {
     };
 
     const handleCancelProfile = () => {
-        // Reset to original values
         if (profile) {
             setName(profile.name || '');
             setUsername(profile.username || '');
