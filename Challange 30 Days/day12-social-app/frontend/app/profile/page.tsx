@@ -211,13 +211,11 @@ export default function ProfileDashboardPage() {
                         {user?.username?.[0]?.toUpperCase() || '?'}
                     </div>
 
-                    {/* Info */}
                     <div className="flex-1">
                         <h1 className="text-3xl font-black text-white">{user?.name}</h1>
                         <p className="text-lg text-white/50">@{user?.username}</p>
                         <p className="text-sm text-white/30 mt-1">{user?.email}</p>
 
-                        {/* Stats */}
                         <div className="mt-4 flex flex-wrap gap-6">
                             <div>
                                 <span className="text-xl font-bold text-white">{profile?.tweets_count || tweets.length || 0}</span>
@@ -236,7 +234,6 @@ export default function ProfileDashboardPage() {
                 </div>
             </div>
 
-            {/* Tabs */}
             <div className="flex flex-wrap border-b border-white/20 mb-6">
                 <button
                     onClick={() => handleTabChange('tweets')}
@@ -279,7 +276,6 @@ export default function ProfileDashboardPage() {
                 </button>
             </div>
 
-            {/* Content */}
             {activeTab === 'tweets' && (
                 <div>
                     {isLoading ? (
