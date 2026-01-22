@@ -207,7 +207,6 @@ export default function ProfileDashboardPage() {
 
             <div className="border border-white/20 bg-white/5 p-8 mb-6">
                 <div className="flex flex-col md:flex-row items-start gap-6">
-                    {/* Avatar */}
                     <div className="h-24 w-24 shrink-0 bg-blue-500 flex items-center justify-center text-white font-black text-4xl">
                         {user?.username?.[0]?.toUpperCase() || '?'}
                     </div>
