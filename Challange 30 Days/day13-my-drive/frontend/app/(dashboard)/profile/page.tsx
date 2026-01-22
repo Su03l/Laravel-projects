@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { userApi } from '@/lib/api';
-import { User, Mail, Lock, Loader2, Save, Check, Eye, EyeOff, AtSign } from 'lucide-react';
+import { User, Mail, Lock, Loader2, Save, Check, Eye, EyeOff, AtSign, Camera } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
@@ -16,6 +16,10 @@ export default function ProfilePage() {
     const [isUpdatingPassword, setIsUpdatingPassword] = useState(false);
     const [showCurrentPassword, setShowCurrentPassword] = useState(false);
     const [showNewPassword, setShowNewPassword] = useState(false);
+    const [avatarFile, setAvatarFile] = useState<File | null>(null);
+    const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+    const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
+    const avatarInputRef = useRef<HTMLInputElement>(null);
 
     const { register: registerProfile, handleSubmit: handleProfileSubmit, formState: { errors: profileErrors }, reset: resetProfile } = useForm<ProfileForm>();
     const { register: registerPassword, handleSubmit: handlePasswordSubmit, formState: { errors: passwordErrors }, reset: resetPassword, watch } = useForm<PasswordForm>();
@@ -25,9 +29,51 @@ export default function ProfilePage() {
         if (user) resetProfile({ name: user.name, username: user.username || '', email: user.email });
     }, [user, resetProfile]);
 
+    const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            if (file.size > 5 * 1024 * 1024) {
+                toast.error('حجم الصورة يجب أن يكون أقل من 5 ميجابايت');
+                return;
+            }
+            setAvatarFile(file);
+            const reader = new FileReader();
+            reader.onloadend = () => setAvatarPreview(reader.result as string);
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const handleAvatarUpload = async () => {
+        if (!avatarFile || !user) return;
+
+        setIsUploadingAvatar(true);
+        try {
+            await userApi.updateProfile({
+                name: user.name,
+                username: user.username,
+                email: user.email,
+                avatar: avatarFile
+            });
+            await refreshUser();
+            toast.success('تم تحديث الصورة الشخصية');
+            setAvatarFile(null);
+            setAvatarPreview(null);
+        } catch {
+            toast.error('فشل تحديث الصورة الشخصية');
+        } finally {
+            setIsUploadingAvatar(false);
+        }
+    };
+
     const onUpdateProfile = async (data: ProfileForm) => {
         setIsUpdatingProfile(true);
-        try { await userApi.updateProfile(data); await refreshUser(); toast.success('تم تحديث الملف الشخصي'); }
+        try {
+            await userApi.updateProfile({ ...data, avatar: avatarFile || undefined });
+            await refreshUser();
+            toast.success('تم تحديث الملف الشخصي');
+            setAvatarFile(null);
+            setAvatarPreview(null);
+        }
         catch { toast.error('فشل تحديث الملف الشخصي'); }
         finally { setIsUpdatingProfile(false); }
     };
@@ -43,6 +89,8 @@ export default function ProfilePage() {
 
     const inputWithIconStyle = { paddingLeft: '3rem' };
     const inputWithBothIconsStyle = { paddingLeft: '3rem', paddingRight: '3rem' };
+    const avatarUrl = avatarPreview || user.avatar_url || null;
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000';
 
     return (
         <div className="p-6 max-w-4xl mx-auto">
@@ -50,14 +98,61 @@ export default function ProfilePage() {
 
             {/* Profile Info Card */}
             <div className="card p-8 mb-6">
-                <div className="flex items-center gap-4 mb-8">
-                    <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center">
-                        <span className="text-2xl font-bold text-black">{user.name.charAt(0).toUpperCase()}</span>
+                {/* Avatar Section */}
+                <div className="flex items-center gap-6 mb-8">
+                    <div className="relative group">
+                        <div className="w-24 h-24 rounded-full overflow-hidden bg-white flex items-center justify-center">
+                            {avatarUrl ? (
+                                <img
+                                    src={avatarPreview || `${backendUrl}/storage/${user.avatar}`}
+                                    alt={user.name}
+                                    className="w-full h-full object-cover"
+                                />
+                            ) : (
+                                <span className="text-3xl font-bold text-black">{user.name.charAt(0).toUpperCase()}</span>
+                            )}
+                        </div>
+                        <button
+                            type="button"
+                            onClick={() => avatarInputRef.current?.click()}
+                            className="absolute inset-0 flex items-center justify-center rounded-full bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+                        >
+                            <Camera className="w-6 h-6 text-white" strokeWidth={1.5} />
+                        </button>
+                        <input
+                            ref={avatarInputRef}
+                            type="file"
+                            accept="image/jpeg,image/png,image/jpg"
+                            onChange={handleAvatarChange}
+                            className="hidden"
+                        />
                     </div>
-                    <div>
-                        <h2 className="text-lg font-semibold text-white">{user.name}</h2>
+                    <div className="flex-1">
+                        <h2 className="text-xl font-semibold text-white">{user.name}</h2>
                         <p className="text-sm" style={{ color: 'var(--muted)' }}>@{user.username || 'username'}</p>
                         <p className="text-sm" style={{ color: 'var(--muted)' }}>{user.email}</p>
+
+                        {avatarFile && (
+                            <div className="flex gap-2 mt-3">
+                                <button
+                                    onClick={handleAvatarUpload}
+                                    disabled={isUploadingAvatar}
+                                    className="btn btn-primary text-sm py-2 px-4"
+                                >
+                                    {isUploadingAvatar ? (
+                                        <><Loader2 className="w-4 h-4 animate-spin" /> Uploading...</>
+                                    ) : (
+                                        'Save Avatar'
+                                    )}
+                                </button>
+                                <button
+                                    onClick={() => { setAvatarFile(null); setAvatarPreview(null); }}
+                                    className="btn btn-secondary text-sm py-2 px-4"
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        )}
                     </div>
                 </div>
 

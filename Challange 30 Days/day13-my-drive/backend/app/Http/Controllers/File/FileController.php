@@ -25,7 +25,7 @@ class FileController extends Controller
 
         $uploadedFile = $request->file('file');
 
-        $path = $uploadedFile->store('uploads');
+        $path = $uploadedFile->store('uploads', 'public');
 
         $fileRecord = Auth::user()->files()->create([
             'name' => $uploadedFile->getClientOriginalName(),
@@ -45,15 +45,15 @@ class FileController extends Controller
     {
         $file = Auth::user()->files()->findOrFail($id);
 
-        return Storage::download($file->path, $file->name);
+        return Storage::disk('public')->download($file->path, $file->name);
     }
 
     public function destroy($id)
     {
         $file = Auth::user()->files()->findOrFail($id);
 
-        if (Storage::exists($file->path)) {
-            Storage::delete($file->path);
+        if (Storage::disk('public')->exists($file->path)) {
+            Storage::disk('public')->delete($file->path);
         }
 
         $file->delete();

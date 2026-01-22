@@ -52,6 +52,7 @@ export interface FileItem {
     id: number;
     name: string;
     original_name: string;
+    path: string;
     mime_type: string;
     size: number;
     folder_id: number | null;

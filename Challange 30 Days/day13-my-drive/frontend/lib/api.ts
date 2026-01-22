@@ -95,12 +95,8 @@ export const fileApi = {
             formData.append('folder_id', folderId.toString());
         }
 
-        const response = await api.post('/files/upload', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        });
-        return response.data.data || response.data;
+        const response = await api.post('/files/upload', formData);
+        return response.data.file || response.data.data || response.data;
     },
 
     downloadFile: async (id: number): Promise<Blob> => {

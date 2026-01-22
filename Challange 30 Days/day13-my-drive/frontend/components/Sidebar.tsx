@@ -60,14 +60,22 @@ export default function Sidebar() {
             <div className="sidebar-footer">
                 {user && (
                     <div className="flex items-center gap-3 px-3 py-2 mb-2">
-                        <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-                            <span className="text-sm font-medium text-black">
-                                {user.name.charAt(0).toUpperCase()}
-                            </span>
+                        <div className="w-10 h-10 rounded-full overflow-hidden bg-white flex items-center justify-center flex-shrink-0">
+                            {user.avatar ? (
+                                <img
+                                    src={`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000'}/storage/${user.avatar}`}
+                                    alt={user.name}
+                                    className="w-full h-full object-cover"
+                                />
+                            ) : (
+                                <span className="text-sm font-medium text-black">
+                                    {user.name.charAt(0).toUpperCase()}
+                                </span>
+                            )}
                         </div>
                         <div className="flex-1 min-w-0">
                             <p className="text-sm font-medium text-white truncate">{user.name}</p>
-                            <p className="text-xs text-secondary truncate">{user.email}</p>
+                            <p className="text-xs truncate" style={{ color: 'var(--muted)' }}>{user.email}</p>
                         </div>
                     </div>
                 )}
