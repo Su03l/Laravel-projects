@@ -77,7 +77,6 @@ export default function ProfileSettingsPage() {
                     <p className="mt-2 text-gray-500">تحديث معلوماتك</p>
                 </header>
 
-                {/* Form */}
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
                         <label htmlFor="name" className="block text-sm font-medium text-gray-400 mb-2">
