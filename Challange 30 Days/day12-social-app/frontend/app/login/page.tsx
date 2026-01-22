@@ -119,7 +119,6 @@ export default function LoginPage() {
                     </button>
                 </form>
 
-                {/* Footer */}
                 <footer className="mt-8 text-center">
                     <p className="text-white/50">
                         ليس لديك حساب؟{' '}
