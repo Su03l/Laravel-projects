@@ -59,7 +59,6 @@ export default function LoginPage() {
                     </p>
                 </header>
 
-                {/* Form */}
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
                         <label htmlFor="email" className="block text-sm font-medium text-white/70 mb-2">
