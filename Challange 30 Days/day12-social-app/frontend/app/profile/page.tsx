@@ -61,7 +61,6 @@ export default function ProfileDashboardPage() {
             const data = response.data.data || response.data;
             setProfile(data);
             setTweets(data.tweets || []);
-            // Initialize form
             setName(data.name || '');
             setUsername(data.username || '');
             setEmail(data.email || '');
