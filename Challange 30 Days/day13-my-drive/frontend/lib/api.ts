@@ -107,7 +107,6 @@ export const fileApi = {
     },
 };
 
-// Helper function to trigger file download
 export const triggerDownload = (blob: Blob, filename: string) => {
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement('a');
