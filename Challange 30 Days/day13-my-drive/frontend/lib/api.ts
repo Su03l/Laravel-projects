@@ -9,7 +9,6 @@ import {
     FileItem
 } from '@/types';
 
-// ==================== Auth API ====================
 
 export const authApi = {
     login: async (credentials: LoginCredentials): Promise<AuthResponse> => {
