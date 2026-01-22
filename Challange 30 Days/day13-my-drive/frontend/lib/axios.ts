@@ -15,7 +15,6 @@ api.interceptors.request.use(
                 config.headers.Authorization = `Bearer ${token}`;
             }
         }
-        // Only set Content-Type to JSON if not FormData
         if (!(config.data instanceof FormData)) {
             config.headers['Content-Type'] = 'application/json';
         }
