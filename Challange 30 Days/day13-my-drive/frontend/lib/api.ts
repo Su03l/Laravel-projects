@@ -73,7 +73,6 @@ export const folderApi = {
     },
 };
 
-// ==================== File API ====================
 
 export const fileApi = {
     getRootFiles: async (): Promise<FileItem[]> => {
