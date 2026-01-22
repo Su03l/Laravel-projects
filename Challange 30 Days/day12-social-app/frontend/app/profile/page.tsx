@@ -43,13 +43,11 @@ export default function ProfileDashboardPage() {
     const [activeTab, setActiveTab] = useState<TabType>('tweets');
     const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
-    // Profile form states
     const [name, setName] = useState('');
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [isSaving, setIsSaving] = useState(false);
 
-    // Password form states
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
