@@ -84,7 +84,6 @@ export default function ChangePasswordPage() {
                     <p className="mt-2 text-gray-500">تحديث أمان حسابك</p>
                 </header>
 
-                {/* Form */}
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
                         <label htmlFor="current_password" className="block text-sm font-medium text-gray-400 mb-2">
