@@ -47,7 +47,6 @@ export const userApi = {
     },
 };
 
-// ==================== Folder API ====================
 
 export const folderApi = {
     getRootFolders: async (): Promise<Folder[]> => {
