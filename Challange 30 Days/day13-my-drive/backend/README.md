@@ -1,59 +1,177 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# سحابتي API - الخادم الخلفي
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+<div align="center">
 
-## About Laravel
+![Laravel](https://img.shields.io/badge/Laravel-11-FF2D20?style=for-the-badge&logo=laravel) ![PHP](https://img.shields.io/badge/PHP-8.2+-777BB4?style=for-the-badge&logo=php) ![SQLite](https://img.shields.io/badge/SQLite-Database-003B57?style=for-the-badge&logo=sqlite) ![Sanctum](https://img.shields.io/badge/Sanctum-Auth-38BDF8?style=for-the-badge&logo=laravel)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+**تحدي 30 يوم 30 مشروع - اليوم 13**
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+</div>
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## نظرة عامة
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+"سحابتي" هو نظام تخزين سحابي شخصي مصغر يتيح للمستخدمين إدارة ملفاتهم ومجلداتهم بفعالية. يوفر المشروع نظام مصادقة كامل، إدارة متطورة للمجلدات المتداخلة، ونظام رفع وتخزين ملفات آمن مع إمكانية المعاينة.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## المشكلات التي يحلها
 
-## Laravel Sponsors
+| المشكلة             | الحل                                        |
+| ------------------- | ------------------------------------------- |
+| تعقيد أنظمة الملفات | واجهة برمجية منظمة لإدارة المجلدات والملفات |
+| أمان البيانات       | نظام مصادقة قوي وتحقق من ملكية الملفات      |
+| فوضى الملفات        | نظام مجلدات هرمي (Nested Folders) منظم      |
+| الوصول للملفات      | إمكانية تحميل ومعاينة الملفات من أي مكان    |
+| إدارة الحساب        | ملف شخصي متكامل مع إمكانية رفع صورة رمزية   |
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## المميزات التقنية
 
-### Premium Partners
+`File Upload` `Folder Management` `Nested Hierarchy` `Profile Avatar` `Token Auth` `Image Preview` `Laravel 11` `RESTful API`
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## توثيق الـ API
 
-## Contributing
+### المصادقة
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+#### تسجيل حساب جديد
 
-## Code of Conduct
+```http
+POST /api/auth/register
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+#### تسجيل الدخول
 
-## Security Vulnerabilities
+```http
+POST /api/auth/login
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### الملف الشخصي (User Profile)
 
-## License
+#### عرض بيانات الملف الشخصي
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```http
+GET /api/user/profile
+Authorization: Bearer {token}
+```
+
+#### تحديث الملف الشخصي والأفاتار
+
+```http
+PUT /api/user/profile
+Authorization: Bearer {token}
+# يدعم FormData لرفع الصورة
+```
+
+#### تغيير كلمة المرور
+
+```http
+POST /api/user/change-password
+Authorization: Bearer {token}
+```
+
+### المجلدات (Folders)
+
+#### عرض المجلدات الحالية
+
+```http
+GET /api/folders
+GET /api/folders/{id} # عرض محتويات مجلد معين
+```
+
+#### إنشاء مجلد
+
+```http
+POST /api/folders
+```
+
+#### حذف مجلد
+
+```http
+DELETE /api/folders/{id}
+```
+
+### الملفات (Files)
+
+#### رفع ملف جديد
+
+```http
+POST /api/files/upload
+```
+
+#### تحميل ملف
+
+```http
+GET /api/files/{id}/download
+```
+
+#### حذف ملف
+
+```http
+DELETE /api/files/{id}
+```
+
+## هيكل المشروع
+
+```
+backend/
+├── app/
+│   ├── Http/Controllers/
+│   │   ├── Auth/
+│   │   │   └── AuthController.php       # متحكم المصادقة
+│   │   ├── User/
+│   │   │   └── UserController.php       # متحكم الملف الشخصي
+│   │   ├── Folder/
+│   │   │   └── FolderController.php     # متحكم المجلدات
+│   │   └── File/
+│   │       └── FileController.php       # متحكم الملفات
+│   └── Models/
+│       ├── User.php                     # نموذج المستخدم
+│       ├── Folder.php                   # نموذج المجلد
+│       └── File.php                     # نموذج الملف
+├── database/
+│   ├── migrations/                      # جداول قاعدة البيانات
+└── routes/
+    └── api.php                          # مسارات الـ API
+```
+
+## التثبيت والإعداد
+
+### 1. تثبيت الحزم
+
+```bash
+composer install
+```
+
+### 2. إعداد البيئة
+
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+### 3. إعداد قاعدة البيانات وتفعيل رابط التخزين
+
+```bash
+touch database/database.sqlite
+php artisan migrate
+php artisan storage:link
+```
+
+### 4. تشغيل الخادم
+
+```bash
+php artisan serve
+```
+
+## الحساب التجريبي
+
+| البريد الإلكتروني  | كلمة المرور |
+| ------------------ | ----------- |
+| khaled@example.com | password123 |
+
+---
+
+<div align="center">
+
+**صنع ضمن تحدي 30 يوم 30 مشروع**
+
+</div>
