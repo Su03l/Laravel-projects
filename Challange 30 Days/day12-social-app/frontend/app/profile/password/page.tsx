@@ -70,7 +70,6 @@ export default function ChangePasswordPage() {
 
     return (
         <div className="mx-auto max-w-md px-4 py-8">
-            {/* Back Link */}
             <Link
                 href="/profile"
                 className="mb-6 inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
