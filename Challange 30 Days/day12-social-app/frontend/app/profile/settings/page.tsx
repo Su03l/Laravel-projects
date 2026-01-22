@@ -72,7 +72,6 @@ export default function ProfileSettingsPage() {
             </Link>
 
             <div className="border border-[#2a2a2a] bg-[#141414] p-8">
-                {/* Header */}
                 <header className="mb-8 text-center">
                     <h1 className="text-3xl font-black text-white">تعديل الملف الشخصي</h1>
                     <p className="mt-2 text-gray-500">تحديث معلوماتك</p>
