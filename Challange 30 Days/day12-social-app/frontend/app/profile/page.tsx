@@ -205,7 +205,6 @@ export default function ProfileDashboardPage() {
                 <span>العودة للرئيسية</span>
             </Link>
 
-            {/* Profile Header Card */}
             <div className="border border-white/20 bg-white/5 p-8 mb-6">
                 <div className="flex flex-col md:flex-row items-start gap-6">
                     {/* Avatar */}
