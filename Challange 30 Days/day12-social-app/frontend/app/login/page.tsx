@@ -49,7 +49,6 @@ export default function LoginPage() {
     return (
         <div className="mx-auto max-w-md px-4 py-16">
             <div className="border border-white/20 bg-white/5 p-8">
-                {/* Header */}
                 <header className="mb-8 text-center">
                     <div className="mx-auto mb-4 h-16 w-16 bg-blue-500 flex items-center justify-center">
                         <LogIn className="h-8 w-8 text-white" />
