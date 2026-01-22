@@ -26,7 +26,6 @@ export const authApi = {
     },
 };
 
-// ==================== User API ====================
 
 export const userApi = {
     getProfile: async (): Promise<User> => {
