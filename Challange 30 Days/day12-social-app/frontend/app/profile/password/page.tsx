@@ -79,7 +79,6 @@ export default function ChangePasswordPage() {
             </Link>
 
             <div className="border border-[#2a2a2a] bg-[#141414] p-8">
-                {/* Header */}
                 <header className="mb-8 text-center">
                     <h1 className="text-3xl font-black text-white">تغيير كلمة المرور</h1>
                     <p className="mt-2 text-gray-500">تحديث أمان حسابك</p>
