@@ -23,7 +23,7 @@ export default function DashboardLayout({
     if (isLoading) {
         return (
             <div className="min-h-screen flex items-center justify-center">
-                <Loader2 className="w-8 h-8 text-[var(--primary)] animate-spin" />
+                <Loader2 className="w-8 h-8 text-white animate-spin" />
             </div>
         );
     }
@@ -35,7 +35,7 @@ export default function DashboardLayout({
     return (
         <div className="min-h-screen flex">
             <Sidebar />
-            <main className="flex-1 ml-64 min-h-screen bg-[var(--background)]">
+            <main className="flex-1 ml-64 min-h-screen">
                 {children}
             </main>
         </div>

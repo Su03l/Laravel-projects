@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 class UserController extends Controller
@@ -22,13 +23,25 @@ class UserController extends Controller
             'name' => 'sometimes|string|max:255',
             'email' => ['sometimes', 'email', Rule::unique('users')->ignore($user->id)],
             'username' => ['sometimes', 'string', 'alpha_dash', Rule::unique('users')->ignore($user->id)],
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
         ]);
+
+        if ($request->hasFile('avatar')) {
+
+            if ($user->avatar) {
+                Storage::disk('public')->delete($user->avatar);
+            }
+
+            $path = $request->file('avatar')->store('avatars', 'public');
+
+            $validated['avatar'] = $path;
+        }
 
         $user->update($validated);
 
         return response()->json([
             'message' => 'Profile updated successfully',
-            'user' => $user
+            'user' => $user->append('avatar_url')
         ]);
     }
 

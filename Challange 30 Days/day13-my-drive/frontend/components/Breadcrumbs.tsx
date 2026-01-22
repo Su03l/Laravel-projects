@@ -13,7 +13,8 @@ export default function Breadcrumbs({ items }: BreadcrumbsProps) {
         <nav className="flex items-center gap-1 text-sm">
             <Link
                 href="/dashboard"
-                className="flex items-center gap-1 px-2 py-1 rounded-md text-[var(--foreground-secondary)] hover:text-[var(--foreground)] hover:bg-[var(--background-tertiary)] transition-colors"
+                className="flex items-center gap-1 px-2 py-1 rounded-md transition-colors hover:bg-white/10"
+                style={{ color: 'var(--text-secondary)' }}
             >
                 <Home className="w-4 h-4" />
                 <span>Home</span>
@@ -21,16 +22,15 @@ export default function Breadcrumbs({ items }: BreadcrumbsProps) {
 
             {items.map((item, index) => (
                 <div key={item.id ?? 'root'} className="flex items-center gap-1">
-                    <ChevronRight className="w-4 h-4 text-[var(--foreground-secondary)]" />
+                    <ChevronRight className="w-4 h-4" style={{ color: 'var(--text-secondary)' }} />
 
                     {index === items.length - 1 ? (
-                        <span className="px-2 py-1 text-[var(--foreground)] font-medium">
-                            {item.name}
-                        </span>
+                        <span className="px-2 py-1 text-white font-medium">{item.name}</span>
                     ) : (
                         <Link
                             href={item.id ? `/folder/${item.id}` : '/dashboard'}
-                            className="px-2 py-1 rounded-md text-[var(--foreground-secondary)] hover:text-[var(--foreground)] hover:bg-[var(--background-tertiary)] transition-colors"
+                            className="px-2 py-1 rounded-md transition-colors hover:bg-white/10"
+                            style={{ color: 'var(--text-secondary)' }}
                         >
                             {item.name}
                         </Link>

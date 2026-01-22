@@ -69,15 +69,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const register = async (credentials: RegisterCredentials) => {
         try {
-            const response = await authApi.register(credentials);
-            localStorage.setItem('token', response.token);
-            localStorage.setItem('user', JSON.stringify(response.user));
-            setUser(response.user);
-            toast.success('تم إنشاء الحساب بنجاح!');
-            router.push('/dashboard');
+            await authApi.register(credentials);
+            toast.success('تم إنشاء الحساب بنجاح! يرجى تسجيل الدخول');
+            router.push('/login');
         } catch (error: unknown) {
-            const err = error as { response?: { data?: { message?: string } } };
-            toast.error(err.response?.data?.message || 'فشل إنشاء الحساب');
+            const err = error as { response?: { data?: { message?: string; errors?: Record<string, string[]> } } };
+            const errorMessage = err.response?.data?.errors
+                ? Object.values(err.response.data.errors).flat().join(', ')
+                : err.response?.data?.message || 'فشل إنشاء الحساب';
+            toast.error(errorMessage);
             throw error;
         }
     };

@@ -28,16 +28,18 @@ export default function FolderCard({ folder, onDelete }: FolderCardProps) {
         <div className="card card-interactive group relative">
             <Link href={`/folder/${folder.id}`} className="block p-4">
                 <div className="flex flex-col items-center gap-3">
-                    <div className="p-4 bg-[var(--warning)]/10 rounded-xl group-hover:bg-[var(--warning)]/20 transition-colors">
-                        <Folder className="w-12 h-12 text-[var(--warning)]" fill="currentColor" />
+                    <div
+                        className="p-4 rounded-xl transition-colors"
+                        style={{ backgroundColor: 'rgba(251, 191, 36, 0.1)' }}
+                    >
+                        <Folder className="w-12 h-12" style={{ color: '#fbbf24' }} fill="currentColor" />
                     </div>
-                    <span className="text-sm font-medium text-[var(--foreground)] text-center truncate w-full px-2">
+                    <span className="text-sm font-medium text-white text-center truncate w-full px-2">
                         {folder.name}
                     </span>
                 </div>
             </Link>
 
-            {/* Menu Button */}
             <div className="absolute top-2 right-2" ref={menuRef}>
                 <button
                     onClick={(e) => {
@@ -45,9 +47,9 @@ export default function FolderCard({ folder, onDelete }: FolderCardProps) {
                         e.stopPropagation();
                         setShowMenu(!showMenu);
                     }}
-                    className="p-1.5 rounded-md opacity-0 group-hover:opacity-100 hover:bg-[var(--background-tertiary)] transition-all"
+                    className="p-1.5 rounded-md opacity-0 group-hover:opacity-100 transition-all hover:bg-white/10"
                 >
-                    <MoreVertical className="w-4 h-4 text-[var(--foreground-secondary)]" />
+                    <MoreVertical className="w-4 h-4" style={{ color: 'var(--text-secondary)' }} />
                 </button>
 
                 {showMenu && (

@@ -25,21 +25,19 @@ export default function Sidebar() {
     };
 
     return (
-        <aside className="w-64 h-screen bg-[var(--background-secondary)] border-r border-[var(--border)] flex flex-col fixed left-0 top-0">
+        <aside className="sidebar">
             {/* Logo */}
-            <div className="p-6 border-b border-[var(--border)]">
-                <Link href="/dashboard" className="flex items-center gap-3 group">
-                    <div className="p-2 bg-[var(--primary-light)] rounded-lg group-hover:bg-[var(--primary)] transition-colors">
-                        <HardDrive className="w-6 h-6 text-[var(--primary)] group-hover:text-white transition-colors" />
+            <div className="sidebar-header">
+                <Link href="/dashboard" className="flex items-center gap-3">
+                    <div className="p-2 rounded-lg" style={{ backgroundColor: 'rgba(255,255,255,0.1)' }}>
+                        <HardDrive className="w-6 h-6 text-white" />
                     </div>
-                    <span className="text-lg font-semibold text-[var(--foreground)]">
-                        My Cloud
-                    </span>
+                    <span className="text-lg font-semibold text-white">My Cloud</span>
                 </Link>
             </div>
 
             {/* Navigation */}
-            <nav className="flex-1 p-4 space-y-1">
+            <nav className="sidebar-nav">
                 {navItems.map((item) => {
                     const Icon = item.icon;
                     const isActive = pathname === item.href ||
@@ -49,10 +47,7 @@ export default function Sidebar() {
                         <Link
                             key={item.href}
                             href={item.href}
-                            className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${isActive
-                                    ? 'bg-[var(--primary-light)] text-[var(--primary)]'
-                                    : 'text-[var(--foreground-secondary)] hover:bg-[var(--background-tertiary)] hover:text-[var(--foreground)]'
-                                }`}
+                            className={`nav-item ${isActive ? 'active' : ''}`}
                         >
                             <Icon className="w-5 h-5" />
                             <span className="font-medium">{item.label}</span>
@@ -62,21 +57,17 @@ export default function Sidebar() {
             </nav>
 
             {/* User Section */}
-            <div className="p-4 border-t border-[var(--border)]">
+            <div className="sidebar-footer">
                 {user && (
-                    <div className="flex items-center gap-3 px-4 py-3 mb-2">
-                        <div className="w-8 h-8 bg-[var(--primary)] rounded-full flex items-center justify-center">
-                            <span className="text-sm font-medium text-white">
+                    <div className="flex items-center gap-3 px-3 py-2 mb-2">
+                        <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+                            <span className="text-sm font-medium text-black">
                                 {user.name.charAt(0).toUpperCase()}
                             </span>
                         </div>
                         <div className="flex-1 min-w-0">
-                            <p className="text-sm font-medium text-[var(--foreground)] truncate">
-                                {user.name}
-                            </p>
-                            <p className="text-xs text-[var(--foreground-secondary)] truncate">
-                                {user.email}
-                            </p>
+                            <p className="text-sm font-medium text-white truncate">{user.name}</p>
+                            <p className="text-xs text-secondary truncate">{user.email}</p>
                         </div>
                     </div>
                 )}
@@ -84,7 +75,8 @@ export default function Sidebar() {
                 <button
                     onClick={handleLogout}
                     disabled={isLoading}
-                    className="flex items-center gap-3 w-full px-4 py-3 rounded-lg text-[var(--foreground-secondary)] hover:bg-[var(--background-tertiary)] hover:text-[var(--danger)] transition-all disabled:opacity-50"
+                    className="nav-item w-full"
+                    style={{ color: isLoading ? undefined : 'var(--text-secondary)' }}
                 >
                     {isLoading ? (
                         <Loader2 className="w-5 h-5 animate-spin" />

@@ -1,16 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import {
-    FileText,
-    Image,
-    FileCode,
-    File,
-    Download,
-    MoreVertical,
-    Trash2,
-    Loader2
-} from 'lucide-react';
+import { FileText, Image, FileCode, File, Download, MoreVertical, Trash2, Loader2 } from 'lucide-react';
 import { FileItem as FileType } from '@/types';
 import { fileApi, triggerDownload } from '@/lib/api';
 import toast from 'react-hot-toast';
@@ -20,7 +11,6 @@ interface FileCardProps {
     onDelete: (id: number) => void;
 }
 
-// Format file size
 function formatSize(bytes: number): string {
     if (bytes === 0) return '0 B';
     const k = 1024;
@@ -29,18 +19,17 @@ function formatSize(bytes: number): string {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
 }
 
-// Get file icon based on mime type
 function getFileIcon(mimeType: string) {
     if (mimeType.startsWith('image/')) {
-        return { icon: Image, color: 'text-[var(--success)]', bg: 'bg-[var(--success)]/10' };
+        return { icon: Image, color: '#a3e635', bg: 'rgba(163, 230, 53, 0.1)' };
     }
     if (mimeType === 'application/pdf') {
-        return { icon: FileText, color: 'text-[var(--danger)]', bg: 'bg-[var(--danger)]/10' };
+        return { icon: FileText, color: '#f87171', bg: 'rgba(248, 113, 113, 0.1)' };
     }
     if (mimeType.includes('javascript') || mimeType.includes('json') || mimeType.includes('html') || mimeType.includes('css')) {
-        return { icon: FileCode, color: 'text-[var(--primary)]', bg: 'bg-[var(--primary-light)]' };
+        return { icon: FileCode, color: '#fff', bg: 'rgba(255, 255, 255, 0.1)' };
     }
-    return { icon: File, color: 'text-[var(--foreground-secondary)]', bg: 'bg-[var(--background-tertiary)]' };
+    return { icon: File, color: '#a1a1a1', bg: 'var(--bg-tertiary)' };
 }
 
 export default function FileCard({ file, onDelete }: FileCardProps) {
@@ -76,61 +65,47 @@ export default function FileCard({ file, onDelete }: FileCardProps) {
     return (
         <div className="card group relative p-4">
             <div className="flex flex-col items-center gap-3">
-                <div className={`p-4 ${bg} rounded-xl`}>
-                    <Icon className={`w-12 h-12 ${color}`} />
+                <div className="p-4 rounded-xl" style={{ backgroundColor: bg }}>
+                    <Icon className="w-12 h-12" style={{ color }} />
                 </div>
                 <div className="w-full text-center">
-                    <p className="text-sm font-medium text-[var(--foreground)] truncate px-2" title={file.original_name || file.name}>
+                    <p className="text-sm font-medium text-white truncate px-2" title={file.original_name || file.name}>
                         {file.original_name || file.name}
                     </p>
-                    <p className="text-xs text-[var(--foreground-secondary)] mt-1">
+                    <p className="text-xs mt-1" style={{ color: 'var(--text-secondary)' }}>
                         {formatSize(file.size)}
                     </p>
                 </div>
             </div>
 
-            {/* Download Button */}
             <button
                 onClick={handleDownload}
                 disabled={isDownloading}
-                className="absolute bottom-2 left-2 p-2 rounded-md opacity-0 group-hover:opacity-100 hover:bg-[var(--primary-light)] text-[var(--primary)] transition-all disabled:opacity-50"
+                className="absolute bottom-2 left-2 p-2 rounded-md opacity-0 group-hover:opacity-100 transition-all hover:bg-white/10 disabled:opacity-50"
                 title="Download"
             >
                 {isDownloading ? (
-                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <Loader2 className="w-4 h-4 text-white animate-spin" />
                 ) : (
-                    <Download className="w-4 h-4" />
+                    <Download className="w-4 h-4 text-white" />
                 )}
             </button>
 
-            {/* Menu Button */}
             <div className="absolute top-2 right-2" ref={menuRef}>
                 <button
                     onClick={() => setShowMenu(!showMenu)}
-                    className="p-1.5 rounded-md opacity-0 group-hover:opacity-100 hover:bg-[var(--background-tertiary)] transition-all"
+                    className="p-1.5 rounded-md opacity-0 group-hover:opacity-100 transition-all hover:bg-white/10"
                 >
-                    <MoreVertical className="w-4 h-4 text-[var(--foreground-secondary)]" />
+                    <MoreVertical className="w-4 h-4" style={{ color: 'var(--text-secondary)' }} />
                 </button>
 
                 {showMenu && (
                     <div className="dropdown-menu">
-                        <button
-                            onClick={() => {
-                                handleDownload();
-                                setShowMenu(false);
-                            }}
-                            className="dropdown-item"
-                        >
+                        <button onClick={() => { handleDownload(); setShowMenu(false); }} className="dropdown-item">
                             <Download className="w-4 h-4" />
                             Download
                         </button>
-                        <button
-                            onClick={() => {
-                                onDelete(file.id);
-                                setShowMenu(false);
-                            }}
-                            className="dropdown-item danger"
-                        >
+                        <button onClick={() => { onDelete(file.id); setShowMenu(false); }} className="dropdown-item danger">
                             <Trash2 className="w-4 h-4" />
                             Delete
                         </button>

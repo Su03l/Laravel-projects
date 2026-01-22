@@ -2,7 +2,10 @@
 export interface User {
     id: number;
     name: string;
+    username: string;
     email: string;
+    avatar?: string;
+    avatar_url?: string;
     created_at: string;
     updated_at: string;
 }
@@ -15,12 +18,13 @@ export interface AuthResponse {
 }
 
 export interface LoginCredentials {
-    email: string;
+    login: string;  // Can be email or username
     password: string;
 }
 
 export interface RegisterCredentials {
     name: string;
+    username: string;
     email: string;
     password: string;
     password_confirmation: string;

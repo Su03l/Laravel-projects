@@ -33,9 +33,17 @@ export const userApi = {
         return response.data.data || response.data;
     },
 
-    updateProfile: async (data: { name: string; email: string }): Promise<User> => {
-        const response = await api.put('/user/profile', data);
-        return response.data.data || response.data;
+    updateProfile: async (data: { name: string; username?: string; email: string; avatar?: File }): Promise<User> => {
+        const formData = new FormData();
+        formData.append('name', data.name);
+        if (data.username) formData.append('username', data.username);
+        formData.append('email', data.email);
+        if (data.avatar) formData.append('avatar', data.avatar);
+
+        const response = await api.put('/user/profile', formData, {
+            headers: { 'Content-Type': 'multipart/form-data' },
+        });
+        return response.data.user || response.data.data || response.data;
     },
 
     changePassword: async (data: {
