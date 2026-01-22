@@ -157,7 +157,6 @@ export default function ProfileDashboardPage() {
 
     return (
         <div className="mx-auto max-w-5xl px-4 py-8">
-            {/* Logout Confirmation Modal */}
             {showLogoutConfirm && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center">
                     <div
