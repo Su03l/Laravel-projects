@@ -27,11 +27,6 @@ class User extends Authenticatable
         return $this->avatar ? asset('storage/' . $this->avatar) : null;
     }
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
