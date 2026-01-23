@@ -13,7 +13,6 @@ class DatabaseSeeder extends Seeder
 
     public function run(): void
     {
-        // 1. Create 500 Users
         User::factory(500)->create();
 
         // Ensure an admin user exists
