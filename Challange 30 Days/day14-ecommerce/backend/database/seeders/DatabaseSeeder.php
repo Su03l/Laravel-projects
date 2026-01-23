@@ -22,7 +22,6 @@ class DatabaseSeeder extends Seeder
                 'last_name' => 'User',
                 'email' => 'admin@example.com',
                 'password' => Hash::make('password'),
-                // 'role' => 'admin', // Note: Check if 'role' column exists in your migration
             ]);
         }
 
