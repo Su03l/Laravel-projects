@@ -80,7 +80,6 @@ class DatabaseSeeder extends Seeder
         foreach ($data as $categoryName => $products) {
             $category = Category::create(['name' => $categoryName]);
 
-            // Create 50 products for each category
             for ($i = 1; $i <= 50; $i++) {
                 // Pick a base product from our real-world list to keep it "real"
                 $baseProduct = $products[($i - 1) % count($products)];
