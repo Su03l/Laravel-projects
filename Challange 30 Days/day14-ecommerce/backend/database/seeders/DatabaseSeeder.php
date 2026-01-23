@@ -89,7 +89,7 @@ class DatabaseSeeder extends Seeder
                     'description' => $baseProduct['desc'],
                     'price' => $baseProduct['price'] + rand(-20, 50), 
                     'stock' => rand(5, 100),
-                    'image' => null, // Images can be added later
+                    'image' => null, 
                 ]);
             }
         }
