@@ -25,7 +25,6 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        // 2. Define Categories and Real-world Products
         $data = [
             'ألعاب ستيم (Steam)' => [
                 ['name' => 'Elden Ring', 'price' => 225, 'desc' => 'لعبة الأكشن وتقمص الأدوار الحائزة على جوائز.'],
