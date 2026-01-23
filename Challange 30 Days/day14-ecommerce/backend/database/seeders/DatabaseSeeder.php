@@ -87,7 +87,7 @@ class DatabaseSeeder extends Seeder
                     'category_id' => $category->id,
                     'name' => $i > count($products) ? $baseProduct['name'] . ' - إصدار ' . $i : $baseProduct['name'],
                     'description' => $baseProduct['desc'],
-                    'price' => $baseProduct['price'] + rand(-20, 50), // Slight variation in price
+                    'price' => $baseProduct['price'] + rand(-20, 50), 
                     'stock' => rand(5, 100),
                     'image' => null, // Images can be added later
                 ]);
