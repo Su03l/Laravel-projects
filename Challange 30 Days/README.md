@@ -19,6 +19,8 @@
 | 11  | [day11-mini-twitter](https://github.com/Su03l/Laravel-projects/tree/main/Challange%2030%20Days/day11-mini-twitter) | منصة تويتر مصغرة (Mini Twitter)                  | Tweets، User Profiles، Follow System، React Frontend           |
 | 12  | [day12-social-app](https://github.com/Su03l/Laravel-projects/tree/main/Challange%2030%20Days/day12-social-app)     | تطبيق تواصل اجتماعي (Social App)                 | Backend API، React Frontend، Full Stack                        |
 | 13  | [day13-my-drive](https://github.com/Su03l/Laravel-projects/tree/main/Challange%2030%20Days/day13-my-drive)         | نظام تخزين سحابي شخصي (سحابتي)                   | Full-stack، File Upload، Nested Folders، React + Laravel       |
+| 14  | [day14-ecommerce](https://github.com/Su03l/Laravel-projects/tree/main/Challange%2030%20Days/day14-ecommerce)       | متجر إلكتروني متكامل (Ecommerce API)             | Order System، Admin Dashboard، Roles، Sanctum Auth             |
+| 15  | [day15-payflow](https://github.com/Su03l/Laravel-projects/tree/main/Challange%2030%20Days/day15-payflow)           | محفظة رقمية متكاملة (PayFlow API)                | Wallet Management، Safe Transfers، Beneficiary System، Atomic  |
 
 ## التقنيات المستخدمة
 
