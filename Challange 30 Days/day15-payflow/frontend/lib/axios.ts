@@ -8,7 +8,6 @@ const api = axios.create({
     },
 });
 
-// Request Interceptor
 api.interceptors.request.use(
     (config) => {
         const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
