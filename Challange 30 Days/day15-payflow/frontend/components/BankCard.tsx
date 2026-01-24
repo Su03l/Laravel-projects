@@ -57,7 +57,6 @@ const BankCard: React.FC<BankCardProps> = ({ name, balance }) => {
                 </div>
 
                 <div className="flex items-center gap-4">
-                    {/* Minimalist Chip */}
                     <div className="w-11 h-8 rounded-md bg-gradient-to-tr from-slate-700 to-slate-500 p-[1px] shadow-lg flex items-center justify-center overflow-hidden">
                         <div className="w-full h-full bg-slate-800/80 rounded-[5px] flex items-center justify-center opacity-70">
                             <Cpu className="w-5 h-5 text-slate-400" strokeWidth={1} />
