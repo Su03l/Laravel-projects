@@ -28,11 +28,7 @@ class User extends Authenticatable
         return $this->hasMany(Beneficiary::class);
     }
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
+
     protected static function boot()
     {
         parent::boot();
