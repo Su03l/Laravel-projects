@@ -23,7 +23,6 @@ const BankCard: React.FC<BankCardProps> = ({ name, balance }) => {
 
             <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-br from-white/[0.05] to-transparent pointer-events-none" />
 
-            {/* Moving Shine Effect */}
             <div className="absolute -inset-full w-[200%] h-[200%] bg-gradient-to-tr from-transparent via-white/[0.03] to-transparent -rotate-45 translate-x-[-100%] group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
 
             <div className="relative h-full flex flex-col justify-between text-white z-10">
