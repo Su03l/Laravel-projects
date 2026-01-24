@@ -21,7 +21,6 @@ const BankCard: React.FC<BankCardProps> = ({ name, balance }) => {
         >
             <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#ffffff 0.5px, transparent 0.5px)', backgroundSize: '24px 24px' }} />
 
-            {/* Soft Ambient Light */}
             <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-br from-white/[0.05] to-transparent pointer-events-none" />
 
             {/* Moving Shine Effect */}
