@@ -15,9 +15,7 @@ class AppServiceProvider extends ServiceProvider
         //
     }
 
-    /**
-     * Bootstrap any application services.
-     */
+
     public function boot(): void
     {
         Scramble::afterOpenApiGenerated(function (OpenApi $openApi) {
