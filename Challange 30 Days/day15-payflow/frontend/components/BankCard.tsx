@@ -62,7 +62,6 @@ const BankCard: React.FC<BankCardProps> = ({ name, balance }) => {
                             <Cpu className="w-5 h-5 text-slate-400" strokeWidth={1} />
                         </div>
                     </div>
-                    {/* Subtle Hologram Circle */}
                     <div className="w-7 h-7 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
                         <div className="w-2 h-2 rounded-full bg-brand-blue/40 blur-[2px] animate-glow" />
                     </div>
