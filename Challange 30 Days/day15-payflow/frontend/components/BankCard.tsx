@@ -19,7 +19,6 @@ const BankCard: React.FC<BankCardProps> = ({ name, balance }) => {
             whileHover={{ y: -4, transition: { duration: 0.3 } }}
             className="relative w-full max-w-sm mx-auto aspect-[1.58/1] card-stealth rounded-[2rem] p-8 overflow-hidden group border border-white/10 shadow-2xl"
         >
-            {/* Subtle Texture Overlay */}
             <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#ffffff 0.5px, transparent 0.5px)', backgroundSize: '24px 24px' }} />
 
             {/* Soft Ambient Light */}
