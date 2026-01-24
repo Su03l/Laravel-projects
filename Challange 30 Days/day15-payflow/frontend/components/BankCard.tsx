@@ -84,7 +84,6 @@ const BankCard: React.FC<BankCardProps> = ({ name, balance }) => {
                 </div>
             </div>
 
-            {/* Border Glow on Hover */}
             <div className="absolute inset-0 rounded-[2rem] border border-brand-blue/0 group-hover:border-brand-blue/20 transition-colors duration-500 pointer-events-none" />
         </motion.div>
     );
