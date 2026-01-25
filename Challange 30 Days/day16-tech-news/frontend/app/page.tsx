@@ -20,7 +20,6 @@ async function getPsuedoData(endpoint: string) {
 }
 
 export default async function Home() {
-  // Parallel data fetching
   const [categoriesData, articlesData, newsData] = await Promise.all([
     getPsuedoData('/categories'),
     getPsuedoData('/articles'),
