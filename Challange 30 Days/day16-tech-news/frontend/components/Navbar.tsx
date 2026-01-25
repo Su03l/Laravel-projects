@@ -45,7 +45,12 @@ export default function Navbar() {
                                         <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center text-gray-600">
                                             <UserIcon className="w-4 h-4" />
                                         </div>
-                                        <span className="text-sm font-medium hidden sm:block">{user.name}</span>
+                                        <div className="flex flex-col">
+                                            <span className="text-sm font-medium hidden sm:block leading-none">{user.name}</span>
+                                            <Link href="/my-articles" className="text-xs text-gray-500 hover:text-primary mt-1">
+                                                My Articles
+                                            </Link>
+                                        </div>
                                     </div>
                                     <button
                                         onClick={logout}

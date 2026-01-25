@@ -43,11 +43,12 @@ export default function ArticleCard({ article }: { article: ArticleProps }) {
                     src={article.image_url || 'https://placehold.co/600x400/e2e8f0/1e293b?text=No+Image'}
                     alt={article.title}
                     fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     className="object-cover"
                 />
                 <div className="absolute top-4 left-4">
                     <span className="px-3 py-1 bg-white/90 backdrop-blur-sm text-xs font-bold text-primary rounded-full uppercase tracking-wider shadow-sm">
-                        {article.category.name}
+                        {article.category?.name || 'General'}
                     </span>
                 </div>
             </div>
@@ -55,7 +56,7 @@ export default function ArticleCard({ article }: { article: ArticleProps }) {
             {/* Content Section */}
             <div className="p-6">
                 <div className="flex items-center gap-2 mb-3 text-xs text-gray-500">
-                    <span className="font-medium text-gray-800">{article.author.name}</span>
+                    <span className="font-medium text-gray-800">{article.author?.name || 'Unknown Author'}</span>
                     <span>•</span>
                     <span>{article.created_at}</span>
                 </div>

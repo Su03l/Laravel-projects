@@ -2,14 +2,16 @@
 
 import React, { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
-import { X, Lock, Loader2 } from 'lucide-react';
+import { X, Lock, Loader2, Mail } from 'lucide-react';
 import api from '@/lib/api';
 import { useRouter } from 'next/navigation';
+import InputField from '@/components/InputField';
 
 export default function LoginModal() {
     const { isLoginModalOpen, closeLoginModal, login } = useAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
     const router = useRouter();
@@ -23,9 +25,8 @@ export default function LoginModal() {
 
         try {
             const { data } = await api.post('/login', { email, password });
-            // Assuming API returns { token: '...', user: { ... } }
-            // Adjust based on actual API response structure
             login(data.token, data.user);
+            closeLoginModal();
         } catch (err: any) {
             setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
         } finally {
@@ -55,44 +56,38 @@ export default function LoginModal() {
 
                 {/* Body */}
                 <div className="p-6">
-                    <p className="text-gray-600 mb-6">
+                    <p className="text-gray-600 mb-6 font-medium">
                         You must be logged in to perform this action.
                     </p>
 
                     {error && (
-                        <div className="mb-4 p-3 bg-red-50 text-red-600 text-sm rounded-lg">
+                        <div className="mb-4 p-3 bg-red-50 text-red-600 text-sm rounded-lg text-center">
                             {error}
                         </div>
                     )}
 
                     <form onSubmit={handleSubmit} className="space-y-4">
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                            <input
-                                type="email"
-                                required
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
-                                placeholder="you@example.com"
-                            />
-                        </div>
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                            <input
-                                type="password"
-                                required
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
-                                placeholder="••••••••"
-                            />
-                        </div>
+                        <InputField
+                            icon={Mail}
+                            type="email"
+                            placeholder="Email Address"
+                            value={email}
+                            onChange={(e: any) => setEmail(e.target.value)}
+                        />
+                        <InputField
+                            icon={Lock}
+                            type={showPassword ? "text" : "password"}
+                            placeholder="Password"
+                            value={password}
+                            onChange={(e: any) => setPassword(e.target.value)}
+                            togglePassword={() => setShowPassword(!showPassword)}
+                            showPassword={showPassword}
+                        />
 
                         <button
                             type="submit"
                             disabled={isLoading}
-                            className="w-full py-2.5 px-4 bg-primary hover:bg-blue-700 text-white font-medium rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                            className="w-full py-2.5 px-4 bg-primary hover:bg-blue-700 text-white font-medium rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed mt-2"
                         >
                             {isLoading ? (
                                 <>

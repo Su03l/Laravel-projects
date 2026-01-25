@@ -9,11 +9,17 @@ use Illuminate\Support\Facades\Auth;
 
 class ArticleController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $articles = Article::with(['user:id,name,avatar', 'category:id,name'])
-            ->latest()
-            ->paginate(10);
+        $query = Article::with(['user:id,name,avatar', 'category:id,name'])
+            ->withCount('comments') // Optional: handy for display
+            ->latest();
+
+        if ($request->has('user_id')) {
+            $query->where('user_id', $request->user_id);
+        }
+
+        $articles = $query->paginate(10);
 
         return response()->json($articles);
     }
