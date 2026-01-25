@@ -81,7 +81,6 @@ export default async function Home() {
               <ArticleCard key={article.id} article={article} />
             ))
           ) : (
-            // Empty State / Skeleton
             <div className="space-y-4">
               {[1, 2, 3].map((i) => (
                 <div key={i} className="bg-white rounded-2xl p-4 h-64 border border-gray-100 animate-pulse flex flex-col justify-between">
