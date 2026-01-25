@@ -61,8 +61,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     const logout = async () => {
         try {
-            // Optional: Call logout API endpoint if exists
-            // await api.post('/logout'); 
         } finally {
             localStorage.removeItem('token');
             setUser(null);
