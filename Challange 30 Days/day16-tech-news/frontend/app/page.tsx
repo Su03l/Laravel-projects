@@ -68,7 +68,6 @@ export default async function Home() {
           </div>
         </aside>
 
-        {/* Center - Articles Feed (6 cols) */}
         <main className="col-span-1 lg:col-span-6 space-y-6">
           <div className="flex items-center justify-between mb-2">
             <h1 className="text-2xl font-bold text-gray-900">Latest Articles</h1>
