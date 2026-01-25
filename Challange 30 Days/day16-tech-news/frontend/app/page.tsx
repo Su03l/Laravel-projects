@@ -96,7 +96,6 @@ export default async function Home() {
           )}
         </main>
 
-        {/* Right Sidebar - External News (3 cols) */}
         <aside className="hidden lg:block lg:col-span-3 space-y-6">
           <Sidebar
             title="Trending News"
