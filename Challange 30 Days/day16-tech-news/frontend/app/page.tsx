@@ -30,7 +30,6 @@ export default async function Home() {
   const articles = Array.isArray(articlesData) ? articlesData : articlesData.data || [];
   const news = Array.isArray(newsData) ? newsData : newsData.data || [];
 
-  // Transform Categories for Sidebar
   const categoryItems = categories.map((cat: any) => ({
     id: cat.id,
     label: cat.name,
