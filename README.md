@@ -48,6 +48,7 @@
 | 13  | [day13-my-drive](./Challange%2030%20Days/day13-my-drive)         | نظام تخزين سحابي شخصي (سحابتي)                   | Full-stack، File Upload، Nested Folders، React + Laravel       |
 | 14  | [day14-ecommerce](./Challange%2030%20Days/day14-ecommerce)       | متجر إلكتروني متكامل (Ecommerce API)             | Order System، Admin Dashboard، Roles، Sanctum Auth             |
 | 15  | [day15-payflow](./Challange%2030%20Days/day15-payflow)           | محفظة رقمية متكاملة (PayFlow API)                | Wallet Management، Safe Transfers، Beneficiary System، Atomic  |
+| 16  | [day16-tech-news](./Challange%2030%20Days/day16-tech-news)       | منصة أخبار تقنية (Tech News Platform)            | Next.js 16 Frontend، Sanctum Auth، Scramble Docs، React 19     |
 
 ---
 
