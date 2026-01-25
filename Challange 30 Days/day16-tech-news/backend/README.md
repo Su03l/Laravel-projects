@@ -1,59 +1,182 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Tech News API - الخادم الخلفي
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+<div align="center">
 
-## About Laravel
+![Laravel](https://img.shields.io/badge/Laravel-11-FF2D20?style=for-the-badge&logo=laravel) ![PHP](https://img.shields.io/badge/PHP-8.2+-777BB4?style=for-the-badge&logo=php) ![MySQL](https://img.shields.io/badge/MySQL-Database-003B57?style=for-the-badge&logo=mysql) ![Sanctum](https://img.shields.io/badge/Sanctum-Auth-38BDF8?style=for-the-badge&logo=laravel)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+**تحدي 30 يوم 30 مشروع - اليوم 16**
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+</div>
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## نظرة عامة
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+"Tech News" هي واجهة برمجة تطبيقات (API) لمنصة إخبارية تقنية، تتيح للمستخدمين تصفح المقالات، قراءتها، والتفاعل معها عبر التعليقات، بالإضافة إلى لوحة تحكم للمستخدمين لإدارة مقالاتهم الخاصة.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## المشكلات التي يحلها
 
-## Laravel Sponsors
+| المشكلة                | الحل                                                                |
+| :--------------------- | :------------------------------------------------------------------ |
+| تشتت المصادر التقنية   | منصة مركزية تجمع أحدث المقالات والأخبار التقنية                     |
+| غياب التفاعل المجتمعي  | نظام تعليقات متكامل يتيح للنقاش وتبادل الآراء حول المقالات          |
+| صعوبة النشر للمستخدمين | واجهة وسيطة (API) مرنة تتيح للمستخدمين المسجلين نشر مقالاتهم بسهولة |
+| إدارة المحتوى          | لوحة تحكم تتيح للمستخدم تعديل وحذف مقالاته وعرض أرشيفه الخاص        |
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## المميزات التقنية
 
-### Premium Partners
+`Article Management` `Comment System` `User Dashboard` `Category Filtering` `Authentication` `Laravel 11` `RESTful API`
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## توثيق الـ API
 
-## Contributing
+### المصادقة (Authentication)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+#### تسجيل حساب جديد
 
-## Code of Conduct
+```http
+POST /api/register
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+#### تسجيل الدخول
 
-## Security Vulnerabilities
+```http
+POST /api/login
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+#### تسجيل الخروج
 
-## License
+```http
+POST /api/logout
+Authorization: Bearer {token}
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### المقالات (Articles)
+
+#### عرض جميع المقالات (الرئيسية)
+
+```http
+GET /api/articles
+```
+
+#### عرض المقالات الحديثة (Recent)
+
+```http
+GET /api/articles?recent=true
+```
+
+#### عرض تفاصيل مقال
+
+```http
+GET /api/articles/{id}
+```
+
+#### نشر مقال جديد
+
+```http
+POST /api/articles
+Authorization: Bearer {token}
+```
+
+#### تعديل مقال
+
+```http
+PUT /api/articles/{id}
+Authorization: Bearer {token}
+```
+
+#### حذف مقال
+
+```http
+DELETE /api/articles/{id}
+Authorization: Bearer {token}
+```
+
+### التعليقات (Comments)
+
+#### عرض تعليقات مقال
+
+```http
+GET /api/articles/{id}/comments
+```
+
+#### إضافة تعليق
+
+```http
+POST /api/articles/{id}/comments
+Authorization: Bearer {token}
+```
+
+#### حذف تعليق
+
+```http
+DELETE /api/comments/{id}
+Authorization: Bearer {token}
+```
+
+### التصنيفات (Categories)
+
+#### عرض قائمة التصنيفات
+
+```http
+GET /api/categories
+```
+
+## هيكل المشروع
+
+```
+backend/
+├── app/
+│   ├── Http/Controllers/
+│   │   ├── Auth/
+│   │   │   └── AuthController.php       # متحكم المصادقة
+│   │   ├── Article/
+│   │   │   ├── ArticleController.php    # متحكم المقالات
+│   │   │   └── CommentController.php    # متحكم التعليقات
+│   │   └── CategoryController.php       # متحكم التصنيفات
+│   ├── Models/
+│   │   ├── User.php                     # نموذج المستخدم
+│   │   ├── Article.php                  # نموذج المقال
+│   │   ├── Comment.php                  # نموذج التعليق
+│   │   └── Category.php                 # نموذج التصنيف
+├── database/
+│   ├── migrations/                      # جداول قاعدة البيانات
+└── routes/
+    └── api.php                          # مسارات الـ API
+```
+
+## التثبيت والإعداد
+
+### 1. تثبيت الحزم
+
+```bash
+composer install
+```
+
+### 2. إعداد البيئة
+
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+### 3. إعداد قاعدة البيانات
+
+```bash
+# تأكد من إعداد بيانات MySQL في ملف .env
+php artisan migrate
+php artisan db:seed
+```
+
+### 4. تشغيل الخادم
+
+```bash
+php artisan serve
+```
+
+---
+
+<div align="center">
+
+**صنع ضمن تحدي 30 يوم 30 مشروع**
+
+</div>
