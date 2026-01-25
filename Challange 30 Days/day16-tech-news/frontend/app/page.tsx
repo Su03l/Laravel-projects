@@ -6,7 +6,7 @@ async function getPsuedoData(endpoint: string) {
   try {
     const res = await fetch(`http://localhost:8000/api${endpoint}`, {
       cache: 'no-store',
-      next: { revalidate: 60 } // Revalidate every minute
+      next: { revalidate: 60 } 
     });
 
     if (!res.ok) {
