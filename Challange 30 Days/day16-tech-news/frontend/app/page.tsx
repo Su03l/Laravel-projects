@@ -36,7 +36,6 @@ export default async function Home() {
     href: `/categories/${cat.slug || cat.id}`
   }));
 
-  // Transform News for Sidebar
   const newsItems = news.map((item: any, index: number) => ({
     id: item.id || `news-${index}`,
     label: item.title,
