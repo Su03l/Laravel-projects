@@ -24,12 +24,23 @@ interface JobCardProps {
 }
 
 export default function JobCard({ job }: JobCardProps) {
-    const formattedDate = new Date(job.created_at).toLocaleDateString('en-US', {
-        day: 'numeric', month: 'short'
+    // Helpers for formatting
+    const formattedDate = new Date(job.created_at).toLocaleDateString('ar-SA', {
+        day: 'numeric', month: 'long'
     });
 
+    const translateWorkType = (type: string) => {
+        const types: any = {
+            'full-time': 'دوام كامل',
+            'part-time': 'دوام جزئي',
+            'contract': 'عقد',
+            'freelance': 'فريلانس',
+        }
+        return types[type] || type;
+    }
+
     return (
-        <div className="group bg-white rounded-2xl p-6 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-slate-100/50 hover:border-blue-500/30 transition-all duration-300 hover:-translate-y-1 relative flex flex-col justify-between h-full">
+        <div className="group bg-white rounded-2xl p-6 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-slate-100/50 hover:border-blue-500/30 transition-all duration-300 hover:-translate-y-1 relative flex flex-col justify-between h-full text-right">
 
             {/* Top Section */}
             <div>
@@ -46,7 +57,7 @@ export default function JobCard({ job }: JobCardProps) {
                     </div>
 
                     <span className="inline-flex items-center rounded-lg bg-slate-50 border border-slate-200 px-2.5 py-1 text-xs font-medium text-slate-600 capitalize">
-                        {job.work_type.replace('-', ' ')}
+                        {translateWorkType(job.work_type)}
                     </span>
                 </div>
 
@@ -86,7 +97,7 @@ export default function JobCard({ job }: JobCardProps) {
                         </span>
                     ))}
                     {job.tags.length > 3 && (
-                        <span className="inline-flex items-center text-xs text-slate-400">+ {job.tags.length - 3} more</span>
+                        <span className="inline-flex items-center text-xs text-slate-400">+ {job.tags.length - 3}</span>
                     )}
                 </div>
             </div>
@@ -94,9 +105,9 @@ export default function JobCard({ job }: JobCardProps) {
             {/* Footer Actions */}
             <div className="border-t border-slate-100 pt-4 flex items-center justify-between">
                 <span className="text-sm font-medium text-blue-600 group-hover:underline decoration-blue-200 underline-offset-4 transition-all">
-                    View Details
+                    التفاصيل
                 </span>
-                <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-blue-600 group-hover:text-white transition-all transform group-hover:rotate-45">
+                <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-blue-600 group-hover:text-white transition-all transform group-hover:rotate-45 rotate-180">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14M12 5l7 7-7 7" />
                     </svg>

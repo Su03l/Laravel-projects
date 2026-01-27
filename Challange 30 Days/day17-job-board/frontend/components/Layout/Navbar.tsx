@@ -37,36 +37,38 @@ export default function Navbar() {
                                 </svg>
                             </div>
                             <span className={`text-xl font-bold tracking-tight transition-colors ${scrolled ? 'text-slate-900' : 'text-slate-900'}`}>
-                                Job<span className="text-blue-600">Board</span>
+                                وظيفتك<span className="text-blue-600">علينا</span>
                             </span>
                         </Link>
                     </div>
 
                     {/* Desktop Nav */}
-                    <div className="hidden sm:flex sm:space-x-8">
-                        <NavLink href="/" active={isActive("/")}>Find Jobs</NavLink>
+                    <div className="hidden sm:flex sm:space-x-8 sm:space-x-reverse">
+                        <NavLink href="/" active={isActive("/")}>الوظائف</NavLink>
                         {user?.type === "company" && (
-                            <NavLink href="/company/dashboard" active={isActive("/company/dashboard")}>Dashboard</NavLink>
+                            <NavLink href="/company/dashboard" active={isActive("/company/dashboard")}>لوحة التحكم</NavLink>
                         )}
                         {user?.type === "seeker" && (
-                            <NavLink href="/my-applications" active={isActive("/my-applications")}>My Applications</NavLink>
+                            <NavLink href="/my-applications" active={isActive("/my-applications")}>طلباتي</NavLink>
                         )}
                     </div>
 
                     {/* Auth Buttons */}
-                    <div className="hidden sm:flex sm:items-center space-x-4">
+                    <div className="hidden sm:flex sm:items-center space-x-4 space-x-reverse">
                         {user ? (
                             <div className="flex items-center gap-4">
-                                <div className="text-right hidden md:block">
+                                <div className="text-left hidden md:block">
                                     <p className="text-sm font-semibold text-slate-900">{user.name}</p>
-                                    <p className="text-xs text-slate-500 capitalize">{user.type}</p>
+                                    <p className="text-xs text-slate-500 capitalize">
+                                        {user.type === 'company' ? 'صاحب عمل' : 'باحث عن عمل'}
+                                    </p>
                                 </div>
                                 <button
                                     onClick={logout}
                                     className="p-2 text-slate-500 hover:text-red-600 transition-colors rounded-full hover:bg-slate-100"
-                                    title="Logout"
+                                    title="تسجيل خروج"
                                 >
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 transform rotate-180">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
                                     </svg>
                                 </button>
@@ -77,13 +79,13 @@ export default function Navbar() {
                                     href="/login"
                                     className="text-slate-600 hover:text-blue-600 font-medium text-sm transition-colors"
                                 >
-                                    Sign In
+                                    دخول
                                 </Link>
                                 <Link
                                     href="/register"
                                     className="bg-slate-900 text-white px-5 py-2.5 rounded-full text-sm font-medium hover:bg-slate-800 transition-all shadow-lg shadow-slate-900/20 active:scale-95"
                                 >
-                                    Get Started
+                                    ابدا معنا
                                 </Link>
                             </div>
                         )}

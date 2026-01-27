@@ -34,43 +34,71 @@ export default function Home() {
   };
 
   return (
-    <div className="-mt-8"> 
-      <div className="relative bg-slate-900 rounded-3xl overflow-hidden shadow-2xl isolate">
-        {/* Decorative elements */}
-        <div className="absolute inset-0 -z-10 bg-[radial-gradient(45rem_50rem_at_top,theme(colors.blue.600),theme(colors.slate.900))] opacity-50"></div>
-        <div className="absolute inset-y-0 right-1/2 -z-10 mr-16 w-[200%] origin-bottom-left skew-x-[-30deg] bg-slate-900 shadow-xl shadow-blue-600/10 ring-1 ring-blue-50 sm:mr-28 lg:mr-0 xl:mr-16 xl:origin-center"></div>
+    <div className="-mt-8 pb-20">
+      {/* MODERN HERO SECTION */}
+      <div className="relative isolate overflow-hidden bg-white pt-14 pb-16 lg:pb-24">
+        {/* Gradient Background */}
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-blue-100 via-indigo-50 to-white"></div>
+        <div className="absolute inset-y-0 left-0 -z-10 w-1/2 bg-gradient-to-r from-blue-50/50 to-transparent"></div>
 
-        <div className="relative px-6 py-24 sm:px-12 sm:py-32 lg:px-16 text-center">
-          <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl mb-6">
-            Find the <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">Perfect Job</span><br />
-            That Fits Your Life
-          </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-lg text-slate-300">
-            Join thousands of companies and startups hiring top talent.
-            Whether you are looking for remote work, a new career path, or your next big break.
-          </p>
+        {/* Grid Pattern */}
+        <div className="absolute inset-0 -z-10 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150"></div>
+
+        <div className="mx-auto max-w-7xl px-6 lg:px-8 relative">
+          <div className="mx-auto max-w-3xl text-center pt-10 sm:pt-16">
+            <div className="inline-flex items-center rounded-full px-3 py-1 text-sm font-medium text-blue-600 ring-1 ring-inset ring-blue-600/20 bg-blue-50 mb-8 animate-in fade-in slide-in-from-bottom-5 duration-700">
+              <span className="flex h-2 w-2 rounded-full bg-blue-600 ml-2 animate-pulse"></span>
+              منصة الوظائف الأولى للمبدعين
+            </div>
+
+            <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-6xl mb-6 animate-in fade-in slide-in-from-bottom-6 duration-1000 fill-mode-backwards delay-100 leading-tight font-sans">
+              اكتشف <span className="text-transparent bg-clip-text bg-gradient-to-l from-blue-600 to-indigo-600">وظيفتك المثالية</span> <br className="hidden sm:block" />
+              وحقق طموحك اليوم.
+            </h1>
+
+            <p className="mt-6 text-lg leading-8 text-slate-600 max-w-2xl mx-auto animate-in fade-in slide-in-from-bottom-8 duration-1000 fill-mode-backwards delay-200">
+              انضم لآلاف الشركات والستارتبس اللي يدورون على مواهب مثلك.
+              سواء كنت تدور على دوام كامل، عمل عن بعد، أو فرصة جديدة تغير مسارك المهني.
+            </p>
+          </div>
+        </div>
+
+        {/* Background Shapes for depth */}
+        <div className="absolute right-1/2 top-0 -z-10 translate-x-1/2 blur-3xl xl:-top-6" aria-hidden="true">
+          <div className="aspect-[1155/678] w-[72.1875rem] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-20" style={{ clipPath: 'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)' }}></div>
         </div>
       </div>
 
-      <div className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        {/* Floating Filters */}
+      <div className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10">
+        {/* Floating Filters - Overlapping Hero */}
         <JobFilters onFilter={handleFilter} />
 
-        <div className="mt-16 mb-10">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl font-bold text-slate-900">Latest Opportunities</h2>
-            <div className="text-sm text-slate-500">Showing {jobs.length} jobs</div>
+        <div className="mt-20">
+          <div className="flex items-end justify-between mb-8 border-b border-gray-100 pb-4">
+            <div>
+              <h2 className="text-2xl font-bold text-slate-900">أحدث الفرص الوظيفية</h2>
+              <p className="text-slate-500 mt-1">تصفح أجدد الوظائف المضافة اليوم</p>
+            </div>
+            <div className="hidden sm:block text-sm font-medium text-blue-600 bg-blue-50 px-3 py-1 rounded-full">
+              {jobs.length} وظيفة متاحة
+            </div>
           </div>
 
           {loading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[1, 2, 3, 4, 5, 6].map((i) => (
-                <div key={i} className="bg-white rounded-2xl p-6 h-64 animate-pulse shadow-sm border border-slate-100">
+                <div key={i} className="bg-white rounded-2xl p-6 h-72 animate-pulse shadow-sm border border-slate-100">
+                  <div className="flex gap-4 mb-6">
+                    <div className="h-12 w-12 bg-slate-200 rounded-xl"></div>
+                    <div className="flex-1 space-y-2">
+                      <div className="h-4 bg-slate-200 rounded w-1/2"></div>
+                      <div className="h-3 bg-slate-200 rounded w-1/4"></div>
+                    </div>
+                  </div>
                   <div className="h-6 bg-slate-200 rounded w-3/4 mb-4"></div>
-                  <div className="h-4 bg-slate-200 rounded w-1/2 mb-8"></div>
-                  <div className="space-y-3">
-                    <div className="h-3 bg-slate-200 rounded"></div>
-                    <div className="h-3 bg-slate-200 rounded"></div>
+                  <div className="space-y-3 mt-8">
+                    <div className="h-3 bg-slate-200 rounded w-full"></div>
+                    <div className="h-3 bg-slate-200 rounded w-5/6"></div>
                   </div>
                 </div>
               ))}
@@ -84,14 +112,14 @@ export default function Home() {
               </div>
 
               {jobs.length === 0 && (
-                <div className="text-center py-24">
-                  <div className="bg-slate-50 inline-flex items-center justify-center w-24 h-24 rounded-full mb-6">
-                    <svg className="w-10 h-10 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div className="text-center py-24 bg-white rounded-3xl border border-dashed border-slate-200">
+                  <div className="bg-slate-50 inline-flex items-center justify-center w-20 h-20 rounded-full mb-6 ring-8 ring-slate-50">
+                    <svg className="w-8 h-8 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                   </div>
-                  <h3 className="text-xl font-medium text-slate-900">No jobs found</h3>
-                  <p className="mt-2 text-slate-500 max-w-sm mx-auto">We couldn't find any jobs matching your current filters. Try adjusting your search criteria.</p>
+                  <h3 className="text-lg font-bold text-slate-900">ما لقينا شي :(</h3>
+                  <p className="mt-2 text-slate-500 max-w-sm mx-auto">حاول تغير في الفلاتر أو جرب كلمات ثانية.</p>
                 </div>
               )}
             </>
