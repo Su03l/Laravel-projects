@@ -5,6 +5,7 @@ import api from "@/lib/axios";
 import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 export default function CompanyDashboard() {
     const { user, loading: authLoading } = useAuth();
@@ -34,6 +35,7 @@ export default function CompanyDashboard() {
             }
         } catch (error) {
             console.error("Error fetching jobs", error);
+            toast.error("حدث خطأ أثناء تحميل الوظائف");
         } finally {
             setLoading(false);
         }
@@ -52,6 +54,7 @@ export default function CompanyDashboard() {
     const handleCreateJob = async (e: React.FormEvent) => {
         e.preventDefault();
         setCreating(true);
+        const toastId = toast.loading("جاري نشر الوظيفة...");
         try {
             const payload = {
                 ...newJob,
@@ -60,9 +63,10 @@ export default function CompanyDashboard() {
             await api.post('/jobs', payload);
             setIsModalOpen(false);
             setNewJob({ title: "", description: "", location: "", work_type: "full-time", salary: "", tags: "" });
-            fetchMyJobs(); // Refresh
+            fetchMyJobs();
+            toast.success("تم نشر الوظيفة بنجاح! 🚀", { id: toastId });
         } catch (error) {
-            alert("فشل نشر الوظيفة، تأكد من البيانات");
+            toast.error("فشل نشر الوظيفة، تأكد من البيانات", { id: toastId });
         } finally {
             setCreating(false);
         }
@@ -77,8 +81,6 @@ export default function CompanyDashboard() {
         }
         return types[type] || type;
     }
-
-    console.log(loading);
 
     if (authLoading) return <div className="p-10 text-center">جاري التحميل...</div>;
 

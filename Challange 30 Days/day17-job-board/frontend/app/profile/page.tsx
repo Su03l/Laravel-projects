@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import api from "@/lib/axios";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 export default function ProfilePage() {
     const { user, mutate, loading: authLoading } = useAuth();
@@ -48,6 +49,7 @@ export default function ProfilePage() {
             setPreviewAvatar(data.avatar || "");
         } catch (error) {
             console.error("Failed to fetch profile");
+            toast.error("فشل تحميل البيانات");
         } finally {
             setLoading(false);
         }
@@ -61,6 +63,7 @@ export default function ProfilePage() {
                 setPreviewAvatar(URL.createObjectURL(file));
             } else {
                 setCvFile(file);
+                toast.success(`تم اختيار الملف: ${file.name}`);
             }
         }
     }
@@ -71,12 +74,14 @@ export default function ProfilePage() {
         const { data } = await api.post('/upload', formData, {
             headers: { 'Content-Type': 'multipart/form-data' }
         });
-        return data.url; // Assuming backend returns full URL or path
+        return data.url;
     }
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setSaving(true);
+        const toastId = toast.loading("جاري حفظ التغييرات...");
+
         try {
             let avatarUrl = formData.avatar;
             let cvUrl = formData.cv_path;
@@ -100,11 +105,11 @@ export default function ProfilePage() {
             };
 
             await api.put('/profile', payload);
-            await mutate(); // Refresh auth context
-            alert("تم تحديث الملف الشخصي بنجاح! 🎉");
+            await mutate();
+            toast.success("تم تحديث الملف الشخصي بنجاح! 🎉", { id: toastId });
         } catch (error) {
             console.error("Failed to update profile", error);
-            alert("صار خطأ أثناء التحديث..");
+            toast.error("آسفين.. صار خطأ أثناء التحديث", { id: toastId });
         } finally {
             setSaving(false);
         }

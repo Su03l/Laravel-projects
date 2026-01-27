@@ -3,6 +3,7 @@
 import { createContext, useContext, useState, useEffect, ReactNode, useCallback } from "react";
 import api from "@/lib/axios";
 import { useRouter, usePathname } from "next/navigation";
+import toast from "react-hot-toast";
 
 interface User {
     id: number;
@@ -60,18 +61,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         try {
             const { data } = await api.post("/login", credentials);
             localStorage.setItem("token", data.token);
-            // localStorage.setItem("user", JSON.stringify(data.user)); // Not strictly needed if we fecth profile
+            toast.success("تم تسجيل الدخول بنجاح! نورتنا 👋");
 
-            await fetchUser(); // Ensure we get fresh data structure from /profile
+            await fetchUser();
 
-            // Redirect based on role
             if (data.user.type === "company") {
                 router.push("/company/dashboard");
             } else {
                 router.push("/");
             }
         } catch (err: any) {
-            setError(err.response?.data?.message || "Login failed");
+            const msg = err.response?.data?.message || "فشل تسجيل الدخول";
+            setError(msg);
+            toast.error(msg);
             throw err;
         }
     };
@@ -79,19 +81,27 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const register = async (credentials: any) => {
         setError(null);
         try {
-            const { data } = await api.post("/register", credentials);
-            localStorage.setItem("token", data.token);
+            await api.post("/register", credentials);
 
-            await fetchUser();
+            // SPECIAL FLOW: Register -> Login Page with Countdown
+            toast.dismiss();
+            toast.success("تم إنشاء الحساب بنجاح! 🎉");
 
-            // Redirect based on role
-            if (data.user.type === "company") {
-                router.push("/company/dashboard");
-            } else {
-                router.push("/");
-            }
+            // Countdown toast
+            const toastId = toast.loading("جاري تحويلك لصفحة الدخول خلال 3...");
+            setTimeout(() => toast.loading("جاري تحويلك لصفحة الدخول خلال 2...", { id: toastId }), 1000);
+            setTimeout(() => toast.loading("جاري تحويلك لصفحة الدخول خلال 1...", { id: toastId }), 2000);
+
+            setTimeout(() => {
+                toast.dismiss(toastId);
+                router.push("/login");
+            }, 3000);
+
+            // We do NOT log them in automatically here, as per user request to redirect to login
         } catch (err: any) {
-            setError(err.response?.data?.message || "Registration failed");
+            const msg = err.response?.data?.message || "فشل إنشاء الحساب";
+            setError(msg);
+            toast.error(msg);
             throw err;
         }
     };
@@ -105,11 +115,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             localStorage.removeItem("token");
             localStorage.removeItem("user");
             setUser(null);
+            toast.success("نشوفك على خير! 👋");
             router.push("/login");
         }
     };
 
-    // Allow manual refresh of user data
     const mutate = async () => {
         await fetchUser();
     };
