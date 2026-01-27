@@ -5,6 +5,8 @@ import api from "@/lib/axios";
 import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import { MapPin, Briefcase, Calendar, Clock, CheckCircle, XCircle, Edit2, Trash2, Frown } from "lucide-react";
 
 export default function MyApplicationsPage() {
     const { user, loading: authLoading } = useAuth();
@@ -39,11 +41,13 @@ export default function MyApplicationsPage() {
 
     const handleWithdraw = async (id: number) => {
         if (!confirm("متأكد تبي تسحب طلبك؟")) return;
+        const toastId = toast.loading("جاري سحب الطلب...");
         try {
             await api.delete(`/applications/${id}`);
             setApplications(apps => apps.filter(app => app.id !== id));
+            toast.success("تم سحب الطلب", { id: toastId });
         } catch (error) {
-            alert("فشل سحب الطلب");
+            toast.error("فشل سحب الطلب", { id: toastId });
         }
     }
 
@@ -56,12 +60,14 @@ export default function MyApplicationsPage() {
         e.preventDefault();
         if (!editingApp) return;
         setUpdating(true);
+        const toastId = toast.loading("جاري تحديث الطلب...");
         try {
             await api.put(`/applications/${editingApp.id}`, { cover_letter: editCoverLetter });
             setApplications(apps => apps.map(app => app.id === editingApp.id ? { ...app, cover_letter: editCoverLetter } : app));
             setEditingApp(null);
+            toast.success("تم تحديث الرسالة بنجاح! 👍", { id: toastId });
         } catch (error) {
-            alert("فشل تحديث الطلب");
+            toast.error("فشل تحديث الطلب", { id: toastId });
         } finally {
             setUpdating(false);
         }

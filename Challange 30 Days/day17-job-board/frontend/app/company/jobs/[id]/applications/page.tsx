@@ -5,6 +5,7 @@ import api from "@/lib/axios";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import toast from "react-hot-toast";
 
 export default function JobApplicationsPage({ params }: { params: Promise<{ id: string }> }) {
     const { user } = useAuth();
@@ -31,13 +32,15 @@ export default function JobApplicationsPage({ params }: { params: Promise<{ id: 
     }, [id]);
 
     const updateStatus = async (appId: number, newStatus: string) => {
+        const toastId = toast.loading("جاري تحديث الحالة...");
         try {
             await api.put(`/applications/${appId}/status`, { status: newStatus });
             // Update local state
             setApplications(apps => apps.map(app => app.id === appId ? { ...app, status: newStatus } : app));
+            toast.success(`تم ${newStatus === 'accepted' ? 'قبول' : 'رفض'} الطلب بنجاح ✅`, { id: toastId });
         } catch (error) {
             console.error("Failed to update status", error);
-            alert("فشل تحديث الحالة");
+            toast.error("فشل تحديث الحالة", { id: toastId });
         }
     }
 

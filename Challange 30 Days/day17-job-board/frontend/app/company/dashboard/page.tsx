@@ -6,6 +6,7 @@ import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { MapPin, Briefcase, Calendar, Plus } from "lucide-react";
 
 export default function CompanyDashboard() {
     const { user, loading: authLoading } = useAuth();
@@ -58,6 +59,7 @@ export default function CompanyDashboard() {
         try {
             const payload = {
                 ...newJob,
+                salary: newJob.salary === "" ? null : newJob.salary,
                 tags: newJob.tags.split(',').map(t => t.trim()).filter(t => t)
             };
             await api.post('/jobs', payload);
@@ -122,9 +124,9 @@ export default function CompanyDashboard() {
                                             <Link href={`/jobs/${job.id}`} className="hover:text-blue-600 transition-colors">{job.title}</Link>
                                         </h3>
                                         <div className="mt-1 flex items-center text-sm text-slate-500 gap-3">
-                                            <span>📍 {job.location}</span>
-                                            <span>💼 {translateWorkType(job.work_type)}</span>
-                                            <span>📅 {new Date(job.created_at).toLocaleDateString('ar-SA')}</span>
+                                            <span className="flex items-center gap-1"><MapPin className="w-4 h-4" /> {job.location}</span>
+                                            <span className="flex items-center gap-1"><Briefcase className="w-4 h-4" /> {translateWorkType(job.work_type)}</span>
+                                            <span className="flex items-center gap-1"><Calendar className="w-4 h-4" /> {new Date(job.created_at).toLocaleDateString('ar-SA')}</span>
                                         </div>
                                     </div>
                                     <div className="flex space-x-3 space-x-reverse">
