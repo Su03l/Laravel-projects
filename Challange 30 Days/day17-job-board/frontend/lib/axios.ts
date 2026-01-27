@@ -27,9 +27,7 @@ api.interceptors.response.use(
         if (error.response?.status === 401) {
             if (typeof window !== 'undefined') {
                 localStorage.removeItem('token');
-                localStorage.removeItem('user');
-                // Optional: Redirect to login if needed, or let AuthContext handle it
-                // window.location.href = '/login'; 
+                localStorage.removeItem('user'); 
             }
         }
         return Promise.reject(error);
