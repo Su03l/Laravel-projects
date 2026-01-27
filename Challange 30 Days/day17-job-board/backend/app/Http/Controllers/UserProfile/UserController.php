@@ -16,17 +16,9 @@ class UserController extends Controller
         return response()->json($users);
     }
 
-    public function show($id)
+    public function show(Request $request)
     {
-        $user = User::find($id);
-
-        if (!$user) {
-            return response()->json([
-                'message' => 'User not found
-                '], 404);
-        }
-
-        return response()->json($user);
+        return response()->json($request->user());
     }
 
     public function update(Request $request)
@@ -43,7 +35,12 @@ class UserController extends Controller
         ]);
 
         $user->update($request->only([
-            'name', 'email', 'bio', 'avatar', 'website', 'cv_path'
+            'name',
+            'email',
+            'bio',
+            'avatar',
+            'website',
+            'cv_path'
         ]));
 
         return response()->json([
