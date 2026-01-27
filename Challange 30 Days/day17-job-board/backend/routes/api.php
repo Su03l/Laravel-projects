@@ -14,6 +14,7 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::get('/jobs', [JobController::class, 'index']);
 Route::get('/jobs/{id}', [JobController::class, 'show']);
+Route::get('/users/{name}', [UserController::class, 'getUserByName']);
 
 Route::middleware('auth:sanctum')->group(function () {
 

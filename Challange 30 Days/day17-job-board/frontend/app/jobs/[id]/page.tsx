@@ -197,7 +197,7 @@ export default function JobDetailsPage({ params }: { params: Promise<{ id: strin
                             </div>
                             <div>
                                 <div className="font-bold text-slate-900">{job.company?.name}</div>
-                                <Link href="#" className="text-blue-600 text-sm hover:underline">عرض الملف</Link>
+                                <Link href={`/user/${job.company?.name}`} className="text-blue-600 text-sm hover:underline">عرض الملف</Link>
                             </div>
                         </div>
                         <p className="text-sm text-slate-500 leading-relaxed">

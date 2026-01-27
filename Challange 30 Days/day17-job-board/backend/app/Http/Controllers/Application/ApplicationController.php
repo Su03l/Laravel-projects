@@ -55,9 +55,15 @@ class ApplicationController extends Controller
         return response()->json($applications);
     }
 
-    public function getJobApplications(Request $request, $job_id)
+    public function getJobApplications(Request $request, $id)
     {
-        $job = Job::findOrFail($job_id);
+        // Check if $id is numeric (ID) or string (Title)
+        if (is_numeric($id)) {
+            $job = Job::findOrFail($id);
+        } else {
+            $title = urldecode($id);
+            $job = Job::where('title', $title)->firstOrFail();
+        }
 
         if ($request->user()->id !== $job->user_id) {
             return response()->json([

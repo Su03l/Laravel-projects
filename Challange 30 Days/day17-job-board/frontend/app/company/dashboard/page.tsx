@@ -6,12 +6,12 @@ import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { MapPin, Briefcase, Calendar, Plus } from "lucide-react";
+import { MapPin, Briefcase, Calendar } from "lucide-react";
 
 export default function CompanyDashboard() {
     const { user, loading: authLoading } = useAuth();
     const [jobs, setJobs] = useState<any[]>([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(true); // Restored
     const router = useRouter();
 
     // Job Creation State
@@ -104,44 +104,70 @@ export default function CompanyDashboard() {
                 </button>
             </div>
 
-            <div className="bg-white shadow-sm overflow-hidden sm:rounded-2xl border border-slate-200">
-                <ul role="list" className="divide-y divide-gray-100">
-                    {jobs.length === 0 ? (
-                        <li className="px-6 py-12 text-center text-slate-500 flex flex-col items-center">
-                            <div className="bg-slate-50 p-4 rounded-full mb-4">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 text-slate-400">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 00.75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 00-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0112 15.75c-2.648 0-5.195-.429-7.637-1.292-.172-.061-.322-.157-.456-.282m0 0a2.18 2.18 0 01-.75-1.661V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 013.413-.387m7.5 0V5.25A2.25 2.25 0 0013.5 3h-3a2.25 2.25 0 00-2.25 2.25v.894m7.5 0a48.667 48.667 0 00-7.5 0M12 12.75h.008v.008H12v-.008z" />
-                                </svg>
-                            </div>
-                            لسه ما نشرت أي وظيفة.
-                        </li>
-                    ) : (
-                        jobs.map((job) => (
-                            <li key={job.id}>
-                                <div className="px-6 py-5 hover:bg-slate-50 transition-colors flex items-center justify-between">
-                                    <div>
-                                        <h3 className="text-lg font-bold text-slate-900 mb-1">
-                                            <Link href={`/jobs/${job.id}`} className="hover:text-blue-600 transition-colors">{job.title}</Link>
-                                        </h3>
-                                        <div className="mt-1 flex items-center text-sm text-slate-500 gap-3">
-                                            <span className="flex items-center gap-1"><MapPin className="w-4 h-4" /> {job.location}</span>
-                                            <span className="flex items-center gap-1"><Briefcase className="w-4 h-4" /> {translateWorkType(job.work_type)}</span>
-                                            <span className="flex items-center gap-1"><Calendar className="w-4 h-4" /> {new Date(job.created_at).toLocaleDateString('ar-SA')}</span>
-                                        </div>
-                                    </div>
-                                    <div className="flex space-x-3 space-x-reverse">
-                                        <Link
-                                            href={`/company/jobs/${job.id}/applications`}
-                                            className="inline-flex items-center px-4 py-2 border border-slate-200 text-sm font-medium rounded-xl text-slate-700 bg-white hover:bg-slate-50 hover:text-blue-600 transition-colors shadow-sm"
-                                        >
-                                            عرض المتقدمين
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {jobs.length === 0 ? (
+                    <div className="col-span-full py-20 text-center flex flex-col items-center justify-center bg-white rounded-3xl border border-dashed border-slate-300">
+                        <div className="bg-slate-50 p-6 rounded-full mb-6">
+                            <Briefcase className="w-12 h-12 text-slate-400" />
+                        </div>
+                        <h3 className="text-xl font-bold text-slate-900 mb-2">لسه ما نشرت أي وظيفة</h3>
+                        <p className="text-slate-500 mb-8 max-w-sm mx-auto">ابدأ الآن وابحث عن أفضل الكفاءات لفريقك.</p>
+                        <button
+                            onClick={() => setIsModalOpen(true)}
+                            className="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-600/20"
+                        >
+                            نشر أول وظيفة
+                        </button>
+                    </div>
+                ) : (
+                    jobs.map((job) => (
+                        <div key={job.id} className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col group relative overflow-hidden">
+                            <div className="absolute top-0 right-0 w-24 h-24 bg-blue-50 rounded-bl-full -mr-4 -mt-4 z-0 opacity-50 group-hover:scale-110 transition-transform" />
+
+                            <div className="p-6 relative z-10 flex-1 flex flex-col">
+                                <div className="mb-4">
+                                    <h3 className="text-xl font-bold text-slate-900 leading-snug mb-1 line-clamp-1">
+                                        <Link href={`/jobs/${job.id}`} className="hover:text-blue-600 transition-colors">
+                                            {job.title}
                                         </Link>
+                                    </h3>
+                                    <p className="text-sm font-medium text-slate-500 flex items-center gap-1.5">
+                                        <MapPin className="w-3.5 h-3.5" />
+                                        {job.location}
+                                    </p>
+                                </div>
+
+                                <div className="space-y-3 mb-6">
+                                    <div className="flex items-center justify-between text-sm">
+                                        <span className="text-slate-500">نوع العمل</span>
+                                        <span className="font-bold text-slate-700 bg-slate-100 px-2 py-1 rounded-lg text-xs">
+                                            {translateWorkType(job.work_type)}
+                                        </span>
+                                    </div>
+                                    <div className="flex items-center justify-between text-sm">
+                                        <span className="text-slate-500">تاريخ النشر</span>
+                                        <span className="font-bold text-slate-700 flex items-center gap-1">
+                                            <Calendar className="w-3.5 h-3.5 text-slate-400" />
+                                            {new Date(job.created_at).toLocaleDateString('ar-SA')}
+                                        </span>
                                     </div>
                                 </div>
-                            </li>
-                        ))
-                    )}
-                </ul>
+
+                                <div className="mt-auto pt-4 border-t border-slate-100">
+                                    <Link
+                                        href={`/company/jobs/${encodeURIComponent(job.title)}/applications`}
+                                        className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-slate-50 text-slate-700 rounded-xl font-bold hover:bg-blue-600 hover:text-white transition-all group-active:scale-95"
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
+                                        </svg>
+                                        عرض المتقدمين
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
+                    ))
+                )}
             </div>
 
             {/* Create Job Modal */}

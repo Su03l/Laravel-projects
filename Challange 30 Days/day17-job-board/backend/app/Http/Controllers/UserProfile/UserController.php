@@ -48,4 +48,11 @@ class UserController extends Controller
             'user' => $user
         ]);
     }
+    public function getUserByName($name)
+    {
+        $user = User::select('id', 'name', 'email', 'type', 'avatar', 'bio', 'cv_path', 'website', 'created_at')
+            ->where('name', $name)
+            ->firstOrFail();
+        return response()->json($user);
+    }
 }

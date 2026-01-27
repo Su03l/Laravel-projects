@@ -4,6 +4,7 @@ import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import Navbar from "@/components/Layout/Navbar";
 import { Toaster } from 'react-hot-toast';
+import LogSuppressor from "@/components/LogSuppressor";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,6 +32,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-slate-50 text-slate-900 min-h-screen font-sans`}
       >
         <AuthProvider>
+          <LogSuppressor />
           <Toaster
             position="top-right"
             toastOptions={{
@@ -44,6 +46,6 @@ export default function RootLayout({
           </main>
         </AuthProvider>
       </body>
-    </html>
+    </html >
   );
 }

@@ -1,36 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Job Board Platform - منصة التوظيف
 
-## Getting Started
+![Job Board Platform](./public/home.png)
 
-First, run the development server:
+## نظرة عامة
+
+منصة توظيف حديثة وسريعة الاستجابة، تم تطويرها لربط الكفاءات بالفرص الوظيفية المناسبة. تتميز المنصة بواجهة مستخدم عصرية وسهلة الاستخدام، تدعم اللغة العربية بالكامل.
+
+## المميزات التقنية
+
+`Modern UI` `Company Dashboard` `Public Profiles` `Job Search` `RTL Support` `Next.js 16` `React` `Tailwind CSS` `Axios` `TypeScript`
+
+## التثبيت والتشغيل
+
+1. تثبيت الحزم المطلوبة:
+
+```bash
+npm install
+```
+
+2. تشغيل المشروع في بيئة التطوير:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. بناء المشروع للإنتاج:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build
+npm start
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## هيكل المشروع
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `app/`: صفحات التطبيق ومساراته
+- `components/`: مكونات واجهة المستخدم القابلة لإعادة الاستخدام
+- `context/`: إدارة حالة التطبيق (مثل المصادقة)
+- `lib/`: دوال مساعدة وإعدادات (مثل Axios)
+- `public/`: الملفات الثابتة والصور
