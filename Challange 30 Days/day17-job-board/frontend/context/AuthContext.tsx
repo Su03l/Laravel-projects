@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode, useCallback } from "react";
 import api from "@/lib/axios";
 import { useRouter, usePathname } from "next/navigation";
 
@@ -12,6 +12,7 @@ interface User {
     avatar?: string;
     bio?: string;
     website?: string;
+    cv_path?: string;
 }
 
 interface AuthContextType {
@@ -20,6 +21,7 @@ interface AuthContextType {
     login: (data: any) => Promise<void>;
     register: (data: any) => Promise<void>;
     logout: () => Promise<void>;
+    mutate: () => Promise<void>;
     error: string | null;
 }
 
@@ -32,31 +34,35 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const router = useRouter();
     const pathname = usePathname();
 
-    useEffect(() => {
-        const checkAuth = async () => {
-            const token = localStorage.getItem("token");
-            if (token) {
-                try {
-                    const { data } = await api.get("/profile");
-                    setUser(data);
-                } catch (err) {
-                    console.error("Auth check failed", err);
-                    localStorage.removeItem("token");
-                    setUser(null);
-                }
+    const fetchUser = useCallback(async () => {
+        const token = localStorage.getItem("token");
+        if (token) {
+            try {
+                const { data } = await api.get("/profile");
+                setUser(data);
+            } catch (err) {
+                console.error("Auth check failed", err);
+                localStorage.removeItem("token");
+                setUser(null);
             }
-            setLoading(false);
-        };
-        checkAuth();
+        } else {
+            setUser(null);
+        }
+        setLoading(false);
     }, []);
+
+    useEffect(() => {
+        fetchUser();
+    }, [fetchUser]);
 
     const login = async (credentials: any) => {
         setError(null);
         try {
             const { data } = await api.post("/login", credentials);
             localStorage.setItem("token", data.token);
-            localStorage.setItem("user", JSON.stringify(data.user)); // Optional, for quick access
-            setUser(data.user);
+            // localStorage.setItem("user", JSON.stringify(data.user)); // Not strictly needed if we fecth profile
+
+            await fetchUser(); // Ensure we get fresh data structure from /profile
 
             // Redirect based on role
             if (data.user.type === "company") {
@@ -75,7 +81,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         try {
             const { data } = await api.post("/register", credentials);
             localStorage.setItem("token", data.token);
-            setUser(data.user);
+
+            await fetchUser();
 
             // Redirect based on role
             if (data.user.type === "company") {
@@ -102,8 +109,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         }
     };
 
+    // Allow manual refresh of user data
+    const mutate = async () => {
+        await fetchUser();
+    };
+
     return (
-        <AuthContext.Provider value={{ user, loading, login, register, logout, error }}>
+        <AuthContext.Provider value={{ user, loading, login, register, logout, mutate, error }}>
             {children}
         </AuthContext.Provider>
     );
