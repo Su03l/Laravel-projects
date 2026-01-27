@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { MapPin, CircleDollarSign, ArrowLeft } from "lucide-react";
 
 interface Job {
     id: number;
@@ -70,17 +71,12 @@ export default function JobCard({ job }: JobCardProps) {
 
                 <div className="flex items-center text-sm text-slate-500 mb-4 gap-4">
                     <span className="flex items-center gap-1.5">
-                        <svg className="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
+                        <MapPin className="w-4 h-4 text-slate-400" />
                         {job.location}
                     </span>
                     {job.salary && (
                         <span className="flex items-center gap-1.5">
-                            <svg className="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
+                            <CircleDollarSign className="w-4 h-4 text-slate-400" />
                             {job.salary}
                         </span>
                     )}
@@ -100,19 +96,17 @@ export default function JobCard({ job }: JobCardProps) {
                         <span className="inline-flex items-center text-xs text-slate-400">+ {job.tags.length - 3}</span>
                     )}
                 </div>
-            </div>
+            </div >
 
             {/* Footer Actions */}
-            <div className="border-t border-slate-100 pt-4 flex items-center justify-between">
+            < div className="border-t border-slate-100 pt-4 flex items-center justify-between" >
                 <span className="text-sm font-medium text-blue-600 group-hover:underline decoration-blue-200 underline-offset-4 transition-all">
                     التفاصيل
                 </span>
-                <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-blue-600 group-hover:text-white transition-all transform group-hover:rotate-45 rotate-180">
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14M12 5l7 7-7 7" />
-                    </svg>
+                <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-blue-600 group-hover:text-white transition-all">
+                    <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
                 </div>
-            </div>
-        </div>
+            </div >
+        </div >
     );
 }
