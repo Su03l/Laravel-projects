@@ -34,8 +34,7 @@ export default function Home() {
   };
 
   return (
-    <div className="-mt-8"> {/* Negative margin to pull under navbar if needed, but layout padding handles it */}
-      {/* HERO SECTION */}
+    <div className="-mt-8"> 
       <div className="relative bg-slate-900 rounded-3xl overflow-hidden shadow-2xl isolate">
         {/* Decorative elements */}
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(45rem_50rem_at_top,theme(colors.blue.600),theme(colors.slate.900))] opacity-50"></div>
