@@ -37,7 +37,7 @@ export default function Navbar() {
                                 </svg>
                             </div>
                             <span className={`text-xl font-bold tracking-tight transition-colors ${scrolled ? 'text-slate-900' : 'text-slate-900'}`}>
-                                وظيفتك<span className="text-blue-600">علينا</span>
+                                وظيفتك <span className="text-blue-600">علينا</span>
                             </span>
                         </Link>
                     </div>

@@ -38,12 +38,12 @@ export default function MyApplicationsPage() {
     }, [user, authLoading, router]);
 
     const handleWithdraw = async (id: number) => {
-        if (!confirm("Are you sure you want to withdraw this application?")) return;
+        if (!confirm("متأكد تبي تسحب طلبك؟")) return;
         try {
             await api.delete(`/applications/${id}`);
             setApplications(apps => apps.filter(app => app.id !== id));
         } catch (error) {
-            alert("Failed to withdraw application");
+            alert("فشل سحب الطلب");
         }
     }
 
@@ -61,67 +61,91 @@ export default function MyApplicationsPage() {
             setApplications(apps => apps.map(app => app.id === editingApp.id ? { ...app, cover_letter: editCoverLetter } : app));
             setEditingApp(null);
         } catch (error) {
-            alert("Failed to update application");
+            alert("فشل تحديث الطلب");
         } finally {
             setUpdating(false);
         }
     }
 
-    if (authLoading || loading) return <div className="p-10">Loading...</div>;
+    const translateStatus = (status: string) => {
+        const statuses: any = {
+            'pending': 'قيد المراجعة',
+            'accepted': 'مقبول',
+            'rejected': 'مرفوض',
+        }
+        return statuses[status] || status;
+    }
+
+    if (authLoading || loading) return <div className="p-10 text-center">جاري التحميل...</div>;
 
     return (
         <div>
-            <h1 className="text-2xl font-bold text-gray-900 mb-6">My Applications</h1>
+            <h1 className="text-2xl font-bold text-slate-900 mb-8">طلباتي</h1>
 
-            <div className="bg-white shadow overflow-hidden sm:rounded-md border border-gray-100">
-                <ul role="list" className="divide-y divide-gray-200">
+            <div className="bg-white shadow-sm overflow-hidden sm:rounded-2xl border border-slate-200">
+                <ul role="list" className="divide-y divide-gray-100">
                     {applications.length === 0 ? (
-                        <li className="px-6 py-10 text-center text-gray-500">
-                            You haven't applied to any jobs yet.
+                        <li className="px-6 py-12 text-center text-slate-500 flex flex-col items-center">
+                            <div className="bg-slate-50 p-4 rounded-full mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 text-slate-400">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                                </svg>
+                            </div>
+                            لسه ما قدمت على أي وظيفة.
+                            <Link href="/" className="text-blue-600 font-bold mt-2 hover:underline block">تصفح الوظائف الآن</Link>
                         </li>
                     ) : (
                         applications.map((app) => (
                             <li key={app.id}>
-                                <div className="px-4 py-4 sm:px-6">
+                                <div className="px-6 py-6 hover:bg-slate-50 transition-colors">
                                     <div className="flex items-center justify-between">
                                         <div>
-                                            <h3 className="text-lg font-medium leading-6 text-gray-900">
-                                                <Link href={`/jobs/${app.job.id}`} className="hover:text-blue-600">
+                                            <h3 className="text-lg font-bold leading-6 text-slate-900">
+                                                <Link href={`/jobs/${app.job.id}`} className="hover:text-blue-600 transition-colors">
                                                     {app.job.title}
                                                 </Link>
                                             </h3>
-                                            <p className="text-sm text-gray-500">{app.job.company?.name}</p>
+                                            <p className="text-sm font-medium text-slate-500 mt-1">{app.job.company?.name}</p>
                                         </div>
-                                        <div className="ml-2 flex-shrink-0 flex">
-                                            <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                        ${app.status === 'accepted' ? 'bg-green-100 text-green-800' :
-                                                    app.status === 'rejected' ? 'bg-red-100 text-red-800' :
-                                                        'bg-yellow-100 text-yellow-800'}`}>
-                                                {app.status}
+                                        <div className="mr-2 flex-shrink-0 flex">
+                                            <span className={`px-3 py-1 inline-flex text-xs leading-5 font-bold rounded-full border 
+                        ${app.status === 'accepted' ? 'bg-green-50 text-green-700 border-green-200' :
+                                                    app.status === 'rejected' ? 'bg-red-50 text-red-700 border-red-200' :
+                                                        'bg-yellow-50 text-yellow-700 border-yellow-200'}`}>
+                                                {translateStatus(app.status)}
                                             </span>
                                         </div>
                                     </div>
-                                    <div className="mt-2 text-sm text-gray-500">
-                                        Applied on {new Date(app.created_at).toLocaleDateString()}
+                                    <div className="mt-3 text-sm text-slate-400 flex items-center gap-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                        تم التقديم في {new Date(app.created_at).toLocaleDateString('ar-SA')}
                                     </div>
                                     {app.cover_letter && (
-                                        <div className="mt-2 text-sm text-gray-700 bg-gray-50 p-3 rounded italic">
+                                        <div className="mt-4 text-sm text-slate-600 bg-slate-50 p-4 rounded-xl border border-slate-100 italic">
                                             "{app.cover_letter}"
                                         </div>
                                     )}
                                     {app.status === 'pending' && (
-                                        <div className="mt-4 flex space-x-3">
+                                        <div className="mt-5 flex space-x-4 space-x-reverse">
                                             <button
                                                 onClick={() => openEditModal(app)}
-                                                className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                                                className="text-blue-600 hover:text-blue-800 text-sm font-bold flex items-center gap-1"
                                             >
-                                                Edit Cover Letter
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                                                </svg>
+                                                تعديل الرسالة
                                             </button>
                                             <button
                                                 onClick={() => handleWithdraw(app.id)}
-                                                className="text-red-600 hover:text-red-800 text-sm font-medium"
+                                                className="text-red-600 hover:text-red-800 text-sm font-bold flex items-center gap-1"
                                             >
-                                                Withdraw
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                                                </svg>
+                                                سحب الطلب
                                             </button>
                                         </div>
                                     )}
@@ -134,33 +158,33 @@ export default function MyApplicationsPage() {
 
             {/* Edit Modal */}
             {editingApp && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 bg-opacity-50">
-                    <div className="bg-white rounded-lg shadow-xl w-full max-w-md p-6">
-                        <h2 className="text-xl font-bold mb-4">Edit Cover Letter</h2>
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
+                    <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 animate-in zoom-in-95 duration-200">
+                        <h2 className="text-xl font-bold mb-4 text-slate-900">تعديل رسالة التقديم</h2>
                         <form onSubmit={handleUpdate}>
                             <div className="mb-4">
                                 <textarea
-                                    className="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 min-h-[150px] p-3 border"
+                                    className="w-full border-slate-200 bg-slate-50 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 min-h-[150px] p-4 text-right border"
                                     value={editCoverLetter}
                                     onChange={(e) => setEditCoverLetter(e.target.value)}
                                     required
                                 ></textarea>
                             </div>
-                            <div className="flex justify-end space-x-3">
+                            <div className="flex justify-end gap-3">
                                 <button
                                     type="button"
                                     onClick={() => setEditingApp(null)}
-                                    className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+                                    className="px-4 py-2 border border-slate-200 rounded-xl text-slate-600 hover:bg-slate-50 font-medium"
                                     disabled={updating}
                                 >
-                                    Cancel
+                                    إلغاء
                                 </button>
                                 <button
                                     type="submit"
-                                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
+                                    className="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 font-bold disabled:opacity-50"
                                     disabled={updating}
                                 >
-                                    {updating ? "Saving..." : "Save Changes"}
+                                    {updating ? "جاري الحفظ..." : "حفظ التعديلات"}
                                 </button>
                             </div>
                         </form>
