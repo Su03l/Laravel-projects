@@ -43,7 +43,6 @@ class EmployeeController extends Controller
             });
 
             return $this->success($result, 'تم إضافة الموظف بنجاح', 201);
-
         } catch (\Exception $e) {
             return $this->error('حدث خطأ أثناء الإضافة: ' . $e->getMessage(), 500);
         }
@@ -92,12 +91,10 @@ class EmployeeController extends Controller
                     'salary',
                     'joining_date'
                 ]));
-
             });
 
             // نرجع البيانات الجديدة بعد التحديث
             return $this->success($employee->load('user'), 'تم تحديث بيانات الموظف بنجاح');
-
         } catch (\Exception $e) {
             return $this->error('حدث خطأ أثناء التحديث: ' . $e->getMessage(), 500);
         }
@@ -107,12 +104,20 @@ class EmployeeController extends Controller
     public function destroy(Employee $employee)
     {
         try {
-            $employee->user->delete();
-
+            DB::transaction(function () use ($employee) {
+                // Check if user exists
+                if ($employee->user) {
+                    // Manually delete related records if not cascading
+                    // or just try to delete user and let DB handle/fail
+                    // For debugging, we just try delete
+                    $employee->user->delete();
+                } else {
+                    $employee->delete();
+                }
+            });
             return $this->success(null, 'تم حذف الموظف وكافة بياناته بنجاح');
-
         } catch (\Exception $e) {
-            return $this->error('حدث خطأ أثناء الحذف', 500);
+            return $this->error('حدث خطأ أثناء الحذف: ' . $e->getMessage(), 500);
         }
     }
 }

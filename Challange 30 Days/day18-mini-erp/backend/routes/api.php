@@ -38,13 +38,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/tasks/{task}/status', [TaskController::class, 'updateStatus']);
 
     // Finance (Invoices & Expenses)
-    Route::get('/invoices', [InvoiceController::class, 'index']); // عرض كل الفواتير
     Route::get('/invoices/project/{id}', [InvoiceController::class, 'projectInvoices']);
-    Route::post('/invoices', [InvoiceController::class, 'store']);
     Route::put('/invoices/{invoice}/paid', [InvoiceController::class, 'markAsPaid']);
+    Route::apiResource('invoices', InvoiceController::class);
     // Route::apiResource('expenses', ExpenseController::class); // يحتاج إنشاء Controller
 
     // Leaves Management
+    Route::get('/leaves', [LeaveController::class, 'index']); // New: Admin View
     Route::post('/leaves', [LeaveController::class, 'store']);
     Route::get('/my-leaves', [LeaveController::class, 'myLeaves']);
     Route::put('/leaves/{leave}/status', [LeaveController::class, 'updateStatus']);
@@ -52,6 +52,9 @@ Route::middleware('auth:sanctum')->group(function () {
     // Attendance
     Route::post('/attendance/check-in', [AttendanceController::class, 'checkIn']);
     Route::post('/attendance/check-out', [AttendanceController::class, 'checkOut']);
+    Route::get('/attendance', [AttendanceController::class, 'index']);
+    Route::put('/attendance/{attendance}', [AttendanceController::class, 'update']);
+    Route::delete('/attendance/{attendance}', [AttendanceController::class, 'destroy']);
     // Route::get('/attendance/report', [AttendanceController::class, 'report']); // تقرير الحضور للـ HR
 
     // Dashboard

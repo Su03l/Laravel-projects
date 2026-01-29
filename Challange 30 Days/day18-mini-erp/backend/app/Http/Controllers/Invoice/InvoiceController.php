@@ -11,6 +11,13 @@ class InvoiceController extends Controller
 {
     use ApiResponse;
 
+    // عرض الفواتير
+    public function index()
+    {
+        $invoices = Invoice::latest()->paginate(10);
+        return $this->success($invoices);
+    }
+
     // إنشاء فاتورة جديدة
     public function store(Request $request)
     {
@@ -44,5 +51,27 @@ class InvoiceController extends Controller
     {
         $invoices = Invoice::where('project_id', $projectId)->get();
         return $this->success($invoices);
+    }
+
+    // تحديث الفاتورة
+    public function update(Request $request, Invoice $invoice)
+    {
+        $data = $request->validate([
+            'project_id' => 'sometimes|exists:projects,id',
+            'issue_date' => 'sometimes|date',
+            'due_date' => 'sometimes|date|after_or_equal:issue_date',
+            'amount' => 'sometimes|numeric|min:1',
+            'status' => 'sometimes|in:unpaid,paid,overdue',
+        ]);
+
+        $invoice->update($data);
+        return $this->success($invoice, 'تم تحديث الفاتورة بنجاح');
+    }
+
+    // حذف الفاتورة
+    public function destroy(Invoice $invoice)
+    {
+        $invoice->delete();
+        return $this->success(null, 'تم حذف الفاتورة بنجاح');
     }
 }

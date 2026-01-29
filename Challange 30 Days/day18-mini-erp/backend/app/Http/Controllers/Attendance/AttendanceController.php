@@ -70,4 +70,47 @@ class AttendanceController extends Controller
 
         return $this->success($attendance, 'تم تسجيل الخروج، يعطيك العافية ');
     }
+    // عرض سجلات الحضور
+    public function index(Request $request)
+    {
+        // ممكن نضيف فلاتر بالتاريخ أو الموظف
+        $query = Attendance::with('user:id,name');
+
+        if ($request->has('user_id')) {
+            $query->where('user_id', $request->user_id);
+        }
+
+        if ($request->has('date')) {
+            $query->where('date', $request->date);
+        }
+
+        $attendance = $query->latest()->paginate(10);
+        return $this->success($attendance);
+    }
+
+    // تحديث سجل حضور (للأدمن)
+    public function update(Request $request, Attendance $attendance)
+    {
+        $data = $request->validate([
+            'check_in' => 'sometimes|date_format:H:i:s',
+            'check_out' => 'sometimes|date_format:H:i:s',
+            'status' => 'sometimes|in:present,absent,late,excused',
+        ]);
+
+        if (isset($data['check_in']) && isset($data['check_out'])) {
+            $start = Carbon::parse($data['check_in']);
+            $end = Carbon::parse($data['check_out']);
+            $data['work_hours'] = $end->diffInHours($start);
+        }
+
+        $attendance->update($data);
+        return $this->success($attendance, 'تم تحديث السجل بنجاح');
+    }
+
+    // حذف سجل حضور
+    public function destroy(Attendance $attendance)
+    {
+        $attendance->delete();
+        return $this->success(null, 'تم حذف السجل بنجاح');
+    }
 }

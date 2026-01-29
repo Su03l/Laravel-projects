@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, Users, Briefcase, FolderKanban, DollarSign, CalendarCheck } from 'lucide-react';
+import { LayoutDashboard, Users, Briefcase, FolderKanban, DollarSign, CalendarCheck, LogOut } from 'lucide-react';
 import { clsx } from 'clsx';
 
 const Sidebar = () => {
@@ -14,7 +14,9 @@ const Sidebar = () => {
         { name: 'العملاء', href: '/clients', icon: Briefcase },
         { name: 'المشاريع', href: '/projects', icon: FolderKanban },
         { name: 'المالية', href: '/invoices', icon: DollarSign },
-        { name: 'الحضور والانصراف', href: '/my-leaves', icon: CalendarCheck },
+        { name: 'سجل الحضور', href: '/attendance', icon: CalendarCheck },
+        { name: 'طلبات الإجازات', href: '/leaves', icon: FolderKanban }, // Using FolderKanban as placeholder or maybe FileText?
+        { name: 'إجازاتي', href: '/my-leaves', icon: CalendarCheck },
     ];
 
     return (
@@ -52,8 +54,24 @@ const Sidebar = () => {
                 })}
             </nav>
 
-            <div className="p-6 border-t border-slate-50">
-                <div className="text-xs text-slate-400 text-center font-medium">
+            <div className="p-4 border-t border-slate-50">
+                <button
+                    onClick={async () => {
+                        try {
+                            // Call API if needed: await api.post('/logout');
+                            localStorage.removeItem('token');
+                            window.location.href = '/login'; // Force refresh to clear state
+                        } catch (e) {
+                            localStorage.removeItem('token');
+                            window.location.href = '/login';
+                        }
+                    }}
+                    className="flex w-full items-center gap-4 px-4 py-3 rounded-xl text-base font-medium text-rose-500 hover:bg-rose-50 hover:text-rose-600 transition-all duration-200"
+                >
+                    <LogOut size={22} className="text-rose-400 group-hover:text-rose-600" />
+                    <span>تسجيل الخروج</span>
+                </button>
+                <div className="mt-4 text-xs text-slate-400 text-center font-medium">
                     © 2024 جميع الحقوق محفوظة
                 </div>
             </div>

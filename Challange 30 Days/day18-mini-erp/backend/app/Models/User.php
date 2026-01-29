@@ -58,6 +58,11 @@ class User extends Authenticatable
         return $this->role === UserRole::HR || $this->role === UserRole::ADMIN;
     }
 
+    public function leaves()
+    {
+        return $this->hasMany(Leave::class);
+    }
+
     public function managedProjects()
     {
         return $this->hasMany(Project::class, 'manager_id');

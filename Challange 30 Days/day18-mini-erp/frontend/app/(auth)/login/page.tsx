@@ -20,8 +20,6 @@ export default function LoginPage() {
 
         try {
             const response = await api.post('/login', { email, password });
-            console.log('Login Body:', JSON.stringify(response.data, null, 2));
-            console.log('Login Headers:', response.headers);
 
             // Support standard and nested response structures
             let token = response.data.token ||
@@ -47,6 +45,7 @@ export default function LoginPage() {
             login(token, user || { id: 1, name: 'User', email });
             toast.success('تم تسجيل الدخول بنجاح');
         } catch (error: any) {
+            console.error('Login Error:', error);
             toast.error(error.response?.data?.message || 'فشل تسجيل الدخول. يرجى التحقق من البيانات.');
         } finally {
             setIsLoading(false);

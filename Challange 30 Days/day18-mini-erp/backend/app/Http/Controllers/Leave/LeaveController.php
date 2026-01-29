@@ -11,12 +11,26 @@ class LeaveController extends Controller
 {
     use ApiResponse;
 
+    // Admin: عرض كل طلبات الإجازة
+    public function index(Request $request)
+    {
+        // ممكن نضيف فلتر بالحالة أو الموظف
+        $query = Leave::with('user:id,name,department');
+
+        if ($request->has('status')) {
+            $query->where('status', $request->status);
+        }
+
+        $leaves = $query->latest()->paginate(10);
+        return $this->success($leaves);
+    }
+
     // الموظف: تقديم طلب إجازة
     public function store(Request $request)
     {
         $data = $request->validate([
             'type' => 'required|in:annual,sick,unpaid,emergency',
-            'start_date' => 'required|date|after:today',
+            'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
             'reason' => 'required|string',
         ]);

@@ -35,6 +35,7 @@ api.interceptors.response.use(
                 }
             }
         }
+        console.error('Global API Error:', error);
         return Promise.reject(error);
     }
 );

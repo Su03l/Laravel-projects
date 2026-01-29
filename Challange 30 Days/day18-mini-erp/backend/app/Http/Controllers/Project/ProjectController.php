@@ -54,9 +54,14 @@ class ProjectController extends Controller
     public function update(Request $request, Project $project)
     {
         $data = $request->validate([
-            'status' => 'in:pending,active,completed,hold',
-            'name' => 'string',
-            'budget' => 'numeric'
+            'client_id' => 'sometimes|exists:clients,id',
+            'manager_id' => 'sometimes|exists:users,id',
+            'name' => 'sometimes|string',
+            'description' => 'nullable|string',
+            'budget' => 'sometimes|numeric',
+            'status' => 'sometimes|in:pending,active,completed,hold',
+            'start_date' => 'sometimes|date',
+            'deadline' => 'sometimes|date|after_or_equal:start_date',
         ]);
 
         $project->update($data);

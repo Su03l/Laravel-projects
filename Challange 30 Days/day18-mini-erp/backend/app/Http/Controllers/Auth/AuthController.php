@@ -26,9 +26,12 @@ class AuthController extends Controller
 
         $user->load(['employee.department']);
 
+        $token = $user->createToken('auth_token')->plainTextToken;
+
 
         return $this->success([
             'user' => $user,
+            'token' => $token,
             'role' => $user->role // Enum value
         ], 'تم تسجيل الدخول بنجاح');
     }
