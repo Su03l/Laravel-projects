@@ -23,8 +23,7 @@ api.interceptors.response.use(
             if (typeof window !== 'undefined') {
                 localStorage.removeItem('token');
                 localStorage.removeItem('user');
-                // Optional: Redirect to login if needed, or handle in AuthContext
-                // window.location.href = '/login'; 
+                window.location.href = '/login';
             }
         }
         return Promise.reject(error);
