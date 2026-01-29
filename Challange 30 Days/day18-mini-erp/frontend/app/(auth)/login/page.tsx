@@ -20,7 +20,15 @@ export default function LoginPage() {
 
         try {
             const response = await api.post('/login', { email, password });
-            const { token, user } = response.data;
+            console.log('Login Response:', response.data); // Debugging
+
+            // Support both 'token' and 'access_token' formats
+            const token = response.data.token || response.data.access_token;
+            const user = response.data.user;
+
+            if (!token) {
+                throw new Error('No access token received from server');
+            }
 
             login(token, user || { id: 1, name: 'User', email });
             toast.success('تم تسجيل الدخول بنجاح');
