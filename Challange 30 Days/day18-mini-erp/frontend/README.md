@@ -1,36 +1,100 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Mini ERP - واجهة المستخدم
 
-## Getting Started
+<div align="center">
 
-First, run the development server:
+![Next.js](https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js) ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript) ![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=for-the-badge&logo=tailwind-css) ![Recharts](https://img.shields.io/badge/Recharts-Visualization-FF6384?style=for-the-badge&logo=chart.js)
+
+**لوحة تحكم حديثة لإدارة الموارد المؤسسية**
+
+![Mini ERP Dashboard](./public/home.png)
+
+</div>
+
+---
+
+## نظرة عامة
+
+هذه هي واجهة المستخدم (Client Side) لنظام **Mini ERP**، تم بناؤها باستخدام **Next.js** و **Tailwind CSS**. توفر تجربة مستخدم سلسة وحديثة لإدارة كافة جوانب المؤسسة، من الموارد البشرية وحتى التقارير المالية، مع تركيز كبير على سهولة الاستخدام والعرض البصري للبيانات.
+
+## المميزات الرئيسية
+
+### 📊 لوحة تحكم تفاعلية (Dashboard)
+
+- رسوم بيانية (Charts) توضح الإيرادات والمصروفات وحالة المشاريع.
+- بطاقات إحصائيات حية (Live Stats) لعدد الموظفين، الأرباح، والطلبات المعلقة.
+- تخصيص التحية بناءً على المستخدم ودوره الوظيفي.
+
+### 👥 إدارة الموظفين والعملاء
+
+- قوائم بيانات متطورة (DataTables) مع خاصية البحث والصفحات.
+- نوافذ منبثقة (Modals) لإضافة وتعديل بيانات الموظفين والعملاء بلمسة واحدة.
+- حماية العمليات الحرجة (مثل الحذف) بنوافذ تأكيد.
+
+### 📅 نظام الحضور والإجازات
+
+- تسجيل الدخول/الخروج بضغطة زر مع تسجيل الوقت الفعلي.
+- نموذج تقديم إجازات يدعم جميع الأنواع (سنوية، مرضية، طارئة).
+- لوحة خاصة للمدير للمواقفة على الطلبات أو رفضها مع ذكر السبب.
+
+### 💼 إدارة المشاريع والفواتير
+
+- تتبع حالة المشاريع (نشط، مكتمل) وربطها بالعملاء والمدراء.
+- نظام فواتير متكامل يوضح حالات الدفع (مدفوعة، غير مدفوعة، متأخرة).
+
+## التقنيات المستخدمة
+
+- **Next.js (App Router)**: لبناء هيكلية سريعة وقابلة للتوسع.
+- **Tailwind CSS**: لتصميم واجهات عصرية ومتجاوبة.
+- **Axios**: للربط مع الـ API الخلفي.
+- **Recharts**: لعرض الرسوم البيانية والتحليلات.
+- **Lucide React**: مكتبة أيقونات عصرية وخفيفة.
+- **React Hot Toast**: لنظام التنبيهات والتفاعل مع المستخدم.
+
+## هيكل المشروع
+
+```
+frontend/
+├── app/
+│   ├── (auth)/             # صفحات تسجيل الدخول
+│   ├── (dashboard)/        # صفحات النظام الداخلية (محمية)
+│   │   ├── dashboard/      # الصفحة الرئيسية
+│   │   ├── employees/      # إدارة الموظفين
+│   │   ├── projects/       # المشاريع
+│   │   ├── attendance/     # سجل الحضور
+│   │   └── ...
+│   └── layout.tsx          # التخطيط العام
+├── components/
+│   ├── ui/                 # مكونات قابلة لإعادة الاستخدام (أزرار، حقول، جداول)
+│   └── layout/             # الشريط الجانبي والرأس
+├── lib/
+│   └── axios.ts            # إعدادات الاتصال بالخادم
+└── public/                 # الصور والملفات الثابتة
+```
+
+## التثبيت والتشغيل
+
+### 1. تثبيت الاعتمادات
+
+```bash
+npm install
+```
+
+### 2. إعداد المتغيرات
+
+تأكد من أن الخادم الخلفي (Backend) يعمل على المنفذ الافتراضي `http://localhost:8000` أو قم بتعديل `lib/axios.ts` إذا لزم الأمر.
+
+### 3. تشغيل وضع التطوير
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+افتح المتصفح على الرابط: [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+<div align="center">
 
-## Learn More
+**تحدي 30 يوم 30 مشروع - اليوم 18**
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+</div>
