@@ -20,20 +20,28 @@ export default function LoginPage() {
 
         try {
             const response = await api.post('/login', { email, password });
-            console.log('Login Response:', response.data); // Debugging
+            console.log('Login Body:', JSON.stringify(response.data, null, 2));
+            console.log('Login Headers:', response.headers);
 
             // Support standard and nested response structures
-            const token = response.data.token ||
+            let token = response.data.token ||
                 response.data.access_token ||
                 response.data.data?.token ||
                 response.data.data?.access_token ||
-                response.data.authorization?.token;
+                response.data.authorization?.token ||
+                response.headers['authorization'] || // Check header
+                response.headers['x-access-token'];
+
+            // Sometimes the token is just the entire data if it's a string (rare but possible)
+            if (typeof response.data === 'string' && response.data.startsWith('eyJ')) {
+                token = response.data;
+            }
 
             const user = response.data.user || response.data.data?.user;
 
             if (!token) {
-                console.error('Token missing in response:', response.data);
-                throw new Error('لم يتم استلام رمز الدخول من الخادم (Token missing)');
+                console.error('CRITICAL: No token found in response. Backend must return a token!');
+                throw new Error('الخادم لم يرسل رمز الدخول (Token). تأكد من الكود في Laravel.');
             }
 
             login(token, user || { id: 1, name: 'User', email });
