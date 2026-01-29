@@ -22,12 +22,18 @@ export default function LoginPage() {
             const response = await api.post('/login', { email, password });
             console.log('Login Response:', response.data); // Debugging
 
-            // Support both 'token' and 'access_token' formats
-            const token = response.data.token || response.data.access_token;
-            const user = response.data.user;
+            // Support standard and nested response structures
+            const token = response.data.token ||
+                response.data.access_token ||
+                response.data.data?.token ||
+                response.data.data?.access_token ||
+                response.data.authorization?.token;
+
+            const user = response.data.user || response.data.data?.user;
 
             if (!token) {
-                throw new Error('No access token received from server');
+                console.error('Token missing in response:', response.data);
+                throw new Error('لم يتم استلام رمز الدخول من الخادم (Token missing)');
             }
 
             login(token, user || { id: 1, name: 'User', email });
