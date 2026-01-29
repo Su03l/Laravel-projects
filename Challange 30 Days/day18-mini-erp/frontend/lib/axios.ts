@@ -19,11 +19,19 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
     (response) => response,
     (error) => {
+        // Check if the error is 401
         if (error.response && error.response.status === 401) {
-            if (typeof window !== 'undefined') {
-                localStorage.removeItem('token');
-                localStorage.removeItem('user');
-                window.location.href = '/login';
+            // Prevent redirect loop if already on login page or if the request was TO /login
+            // We check if the request URL ends with /login (ignoring query params)
+            const isLoginRequest = error.config.url?.endsWith('/login');
+            const isLoginPage = typeof window !== 'undefined' && window.location.pathname === '/login';
+
+            if (!isLoginRequest && !isLoginPage) {
+                if (typeof window !== 'undefined') {
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('user');
+                    window.location.href = '/login';
+                }
             }
         }
         return Promise.reject(error);
