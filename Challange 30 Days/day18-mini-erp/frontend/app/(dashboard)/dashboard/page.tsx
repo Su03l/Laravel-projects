@@ -80,7 +80,7 @@ export default function DashboardPage() {
                         {user?.name?.charAt(0) || 'U'}
                     </div>
                     <div>
-                        <h2 className="text-2xl font-bold text-slate-900">أهلاً بك، {user?.name || 'المستخدم'} 👋</h2>
+                        <h2 className="text-2xl font-bold text-slate-900">أهلاً بك، {user?.name || 'المستخدم'}</h2>
                         <p className="text-slate-500 font-medium">
                             {user?.role === 'admin' ? 'مدير النظام' : user?.role === 'manager' ? 'مدير مشروع' : 'موظف'} - إليك نظرة عامة على أداء الشركة.
                         </p>
