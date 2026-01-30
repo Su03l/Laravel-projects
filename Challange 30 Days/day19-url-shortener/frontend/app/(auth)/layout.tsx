@@ -4,8 +4,8 @@ export default function AuthLayout({
     children: React.ReactNode;
 }) {
     return (
-        <div className="flex min-h-screen items-center justify-center bg-slate-50 p-4 dark:bg-slate-900">
-            <div className="w-full max-w-md space-y-8">
+        <div className="flex min-h-screen items-center justify-center bg-white p-4 dark:bg-slate-950">
+            <div className="w-full max-w-2xl space-y-8">
                 {children}
             </div>
         </div>

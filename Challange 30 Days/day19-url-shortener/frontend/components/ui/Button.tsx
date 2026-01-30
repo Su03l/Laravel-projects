@@ -1,10 +1,10 @@
 import React from 'react';
 import { Loader2 } from 'lucide-react';
-import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     variant?: 'primary' | 'secondary' | 'ghost' | 'destructive';
+    size?: 'default' | 'sm' | 'lg' | 'icon';
     isLoading?: boolean;
 }
 
@@ -12,11 +12,12 @@ export function Button({
     children,
     className,
     variant = 'primary',
+    size = 'default',
     isLoading,
     disabled,
     ...props
 }: ButtonProps) {
-    const baseStyles = "inline-flex items-center justify-center rounded-lg px-4 py-2 font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none";
+    const baseStyles = "inline-flex items-center justify-center rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none cursor-pointer";
 
     const variants = {
         primary: "bg-sky-600 text-white hover:bg-sky-700 focus:ring-sky-500 border border-transparent",
@@ -25,9 +26,16 @@ export function Button({
         destructive: "bg-red-600 text-white hover:bg-red-700 focus:ring-red-500 border border-transparent",
     };
 
+    const sizes = {
+        default: "h-10 px-4 py-2",
+        sm: "h-9 rounded-md px-3 text-xs",
+        lg: "h-12 rounded-lg px-8 text-lg",
+        icon: "h-10 w-10 p-2",
+    };
+
     return (
         <button
-            className={twMerge(baseStyles, variants[variant], className)}
+            className={twMerge(baseStyles, variants[variant], sizes[size], className)}
             disabled={disabled || isLoading}
             {...props}
         >

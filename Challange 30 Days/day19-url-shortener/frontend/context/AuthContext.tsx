@@ -44,11 +44,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             const { data } = await api.post<AuthResponse>('/login', { email, password });
             localStorage.setItem('token', data.token);
             setUser(data.user);
-            toast.success('Welcome back!');
+            toast.success('هلا والله! نورتنا');
             router.push('/dashboard');
         } catch (error: any) {
             const apiError = error.response?.data as ApiError;
-            toast.error(apiError?.message || 'Login failed');
+            toast.error(apiError?.message || 'أفا! فيه خطأ بتسجيل الدخول');
             throw error;
         }
     };
@@ -58,11 +58,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             const { data } = await api.post<AuthResponse>('/register', { name, email, password });
             localStorage.setItem('token', data.token);
             setUser(data.user);
-            toast.success('Account created successfully!');
+            toast.success('يا هلا! تم إنشاء حسابك بنجاح');
             router.push('/dashboard');
         } catch (error: any) {
             const apiError = error.response?.data as ApiError;
-            toast.error(apiError?.message || 'Registration failed');
+            toast.error(apiError?.message || 'صار خطأ بالتسجيل، جرب مرة ثانية');
             throw error;
         }
     };
@@ -72,11 +72,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             await api.post('/logout');
             localStorage.removeItem('token');
             setUser(null);
-            toast.success('Logged out');
-            router.push('/login'); // Assuming we have a login page
+            toast.success('نشوفك على خير!');
+            router.push('/login');
         } catch (error) {
             console.error("Logout error", error);
-            // Force logout locally even if API fails
             localStorage.removeItem('token');
             setUser(null);
             router.push('/login');

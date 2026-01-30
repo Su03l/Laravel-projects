@@ -6,6 +6,7 @@ import { useAuth } from '@/context/AuthContext';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/Card';
+import { Mail, Lock } from 'lucide-react';
 
 export default function LoginPage() {
     const { login } = useAuth();
@@ -28,36 +29,40 @@ export default function LoginPage() {
     return (
         <Card className="border-t-4 border-t-sky-600 shadow-lg">
             <CardHeader className="text-center">
-                <CardTitle className="text-2xl font-bold">Welcome Back</CardTitle>
-                <CardDescription>Sign in to your URL Shortener account</CardDescription>
+                <CardTitle className="text-2xl font-bold">يا هلا ومسهلا!</CardTitle>
+                <CardDescription>سجل دخولك عشان تدير روابطك يا بطل</CardDescription>
             </CardHeader>
             <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <Input
-                        label="Email"
+                        label="الإيميل"
                         type="email"
-                        placeholder="you@example.com"
+                        placeholder="name@example.com"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
+                        className="text-right"
+                        icon={Mail}
                     />
                     <Input
-                        label="Password"
+                        label="كلمة المرور"
                         type="password"
                         placeholder="••••••••"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
+                        className="text-right"
+                        icon={Lock}
                     />
                     <Button type="submit" className="w-full" isLoading={isLoading}>
-                        Sign In
+                        دخول
                     </Button>
                 </form>
             </CardContent>
             <CardFooter className="justify-center text-sm text-slate-600">
-                Don't have an account?{' '}
-                <Link href="/register" className="ml-1 font-medium text-sky-600 hover:text-sky-500">
-                    Register
+                ما عندك حساب؟{' '}
+                <Link href="/register" className="mr-1 font-medium text-sky-600 hover:text-sky-500">
+                    سجل جديد
                 </Link>
             </CardFooter>
         </Card>

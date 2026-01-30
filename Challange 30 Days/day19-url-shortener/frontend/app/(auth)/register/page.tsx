@@ -6,6 +6,7 @@ import { useAuth } from '@/context/AuthContext';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/Card';
+import { User, Mail, Lock } from 'lucide-react';
 
 export default function RegisterPage() {
     const { register } = useAuth();
@@ -21,7 +22,7 @@ export default function RegisterPage() {
         setError('');
 
         if (password !== passwordConfirmation) {
-            setError('Passwords do not match');
+            setError('كلمات المرور ما تتطابق يا غالي');
             return;
         }
 
@@ -38,53 +39,61 @@ export default function RegisterPage() {
     return (
         <Card className="border-t-4 border-t-sky-600 shadow-lg">
             <CardHeader className="text-center">
-                <CardTitle className="text-2xl font-bold">Create Account</CardTitle>
-                <CardDescription>Start managing your links today</CardDescription>
+                <CardTitle className="text-2xl font-bold">حساب جديد</CardTitle>
+                <CardDescription>انضم لنا وابدأ تقصير روابطك باحترافية</CardDescription>
             </CardHeader>
             <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <Input
-                        label="Full Name"
+                        label="اسمك الكريم"
                         type="text"
-                        placeholder="John Doe"
+                        placeholder="فلان الفلاني"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         required
+                        className="text-right"
+                        icon={User}
                     />
                     <Input
-                        label="Email"
+                        label="الإيميل"
                         type="email"
-                        placeholder="you@example.com"
+                        placeholder="name@example.com"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
+                        className="text-right"
+                        icon={Mail}
                     />
                     <Input
-                        label="Password"
+                        label="كلمة المرور"
                         type="password"
                         placeholder="••••••••"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
+                        className="text-right"
+                        icon={Lock}
                     />
                     <Input
-                        label="Confirm Password"
+                        label="تأكيد كلمة المرور"
                         type="password"
                         placeholder="••••••••"
                         value={passwordConfirmation}
                         onChange={(e) => setPasswordConfirmation(e.target.value)}
                         required
                         error={error}
+                        className="text-right"
+                        icon={Lock}
                     />
                     <Button type="submit" className="w-full" isLoading={isLoading}>
-                        Create Account
+                        إنشاء الحساب
                     </Button>
                 </form>
             </CardContent>
             <CardFooter className="justify-center text-sm text-slate-600">
-                Already have an account?{' '}
-                <Link href="/login" className="ml-1 font-medium text-sky-600 hover:text-sky-500">
-                    Sign In
+                عندك حساب من قبل؟{' '}
+                <Link href="/login" className="mr-1 font-medium text-sky-600 hover:text-sky-500">
+                    تسجيل دخول
                 </Link>
             </CardFooter>
         </Card>

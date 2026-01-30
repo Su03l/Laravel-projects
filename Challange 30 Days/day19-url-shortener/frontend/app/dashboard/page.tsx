@@ -8,7 +8,7 @@ import { LinkCard } from '@/components/dashboard/LinkCard';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Modal } from '@/components/ui/Modal';
-import { Loader2, Plus, Search } from 'lucide-react';
+import { Loader2, Search } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export default function DashboardPage() {
@@ -30,14 +30,10 @@ export default function DashboardPage() {
     const fetchLinks = async () => {
         try {
             const { data } = await api.get<{ data: LinkType[] }>('/links');
-            // Assuming API returns { data: [...] } due to Resource or just [...]
-            // Laravel apiResource return wrapped in data by default? 
-            // If the user didn't wrap it, it might be direct array.
-            // Let's check `data.data` first, else `data`.
             const linksData = Array.isArray(data) ? data : (data.data || []);
             setLinks(linksData);
         } catch (error) {
-            toast.error('Failed to load links');
+            toast.error('ما قدرنا نجيب الروابط، تأكد من النت');
             console.error(error);
         } finally {
             setIsLoading(false);
@@ -59,15 +55,13 @@ export default function DashboardPage() {
                 url: newUrl,
                 name: newName || undefined,
             });
-            // Handle response structure similar to fetch
             const newLink = data.data || data;
-            // Prepend new link
             setLinks([newLink as LinkType, ...links]);
-            toast.success('Link created successfully!');
+            toast.success('تم! الرابط جاهز للاستخدام');
             setNewUrl('');
             setNewName('');
         } catch (error: any) {
-            const message = error.response?.data?.message || 'Failed to create link';
+            const message = error.response?.data?.message || 'فشلنا في تقصير الرابط';
             toast.error(message);
         } finally {
             setIsCreating(false);
@@ -76,13 +70,13 @@ export default function DashboardPage() {
 
     // Delete Link
     const handleDelete = async (id: number) => {
-        if (!confirm('Are you sure you want to delete this link?')) return;
+        if (!confirm('أكيد تبي تحذف الرابط؟ تراه بيختفي للأبد')) return;
         try {
             await api.delete(`/links/${id}`);
             setLinks(links.filter(l => l.id !== id));
-            toast.success('Link deleted');
+            toast.success('تم الحذف');
         } catch (error) {
-            toast.error('Failed to delete link');
+            toast.error('صار خطأ بالحذف');
         }
     };
 
@@ -104,10 +98,10 @@ export default function DashboardPage() {
             });
             const updatedLink = data.data || data;
             setLinks(links.map(l => l.id === editingLink.id ? (updatedLink as LinkType) : l));
-            toast.success('Link updated');
+            toast.success('تحدث الرابط بنجاح');
             setEditingLink(null);
         } catch (error) {
-            toast.error('Failed to update link');
+            toast.error('ما قدرنا نحدث الرابط');
         }
     };
 
@@ -131,35 +125,35 @@ export default function DashboardPage() {
             {/* Create Section */}
             <div className="mx-auto max-w-2xl text-center">
                 <h1 className="mb-2 text-3xl font-bold text-slate-900 dark:text-white">
-                    Shorten Your Links
+                    قصر روابطك الطويلة
                 </h1>
                 <p className="mb-8 text-slate-600 dark:text-slate-400">
-                    Paste your long URL below to create a short, trackable link.
+                    حط الرابط الطويل تحت وازهلها، بنضبطك برابط قصير ومرتب.
                 </p>
 
                 <form onSubmit={handleCreateWrapper} className="relative flex flex-col gap-4 sm:flex-row">
                     <div className="flex-1 space-y-2">
                         <Input
-                            placeholder="Paste your long URL here..."
+                            placeholder="حط رابطك الطويل هنا.."
                             value={newUrl}
                             onChange={(e) => setNewUrl(e.target.value)}
                             required
-                            className="h-12 text-lg shadow-sm"
+                            className="h-12 text-lg shadow-sm text-right"
                         />
                         <Input
-                            placeholder="Link Name (Optional)"
+                            placeholder="اسم مميز للرابط (اختياري)"
                             value={newName}
                             onChange={(e) => setNewName(e.target.value)}
-                            className="h-10 text-sm"
+                            className="h-10 text-sm text-right"
                         />
                     </div>
                     <Button
                         type="submit"
                         size="lg"
-                        className="h-12 px-8 text-lg font-semibold shadow-sky-200"
+                        className="h-auto px-8 text-lg font-semibold shadow-sky-200"
                         isLoading={isCreating}
                     >
-                        Shorten
+                        قصرّه لي!
                     </Button>
                 </form>
             </div>
@@ -170,12 +164,12 @@ export default function DashboardPage() {
             {/* Links List */}
             <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                    <h2 className="text-xl font-semibold text-slate-900 dark:text-white">Your Links</h2>
+                    <h2 className="text-xl font-semibold text-slate-900 dark:text-white">قائمة روابطك</h2>
                     <div className="relative w-64">
-                        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-400" />
+                        <Search className="absolute right-2.5 top-2.5 h-4 w-4 text-slate-400" />
                         <Input
-                            placeholder="Search links..."
-                            className="pl-9"
+                            placeholder="ابحث عن رابط..."
+                            className="pr-9"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
@@ -188,7 +182,7 @@ export default function DashboardPage() {
                     </div>
                 ) : filteredLinks.length === 0 ? (
                     <div className="rounded-xl border border-dashed border-slate-300 py-12 text-center dark:border-slate-700">
-                        <p className="text-slate-500">No links found. Create your first one above!</p>
+                        <p className="text-slate-500">ما عندك روابط للحين.. ابدأ فوق وجرب!</p>
                     </div>
                 ) : (
                     <div className="grid gap-4">
@@ -208,27 +202,29 @@ export default function DashboardPage() {
             <Modal
                 isOpen={!!editingLink}
                 onClose={() => setEditingLink(null)}
-                title="Edit Link"
+                title="تعديل الرابط"
             >
                 <form onSubmit={handleUpdate} className="space-y-4">
                     <Input
-                        label="Destination URL"
+                        label="الرابط الأصلي"
                         value={editUrl}
                         onChange={(e) => setEditUrl(e.target.value)}
                         required
+                        className="text-right dir-ltr"
                     />
                     <Input
-                        label="Link Name"
+                        label="اسم الرابط"
                         value={editName}
                         onChange={(e) => setEditName(e.target.value)}
-                        placeholder="e.g. My Portfolio"
+                        placeholder="مثل: صفحتي الشخصية"
+                        className="text-right"
                     />
                     <div className="flex justify-end gap-2 pt-2">
                         <Button type="button" variant="ghost" onClick={() => setEditingLink(null)}>
-                            Cancel
+                            هونّت
                         </Button>
                         <Button type="submit">
-                            Save Changes
+                            احفظ التغييرات
                         </Button>
                     </div>
                 </form>
