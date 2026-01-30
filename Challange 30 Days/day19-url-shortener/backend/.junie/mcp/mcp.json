@@ -1,0 +1,11 @@
+{
+    "mcpServers": {
+        "laravel-boost": {
+            "command": "C:\\Users\\khash\\.config\\herd\\bin\\php85\\php.exe",
+            "args": [
+                "C:\\Users\\khash\\Laravel\\Challange 30 days\\day19-url-shortener\\artisan",
+                "boost:mcp"
+            ]
+        }
+    }
+}
