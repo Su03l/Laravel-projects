@@ -1,59 +1,149 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# URL Shortener API - الخادم الخلفي
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+<div align="center">
 
-## About Laravel
+![Laravel](https://img.shields.io/badge/Laravel-11-FF2D20?style=for-the-badge&logo=laravel) ![PHP](https://img.shields.io/badge/PHP-8.2+-777BB4?style=for-the-badge&logo=php) ![MySQL](https://img.shields.io/badge/MySQL-Database-003B57?style=for-the-badge&logo=mysql) ![Sanctum](https://img.shields.io/badge/Sanctum-Auth-38BDF8?style=for-the-badge&logo=laravel)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+**تحدي 30 يوم 30 مشروع - اليوم 19**
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+</div>
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## نظرة عامة
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+"URL Shortener" هو نظام ذكي وسريع لتقصير الروابط الطويلة (API)، يهدف إلى مساعدة المستخدمين على إدارة روابطهم ومشاركتها بسهولة واحترافية. يوفر النظام إحصائيات دقيقة لعدد الزيارات لكل رابط، مع واجهة برمجية آمنة وسهلة الاستخدام.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## المشكلات التي يحلها
 
-## Laravel Sponsors
+| المشكلة                  | الحل                                                              |
+| :----------------------- | :---------------------------------------------------------------- |
+| الروابط الطويلة والمعقدة | تحويل الروابط الطويلة إلى روابط قصيرة وجذابة سهلة المشاركة والحفظ |
+| غياب تتبع الزيارات       | نظام تتبع دقيق يسجل عدد النقرات لكل رابط مختصر                    |
+| ضياع الروابط المهمة      | لوحة تحكم مركزية لحفظ وإدارة جميع الروابط الخاصة بالمستخدم        |
+| صعوبة المشاركة           | روابط قصيرة مناسبة لوسائل التواصل الاجتماعي والرسائل النصية       |
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## المميزات التقنية
 
-### Premium Partners
+`Link Management` `Click Tracking` `Custom Aliases` `Secure Authentication` `RESTful API` `Scalable Architecture`
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## توثيق الـ API
 
-## Contributing
+### المصادقة (Authentication)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+#### تسجيل حساب جديد
 
-## Code of Conduct
+```http
+POST /api/register
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+#### تسجيل الدخول
 
-## Security Vulnerabilities
+```http
+POST /api/login
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+#### تسجيل الخروج
 
-## License
+```http
+POST /api/logout
+Authorization: Bearer {token}
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### إدارة الروابط (Links)
+
+#### عرض الروابط (Dashboard)
+
+```http
+GET /api/links       # عرض كل روابط المستخدم
+```
+
+#### إنشاء رابط مختصر
+
+```http
+POST /api/links      # إنشاء رابط جديد
+# Body: { "url": "https://google.com", "name": "Google" }
+```
+
+#### تحديث رابط
+
+```http
+PUT /api/links/{id}  # تعديل البيانات (الاسم، الرابط الأصلي)
+```
+
+#### حذف رابط
+
+```http
+DELETE /api/links/{id} # حذف الرابط نهائياً
+```
+
+### الإحصائيات (Stats)
+
+#### إحصائيات لوحة التحكم
+
+```http
+GET /api/dashboard     # إجمالي الروابط والزيارات
+```
+
+#### زيارة الرابط المختصر
+
+```http
+GET /{code}            # توجيه الزائر للرابط الأصلي وتسجيل زيارة
+```
+
+## هيكل المشروع
+
+```
+backend/
+├── app/
+│   ├── Http/Controllers/
+│   │   ├── Auth/
+│   │   │   └── AuthController.php       # المصادقة
+│   │   ├── Link/
+│   │   │   └── LinkController.php       # إدارة الروابط
+│   │   ├── Dashboard/
+│   │   │   └── DashboardController.php  # الإحصائيات
+│   ├── Models/
+│   │   ├── User.php
+│   │   ├── Link.php                     # نموذج الرابط
+├── database/
+│   ├── migrations/                      # جداول البيانات
+└── routes/
+    └── api.php                          # المسارات
+```
+
+## التثبيت والإعداد
+
+### 1. تثبيت الحزم
+
+```bash
+composer install
+```
+
+### 2. إعداد البيئة
+
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+### 3. إعداد قاعدة البيانات
+
+```bash
+# قم بإنشاء قاعدة بيانات باسم 'url_shortener'
+php artisan migrate
+```
+
+### 4. تشغيل الخادم
+
+```bash
+php artisan serve
+```
+
+---
+
+<div align="center">
+
+**صنع ضمن تحدي 30 يوم 30 مشروع**
+
+</div>
