@@ -17,7 +17,7 @@ export function Button({
     disabled,
     ...props
 }: ButtonProps) {
-    const baseStyles = "inline-flex items-center justify-center rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none cursor-pointer";
+    const baseStyles = "inline-flex items-center justify-center rounded-xl font-bold transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none cursor-pointer";
 
     const variants = {
         primary: "bg-sky-600 text-white hover:bg-sky-700 focus:ring-sky-500 border border-transparent",
@@ -27,10 +27,10 @@ export function Button({
     };
 
     const sizes = {
-        default: "h-10 px-4 py-2",
-        sm: "h-9 rounded-md px-3 text-xs",
-        lg: "h-12 rounded-lg px-8 text-lg",
-        icon: "h-10 w-10 p-2",
+        default: "h-14 px-6 text-lg",
+        sm: "h-10 rounded-md px-4 text-sm",
+        lg: "h-16 rounded-xl px-10 text-xl",
+        icon: "h-12 w-12 p-3",
     };
 
     return (

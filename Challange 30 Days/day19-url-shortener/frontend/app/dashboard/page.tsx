@@ -8,7 +8,7 @@ import { LinkCard } from '@/components/dashboard/LinkCard';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Modal } from '@/components/ui/Modal';
-import { Loader2, Search } from 'lucide-react';
+import { Loader2, Search, Zap, Plus } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export default function DashboardPage() {
@@ -121,71 +121,88 @@ export default function DashboardPage() {
     );
 
     return (
-        <div className="space-y-8">
-            {/* Create Section */}
-            <div className="mx-auto max-w-2xl text-center">
-                <h1 className="mb-2 text-3xl font-bold text-slate-900 dark:text-white">
-                    قصر روابطك الطويلة
-                </h1>
-                <p className="mb-8 text-slate-600 dark:text-slate-400">
-                    حط الرابط الطويل تحت وازهلها، بنضبطك برابط قصير ومرتب.
-                </p>
-
-                <form onSubmit={handleCreateWrapper} className="relative flex flex-col gap-4 sm:flex-row">
-                    <div className="flex-1 space-y-2">
-                        <Input
-                            placeholder="حط رابطك الطويل هنا.."
-                            value={newUrl}
-                            onChange={(e) => setNewUrl(e.target.value)}
-                            required
-                            className="h-12 text-lg shadow-sm text-right"
-                        />
-                        <Input
-                            placeholder="اسم مميز للرابط (اختياري)"
-                            value={newName}
-                            onChange={(e) => setNewName(e.target.value)}
-                            className="h-10 text-sm text-right"
-                        />
-                    </div>
-                    <Button
-                        type="submit"
-                        size="lg"
-                        className="h-auto px-8 text-lg font-semibold shadow-sky-200"
-                        isLoading={isCreating}
-                    >
-                        قصرّه لي!
-                    </Button>
-                </form>
+        <div className="space-y-10">
+            {/* Page Header */}
+            <div className="flex flex-col gap-2">
+                <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white">نظرة عامة</h1>
+                <p className="text-slate-500">مرحباً بعودتك! إليك ملخص نشاطك وروابطك.</p>
             </div>
 
-            {/* Stats */}
+            {/* Stats Grid */}
             <Stats totalLinks={stats.totalLinks} totalVisits={stats.totalVisits} />
 
-            {/* Links List */}
-            <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                    <h2 className="text-xl font-semibold text-slate-900 dark:text-white">قائمة روابطك</h2>
-                    <div className="relative w-64">
-                        <Search className="absolute right-2.5 top-2.5 h-4 w-4 text-slate-400" />
+            {/* Hero Create Section */}
+            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-700 via-blue-600 to-sky-500 px-8 py-16 text-white shadow-2xl shadow-blue-200 dark:shadow-none md:px-16">
+                {/* Decoration Circles */}
+                <div className="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-white/5 blur-3xl" />
+                <div className="absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-sky-400/20 blur-3xl" />
+
+                <div className="relative mx-auto max-w-4xl text-center">
+                    <div className="mb-8 flex justify-center">
+                        <div className="flex h-20 w-20 items-center justify-center rounded-3xl bg-white/10 text-white backdrop-blur-md shadow-inner ring-1 ring-white/20">
+                            <Zap className="h-10 w-10 text-yellow-300 drop-shadow-md" fill="currentColor" />
+                        </div>
+                    </div>
+                    <h2 className="mb-6 text-4xl font-black tracking-tight drop-shadow-sm">ابدأ بتقصير رابط جديد</h2>
+                    <p className="mb-10 text-sky-50 text-xl font-medium leading-relaxed opacity-90">
+                        حط رابطك هنا وضبطه بضغطة زر، سريع وبسيط.
+                    </p>
+
+                    <form onSubmit={handleCreateWrapper} className="flex flex-col gap-5">
+                        <div className="flex flex-col gap-5 md:flex-row">
+                            <Input
+                                placeholder="حط الرابط الطويل هنا..."
+                                value={newUrl}
+                                onChange={(e) => setNewUrl(e.target.value)}
+                                required
+                                className="h-20 border-0 bg-white shadow-xl text-2xl text-slate-900 placeholder:text-slate-400 focus:ring-4 focus:ring-sky-300/50 text-right px-8 rounded-2xl"
+                            />
+                            <Input
+                                placeholder="اسم الرابط (اختياري)"
+                                value={newName}
+                                onChange={(e) => setNewName(e.target.value)}
+                                className="h-20 border-0 bg-white/10 backdrop-blur-sm text-xl text-white placeholder:text-blue-100 focus:bg-white/20 focus:ring-2 focus:ring-white/30 text-right px-8 md:w-1/3 rounded-2xl placeholder-shown:placeholder:text-opacity-80"
+                            />
+                        </div>
+                        <Button
+                            type="submit"
+                            size="lg"
+                            className="h-20 w-full text-2xl font-bold bg-slate-900 hover:bg-slate-800 text-white border-0 shadow-xl rounded-2xl transition-all hover:scale-[1.01] active:scale-[0.99]"
+                            isLoading={isCreating}
+                        >
+                            <Plus className="ml-3 h-8 w-8" />
+                            إنشاء رابط مختصر
+                        </Button>
+                    </form>
+                </div>
+            </div>
+
+            {/* Links Section */}
+            <div className="space-y-6">
+                <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                    <h2 className="text-2xl font-bold text-slate-900 dark:text-white">روابطك الأخيرة</h2>
+                    <div className="relative w-full md:w-80">
+                        <Search className="absolute right-3.5 top-3.5 h-5 w-5 text-slate-400" />
                         <Input
-                            placeholder="ابحث عن رابط..."
-                            className="pr-9"
+                            placeholder="ابحث.."
+                            className="h-12 w-full pr-12 text-base"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
                     </div>
                 </div>
 
+                {/* Grid Layout for Links */}
                 {isLoading ? (
-                    <div className="flex justify-center py-12">
-                        <Loader2 className="h-8 w-8 animate-spin text-sky-600" />
+                    <div className="flex justify-center py-20">
+                        <Loader2 className="h-10 w-10 animate-spin text-sky-600" />
                     </div>
                 ) : filteredLinks.length === 0 ? (
-                    <div className="rounded-xl border border-dashed border-slate-300 py-12 text-center dark:border-slate-700">
-                        <p className="text-slate-500">ما عندك روابط للحين.. ابدأ فوق وجرب!</p>
+                    <div className="rounded-2xl border-2 border-dashed border-slate-200 py-20 text-center dark:border-slate-800">
+                        <p className="text-xl text-slate-500">ما فيه روابط! أنشئ أول رابط لك فوق ⚡️</p>
                     </div>
                 ) : (
-                    <div className="grid gap-4">
+                    <div className="grid gap-6 md:grid-cols-2">
                         {filteredLinks.map((link) => (
                             <LinkCard
                                 key={link.id}
@@ -204,27 +221,27 @@ export default function DashboardPage() {
                 onClose={() => setEditingLink(null)}
                 title="تعديل الرابط"
             >
-                <form onSubmit={handleUpdate} className="space-y-4">
+                <form onSubmit={handleUpdate} className="space-y-6">
                     <Input
                         label="الرابط الأصلي"
                         value={editUrl}
                         onChange={(e) => setEditUrl(e.target.value)}
                         required
-                        className="text-right dir-ltr"
+                        className="text-right dir-ltr h-14"
                     />
                     <Input
                         label="اسم الرابط"
                         value={editName}
                         onChange={(e) => setEditName(e.target.value)}
                         placeholder="مثل: صفحتي الشخصية"
-                        className="text-right"
+                        className="text-right h-14"
                     />
-                    <div className="flex justify-end gap-2 pt-2">
+                    <div className="flex justify-end gap-3 pt-4">
                         <Button type="button" variant="ghost" onClick={() => setEditingLink(null)}>
                             هونّت
                         </Button>
                         <Button type="submit">
-                            احفظ التغييرات
+                            حفظ
                         </Button>
                     </div>
                 </form>

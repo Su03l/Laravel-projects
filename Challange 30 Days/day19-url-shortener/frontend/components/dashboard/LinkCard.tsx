@@ -23,9 +23,9 @@ export function LinkCard({ link, onDelete, onEdit }: LinkCardProps) {
         <Card className="hover:border-sky-200 transition-colors">
             <CardContent className="flex items-center justify-between p-6">
                 <div className="grid gap-1">
-                    <div className="flex items-center gap-2">
-                        <span className="font-bold text-slate-900">{link.name || 'رابط بدون اسم'}</span>
-                        <span className="text-xs text-slate-400">
+                    <div className="flex items-center gap-2 mb-2">
+                        <span className="text-lg font-bold text-slate-900">{link.name || 'رابط بدون اسم'}</span>
+                        <span className="text-sm text-slate-400">
                             {new Date(link.created_at).toLocaleDateString('ar-EG')}
                         </span>
                     </div>
@@ -34,28 +34,28 @@ export function LinkCard({ link, onDelete, onEdit }: LinkCardProps) {
                         target="_blank"
                         rel="noopener noreferrer"
                         dir="ltr"
-                        className="text-lg font-bold text-sky-600 hover:underline flex items-center gap-1 text-left w-fit"
+                        className="text-2xl font-bold text-sky-600 hover:text-sky-700 hover:underline flex items-center gap-2 text-left w-fit"
                     >
                         {displayUrl}
-                        <ExternalLink className="h-4 w-4" />
+                        <ExternalLink className="h-5 w-5" />
                     </a>
-                    <p className="text-sm text-slate-500 truncate max-w-md dir-ltr text-left">
+                    <p className="text-base text-slate-500 truncate max-w-lg dir-ltr text-left mt-1">
                         {link.original_url}
                     </p>
-                    <div className="flex items-center gap-1 text-xs text-slate-500 font-medium mt-1">
-                        <BarChart2 className="h-3 w-3" />
-                        🔥 {link.visits} زيارة
+                    <div className="flex items-center gap-2 text-sm text-slate-600 font-semibold mt-3">
+                        <BarChart2 className="h-5 w-5 text-orange-500" />
+                        {link.visits} زيارة
                     </div>
                 </div>
-                <div className="flex items-center gap-2">
-                    <Button variant="secondary" size="icon" onClick={handleCopy} title="نسخ">
-                        <Copy className="h-4 w-4" />
+                <div className="flex items-center gap-3">
+                    <Button variant="secondary" className="h-10 w-10 p-0 rounded-lg" onClick={handleCopy} title="نسخ">
+                        <Copy className="h-5 w-5" />
                     </Button>
-                    <Button variant="ghost" size="icon" onClick={() => onEdit(link)} title="تعديل">
-                        <Edit2 className="h-4 w-4" />
+                    <Button variant="ghost" className="h-10 w-10 p-0 rounded-lg" onClick={() => onEdit(link)} title="تعديل">
+                        <Edit2 className="h-5 w-5" />
                     </Button>
-                    <Button variant="ghost" size="icon" className="text-red-600 hover:text-red-700 hover:bg-red-50" onClick={() => onDelete(link.id)} title="حذف">
-                        <Trash2 className="h-4 w-4" />
+                    <Button variant="ghost" className="h-10 w-10 p-0 rounded-lg text-red-600 hover:text-red-700 hover:bg-red-50" onClick={() => onDelete(link.id)} title="حذف">
+                        <Trash2 className="h-5 w-5" />
                     </Button>
                 </div>
             </CardContent>

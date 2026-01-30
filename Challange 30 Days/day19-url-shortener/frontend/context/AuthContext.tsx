@@ -55,11 +55,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const register = async (name: string, email: string, password: string) => {
         try {
-            const { data } = await api.post<AuthResponse>('/register', { name, email, password });
-            localStorage.setItem('token', data.token);
-            setUser(data.user);
-            toast.success('يا هلا! تم إنشاء حسابك بنجاح');
-            router.push('/dashboard');
+            await api.post('/register', { name, email, password });
+            // User requested no auto-login. Redirect to login page.
+            toast.success('تم إنشاء حسابك يا بطل! الحين حولناك لصفحة الدخول..');
+
+            setTimeout(() => {
+                router.push('/login');
+            }, 2000);
         } catch (error: any) {
             const apiError = error.response?.data as ApiError;
             toast.error(apiError?.message || 'صار خطأ بالتسجيل، جرب مرة ثانية');

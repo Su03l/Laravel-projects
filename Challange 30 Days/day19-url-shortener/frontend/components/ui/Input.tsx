@@ -23,8 +23,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
                 )}
                 <div className="relative">
                     {Icon && (
-                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-                            <Icon className="h-5 w-5 text-slate-400" />
+                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
+                            <Icon className="h-6 w-6 text-slate-400" />
                         </div>
                     )}
                     <input
@@ -43,12 +43,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
                         <button
                             type="button"
                             onClick={() => setShowPassword(!showPassword)}
-                            className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400 hover:text-slate-600 focus:outline-none"
+                            className="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400 hover:text-slate-600 focus:outline-none"
                         >
                             {showPassword ? (
-                                <EyeOff className="h-5 w-5" />
+                                <EyeOff className="h-6 w-6" />
                             ) : (
-                                <Eye className="h-5 w-5" />
+                                <Eye className="h-6 w-6" />
                             )}
                         </button>
                     )}
