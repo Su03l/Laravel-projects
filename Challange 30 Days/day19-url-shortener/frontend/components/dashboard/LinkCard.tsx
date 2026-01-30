@@ -20,43 +20,66 @@ export function LinkCard({ link, onDelete, onEdit }: LinkCardProps) {
     };
 
     return (
-        <Card className="hover:border-sky-200 transition-colors">
-            <CardContent className="flex items-center justify-between p-6">
-                <div className="grid gap-1">
-                    <div className="flex items-center gap-2 mb-2">
-                        <span className="text-lg font-bold text-slate-900">{link.name || 'رابط بدون اسم'}</span>
-                        <span className="text-sm text-slate-400">
-                            {new Date(link.created_at).toLocaleDateString('ar-EG')}
-                        </span>
+        <Card className="hover:border-sky-300 transition-all duration-200 bg-white border-slate-200 shadow-sm hover:shadow-md group">
+            <CardContent className="p-6">
+                <div className="flex flex-col gap-4">
+                    {/* Top Row: Name and Actions */}
+                    <div className="flex items-start justify-between">
+                        <div className="flex items-center gap-3">
+                            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-sky-50 text-sky-600">
+                                <ExternalLink className="h-5 w-5" />
+                            </div>
+                            <div>
+                                <h3 className="font-bold text-lg text-slate-900">{link.name || 'رابط بدون اسم'}</h3>
+                                <span className="text-xs text-slate-400 font-medium">
+                                    {new Date(link.created_at).toLocaleDateString('ar-EG')}
+                                </span>
+                            </div>
+                        </div>
+
+                        {/* Actions - Always visible or show on hover */}
+                        <div className="flex items-center gap-1 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
+                            <Button variant="ghost" size="icon" className="h-9 w-9 text-slate-400 hover:text-sky-600 hover:bg-sky-50 rounded-full" onClick={() => onEdit(link)} title="تعديل">
+                                <Edit2 className="h-4 w-4" />
+                            </Button>
+                            <Button variant="ghost" size="icon" className="h-9 w-9 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-full" onClick={() => onDelete(link.id)} title="حذف">
+                                <Trash2 className="h-4 w-4" />
+                            </Button>
+                        </div>
                     </div>
-                    <a
-                        href={displayUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        dir="ltr"
-                        className="text-2xl font-bold text-sky-600 hover:text-sky-700 hover:underline flex items-center gap-2 text-left w-fit"
-                    >
-                        {displayUrl}
-                        <ExternalLink className="h-5 w-5" />
-                    </a>
-                    <p className="text-base text-slate-500 truncate max-w-lg dir-ltr text-left mt-1">
-                        {link.original_url}
-                    </p>
-                    <div className="flex items-center gap-2 text-sm text-slate-600 font-semibold mt-3">
-                        <BarChart2 className="h-5 w-5 text-orange-500" />
-                        {link.visits} زيارة
+
+                    {/* Middle: The Links */}
+                    <div className="rounded-xl bg-slate-50 p-4 border border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div className="space-y-1 overflow-hidden">
+                            <a
+                                href={displayUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                dir="ltr"
+                                className="block text-xl font-bold text-sky-600 hover:text-sky-700 hover:underline truncate"
+                            >
+                                {displayUrl}
+                            </a>
+                            <p className="text-sm text-slate-500 truncate dir-ltr font-mono">
+                                {link.original_url}
+                            </p>
+                        </div>
+                        <Button
+                            className="shrink-0 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 shadow-sm"
+                            onClick={handleCopy}
+                        >
+                            <Copy className="h-4 w-4 mr-2" />
+                            نسخ
+                        </Button>
                     </div>
-                </div>
-                <div className="flex items-center gap-3">
-                    <Button variant="secondary" className="h-10 w-10 p-0 rounded-lg" onClick={handleCopy} title="نسخ">
-                        <Copy className="h-5 w-5" />
-                    </Button>
-                    <Button variant="ghost" className="h-10 w-10 p-0 rounded-lg" onClick={() => onEdit(link)} title="تعديل">
-                        <Edit2 className="h-5 w-5" />
-                    </Button>
-                    <Button variant="ghost" className="h-10 w-10 p-0 rounded-lg text-red-600 hover:text-red-700 hover:bg-red-50" onClick={() => onDelete(link.id)} title="حذف">
-                        <Trash2 className="h-5 w-5" />
-                    </Button>
+
+                    {/* Bottom: Stats */}
+                    <div className="flex items-center justify-end border-t border-slate-100 pt-3">
+                        <div className="flex items-center gap-2 text-sm font-semibold text-slate-600 bg-slate-100 px-3 py-1 rounded-full border border-slate-200">
+                            <BarChart2 className="h-4 w-4 text-slate-500" />
+                            <span>{link.visits} زيارة</span>
+                        </div>
+                    </div>
                 </div>
             </CardContent>
         </Card>

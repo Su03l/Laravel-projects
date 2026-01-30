@@ -131,47 +131,54 @@ export default function DashboardPage() {
             {/* Stats Grid */}
             <Stats totalLinks={stats.totalLinks} totalVisits={stats.totalVisits} />
 
-            {/* Hero Create Section */}
-            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-700 via-blue-600 to-sky-500 px-8 py-16 text-white shadow-2xl shadow-blue-200 dark:shadow-none md:px-16">
-                {/* Decoration Circles */}
-                <div className="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-white/5 blur-3xl" />
-                <div className="absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-sky-400/20 blur-3xl" />
+            {/* Hero Create Section - NEUTRAL SLATE THEME */}
+            <div className="relative overflow-hidden rounded-3xl bg-slate-900 px-8 py-16 text-white shadow-2xl shadow-slate-200 dark:shadow-none md:px-16 md:py-20">
+                {/* Abstract Shapes for Depth - Subtle */}
+                <div className="absolute top-0 right-0 -mt-20 -mr-20 h-96 w-96 rounded-full bg-white/5 blur-3xl" />
+                <div className="absolute bottom-0 left-0 -mb-20 -ml-20 h-80 w-80 rounded-full bg-slate-700/20 blur-3xl" />
 
-                <div className="relative mx-auto max-w-4xl text-center">
-                    <div className="mb-8 flex justify-center">
-                        <div className="flex h-20 w-20 items-center justify-center rounded-3xl bg-white/10 text-white backdrop-blur-md shadow-inner ring-1 ring-white/20">
-                            <Zap className="h-10 w-10 text-yellow-300 drop-shadow-md" fill="currentColor" />
+                <div className="relative mx-auto max-w-5xl text-center">
+                    <div className="mb-10 flex justify-center">
+                        <div className="flex h-20 w-20 items-center justify-center rounded-3xl bg-white/5 backdrop-blur-md ring-1 ring-white/10 shadow-lg">
+                            <Zap className="h-10 w-10 text-white" fill="currentColor" />
                         </div>
                     </div>
-                    <h2 className="mb-6 text-4xl font-black tracking-tight drop-shadow-sm">ابدأ بتقصير رابط جديد</h2>
-                    <p className="mb-10 text-sky-50 text-xl font-medium leading-relaxed opacity-90">
-                        حط رابطك هنا وضبطه بضغطة زر، سريع وبسيط.
+
+                    <h2 className="mb-6 text-5xl font-extrabold tracking-tight leading-tight text-white">
+                        اختصر روابطك.. <span className="text-slate-400">بذكاء</span>
+                    </h2>
+                    <p className="mb-12 text-slate-300 text-xl font-light leading-relaxed max-w-2xl mx-auto">
+                        الأداة الأسرع لتقصير الروابط الطويلة. تصميم بسيط، نتائج فورية، وتحكم كامل.
                     </p>
 
-                    <form onSubmit={handleCreateWrapper} className="flex flex-col gap-5">
-                        <div className="flex flex-col gap-5 md:flex-row">
+                    <form onSubmit={handleCreateWrapper} className="flex flex-col gap-6 md:flex-row md:items-stretch">
+                        <div className="flex-1 relative">
                             <Input
                                 placeholder="حط الرابط الطويل هنا..."
                                 value={newUrl}
                                 onChange={(e) => setNewUrl(e.target.value)}
                                 required
-                                className="h-20 border-0 bg-white shadow-xl text-2xl text-slate-900 placeholder:text-slate-400 focus:ring-4 focus:ring-sky-300/50 text-right px-8 rounded-2xl"
-                            />
-                            <Input
-                                placeholder="اسم الرابط (اختياري)"
-                                value={newName}
-                                onChange={(e) => setNewName(e.target.value)}
-                                className="h-20 border-0 bg-white/10 backdrop-blur-sm text-xl text-white placeholder:text-blue-100 focus:bg-white/20 focus:ring-2 focus:ring-white/30 text-right px-8 md:w-1/3 rounded-2xl placeholder-shown:placeholder:text-opacity-80"
+                                className="h-20 w-full border-0 bg-white text-xl text-slate-800 placeholder:text-slate-400 focus:ring-4 focus:ring-slate-500/50 text-right px-8 rounded-2xl shadow-xl transition-all hover:bg-slate-50"
                             />
                         </div>
+
+                        <div className="md:w-1/3 relative">
+                            <Input
+                                placeholder="اسم مخصص (اختياري)"
+                                value={newName}
+                                onChange={(e) => setNewName(e.target.value)}
+                                className="h-20 w-full border-0 bg-white/5 backdrop-blur-md text-xl text-white placeholder:text-slate-400 focus:bg-white/10 focus:ring-2 focus:ring-white/20 text-right px-8 rounded-2xl transition-all placeholder-shown:placeholder:text-opacity-70"
+                            />
+                        </div>
+
                         <Button
                             type="submit"
                             size="lg"
-                            className="h-20 w-full text-2xl font-bold bg-slate-900 hover:bg-slate-800 text-white border-0 shadow-xl rounded-2xl transition-all hover:scale-[1.01] active:scale-[0.99]"
+                            className="h-20 px-10 text-xl font-bold bg-sky-600 hover:bg-sky-500 text-white border-0 shadow-xl rounded-2xl transition-transform hover:-translate-y-1 active:scale-95 whitespace-nowrap"
                             isLoading={isCreating}
                         >
-                            <Plus className="ml-3 h-8 w-8" />
-                            إنشاء رابط مختصر
+                            <Plus className="ml-2 h-7 w-7" />
+                            اختصر الرابط
                         </Button>
                     </form>
                 </div>
