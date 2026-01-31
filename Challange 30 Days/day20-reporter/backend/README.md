@@ -1,59 +1,148 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Financial Dashboard API - الخادم الخلفي
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+<div align="center">
 
-## About Laravel
+![Laravel](https://img.shields.io/badge/Laravel-11-FF2D20?style=for-the-badge&logo=laravel) ![PHP](https://img.shields.io/badge/PHP-8.2+-777BB4?style=for-the-badge&logo=php) ![MySQL](https://img.shields.io/badge/MySQL-Database-003B57?style=for-the-badge&logo=mysql) ![Sanctum](https://img.shields.io/badge/Sanctum-Auth-38BDF8?style=for-the-badge&logo=laravel)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+**تحدي 30 يوم 30 مشروع - اليوم 20**
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+</div>
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## نظرة عامة
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+"Financial Dashboard" هو نظام مالي متكامل (Invoicing System) يهدف لتسهيل إدارة الفواتير والمصاريف والإيرادات للشركات الصغيرة والمتوسطة. يوفر النظام لوحة تحكم تعرض الوضع المالي في الوقت الفعلي، مع إمكانية تصدير التقارير والفواتير (PDF/Excel) بدعم كامل للغة العربية.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## المشكلات التي يحلها
 
-## Laravel Sponsors
+| المشكلة                | الحل                                                       |
+| :--------------------- | :--------------------------------------------------------- |
+| تعقيد الحسابات اليدوية | لوحة تحكم تعرض صافي الربح، الدخل، والمصاريف تلقائياً       |
+| صعوبة إصدار الفواتير   | إنشاء وتحميل فواتير PDF احترافية بضغطة زر                  |
+| تقارير غير منظمة       | تصدير جميع العمليات لملف Excel للمحاسبة والمراجعة          |
+| مشكلة النصوص العربية   | دعم فني كامل للغة العربية في ملفات PDF (Reshaping Support) |
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## المميزات التقنية
 
-### Premium Partners
+`Role-based Auth` `Arabic PDF Generation` `Excel Export` `Real-time Stats` `RESTful API` `Financial Charting Data`
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## توثيق الـ API
 
-## Contributing
+### المصادقة (Auth)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+#### تسجيل الدخول
 
-## Code of Conduct
+```http
+POST /api/login
+# Body: { "email": "user@example.com", "password": "password" }
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+#### إضافة موظف (Admin Only)
 
-## Security Vulnerabilities
+```http
+POST /api/admin/add-employee
+# Body: { "name": "Name", "email": "email", "password": "pass" }
+# Header: Authorization: Bearer {token}
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### العمليات المالية (Transactions)
 
-## License
+#### عرض العمليات
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```http
+GET /api/transactions
+```
+
+#### إضافة عملية (دخل/صرف)
+
+```http
+POST /api/transactions
+# Body: {
+#   "title": "Hosting",
+#   "amount": 150.00,
+#   "type": "expense",
+#   "company_name": "Digital Ocean",
+#   "date": "2024-01-01"
+# }
+```
+
+#### الإحصائيات
+
+```http
+GET /api/stats
+# Returns: { total_income, total_expense, net_profit, count }
+```
+
+### التقارير (Reports)
+
+#### تحميل تقرير Excel
+
+```http
+GET /api/report/excel
+```
+
+#### تحميل فاتورة PDF
+
+```http
+GET /api/report/invoice/{id}
+```
+
+## هيكل المشروع
+
+```
+backend/
+├── app/
+│   ├── Http/Controllers/
+│   │   ├── Auth/
+│   │   │   └── AuthController.php       # تسجيل الدخول
+│   │   ├── Transaction/
+│   │   │   └── TransactionController.php # إدارة العمليات والتقارير
+│   │   ├── Admin/
+│   │   │   └── AdminController.php      # إدارة الموظفين
+│   ├── Models/
+│   │   ├── User.php
+│   │   ├── Transaction.php              # نموذج العملية المالية
+├── resources/
+│   └── views/
+│       └── reports/
+│           └── invoice.blade.php        # قالب الفاتورة
+└── routes/
+    └── api.php                          # المسارات وتوثيقها
+```
+
+## التثبيت والإعداد
+
+### 1. تثبيت الحزم
+
+```bash
+composer install
+```
+
+### 2. إعداد البيئة
+
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+### 3. إعداد قاعدة البيانات
+
+```bash
+# قم بإنشاء قاعدة بيانات وإعداد ملف .env
+php artisan migrate
+```
+
+### 4. تشغيل الخادم
+
+```bash
+php artisan serve
+```
+
+---
+
+<div align="center">
+
+**صنع ضمن تحدي 30 يوم 30 مشروع**
+
+</div>

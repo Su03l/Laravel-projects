@@ -1,36 +1,86 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Financial Dashboard - واجهة المستخدم
 
-## Getting Started
+<div align="center">
 
-First, run the development server:
+![Next.js](https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js) ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=for-the-badge&logo=typescript) ![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.0-38B2AC?style=for-the-badge&logo=tailwind-css) ![Recharts](https://img.shields.io/badge/Recharts-Data_Viz-22c55e?style=for-the-badge)
+
+**تحدي 30 يوم 30 مشروع - اليوم 20**
+
+</div>
+
+---
+
+## نظرة عامة
+
+واجهة مستخدم حديثة وسريعة لنظام "Financial Dashboard"، مبنية لاستعراض البيانات المالية وإدارتها بسلاسة. تم تصميم الواجهة لتعمل باللغة العربية (RTL) بشكل كامل مع دعم تجربة مستخدم "بريميوم" من خلال الرسوم البيانية، الجداول التفاعلية، والنوافذ المنبثقة.
+
+<div align="center">
+  <img src="public/home.png" alt="Dashboard Preview" width="100%" style="border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+</div>
+
+## المميزات الرئيسية
+
+| الميزة                  | الوصف                                                        |
+| :---------------------- | :----------------------------------------------------------- |
+| **تصميم عربي كامل**     | دعم RTL، خطوط عربية (Cairo)، ونصوص باللهجة المحلية           |
+| **إدارة كلمات المرور**  | إمكانية إظهار/إخفاء كلمات المرور لسهولة الاستخدام            |
+| **رسوم بيانية تفاعلية** | Pie Charts تعرض توزيع الدخل والمصاريف بشكل بصري جذاب         |
+| **تصدير الملفات**       | أزرار مباشرة لتحميل تقارير Excel وفواتير PDF                 |
+| **تجربة مستخدم سلسة**   | استخدام Modals لإضافة البيانات دون مغادرة الصفحة (AJAX-like) |
+
+## التقنيات المستخدمة
+
+- **Framework**: Next.js 14 (App Router)
+- **Styling**: Tailwind CSS
+- **Icons**: Lucide React (Vector Icons)
+- **State Management**: React Context API
+- **HTTP Client**: Axios (with Interceptors)
+- **Visualization**: Recharts
+
+## صفحات المشروع
+
+### 1. الصفحة الرئيسية (Landing Page)
+
+صفحة تعريفية بالنظام، تعرض أهم المميزات مع زر توجيه للوحة التحكم.
+
+### 2. تسجيل الدخول (Login)
+
+صفحة آمنة ومصممة بعناية، تدعم إظهار كلمة المرور وتوجيه المستخدم حسب صلاحيته (Admin/Employee).
+
+### 3. لوحة التحكم (Dashboard)
+
+- **بطاقات الإحصائيات**: تعرض مجمل الدخل، المصاريف، وصافي الربح.
+- **الرسم البياني**: يوضح نسبة الإيرادات للمصروفات.
+- **جدول العمليات**: يعرض آخر العمليات مع إمكانية تحميل الفاتورة لكل عملية.
+- **الإجراءات**: أزرار لإضافة عملية جديدة أو إضافة موظف (للمدير فقط).
+
+## التثبيت والتشغيل
+
+### 1. تثبيت الاعتمادات
+
+```bash
+npm install
+```
+
+### 2. تشغيل نسخة التطوير
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+افتح المتصفح على: [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 3. بناء النسخة الإنتاجية
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm start
+```
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+<div align="center">
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**صنع ضمن تحدي 30 يوم 30 مشروع**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+</div>
