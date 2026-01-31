@@ -12,9 +12,6 @@ export default function LoginPage() {
     const [loading, setLoading] = useState(false);
     const { login } = useAuth();
 
-    // We access the API URL directly here or use the instance if we want to bypass the interceptor initially,
-    // though the interceptor is fine for unauthenticated requests too usually.
-    // However, login endpoint doesn't need the token.
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
