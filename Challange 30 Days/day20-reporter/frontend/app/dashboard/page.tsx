@@ -39,7 +39,6 @@ export default function DashboardPage() {
             setTransactions(transactionsRes.data.data || transactionsRes.data);
         } catch (error) {
             console.error(error);
-            // toast.error('Failed to load dashboard data'); 
         } finally {
             setLoadingData(false);
         }
