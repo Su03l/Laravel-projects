@@ -1,9 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
-import { useAuth } from '@/context/AuthContext';
-import { useRouter } from 'next/navigation';
-import axios from '@/lib/axios';
+import FinancialChart from '@/components/FinancialChart';
 import StatsCard from '@/components/StatsCard';
 import TransactionsTable from '@/components/TransactionsTable';
 import AddTransactionModal from '@/components/AddTransactionModal';
@@ -15,58 +12,9 @@ export default function DashboardPage() {
     const { user, logout, isLoading } = useAuth();
     const router = useRouter();
     const [stats, setStats] = useState({ total_income: 0, total_expense: 0, net_profit: 0 });
-    const [transactions, setTransactions] = useState([]);
-    const [isTransactionModalOpen, setIsTransactionModalOpen] = useState(false);
-    const [isEmployeeModalOpen, setIsEmployeeModalOpen] = useState(false);
-    const [loadingData, setLoadingData] = useState(true);
+    // ... existing state ...
 
-    useEffect(() => {
-        if (!isLoading && !user) {
-            router.push('/login');
-        }
-    }, [isLoading, user, router]);
-
-    const fetchData = useCallback(async () => {
-        try {
-            setLoadingData(true);
-            const [statsRes, transactionsRes] = await Promise.all([
-                axios.get('/stats'),
-                axios.get('/transactions')
-            ]);
-            setStats(statsRes.data);
-            setTransactions(transactionsRes.data.data || transactionsRes.data); // data might be wrapped
-        } catch (error) {
-            console.error(error);
-            // toast.error('Failed to load dashboard data');
-        } finally {
-            setLoadingData(false);
-        }
-    }, []);
-
-    useEffect(() => {
-        if (user) {
-            fetchData();
-        }
-    }, [user, fetchData]);
-
-    const handleExportExcel = async () => {
-        try {
-            const response = await axios.get('/report/excel', {
-                responseType: 'blob',
-            });
-            const url = window.URL.createObjectURL(new Blob([response.data]));
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', 'transactions_report.xlsx');
-            document.body.appendChild(link);
-            link.click();
-            link.remove();
-            toast.success('Excel report downloaded');
-        } catch (error) {
-            console.error(error);
-            toast.error('Failed to download Excel report');
-        }
-    };
+    // ... existing useEffects and functions ...
 
     if (isLoading || !user) {
         return <div className="flex min-h-screen items-center justify-center bg-gray-50"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-sky-600"></div></div>;
@@ -98,71 +46,110 @@ export default function DashboardPage() {
 
             <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 space-y-8">
                 {/* Metrics */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <StatsCard
-                        title="Total Income"
-                        value={`$${Number(stats.total_income).toFixed(2)}`}
-                        icon={TrendingUp}
-                        color="green"
-                    />
-                    <StatsCard
-                        title="Total Expense"
-                        value={`$${Number(stats.total_expense).toFixed(2)}`}
-                        icon={TrendingDown}
-                        color="red"
-                    />
-                    <StatsCard
-                        title="Net Profit"
-                        value={`$${Number(stats.net_profit).toFixed(2)}`}
-                        icon={Wallet}
-                        color="sky"
-                    />
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-3 gap-6">
+                        <StatsCard
+                            title="Total Income"
+                            value={`$${Number(stats.total_income).toFixed(2)}`}
+                            icon={TrendingUp}
+                            color="green"
+                        />
+                        <StatsCard
+                            title="Total Expense"
+                            value={`$${Number(stats.total_expense).toFixed(2)}`}
+                            icon={TrendingDown}
+                            color="red"
+                        />
+                        <StatsCard
+                            title="Net Profit"
+                            value={`$${Number(stats.net_profit).toFixed(2)}`}
+                            icon={Wallet}
+                            color="sky"
+                        />
+                        {/* Chart Section - Inline with stats on large or below? 
+                            Let's put chart in the third column of the main grid if we make stats take 2 cols?
+                            Actually, 3 stats cards fit nicely in one row.
+                            Let's keep Stats in one row, and Chart below it.
+                         */}
+                    </div>
+                    {/* Move Chart here if we want side by side, but 3 stats take width.
+                        Let's revert the complex grid and just stack them.
+                     */}
                 </div>
 
-                {/* Actions & Filters */}
-                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                    <h2 className="text-lg font-bold text-gray-900">Recent Transactions</h2>
-                    <div className="flex flex-wrap gap-3">
-                        {user.role === 'admin' && (
-                            <button
-                                onClick={() => setIsEmployeeModalOpen(true)}
-                                className="inline-flex items-center gap-2 rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-gray-800 transition-all"
-                            >
-                                <UserPlus className="h-4 w-4" />
-                                Add Employee
-                            </button>
-                        )}
-                        <button
-                            onClick={handleExportExcel}
-                            className="inline-flex items-center gap-2 rounded-lg bg-white border border-gray-200 px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 transition-all"
-                        >
-                            <FileSpreadsheet className="h-4 w-4 text-green-600" />
-                            Export Excel
-                        </button>
-                        <button
-                            onClick={() => setIsTransactionModalOpen(true)}
-                            className="inline-flex items-center gap-2 rounded-lg bg-sky-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-sky-500 shadow-sky-600/30 transition-all"
-                        >
-                            <Plus className="h-4 w-4" />
-                            New Transaction
-                        </button>
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div className="lg:col-span-2 space-y-8">
+                        {/* Stats Row */}
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                            <StatsCard
+                                title="Total Income"
+                                value={`$${Number(stats.total_income).toFixed(2)}`}
+                                icon={TrendingUp}
+                                color="green"
+                            />
+                            <StatsCard
+                                title="Total Expense"
+                                value={`$${Number(stats.total_expense).toFixed(2)}`}
+                                icon={TrendingDown}
+                                color="red"
+                            />
+                            <StatsCard
+                                title="Net Profit"
+                                value={`$${Number(stats.net_profit).toFixed(2)}`}
+                                icon={Wallet}
+                                color="sky"
+                            />
+                        </div>
+
+                        {/* Actions & Filters */}
+                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                            <h2 className="text-lg font-bold text-gray-900">Recent Transactions</h2>
+                            <div className="flex flex-wrap gap-3">
+                                {user.role === 'admin' && (
+                                    <button
+                                        onClick={() => setIsEmployeeModalOpen(true)}
+                                        className="inline-flex items-center gap-2 rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-gray-800 transition-all font-sans"
+                                    >
+                                        <UserPlus className="h-4 w-4" />
+                                        Add Employee
+                                    </button>
+                                )}
+                                <button
+                                    onClick={handleExportExcel}
+                                    className="inline-flex items-center gap-2 rounded-lg bg-white border border-gray-200 px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 transition-all font-sans"
+                                >
+                                    <FileSpreadsheet className="h-4 w-4 text-green-600" />
+                                    Export Excel
+                                </button>
+                                <button
+                                    onClick={() => setIsTransactionModalOpen(true)}
+                                    className="inline-flex items-center gap-2 rounded-lg bg-sky-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-sky-500 shadow-sky-600/30 transition-all font-sans"
+                                >
+                                    <Plus className="h-4 w-4" />
+                                    New Transaction
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Transactions Table */}
+                        <TransactionsTable transactions={transactions} />
+                    </div>
+
+                    <div className="lg:col-span-1">
+                        <FinancialChart income={stats.total_income} expense={stats.total_expense} />
                     </div>
                 </div>
 
-                {/* Transactions Table */}
-                <TransactionsTable transactions={transactions} />
-            </main>
-
-            {/* Modals */}
-            <AddTransactionModal
-                isOpen={isTransactionModalOpen}
-                onClose={() => setIsTransactionModalOpen(false)}
-                onSuccess={fetchData}
-            />
-            <AddEmployeeModal
-                isOpen={isEmployeeModalOpen}
-                onClose={() => setIsEmployeeModalOpen(false)}
-            />
+                {/* Modals */}
+                <AddTransactionModal
+                    isOpen={isTransactionModalOpen}
+                    onClose={() => setIsTransactionModalOpen(false)}
+                    onSuccess={fetchData}
+                />
+                <AddEmployeeModal
+                    isOpen={isEmployeeModalOpen}
+                    onClose={() => setIsEmployeeModalOpen(false)}
+                />
         </div>
     );
 }
