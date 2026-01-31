@@ -1,7 +1,7 @@
 'use client';
 
 import { Download, FileText } from 'lucide-react';
-import { format } from 'date-fns'; // I might need to install date-fns or just use native Intl
+
 import { useState } from 'react';
 import axios from '@/lib/axios';
 import toast from 'react-hot-toast';
@@ -77,8 +77,8 @@ export default function TransactionsTable({ transactions }: TransactionsTablePro
                                     <td className="px-6 py-4">
                                         <span
                                             className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${tx.type === 'income'
-                                                    ? 'bg-green-50 text-green-700'
-                                                    : 'bg-red-50 text-red-700'
+                                                ? 'bg-green-50 text-green-700'
+                                                : 'bg-red-50 text-red-700'
                                                 }`}
                                         >
                                             {tx.type === 'income' ? 'Income' : 'Expense'}

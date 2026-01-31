@@ -27,7 +27,6 @@ api.interceptors.response.use((response) => {
         if (typeof window !== 'undefined') {
             localStorage.removeItem('token');
             localStorage.removeItem('role');
-            // Avoid redirect loop if already on login
             if (window.location.pathname !== '/login') {
                 window.location.href = '/login';
             }

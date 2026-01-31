@@ -1,10 +1,14 @@
 'use client';
 
-import FinancialChart from '@/components/FinancialChart';
+import { useState, useEffect, useCallback } from 'react';
+import { useAuth } from '@/context/AuthContext';
+import { useRouter } from 'next/navigation';
+import axios from '@/lib/axios';
 import StatsCard from '@/components/StatsCard';
 import TransactionsTable from '@/components/TransactionsTable';
 import AddTransactionModal from '@/components/AddTransactionModal';
 import AddEmployeeModal from '@/components/AddEmployeeModal';
+import FinancialChart from '@/components/FinancialChart';
 import { Wallet, TrendingUp, TrendingDown, Plus, FileSpreadsheet, UserPlus, LogOut } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -12,9 +16,60 @@ export default function DashboardPage() {
     const { user, logout, isLoading } = useAuth();
     const router = useRouter();
     const [stats, setStats] = useState({ total_income: 0, total_expense: 0, net_profit: 0 });
-    // ... existing state ...
+    const [transactions, setTransactions] = useState([]);
+    const [isTransactionModalOpen, setIsTransactionModalOpen] = useState(false);
+    const [isEmployeeModalOpen, setIsEmployeeModalOpen] = useState(false);
 
-    // ... existing useEffects and functions ...
+    // We can rely on auth context isLoading, but we also want a local loading state for data fetching
+    const [loadingData, setLoadingData] = useState(true);
+
+    useEffect(() => {
+        if (!isLoading && !user) {
+            router.push('/login');
+        }
+    }, [isLoading, user, router]);
+
+    const fetchData = useCallback(async () => {
+        try {
+            setLoadingData(true);
+            const [statsRes, transactionsRes] = await Promise.all([
+                axios.get('/stats'),
+                axios.get('/transactions')
+            ]);
+            setStats(statsRes.data);
+            setTransactions(transactionsRes.data.data || transactionsRes.data);
+        } catch (error) {
+            console.error(error);
+            // toast.error('Failed to load dashboard data'); 
+        } finally {
+            setLoadingData(false);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (user) {
+            fetchData();
+        }
+    }, [user, fetchData]);
+
+    const handleExportExcel = async () => {
+        try {
+            const response = await axios.get('/report/excel', {
+                responseType: 'blob',
+            });
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'transactions_report.xlsx');
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            toast.success('Excel report downloaded');
+        } catch (error) {
+            console.error(error);
+            toast.error('Failed to download Excel report');
+        }
+    };
 
     if (isLoading || !user) {
         return <div className="flex min-h-screen items-center justify-center bg-gray-50"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-sky-600"></div></div>;
@@ -45,39 +100,9 @@ export default function DashboardPage() {
             </header>
 
             <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-                {/* Metrics */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-3 gap-6">
-                        <StatsCard
-                            title="Total Income"
-                            value={`$${Number(stats.total_income).toFixed(2)}`}
-                            icon={TrendingUp}
-                            color="green"
-                        />
-                        <StatsCard
-                            title="Total Expense"
-                            value={`$${Number(stats.total_expense).toFixed(2)}`}
-                            icon={TrendingDown}
-                            color="red"
-                        />
-                        <StatsCard
-                            title="Net Profit"
-                            value={`$${Number(stats.net_profit).toFixed(2)}`}
-                            icon={Wallet}
-                            color="sky"
-                        />
-                        {/* Chart Section - Inline with stats on large or below? 
-                            Let's put chart in the third column of the main grid if we make stats take 2 cols?
-                            Actually, 3 stats cards fit nicely in one row.
-                            Let's keep Stats in one row, and Chart below it.
-                         */}
-                    </div>
-                    {/* Move Chart here if we want side by side, but 3 stats take width.
-                        Let's revert the complex grid and just stack them.
-                     */}
-                </div>
-
+                {/* Metrics & Chart Grid */}
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    {/* Left Column: Stats & Table */}
                     <div className="lg:col-span-2 space-y-8">
                         {/* Stats Row */}
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
@@ -135,21 +160,23 @@ export default function DashboardPage() {
                         <TransactionsTable transactions={transactions} />
                     </div>
 
+                    {/* Right Column: Chart */}
                     <div className="lg:col-span-1">
                         <FinancialChart income={stats.total_income} expense={stats.total_expense} />
                     </div>
                 </div>
+            </main>
 
-                {/* Modals */}
-                <AddTransactionModal
-                    isOpen={isTransactionModalOpen}
-                    onClose={() => setIsTransactionModalOpen(false)}
-                    onSuccess={fetchData}
-                />
-                <AddEmployeeModal
-                    isOpen={isEmployeeModalOpen}
-                    onClose={() => setIsEmployeeModalOpen(false)}
-                />
+            {/* Modals */}
+            <AddTransactionModal
+                isOpen={isTransactionModalOpen}
+                onClose={() => setIsTransactionModalOpen(false)}
+                onSuccess={fetchData}
+            />
+            <AddEmployeeModal
+                isOpen={isEmployeeModalOpen}
+                onClose={() => setIsEmployeeModalOpen(false)}
+            />
         </div>
     );
 }
