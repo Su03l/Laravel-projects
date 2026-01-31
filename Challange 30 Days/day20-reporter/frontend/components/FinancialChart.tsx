@@ -15,7 +15,6 @@ export default function FinancialChart({ income, expense }: FinancialChartProps)
         { name: 'Expense', value: Number(expense) },
     ];
 
-    // Filter out zero values to avoid empty chart weirdness if data not loaded
     const activeData = data.filter(d => d.value > 0);
 
     if (activeData.length === 0) {
@@ -46,6 +45,7 @@ export default function FinancialChart({ income, expense }: FinancialChartProps)
                         ))}
                     </Pie>
                     <Tooltip
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         formatter={(value: any) => [`$${Number(value).toFixed(2)}`, '']}
                         contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
                     />
