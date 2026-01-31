@@ -28,6 +28,7 @@ export default function AddEmployeeModal({ isOpen, onClose }: AddEmployeeModalPr
             toast.success('Employee added successfully');
             onClose();
             setFormData({ name: '', email: '', password: '' });
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
             console.error(error);
             toast.error(error.response?.data?.message || 'Failed to add employee');
