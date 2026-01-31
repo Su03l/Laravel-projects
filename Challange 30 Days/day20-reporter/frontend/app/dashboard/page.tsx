@@ -20,7 +20,6 @@ export default function DashboardPage() {
     const [isTransactionModalOpen, setIsTransactionModalOpen] = useState(false);
     const [isEmployeeModalOpen, setIsEmployeeModalOpen] = useState(false);
 
-    // We can rely on auth context isLoading, but we also want a local loading state for data fetching
     const [loadingData, setLoadingData] = useState(true);
 
     useEffect(() => {
