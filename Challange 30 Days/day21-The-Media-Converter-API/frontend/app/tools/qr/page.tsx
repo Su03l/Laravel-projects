@@ -6,11 +6,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { QrCode, Download, RefreshCw, Zap } from "lucide-react";
 import toast from "react-hot-toast";
-import { API_BASE_URL } from "@/lib/api";
+import api from "@/lib/api";
 
 export default function QrPage() {
     const [text, setText] = useState("");
-    const [qrUrl, setQrUrl] = useState<string | null>(null);
+    const [qrBlob, setQrBlob] = useState<string | null>(null);
+    const [isSvg, setIsSvg] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
     const handleGenerate = async (e: React.FormEvent) => {
@@ -21,11 +22,35 @@ export default function QrPage() {
         }
 
         setIsLoading(true);
+        setQrBlob(null);
         try {
-            await new Promise(resolve => setTimeout(resolve, 500));
-            const url = `${API_BASE_URL}/tools/qr?text=${encodeURIComponent(text)}`;
-            setQrUrl(url);
+            // Fetch as blob first to handle image data
+            const response = await api.get(`/tools/qr?text=${encodeURIComponent(text)}`, {
+                responseType: 'arraybuffer' // Get raw data
+            });
+
+            const contentType = response.headers['content-type'];
+            const data = response.data;
+
+            if (contentType?.includes('svg') || (data.toString().includes('<svg'))) {
+                // It's an SVG string
+                const decoder = new TextDecoder('utf-8');
+                const svgString = decoder.decode(data);
+                // Create a blob from SVG string for img src
+                const blob = new Blob([svgString], { type: 'image/svg+xml' });
+                setQrBlob(URL.createObjectURL(blob));
+                setIsSvg(true);
+            } else {
+                // Assume it's a binary image (png/jpg)
+                const blob = new Blob([data], { type: contentType || 'image/png' });
+                setQrBlob(URL.createObjectURL(blob));
+                setIsSvg(false);
+            }
+
             toast.success("تم التوليد بنجاح");
+        } catch (err) {
+            console.error(err);
+            toast.error("فشل في توليد الرمز. تحقق من الخادم.");
         } finally {
             setIsLoading(false);
         }
@@ -46,7 +71,7 @@ export default function QrPage() {
 
                         <form onSubmit={handleGenerate} className="space-y-8">
                             <div className="space-y-4">
-                                <label className="text-lg font-medium text-slate-700">المحتوى (رابط أو نص)</label>
+                                <label className="text-lg font-medium text-slate-700">المحتوى</label>
                                 <Input
                                     placeholder="https://example.com"
                                     value={text}
@@ -65,22 +90,28 @@ export default function QrPage() {
 
                 {/* Result Preview */}
                 <div className="flex flex-col items-center justify-center rounded-[2.5rem] border border-white/50 bg-slate-50/50 p-12 text-center min-h-[500px] relative">
-                    {qrUrl ? (
+                    {qrBlob ? (
                         <div className="animate-in zoom-in-95 duration-500 flex flex-col items-center gap-8 w-full">
-                            <div className="relative group cursor-pointer" onClick={() => window.open(qrUrl, '_blank')}>
+                            <div className="relative group cursor-pointer" onClick={() => window.open(qrBlob, '_blank')}>
                                 <div className="absolute -inset-4 rounded-3xl bg-gradient-to-tr from-sky-400 to-indigo-400 opacity-20 blur-xl transition-opacity group-hover:opacity-40" />
                                 <div className="relative bg-white p-6 rounded-3xl shadow-xl border border-slate-100">
+                                    {/* Use img tag even for SVGs via blob URL */}
                                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                                    <img src={qrUrl} alt="QR Code" className="h-64 w-64 object-contain mix-blend-multiply" />
+                                    <img src={qrBlob} alt="QR Code" className="h-64 w-64 object-contain mix-blend-multiply" />
                                 </div>
                             </div>
 
                             <div className="flex flex-col gap-3 w-full max-w-xs">
-                                <Button variant="outline" className="h-14 rounded-xl border-slate-300 bg-white hover:bg-slate-50 text-slate-700 font-bold" onClick={() => window.open(qrUrl, '_blank')}>
+                                <Button variant="outline" className="h-14 rounded-xl border-slate-300 bg-white hover:bg-slate-50 text-slate-700 font-bold" onClick={() => {
+                                    const a = document.createElement('a');
+                                    a.href = qrBlob;
+                                    a.download = `qr-code.${isSvg ? 'svg' : 'png'}`;
+                                    a.click();
+                                    toast.success('تم التحميل');
+                                }}>
                                     <Download className="ml-2 h-5 w-5" />
                                     تحميل الصورة
                                 </Button>
-                                <p className="text-xs text-slate-400 font-medium">PNG • High Quality</p>
                             </div>
                         </div>
                     ) : (
@@ -88,7 +119,9 @@ export default function QrPage() {
                             <div className="h-32 w-32 rounded-3xl bg-slate-200/50 flex items-center justify-center border-2 border-dashed border-slate-300">
                                 <QrCode size={48} className="opacity-20" />
                             </div>
-                            <p className="text-lg font-medium">النتيجة ستظهر هنا</p>
+                            <p className="text-lg font-medium">
+                                {isLoading ? "جاري التوليد..." : "النتيجة ستظهر هنا"}
+                            </p>
                         </div>
                     )}
                 </div>

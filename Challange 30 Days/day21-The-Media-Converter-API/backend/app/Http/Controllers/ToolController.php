@@ -4,15 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-use Illuminate\Support\Str;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Facades\Http;
-
+use Illuminate\Support\Str;
 use Intervention\Image\Laravel\Facades\Image;
 
 class ToolController extends Controller
 {
-    // --- 1. الوقت ---
     public function humanTime()
     {
         Carbon::setLocale('ar');
@@ -23,53 +21,74 @@ class ToolController extends Controller
         ]);
     }
 
-    // --- 2. الباركود ---
     public function qrCode(Request $request)
     {
-        $text = $request->input('text', 'Laravel is awesome');
+        $text = $request->input('text', 'Laravel');
         $qr = QrCode::size(200)->generate($text);
         return response($qr)->header('Content-Type', 'image/svg+xml');
     }
 
-    // --- 3. النصوص ---
     public function textFormat(Request $request)
     {
-        $text = $request->input('text', '  laravel framework  ');
+        $text = $request->input('text', 'laravel framework');
         return response()->json([
-            'original' => $text,
             'slug' => Str::slug($text),
             'upper' => Str::upper($text),
-            'trim' => trim($text),
-            'limit' => Str::limit($text, 5)
         ]);
     }
 
-    // --- 4. العملات ---
     public function cryptoPrice()
     {
-        $response = Http::get('https://api.coindesk.com/v1/bpi/currentprice.json');
-        return $response->json();
+        try {
+            // محاولة الاتصال مع إلغاء التحقق من SSL (يحل مشاكل اللوكال)
+            // وتحديد مهلة 3 ثواني فقط عشان ما يعلق
+            $response = Http::withoutVerifying()->timeout(3)->get('https://api.coindesk.com/v1/bpi/currentprice.json');
+
+            if ($response->successful()) {
+                return $response->json();
+            }
+
+            throw new \Exception('Failed to fetch');
+        } catch (\Exception $e) {
+            // في حال فشل الاتصال (وهذا اللي يصير معك)، نرجع داتا وهمية
+            // عشان الفرونت إند يشتغل وما يوقف
+            return response()->json([
+                'bpi' => [
+                    'USD' => [
+                        'code' => 'USD',
+                        'rate' => '42,000.00', // سعر وهمي
+                        'description' => 'United States Dollar',
+                        'rate_float' => 42000.00
+                    ]
+                ],
+                'disclaimer' => 'This is MOCK data because API connection failed.',
+                'time' => [
+                    'updated' => Carbon::now()->toIso8601String()
+                ]
+            ]);
+        }
     }
 
-    // --- 5. UUID ---
     public function generateUuid()
     {
         return response()->json([
-            'id_1' => Str::uuid(),
-            'id_2' => Str::orderedUuid(),
-            'random_string' => Str::random(40)
+            'uuid_1' => Str::uuid(),
+            'uuid_2' => Str::uuid(),
+            'uuid_3' => Str::uuid(),
         ]);
     }
 
+
     public function imageTest()
     {
-        $image = Image::create(600, 200) // العرض والارتفاع
-        ->fill('#3498db'); // لون الخلفية (أزرق سماوي)
+        // إنشاء صورة جديدة (عرض 600، ارتفاع 200)
+        $image = Image::create(600, 200)
+            ->fill('#3498db'); // لون الخلفية أزرق
 
-        // تحويل الصورة إلى صيغة PNG
+        // تحويلها لـ PNG
         $encoded = $image->toPng();
 
-        // إرجاع الصورة للمتصفح مباشرة
+        // إرجاعها كصورة (ولليس JSON)
         return response($encoded)->header('Content-Type', 'image/png');
     }
 }

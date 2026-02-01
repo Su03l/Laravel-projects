@@ -3,11 +3,11 @@
 import { useState, useCallback, useEffect } from "react";
 import { ToolShell } from "@/components/layout/tool-shell";
 import { Button } from "@/components/ui/button";
-import { Copy, RefreshCw, Layers, Check } from "lucide-react";
+import { Copy, RefreshCw, Check } from "lucide-react";
 import toast from "react-hot-toast";
 import api from "@/lib/api";
-import { UuidResponse } from "@/types";
 import { cn } from "@/lib/utils";
+import { UuidResponse } from "@/types";
 
 export default function UuidPage() {
     const [data, setData] = useState<UuidResponse | null>(null);
@@ -29,6 +29,7 @@ export default function UuidPage() {
     useEffect(() => { fetchData(); }, [fetchData]);
 
     const copyToClipboard = (text: string, key: string) => {
+        if (!text) return;
         navigator.clipboard.writeText(text);
         setCopiedKey(key);
         toast.success("تم النسخ");
@@ -57,26 +58,25 @@ export default function UuidPage() {
                     ) : data ? (
                         <>
                             <UuidBigCard
-                                label="Primary UUID (v4)"
-                                value={data.id_1}
-                                copied={copiedKey === 'id1'}
-                                onCopy={() => copyToClipboard(data.id_1, 'id1')}
+                                label="UUID #1"
+                                value={data.uuid_1}
+                                copied={copiedKey === 'uuid_1'}
+                                onCopy={() => copyToClipboard(data.uuid_1, 'uuid_1')}
                                 idx="01"
                             />
                             <UuidBigCard
-                                label="Secondary UUID (v4)"
-                                value={data.id_2}
-                                copied={copiedKey === 'id2'}
-                                onCopy={() => copyToClipboard(data.id_2, 'id2')}
+                                label="UUID #2"
+                                value={data.uuid_2}
+                                copied={copiedKey === 'uuid_2'}
+                                onCopy={() => copyToClipboard(data.uuid_2, 'uuid_2')}
                                 idx="02"
                             />
                             <UuidBigCard
-                                label="Random Crypto String"
-                                value={data.random_string}
-                                copied={copiedKey === 'rand'}
-                                onCopy={() => copyToClipboard(data.random_string, 'rand')}
+                                label="UUID #3"
+                                value={data.uuid_3}
+                                copied={copiedKey === 'uuid_3'}
+                                onCopy={() => copyToClipboard(data.uuid_3, 'uuid_3')}
                                 idx="03"
-                                isMono={true}
                             />
                         </>
                     ) : null}
@@ -86,7 +86,7 @@ export default function UuidPage() {
     );
 }
 
-function UuidBigCard({ label, value, copied, onCopy, idx, isMono = true }: any) {
+function UuidBigCard({ label, value, copied, onCopy, idx }: any) {
     return (
         <div
             onClick={onCopy}
@@ -98,10 +98,7 @@ function UuidBigCard({ label, value, copied, onCopy, idx, isMono = true }: any) 
                         <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100 text-xs font-black text-slate-400">{idx}</span>
                         <h3 className="text-sm font-bold uppercase tracking-widest text-slate-500">{label}</h3>
                     </div>
-                    <div className={cn(
-                        "break-all text-xl md:text-3xl font-bold text-slate-800 transition-colors group-hover:text-sky-600",
-                        isMono && "font-mono"
-                    )} dir="ltr">
+                    <div className="font-mono break-all text-xl md:text-3xl font-bold text-slate-800 transition-colors group-hover:text-sky-600" dir="ltr">
                         {value}
                     </div>
                 </div>
