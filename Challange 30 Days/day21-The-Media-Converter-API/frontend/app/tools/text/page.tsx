@@ -3,8 +3,7 @@
 import { useState } from "react";
 import { ToolShell } from "@/components/layout/tool-shell";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Copy, ArrowRightLeft } from "lucide-react";
+import { Copy, Wand2 } from "lucide-react";
 import api from "@/lib/api";
 import toast from "react-hot-toast";
 import { TextResponse } from "@/types";
@@ -14,63 +13,50 @@ export default function TextPage() {
     const [results, setResults] = useState<TextResponse | null>(null);
     const [loading, setLoading] = useState(false);
 
-    const handleProcess = async (e: React.FormEvent) => {
-        e.preventDefault();
+    const handleProcess = async () => {
         if (!text.trim()) return;
-
         setLoading(true);
         try {
-            // Assuming GET request as per original specs
             const res = await api.get<TextResponse>(`/tools/text?text=${encodeURIComponent(text)}`);
             setResults(res.data);
-            toast.success("تمت المعالجة بنجاح");
-        } catch (err) {
-            toast.error("حدث خطأ في المعالجة");
         } finally {
             setLoading(false);
         }
     };
 
-    const copyToClipboard = (val: string) => {
-        navigator.clipboard.writeText(val);
-        toast.success("تم النسخ");
-    };
-
     return (
-        <ToolShell
-            title="منسق النصوص"
-            description="أداة بسيطة لتحويل النصوص: Slug, Uppercase, Trim, Limit."
-        >
-            <div className="grid gap-8 lg:grid-cols-2">
-                <div className="space-y-6">
-                    <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-                        <h3 className="mb-4 text-sm font-semibold text-slate-900">إدخال النص</h3>
-                        <form onSubmit={handleProcess} className="space-y-4">
-                            <Input
-                                value={text}
-                                onChange={e => setText(e.target.value)}
-                                placeholder="أكتب النص هنا..."
-                                className="h-12 text-lg"
-                            />
-                            <Button type="submit" className="w-full" disabled={loading || !text.trim()}>
-                                <ArrowRightLeft className="ml-2 h-4 w-4" />
-                                {loading ? "جاري المعالجة..." : "تحويل النص"}
+        <ToolShell title="منسق النصوص" description="أدوات ذكية لمعالجة النصوص وتحويلها.">
+            <div className="grid gap-8 lg:grid-cols-12">
+                {/* Input Area */}
+                <div className="lg:col-span-5 space-y-4">
+                    <div className="relative rounded-3xl border border-slate-200 bg-white p-2 shadow-sm focus-within:ring-4 focus-within:ring-sky-100 transition-shadow">
+                        <textarea
+                            value={text}
+                            onChange={e => setText(e.target.value)}
+                            placeholder="اكتب النص هنا..."
+                            className="h-64 w-full resize-none rounded-2xl bg-transparent p-6 text-lg placeholder:text-slate-300 focus:outline-none"
+                        />
+                        <div className="absolute bottom-4 left-4">
+                            <Button onClick={handleProcess} disabled={loading || !text} className="shadow-lg shadow-sky-200 rounded-xl px-6">
+                                <Wand2 className="ml-2 h-4 w-4" />
+                                معالجة
                             </Button>
-                        </form>
+                        </div>
                     </div>
                 </div>
 
-                <div className="space-y-4">
+                {/* Results Area */}
+                <div className="lg:col-span-7 space-y-4">
                     {results ? (
                         <>
-                            <ResultItem label="Slug (رابط دائم)" value={results.slug} onCopy={() => copyToClipboard(results.slug)} />
-                            <ResultItem label="Uppercase (حروف كبيرة)" value={results.upper} onCopy={() => copyToClipboard(results.upper)} />
-                            <ResultItem label="Trimmed (بدون مسافات)" value={results.trim} onCopy={() => copyToClipboard(results.trim)} />
-                            <ResultItem label="Limited (مختصر)" value={results.limit} onCopy={() => copyToClipboard(results.limit)} />
+                            <ResultRow label="Slug (URL Friendly)" value={results.slug} />
+                            <ResultRow label="UPPERCASE" value={results.upper} />
+                            <ResultRow label="Trimmed" value={results.trim} />
+                            <ResultRow label="Limited Characters" value={results.limit} />
                         </>
                     ) : (
-                        <div className="flex h-full min-h-[200px] items-center justify-center rounded-xl border border-dashed border-slate-200 bg-slate-50 text-slate-400">
-                            النتائج ستظهر هنا
+                        <div className="h-full min-h-[300px] flex flex-col items-center justify-center rounded-3xl border-2 border-dashed border-slate-200 bg-slate-50/50 text-slate-400">
+                            <p>النتائج ستظهر هنا بعد المعالجة</p>
                         </div>
                     )}
                 </div>
@@ -79,17 +65,22 @@ export default function TextPage() {
     );
 }
 
-function ResultItem({ label, value, onCopy }: { label: string, value: string, onCopy: () => void }) {
+function ResultRow({ label, value }: { label: string, value: string }) {
+    const copy = () => {
+        navigator.clipboard.writeText(value);
+        toast.success("تم النسخ");
+    };
+
     return (
-        <div className="group relative rounded-lg border border-slate-200 bg-white p-4 hover:border-sky-300 transition-colors">
-            <span className="mb-1 block text-xs font-semibold text-slate-500">{label}</span>
-            <div className="flex items-center justify-between gap-2">
-                <code className="block flex-1 overflow-x-auto font-mono text-sm text-slate-800" dir="ltr">
-                    {value}
-                </code>
-                <Button size="icon" variant="ghost" className="h-8 w-8 text-slate-400 hover:text-sky-600" onClick={onCopy}>
-                    <Copy size={14} />
-                </Button>
+        <div className="group flex flex-col gap-2 rounded-2xl border border-slate-100 bg-white p-6 shadow-sm transition-all hover:shadow-md">
+            <div className="flex justify-between items-center">
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-400">{label}</span>
+                <button onClick={copy} className="text-slate-300 hover:text-sky-600 transition-colors">
+                    <Copy size={18} />
+                </button>
+            </div>
+            <div className="font-mono text-lg text-slate-800 break-all" dir="ltr">
+                {value}
             </div>
         </div>
     )
