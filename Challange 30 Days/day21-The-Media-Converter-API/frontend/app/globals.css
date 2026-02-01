@@ -1,13 +1,22 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 :root {
+  /* Strict White Theme */
   --background: #ffffff;
   --foreground: #0f172a; /* slab-900 */
 }
 
+/* Force light colors even if system prefers dark, or just define them standard */
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  /* You can extend the theme here if needed, but Tailwind 4 handles defaults well.
+     We ensure strict adherence to the requested palette by using standard classes 
+     or overriding if necessary. For now, standard classes work well. */
+}
+
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
 }
