@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { ToolShell } from "@/components/layout/tool-shell";
 import { Button } from "@/components/ui/button";
-import { TrendingUp, RefreshCw, DollarSign, Globe } from "lucide-react";
+import { RefreshCw, DollarSign, Globe, Info } from "lucide-react";
 import api from "@/lib/api";
 import toast from "react-hot-toast";
 
@@ -25,6 +25,10 @@ export default function CryptoPage() {
 
     useEffect(() => { fetchPrice(); }, []);
 
+    // Determine which currencies are available
+    const availableCurrencies = data?.bpi ? Object.keys(data.bpi) : [];
+    const hasData = availableCurrencies.length > 0;
+
     return (
         <ToolShell title="أسعار العملات الرقمية" description="متابعة حية لسعر البيتكوين (BTC) مقابل العملات العالمية.">
             <div className="mx-auto max-w-5xl">
@@ -40,63 +44,75 @@ export default function CryptoPage() {
                     <div className="grid gap-8 md:grid-cols-3">
                         {[1, 2, 3].map(i => <div key={i} className="h-64 animate-pulse rounded-[2.5rem] bg-slate-100" />)}
                     </div>
-                ) : data?.bpi ? (
-                    <div className="grid gap-8 md:grid-cols-3">
-                        <CryptoHugeCard
-                            currency="USD"
-                            rate={data.bpi.USD.rate}
-                            desc={data.bpi.USD.description}
-                            icon={DollarSign}
-                            color="sky"
-                        />
-                        <CryptoHugeCard
-                            currency="GBP"
-                            rate={data.bpi.GBP.rate}
-                            desc={data.bpi.GBP.description}
-                            icon={Globe}
-                            color="indigo"
-                        />
-                        <CryptoHugeCard
-                            currency="EUR"
-                            rate={data.bpi.EUR.rate}
-                            desc={data.bpi.EUR.description}
-                            icon={Globe}
-                            color="emerald"
-                        />
+                ) : hasData ? (
+                    <div className={`grid gap-8 ${availableCurrencies.length === 1 ? 'md:grid-cols-1 max-w-lg mx-auto' : 'md:grid-cols-3'
+                        }`}>
+                        {availableCurrencies.map((code) => {
+                            const info = data.bpi[code];
+                            return (
+                                <CryptoHugeCard
+                                    key={code}
+                                    currency={code}
+                                    rate={info.rate}
+                                    desc={info.description}
+                                    icon={code === 'USD' ? DollarSign : Globe}
+                                    color={code === 'USD' ? 'sky' : (code === 'GBP' ? 'indigo' : 'emerald')}
+                                    scale={availableCurrencies.length === 1} // Scale up if it's the only one
+                                />
+                            );
+                        })}
                     </div>
                 ) : (
-                    <div className="text-center py-20 text-slate-400">لا توجد بيانات</div>
+                    <div className="text-center py-20 bg-slate-50 rounded-3xl border border-dashed border-slate-200">
+                        <p className="text-slate-500 font-medium">لا توجد بيانات متاحة حالياً</p>
+                        <p className="text-xs text-slate-400 mt-2">يرجى التحقق من اتصال الخادم</p>
+                    </div>
                 )}
 
                 <div className="mt-12 text-center text-xs font-bold uppercase tracking-[0.2em] text-slate-300">
                     Powered by CoinDesk API
                 </div>
+
+                {data?.disclaimer && (
+                    <div className="mt-4 flex justify-center">
+                        <div className="inline-flex items-center gap-2 rounded-full bg-amber-50 px-4 py-2 text-xs font-medium text-amber-600 border border-amber-100">
+                            <Info size={14} />
+                            {data.disclaimer}
+                        </div>
+                    </div>
+                )}
             </div>
         </ToolShell>
     );
 }
 
-function CryptoHugeCard({ currency, rate, desc, icon: Icon, color }: any) {
+function CryptoHugeCard({ rate, desc, icon: Icon, color, scale }: any) {
     const colorStyles: Record<string, string> = {
         sky: "bg-sky-50 text-sky-600 border-sky-100",
         indigo: "bg-indigo-50 text-indigo-600 border-indigo-100",
         emerald: "bg-emerald-50 text-emerald-600 border-emerald-100",
     };
 
+    const rateStr = String(rate || "0.00");
+
+    const displayWhole = rateStr.includes('.') ? rateStr.split('.')[0] : rateStr;
+    const displayFraction = rateStr.includes('.') ? rateStr.split('.')[1] : '00';
+
     return (
-        <div className="relative overflow-hidden rounded-[2.5rem] border border-slate-100 bg-white p-8 shadow-lg transition-transform hover:-translate-y-2 hover:shadow-2xl">
-            <div className={`mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl ${colorStyles[color]}`}>
+        <div className={`relative overflow-hidden rounded-[2.5rem] border border-slate-100 bg-white shadow-lg transition-transform hover:-translate-y-2 hover:shadow-2xl ${scale ? 'p-12 scale-100 md:scale-110' : 'p-8'
+            }`}>
+            <div className={`mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl ${colorStyles[color] || colorStyles.sky}`}>
                 <Icon size={32} />
             </div>
 
             <h3 className="text-lg font-bold text-slate-400 uppercase tracking-wider">{desc}</h3>
 
             <div className="mt-4 flex items-baseline gap-1" dir="ltr">
-                <span className={`text-4xl lg:text-5xl font-black tracking-tighter text-slate-900`}>
-                    {rate.split('.')[0]}
+                <span className={`font-black tracking-tighter text-slate-900 ${scale ? 'text-6xl md:text-7xl' : 'text-4xl lg:text-5xl'}`}>
+                    {displayWhole}
                 </span>
                 <span className="text-xl font-bold text-slate-400">
-                    .{rate.split('.')[1]?.slice(0, 2) || "00"}
+                    .{displayFraction.substring(0, 2)}
                 </span>
             </div>
 

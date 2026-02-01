@@ -17,7 +17,6 @@ api.interceptors.response.use(
     (response) => response,
     (error) => {
         // We can log errors here or trigger a global toast
-        console.error("API Error:", error);
         return Promise.reject(error);
     }
 );

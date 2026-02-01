@@ -7,7 +7,7 @@ import {
   Image as ImageIcon,
   Clock
 } from "lucide-react";
-import { DigitalClock } from "@/components/features/digital-clock";
+
 
 export default function Home() {
   const tools = [
@@ -61,10 +61,7 @@ export default function Home() {
           </p>
         </div>
 
-        {/* Digital Clock Hero */}
-        <div className="mb-20 flex justify-center scale-90 sm:scale-100">
-          <DigitalClock />
-        </div>
+
 
         <div className="mx-auto grid max-w-5xl gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {tools.map((tool) => (
@@ -76,7 +73,7 @@ export default function Home() {
         </div>
 
         <div className="mt-16 text-center text-sm text-slate-400">
-          تم التطوير باستخدام Next.js 14, Tailwind CSS (v4) & Laravel API
+          صنع ضمن تحدي 30 يوم 30 مشروع وهو من ضمن مشروع اليوم 21 : أدوات المطورين
         </div>
       </div>
     </div>

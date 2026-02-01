@@ -11,7 +11,6 @@ import api from "@/lib/api";
 export default function QrPage() {
     const [text, setText] = useState("");
     const [qrBlob, setQrBlob] = useState<string | null>(null);
-    const [isSvg, setIsSvg] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
     const handleGenerate = async (e: React.FormEvent) => {
@@ -39,12 +38,10 @@ export default function QrPage() {
                 // Create a blob from SVG string for img src
                 const blob = new Blob([svgString], { type: 'image/svg+xml' });
                 setQrBlob(URL.createObjectURL(blob));
-                setIsSvg(true);
             } else {
                 // Assume it's a binary image (png/jpg)
                 const blob = new Blob([data], { type: contentType || 'image/png' });
                 setQrBlob(URL.createObjectURL(blob));
-                setIsSvg(false);
             }
 
             toast.success("تم التوليد بنجاح");
@@ -53,6 +50,62 @@ export default function QrPage() {
             toast.error("فشل في توليد الرمز. تحقق من الخادم.");
         } finally {
             setIsLoading(false);
+        }
+    };
+
+    const handleDownload = async (format: 'svg' | 'png') => {
+        if (!qrBlob) return;
+
+        // SVG Download is simple (we already have the blob)
+        if (format === 'svg') {
+            const a = document.createElement('a');
+            a.href = qrBlob;
+            a.download = `qr-code.svg`;
+            a.click();
+            toast.success('تم تحميل SVG');
+            return;
+        }
+
+        // PNG Download: Convert SVG Blob -> Image -> Canvas -> PNG
+        const toastId = toast.loading('جاري تحويل الصورة...');
+        try {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const img = new Image();
+
+            img.onload = () => {
+                // Set canvas size (high res)
+                canvas.width = 1000;
+                canvas.height = 1000;
+
+                if (ctx) {
+                    ctx.fillStyle = 'white'; // Standard QR white background
+                    ctx.fillRect(0, 0, canvas.width, canvas.height); // Ensure non-transparent background
+                    ctx.drawImage(img, 0, 0, 1000, 1000);
+
+                    const pngUrl = canvas.toDataURL('image/png');
+                    const a = document.createElement('a');
+                    a.href = pngUrl;
+                    a.download = `qr-code.png`;
+                    a.click();
+
+                    toast.dismiss(toastId);
+                    toast.success('تم تحميل PNG');
+                }
+            };
+
+            img.onerror = () => {
+                toast.dismiss(toastId);
+                toast.error('فشل في معالجة الصورة');
+            };
+
+            // Load the existing SVG blob into the image
+            img.src = qrBlob;
+
+        } catch (e) {
+            console.error(e);
+            toast.dismiss(toastId);
+            toast.error('حدث خطأ غير متوقع');
         }
     };
 
@@ -101,16 +154,22 @@ export default function QrPage() {
                                 </div>
                             </div>
 
-                            <div className="flex flex-col gap-3 w-full max-w-xs">
-                                <Button variant="outline" className="h-14 rounded-xl border-slate-300 bg-white hover:bg-slate-50 text-slate-700 font-bold" onClick={() => {
-                                    const a = document.createElement('a');
-                                    a.href = qrBlob;
-                                    a.download = `qr-code.${isSvg ? 'svg' : 'png'}`;
-                                    a.click();
-                                    toast.success('تم التحميل');
-                                }}>
-                                    <Download className="ml-2 h-5 w-5" />
-                                    تحميل الصورة
+                            <div className="flex gap-3 w-full max-w-xs">
+                                <Button
+                                    variant="outline"
+                                    className="flex-1 h-12 rounded-xl border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-bold"
+                                    onClick={() => handleDownload('png')}
+                                >
+                                    <Download className="ml-2 h-4 w-4" />
+                                    PNG
+                                </Button>
+                                <Button
+                                    variant="outline"
+                                    className="flex-1 h-12 rounded-xl border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-bold"
+                                    onClick={() => handleDownload('svg')}
+                                >
+                                    <Download className="ml-2 h-4 w-4" />
+                                    SVG
                                 </Button>
                             </div>
                         </div>

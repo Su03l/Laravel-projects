@@ -22,7 +22,13 @@ export function DigitalClock({ futureText, pastText, className }: ClockProps) {
 
     if (!time) return <div className="h-48 w-full animate-pulse rounded-2xl bg-white/50" />;
 
-    const hours = String(time.getHours()).padStart(2, '0');
+    // 12-Hour Logic
+    let hoursRaw = time.getHours();
+    const ampm = hoursRaw >= 12 ? 'PM' : 'AM';
+    hoursRaw = hoursRaw % 12;
+    hoursRaw = hoursRaw ? hoursRaw : 12; // the hour '0' should be '12'
+
+    const hours = String(hoursRaw).padStart(2, '0');
     const minutes = String(time.getMinutes()).padStart(2, '0');
     const seconds = String(time.getSeconds()).padStart(2, '0');
 
@@ -38,7 +44,12 @@ export function DigitalClock({ futureText, pastText, className }: ClockProps) {
                 {/* Glossy overlay */}
                 <div className="absolute -left-1/2 top-0 h-full w-[200%] rotate-45 bg-gradient-to-r from-transparent via-white/40 to-transparent opacity-20 pointer-events-none" />
 
-                <div className="flex items-center gap-4 md:gap-8 cursor-default select-none">
+                <div className="flex items-center gap-4 md:gap-8 cursor-default select-none relative">
+                    {/* AM/PM Indicator (Absolute or placed nicely) */}
+                    <div className="absolute -top-8 right-2 font-bold text-sky-600 text-xl tracking-widest bg-sky-50 px-3 py-1 rounded-full border border-sky-100">
+                        {ampm}
+                    </div>
+
                     {/* Hours */}
                     <NumberBlock value={hours} label="HOURS" />
 
