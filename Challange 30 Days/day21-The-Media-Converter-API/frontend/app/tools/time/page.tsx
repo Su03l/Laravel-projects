@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { ToolShell } from "@/components/layout/tool-shell";
-import { AnalogClock } from "@/components/features/analog-clock";
+import { DigitalClock } from "@/components/features/digital-clock";
 import api from "@/lib/api";
 import { TimeResponse } from "@/types";
 
@@ -15,14 +15,14 @@ export default function TimePage() {
 
     return (
         <ToolShell
-            title="ساعة الزمن"
-            description="الوقت هو البعد الرابع. راقبه يمر بين الماضي والمستقبل."
+            title="الساعة الرقمية"
+            description="متابعة دقيقة للوقت مع مقارنات زمنية ذكية."
         >
-            <div className="flex justify-center">
-                <AnalogClock
-                    serverTime={data?.today}
+            <div className="flex min-h-[500px] items-center justify-center bg-slate-50/50 p-8 rounded-3xl">
+                <DigitalClock
                     futureText={data?.future}
                     pastText={data?.past}
+                    className="scale-100 md:scale-110"
                 />
             </div>
         </ToolShell>

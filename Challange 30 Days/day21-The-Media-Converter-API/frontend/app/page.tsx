@@ -7,12 +7,7 @@ import {
   Image as ImageIcon,
   Clock
 } from "lucide-react";
-import { AnalogClock } from "@/components/features/analog-clock";
-
-// Creating a Client Wrapper for the Clock in the Dashboard if we want it strictly client-side
-// but AnalogClock is already "use client".
-// We need to fetch data for the clock on the dashboard too if we want it to show Past/Future.
-// For now, let's keep the Dashboard clock simple (Current Time) or reuse the component without props.
+import { DigitalClock } from "@/components/features/digital-clock";
 
 export default function Home() {
   const tools = [
@@ -66,15 +61,9 @@ export default function Home() {
           </p>
         </div>
 
-        {/* The Clock Section on Home Page as requested */}
-        <div className="mb-16 overflow-hidden rounded-3xl border border-slate-200 bg-white/50 p-6 shadow-sm backdrop-blur-sm">
-          <div className="text-center md:hidden mb-4 font-bold text-slate-900">الوقت الحالي</div>
-          {/* We pass simpler props here or let it self-tick. Backend data might be overkill for home unless fetched. */}
-          {/* For a clean look, let's just show the clock without the extra text rings effectively, or static text. */}
-          <AnalogClock />
-          <div className="mt-4 text-center text-sm text-slate-400">
-            الوقت هو أثمن ما يملكه المطور.
-          </div>
+        {/* Digital Clock Hero */}
+        <div className="mb-20 flex justify-center scale-90 sm:scale-100">
+          <DigitalClock />
         </div>
 
         <div className="mx-auto grid max-w-5xl gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -87,7 +76,7 @@ export default function Home() {
         </div>
 
         <div className="mt-16 text-center text-sm text-slate-400">
-          تم التطوير باستخدام Next.js 14, Tailwind CSS & Laravel API
+          تم التطوير باستخدام Next.js 14, Tailwind CSS (v4) & Laravel API
         </div>
       </div>
     </div>
