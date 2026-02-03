@@ -158,4 +158,45 @@ class TaskController extends Controller
             'message' => 'تم حذف المهمة'
         ]);
     }
+
+    // 5. عرض تفاصيل مهمة (مع التعليقات والمرفقات)
+    public function show(Request $request, $id)
+    {
+        $task = Task::with(['comments.user', 'attachments.user', 'assignee', 'group'])
+            ->findOrFail($id);
+
+        $permissions = [
+            'can_edit' => false,
+            'can_delete' => false,
+            'role' => null
+        ];
+
+        if ($task->group_id) {
+            // Check membership and role
+            $groupUser = $task->group->users()->where('user_id', $request->user()->id)->first();
+            if (!$groupUser) {
+                return response()->json(['message' => 'غير مصرح لك'], 403);
+            }
+
+            $role = $groupUser->pivot->role;
+            $isGroupOwner = $task->group->owner_id === $request->user()->id;
+
+            $permissions['role'] = $role;
+            $permissions['can_edit'] = ($role === 'admin' || $isGroupOwner);
+            $permissions['can_delete'] = ($role === 'admin' || $isGroupOwner);
+        } else {
+            // Private task
+            if ($task->user_id !== $request->user()->id) {
+                return response()->json(['message' => 'غير مصرح لك'], 403);
+            }
+            $permissions['can_edit'] = true;
+            $permissions['can_delete'] = true;
+            $permissions['role'] = 'owner';
+        }
+
+        return response()->json([
+            'task' => $task,
+            'permissions' => $permissions
+        ]);
+    }
 }

@@ -128,4 +128,52 @@ class GroupController extends Controller
             'message' => 'تم استبعاد العضو من المجموعة'
         ]);
     }
+    // 5. عرض تفاصيل المجموعة (Members + Tasks)
+    public function show(Request $request, $id)
+    {
+        $group = Group::with(['users', 'tasks.assignee'])->findOrFail($id);
+
+        // Check if user is a member
+        if (!$group->users->contains($request->user()->id)) {
+            return response()->json(['message' => 'غير مصرح لك بعرض هذه المجموعة'], 403);
+        }
+
+        return response()->json([
+            'group' => [
+                'id' => $group->id,
+                'name' => $group->name,
+                'description' => $group->description,
+                'company_name' => $group->company_name,
+                'start_date' => $group->start_date,
+                'end_date' => $group->end_date,
+                'owner_id' => $group->owner_id,
+                'is_owner' => $group->owner_id === $request->user()->id,
+                'members' => $group->users->map(function ($u) use ($group) {
+                    return [
+                        'id' => $u->id,
+                        'name' => "$u->first_name $u->last_name",
+                        'email' => $u->email,
+                        'avatar' => $u->avatar ? (str_starts_with($u->avatar, 'http') ? $u->avatar : url($u->avatar)) : null,
+                        'role' => $u->pivot->role,
+                    ];
+                }),
+                'tasks' => $group->tasks->map(function ($t) {
+                    return [
+                        'id' => $t->id,
+                        'title' => $t->title,
+                        'content' => $t->content,
+                        'priority' => $t->priority,
+                        'is_completed' => $t->is_completed,
+                        'start_date' => $t->start_date,
+                        'end_date' => $t->end_date,
+                        'assigned_to' => $t->assignee ? [
+                            'id' => $t->assignee->id,
+                            'name' => $t->assignee->first_name . ' ' . $t->assignee->last_name,
+                            'avatar' => $t->assignee->avatar,
+                        ] : null,
+                    ];
+                }),
+            ]
+        ]);
+    }
 }

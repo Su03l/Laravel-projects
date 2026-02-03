@@ -2,10 +2,11 @@
 
 import { useEffect, useState, Fragment } from "react";
 import api from "@/lib/axios";
-import { Plus, Users, Calendar, Trash2, Hash, FileText, Type, Building2, Briefcase } from "lucide-react";
+import { Plus, Users, Calendar, Trash2, Hash, FileText, Type, Building2, Briefcase, ChevronLeft } from "lucide-react";
 import clsx from "clsx";
 import { Dialog, Transition } from "@headlessui/react";
 import toast from "react-hot-toast";
+import Link from "next/link";
 
 interface Group {
     id: number;
@@ -62,76 +63,92 @@ export default function GroupsPage() {
     };
 
     return (
-        <div className="space-y-8">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="space-y-10 animate-in fade-in duration-700 pb-10">
+            {/* Header Section - Matches Tasks Page */}
+            <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-xl shadow-slate-200/50 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
                 <div>
-                    <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">مساحات العمل</h1>
-                    <p className="text-slate-500 mt-2 font-medium">أنشئ مجموعات وتعاون مع فريقك بكفاءة عالية.</p>
+                    <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight mb-2">مساحات العمل</h1>
+                    <p className="text-slate-500 text-lg font-medium">
+                        أنشئ مجموعات وتعاون مع فريقك بكفاءة عالية.
+                    </p>
                 </div>
                 <button
                     onClick={() => setIsModalOpen(true)}
-                    className="flex items-center gap-2 bg-gradient-to-r from-sky-500 to-sky-600 hover:from-sky-600 hover:to-sky-700 text-white px-6 py-3 rounded-xl font-bold transition-all shadow-lg shadow-sky-200 transform hover:-translate-y-0.5"
+                    className="group flex items-center gap-2 bg-slate-900 text-white px-6 py-3.5 rounded-2xl font-bold hover:bg-slate-800 transition-all shadow-lg hover:shadow-slate-900/20 active:scale-95"
                 >
                     <Plus className="w-5 h-5" />
-                    مجموعة جديدة
+                    <span>مجموعة جديدة</span>
                 </button>
             </div>
 
+            {/* Groups Grid */}
             {loading ? (
-                <div className="flex flex-col items-center justify-center py-20">
-                    <div className="w-12 h-12 border-4 border-sky-100 border-t-sky-500 rounded-full animate-spin mb-4" />
-                    <p className="text-slate-400 font-medium">جاري تحميل المجموعات...</p>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {[1, 2, 3].map((i) => (
+                        <div key={i} className="h-72 rounded-[2rem] bg-slate-100 animate-pulse"></div>
+                    ))}
                 </div>
             ) : groups.length === 0 ? (
-                <div className="text-center py-20 bg-white/50 border-2 border-dashed border-slate-200 rounded-3xl">
-                    <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <Users className="h-10 w-10 text-slate-300" />
+                <div className="flex flex-col items-center justify-center py-24 bg-white rounded-[2.5rem] border border-slate-100 shadow-sm border-dashed text-center px-4">
+                    <div className="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mb-6 text-slate-300">
+                        <Users className="w-12 h-12" />
                     </div>
-                    <h3 className="text-xl font-bold text-slate-900 mb-2">لا توجد مجموعات بعد</h3>
-                    <p className="text-slate-500 mb-6 max-w-sm mx-auto">ابدأ رحلتك بإنشاء مساحة عمل جديدة ودعوة فريقك للتعاون.</p>
-                    <button onClick={() => setIsModalOpen(true)} className="text-sky-600 hover:text-sky-700 font-bold hover:underline transition-all">ابدأ الآن &larr;</button>
+                    <h3 className="text-2xl font-extrabold text-slate-900 mb-2">لا توجد مجموعات بعد</h3>
+                    <p className="text-slate-500 text-lg max-w-md mb-8">
+                        ابدأ رحلتك بإنشاء مساحة عمل جديدة ودعوة فريقك للتعاون.
+                    </p>
+                    <button onClick={() => setIsModalOpen(true)} className="text-sky-600 text-lg font-bold hover:underline flex items-center gap-2">
+                        <span>ابدأ الآن</span>
+                        <ChevronLeft className="w-4 h-4" />
+                    </button>
                 </div>
             ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {groups.map((group) => (
-                        <div key={group.id} className="bg-white rounded-3xl border border-slate-100 p-6 shadow-xl shadow-slate-200/40 hover:shadow-2xl hover:shadow-sky-100/50 transition-all duration-300 group flex flex-col justify-between transform hover:-translate-y-1">
+                        <div key={group.id} className="group relative bg-white rounded-[2rem] p-8 border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_50px_rgb(0,0,0,0.1)] hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between h-full">
                             <div>
                                 <div className="flex items-start justify-between mb-6">
-                                    <div className="w-14 h-14 bg-gradient-to-br from-sky-50 to-indigo-50 rounded-2xl flex items-center justify-center text-sky-600 font-extrabold text-2xl border border-sky-100/50 shadow-inner">
+                                    <div className="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-900 font-black text-2xl border border-slate-100 shadow-inner">
                                         {group.name.substring(0, 2).toUpperCase()}
                                     </div>
-                                    <span className="bg-sky-50 text-sky-600 px-3 py-1 rounded-full text-xs font-bold border border-sky-100">
+                                    <span className="bg-emerald-100 text-emerald-700 ring-1 ring-emerald-200 px-3 py-1.5 rounded-full text-xs font-bold tracking-wide">
                                         نشطة
                                     </span>
                                 </div>
 
-                                <h3 className="text-xl font-bold text-slate-900 mb-2 leading-tight">{group.name}</h3>
+                                <h3 className="text-2xl font-black text-slate-900 mb-2 leading-tight group-hover:text-blue-600 transition-colors">
+                                    {group.name}
+                                </h3>
+
                                 {group.company_name && (
-                                    <div className="flex items-center gap-2 text-sm text-slate-500 mb-4 bg-slate-50 px-3 py-1.5 rounded-lg w-fit">
+                                    <div className="flex items-center gap-2 text-sm text-slate-500 mb-4 font-bold">
                                         <Building2 className="w-4 h-4 text-slate-400" />
                                         <span>{group.company_name}</span>
                                     </div>
                                 )}
 
-                                <div className="space-y-3 pt-4 border-t border-slate-50">
-                                    {group.start_date && (
-                                        <div className="flex items-center gap-2.5 text-sm text-slate-600">
-                                            <Calendar className="w-4 h-4 text-slate-400" />
-                                            <span className="font-medium">{group.start_date} <span className="text-slate-300 mx-1">|</span> {group.end_date}</span>
-                                        </div>
-                                    )}
-                                    <div className="flex items-center gap-2.5 text-sm text-slate-600">
-                                        <Users className="w-4 h-4 text-slate-400" />
-                                        <span className="font-medium">{group.members_count || 0} عضو في الفريق</span>
-                                    </div>
-                                </div>
+                                <p className="text-base text-slate-500 font-medium line-clamp-2 mb-6">
+                                    {group.description || "لا يوجد وصف لهذه المجموعة."}
+                                </p>
                             </div>
 
-                            <div className="mt-6 pt-4 border-t border-slate-50 flex justify-end">
-                                <button className="text-sm font-bold text-sky-600 hover:text-sky-700 hover:bg-sky-50 px-4 py-2 rounded-xl transition-all flex items-center gap-2">
-                                    عرض التفاصيل
-                                    <span className="text-lg leading-none">&larr;</span>
-                                </button>
+                            <div className="pt-6 border-t border-slate-50 space-y-4">
+                                <div className="flex items-center justify-between text-sm font-bold text-slate-500">
+                                    <div className="flex items-center gap-2 bg-slate-50 px-3 py-1.5 rounded-lg">
+                                        <Users className="w-4 h-4 text-slate-400" />
+                                        <span>{group.members_count || 0} عضو</span>
+                                    </div>
+                                    <div className="flex items-center gap-2 bg-slate-50 px-3 py-1.5 rounded-lg">
+                                        <Calendar className="w-4 h-4 text-slate-400" />
+                                        <span>{group.start_date}</span>
+                                    </div>
+                                </div>
+
+                                <Link href={`/dashboard/groups/${group.id}`}>
+                                    <button className="w-full py-3.5 rounded-2xl bg-white border border-slate-200 text-slate-900 font-bold hover:bg-slate-900 hover:text-white hover:border-slate-900 transition-all shadow-sm">
+                                        عرض التفاصيل
+                                    </button>
+                                </Link>
                             </div>
                         </div>
                     ))}
@@ -164,106 +181,83 @@ export default function GroupsPage() {
                                 leaveFrom="opacity-100 scale-100 translate-y-0"
                                 leaveTo="opacity-0 scale-95 translate-y-4"
                             >
-                                <Dialog.Panel className="w-full max-w-lg transform overflow-hidden rounded-3xl bg-white p-8 align-middle shadow-2xl transition-all relative">
-                                    <Dialog.Title as="h3" className="text-2xl font-extrabold leading-6 text-slate-900 mb-2">
-                                        مجموعة عمل جديدة
+                                <Dialog.Panel className="w-full max-w-lg transform overflow-hidden rounded-[2rem] bg-white p-10 align-middle shadow-2xl transition-all relative">
+                                    <Dialog.Title as="h3" className="text-3xl font-black leading-tight text-slate-900 mb-2">
+                                        مجموعة جديدة
                                     </Dialog.Title>
-                                    <p className="text-slate-500 text-sm mb-6">أنشئ مساحة منظمة لفريقك لمتابعة المهام.</p>
+                                    <p className="text-slate-500 font-medium mb-8">
+                                        أنشئ مساحة منظمة لفريقك لمتابعة المهام.
+                                    </p>
 
-                                    <form onSubmit={handleCreateGroup} className="space-y-5">
-                                        <div className="relative group">
-                                            <label className="block text-sm font-bold text-slate-700 mb-2">اسم المجموعة</label>
-                                            <div className="relative">
-                                                <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                                    <Type className="h-5 w-5 text-slate-400 group-focus-within:text-sky-500 transition-colors" />
-                                                </div>
+                                    <form onSubmit={handleCreateGroup} className="space-y-6">
+                                        <div className="space-y-2">
+                                            <label className="block text-sm font-black text-slate-900">اسم المجموعة</label>
+                                            <input
+                                                type="text"
+                                                required
+                                                value={formData.name}
+                                                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                                placeholder="مثال: فريق التسويق"
+                                                className="w-full rounded-2xl border-slate-200 border-2 px-4 py-3.5 text-sm font-bold text-slate-900 placeholder:text-slate-400 focus:border-slate-900 focus:ring-0 transition-colors"
+                                            />
+                                        </div>
+
+                                        <div className="space-y-2">
+                                            <label className="block text-sm font-black text-slate-900">اسم الشركة (اختياري)</label>
+                                            <input
+                                                type="text"
+                                                value={formData.company_name}
+                                                onChange={(e) => setFormData({ ...formData, company_name: e.target.value })}
+                                                placeholder="اسم الشركة"
+                                                className="w-full rounded-2xl border-slate-200 border-2 px-4 py-3.5 text-sm font-bold text-slate-900 placeholder:text-slate-400 focus:border-slate-900 focus:ring-0 transition-colors"
+                                            />
+                                        </div>
+
+                                        <div className="space-y-2">
+                                            <label className="block text-sm font-black text-slate-900">الوصف</label>
+                                            <textarea
+                                                value={formData.description}
+                                                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                                                rows={3}
+                                                placeholder="وصف مختصر..."
+                                                className="w-full rounded-2xl border-slate-200 border-2 px-4 py-3.5 text-sm font-bold text-slate-900 placeholder:text-slate-400 focus:border-slate-900 focus:ring-0 transition-colors resize-none"
+                                            />
+                                        </div>
+
+                                        <div className="grid grid-cols-2 gap-4">
+                                            <div className="space-y-2">
+                                                <label className="block text-sm font-black text-slate-900">تاريخ البدء</label>
                                                 <input
-                                                    type="text"
-                                                    required
-                                                    value={formData.name}
-                                                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                                    placeholder="مثال: فريق التسويق"
-                                                    className="w-full rounded-2xl border-slate-200 border px-4 py-3 pr-10 text-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20 bg-slate-50 focus:bg-white transition-all font-medium placeholder:text-slate-400"
+                                                    type="date"
+                                                    value={formData.start_date}
+                                                    onChange={(e) => setFormData({ ...formData, start_date: e.target.value })}
+                                                    className="w-full rounded-2xl border-slate-200 border-2 px-4 py-3.5 text-sm font-bold text-slate-900 focus:border-slate-900 focus:ring-0 transition-colors"
                                                 />
                                             </div>
-                                        </div>
-
-                                        <div className="relative group">
-                                            <label className="block text-sm font-bold text-slate-700 mb-2">اسم الشركة (اختياري)</label>
-                                            <div className="relative">
-                                                <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                                    <Building2 className="h-5 w-5 text-slate-400 group-focus-within:text-sky-500 transition-colors" />
-                                                </div>
+                                            <div className="space-y-2">
+                                                <label className="block text-sm font-black text-slate-900">تاريخ الانتهاء</label>
                                                 <input
-                                                    type="text"
-                                                    value={formData.company_name}
-                                                    onChange={(e) => setFormData({ ...formData, company_name: e.target.value })}
-                                                    placeholder="اسم الشركة"
-                                                    className="w-full rounded-2xl border-slate-200 border px-4 py-3 pr-10 text-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20 bg-slate-50 focus:bg-white transition-all font-medium placeholder:text-slate-400"
+                                                    type="date"
+                                                    value={formData.end_date}
+                                                    onChange={(e) => setFormData({ ...formData, end_date: e.target.value })}
+                                                    className="w-full rounded-2xl border-slate-200 border-2 px-4 py-3.5 text-sm font-bold text-slate-900 focus:border-slate-900 focus:ring-0 transition-colors"
                                                 />
                                             </div>
                                         </div>
 
-                                        <div className="relative group">
-                                            <label className="block text-sm font-bold text-slate-700 mb-2">وصف المجموعة (اختياري)</label>
-                                            <div className="relative">
-                                                <div className="absolute top-3 right-0 pr-3 flex items-start pointer-events-none">
-                                                    <FileText className="h-5 w-5 text-slate-400 group-focus-within:text-sky-500 transition-colors" />
-                                                </div>
-                                                <textarea
-                                                    value={formData.description}
-                                                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                                                    rows={2}
-                                                    placeholder="وصف مختصر لأهداف المجموعة..."
-                                                    className="w-full rounded-2xl border-slate-200 border px-4 py-3 pr-10 text-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20 bg-slate-50 focus:bg-white transition-all font-medium placeholder:text-slate-400 resize-none"
-                                                />
-                                            </div>
-                                        </div>
-
-                                        <div className="flex gap-4">
-                                            <div className="flex-1 relative group">
-                                                <label className="block text-sm font-bold text-slate-700 mb-2">تاريخ البدء</label>
-                                                <div className="relative">
-                                                    <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                                        <Calendar className="h-5 w-5 text-slate-400 group-focus-within:text-sky-500 transition-colors" />
-                                                    </div>
-                                                    <input
-                                                        type="date"
-                                                        value={formData.start_date}
-                                                        onChange={(e) => setFormData({ ...formData, start_date: e.target.value })}
-                                                        className="w-full rounded-2xl border-slate-200 border px-4 py-3 pr-10 text-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20 bg-slate-50 focus:bg-white transition-all font-medium"
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className="flex-1 relative group">
-                                                <label className="block text-sm font-bold text-slate-700 mb-2">تاريخ الانتهاء</label>
-                                                <div className="relative">
-                                                    <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                                        <Calendar className="h-5 w-5 text-slate-400 group-focus-within:text-sky-500 transition-colors" />
-                                                    </div>
-                                                    <input
-                                                        type="date"
-                                                        value={formData.end_date}
-                                                        onChange={(e) => setFormData({ ...formData, end_date: e.target.value })}
-                                                        className="w-full rounded-2xl border-slate-200 border px-4 py-3 pr-10 text-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20 bg-slate-50 focus:bg-white transition-all font-medium"
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div className="mt-8 flex justify-end gap-3 pt-4 border-t border-slate-50">
+                                        <div className="flex justify-end gap-3 pt-6">
                                             <button
                                                 type="button"
                                                 onClick={() => setIsModalOpen(false)}
-                                                className="rounded-xl px-5 py-2.5 text-sm font-bold text-slate-600 hover:bg-slate-50 transition-colors"
+                                                className="rounded-xl px-6 py-3 text-sm font-bold text-slate-600 hover:bg-slate-100 transition-colors"
                                             >
                                                 إلغاء
                                             </button>
                                             <button
                                                 type="submit"
-                                                className="rounded-xl bg-gradient-to-l from-sky-500 to-sky-600 px-8 py-2.5 text-sm font-bold text-white hover:from-sky-600 hover:to-sky-700 focus:outline-none focus:ring-4 focus:ring-sky-100 transition-all shadow-lg shadow-sky-200 transform hover:-translate-y-0.5"
+                                                className="rounded-xl bg-slate-900 text-white px-8 py-3 text-sm font-bold hover:bg-slate-800 transition-all shadow-lg hover:shadow-slate-900/20 active:scale-95"
                                             >
-                                                إنشاء
+                                                إنشاء المجموعة
                                             </button>
                                         </div>
                                     </form>

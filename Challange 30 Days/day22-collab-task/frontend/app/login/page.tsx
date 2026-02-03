@@ -68,7 +68,7 @@ export default function LoginPage() {
                                     type="email"
                                     autoComplete="email"
                                     required
-                                    className="appearance-none rounded-2xl relative block w-full pr-10 pl-3 py-4 border border-slate-200 placeholder-slate-400 text-slate-900 focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all bg-slate-50/50 focus:bg-white text-sm font-medium shadow-sm"
+                                    className="appearance-none rounded-2xl relative block w-full pr-10 pl-3 py-4 border border-slate-200 placeholder-slate-400 text-black focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all bg-slate-50/50 focus:bg-white text-sm font-bold shadow-sm"
                                     placeholder="البريد الإلكتروني"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
@@ -90,7 +90,7 @@ export default function LoginPage() {
                                     type={showPassword ? "text" : "password"}
                                     autoComplete="current-password"
                                     required
-                                    className="appearance-none rounded-2xl relative block w-full pr-10 pl-10 py-4 border border-slate-200 placeholder-slate-400 text-slate-900 focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all bg-slate-50/50 focus:bg-white text-sm font-medium shadow-sm"
+                                    className="appearance-none rounded-2xl relative block w-full pr-10 pl-10 py-4 border border-slate-200 placeholder-slate-400 text-black focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all bg-slate-50/50 focus:bg-white text-sm font-bold shadow-sm"
                                     placeholder="كلمة المرور"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}

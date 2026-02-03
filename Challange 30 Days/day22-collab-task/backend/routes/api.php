@@ -20,14 +20,19 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/groups', [GroupController::class, 'index']);
     Route::post('/groups', [GroupController::class, 'store']);
+    Route::get('/groups/{id}', [GroupController::class, 'show']);
     Route::post('/groups/{id}/members', [GroupController::class, 'addMember']);
     Route::delete('/groups/{id}/members/{userId}', [GroupController::class, 'removeMember']);
 
     Route::get('/tasks', [TaskController::class, 'index']);
     Route::post('/tasks', [TaskController::class, 'store']);
+    Route::get('/tasks/{id}', [TaskController::class, 'show']);
     Route::put('/tasks/{id}', [TaskController::class, 'update']);
     Route::delete('/tasks/{id}', [TaskController::class, 'destroy']);
 
     Route::post('/tasks/{id}/comments', [TaskInteractionController::class, 'addComment']);
     Route::post('/tasks/{id}/attachments', [TaskInteractionController::class, 'uploadAttachment']);
+
+    Route::put('/comments/{id}', [App\Http\Controllers\Task\CommentController::class, 'update']);
+    Route::delete('/comments/{id}', [App\Http\Controllers\Task\CommentController::class, 'destroy']);
 });

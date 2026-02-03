@@ -84,7 +84,7 @@ export default function RegisterPage() {
                                     name="first_name"
                                     type="text"
                                     required
-                                    className="appearance-none rounded-2xl relative block w-full pr-10 pl-3 py-4 border border-slate-200 placeholder-slate-400 text-slate-900 focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all bg-slate-50/50 focus:bg-white text-sm font-medium shadow-sm"
+                                    className="appearance-none rounded-2xl relative block w-full pr-10 pl-3 py-4 border border-slate-200 placeholder-slate-400 text-black focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all bg-slate-50/50 focus:bg-white text-sm font-bold shadow-sm"
                                     placeholder="الاسم الأول"
                                     value={formData.first_name}
                                     onChange={handleChange}
@@ -102,7 +102,7 @@ export default function RegisterPage() {
                                     name="last_name"
                                     type="text"
                                     required
-                                    className="appearance-none rounded-2xl relative block w-full pr-10 pl-3 py-4 border border-slate-200 placeholder-slate-400 text-slate-900 focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all bg-slate-50/50 focus:bg-white text-sm font-medium shadow-sm"
+                                    className="appearance-none rounded-2xl relative block w-full pr-10 pl-3 py-4 border border-slate-200 placeholder-slate-400 text-black focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all bg-slate-50/50 focus:bg-white text-sm font-bold shadow-sm"
                                     placeholder="الاسم الأخير"
                                     value={formData.last_name}
                                     onChange={handleChange}
@@ -124,7 +124,7 @@ export default function RegisterPage() {
                                 name="username"
                                 type="text"
                                 required
-                                className="appearance-none rounded-2xl relative block w-full pr-10 pl-3 py-4 border border-slate-200 placeholder-slate-400 text-slate-900 focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all bg-slate-50/50 focus:bg-white text-sm font-medium shadow-sm"
+                                className="appearance-none rounded-2xl relative block w-full pr-10 pl-3 py-4 border border-slate-200 placeholder-slate-400 text-black focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all bg-slate-50/50 focus:bg-white text-sm font-bold shadow-sm"
                                 placeholder="اسم المستخدم"
                                 value={formData.username}
                                 onChange={handleChange}
@@ -145,7 +145,7 @@ export default function RegisterPage() {
                                 name="email"
                                 type="email"
                                 required
-                                className="appearance-none rounded-2xl relative block w-full pr-10 pl-3 py-4 border border-slate-200 placeholder-slate-400 text-slate-900 focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all bg-slate-50/50 focus:bg-white text-sm font-medium shadow-sm"
+                                className="appearance-none rounded-2xl relative block w-full pr-10 pl-3 py-4 border border-slate-200 placeholder-slate-400 text-black focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all bg-slate-50/50 focus:bg-white text-sm font-bold shadow-sm"
                                 placeholder="البريد الإلكتروني"
                                 value={formData.email}
                                 onChange={handleChange}
@@ -167,7 +167,7 @@ export default function RegisterPage() {
                                 name="password"
                                 type={showPassword ? "text" : "password"}
                                 required
-                                className="appearance-none rounded-2xl relative block w-full pr-10 pl-10 py-4 border border-slate-200 placeholder-slate-400 text-slate-900 focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all bg-slate-50/50 focus:bg-white text-sm font-medium shadow-sm"
+                                className="appearance-none rounded-2xl relative block w-full pr-10 pl-10 py-4 border border-slate-200 placeholder-slate-400 text-black focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all bg-slate-50/50 focus:bg-white text-sm font-bold shadow-sm"
                                 placeholder="كلمة المرور"
                                 value={formData.password}
                                 onChange={handleChange}

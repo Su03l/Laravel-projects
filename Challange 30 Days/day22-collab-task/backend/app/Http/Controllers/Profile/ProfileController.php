@@ -27,9 +27,22 @@ class ProfileController extends Controller
             'job_title' => 'nullable|string|max:100',
             'email' => 'required|email|unique:users,email,' . $user->id,
             'username' => 'required|string|unique:users,username,' . $user->id,
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $user->update($request->only(['first_name', 'last_name', 'email', 'username', 'job_title']));
+        $data = $request->only(['first_name', 'last_name', 'email', 'username', 'job_title']);
+
+        if ($request->hasFile('avatar')) {
+            // Delete old avatar if exists (optional, good practice)
+            // if ($user->avatar && Storage::exists($user->avatar)) {
+            //     Storage::delete($user->avatar);
+            // }
+
+            $path = $request->file('avatar')->store('avatars', 'public');
+            $data['avatar'] = '/storage/' . $path;
+        }
+
+        $user->update($data);
 
         return response()->json([
             'message' => 'تم تحديث البروفايل',
