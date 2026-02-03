@@ -27,22 +27,6 @@ export default function TasksPage() {
     const fetchTasks = async () => {
         setLoading(true);
         try {
-            // Adjust endpoint logic:
-            // If 'personal', assumes API returns user's tasks if no group_id is sent or use a specific filter?
-            // For now, let's assume GET /tasks returns all tasks for the user, 
-            // and we might need to filter client side or API side if "Group Tasks" means tasks from specific groups.
-            // THE USER REQUEST SAID:
-            // Tabs: "My Personal Tasks" (API: GET /tasks) vs "Group Tasks".
-            // This implies GET /tasks returns personal ones by default or all?
-            // Let's assume GET /tasks is all my assigned tasks.
-            // "Group Tasks" might ideally require selecting a group first, but for this page let's just show 'all' vs 'personal' if API supports it.
-            // Or maybe 'Group Tasks' lists tasks from all my groups?
-            // Let's KISS: 
-            // Tab 'personal': GET /tasks (all my tasks)
-            // Tab 'group': Placeholder for now or maybe distinct API call? 
-            // The prompt says: Tabs: "My Personal Tasks" (API: GET /tasks) vs "Group Tasks".
-            // I will implement GET /tasks for now for both, but maybe filter?
-
             const response = await api.get('/tasks');
             // Assuming response.data is an array or { data: Array }
             const data = Array.isArray(response.data) ? response.data : response.data.data;
