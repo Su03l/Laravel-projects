@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Cairo } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 
-const inter = Inter({ subsets: ["latin"] });
+const cairo = Cairo({ subsets: ["arabic"] });
 
 export const metadata: Metadata = {
-  title: "Collaborative Task Manager",
-  description: "Manage your team and tasks efficiently",
+  title: "مدير المهام التعاوني",
+  description: "أدر فريقك ومهامك بكفاءة",
 };
 
 export default function RootLayout({
@@ -16,10 +16,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${inter.className} bg-white text-slate-600 antialiased`}>
+    <html lang="ar" dir="rtl">
+      <body className={`${cairo.className} bg-white text-slate-600 antialiased`}>
         {children}
-        <Toaster position="top-right" />
+        <Toaster position="top-center" />
       </body>
     </html>
   );
