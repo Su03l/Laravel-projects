@@ -1,36 +1,74 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Collaborative Task Manager UI - الواجهة الأمامية
 
-## Getting Started
+<div align="center">
 
-First, run the development server:
+![Next.js](https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js) ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=for-the-badge&logo=typescript) ![Tailwind](https://img.shields.io/badge/Tailwind-CSS-38B2AC?style=for-the-badge&logo=tailwind-css)
+
+**تحدي 30 يوم 30 مشروع - اليوم 22**
+
+</div>
+
+---
+
+## نظرة عامة
+
+واجهة مستخدم حديثة وتفاعلية لإدارة المهام والمجموعات، مصممة لتقديم تجربة مستخدم سلسة ("Premium Feel") مع دعم كامل للغة العربية (RTL). تعتمد على Next.js 14 (App Router) لتوفير أداء عالي وتنقل سريع.
+
+<br>
+
+![Collab Task Dashboard](./public/home.png)
+
+<br>
+
+## المميزات الرئيسية
+
+- **لوحة تحكم شاملة**: عرض لملخص المهام، المجموعات النشطة، والإحصائيات.
+- **إدارة المجموعات**: واجهة لإنشاء المجموعات، إدارة الأعضاء، وتوزيع المهام.
+- **تفاصيل المهام**: صفحة مخصصة لكل مهمة تحتوي على المحادثات (التعليقات)، المرفقات، وحالة الإنجاز.
+- **تجربة بصرية غنية**: استخدام Glassmorphism، تأثيرات Hover تفاعلية، وألوان متناسقة لتمييز الأولويات.
+
+## التقنيات المستخدمة
+
+- **Next.js 14**: إطار العمل الأساسي (App Router).
+- **TypeScript**: لضمان كتابة كود آمن وقابل للصيانة.
+- **Tailwind CSS**: لتنسيق الواجهة بسرعة ومرونة.
+- **Lucide React**: مكتبة أيقونات عصرية وخفيفة.
+- **Axios**: للتعامل مع الـ API الخلفي.
+- **React Hot Toast**: لعرض التنبيهات والرسائل المنبثقة.
+
+## هيكل المشروع
+
+```
+frontend/
+├── app/
+│   ├── dashboard/           # صفحات لوحة التحكم (Groups, Tasks, Settings)
+│   ├── (auth)/              # صفحات الدخول والتسجيل
+│   └── page.tsx             # الصفحة الرئيسية
+├── components/              # المكونات المعاد استخدامها (Cards, Modals...)
+├── lib/                     # إعدادات (Axios, Utils)
+└── public/                  # الصور والملفات الثابتة
+```
+
+## التشغيل
+
+### 1. تثبيت الاعتماديات
+
+```bash
+npm install
+```
+
+### 2. تشغيل المطور
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+افتح المتصفح على [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+<div align="center">
 
-## Learn More
+**صنع ضمن تحدي 30 يوم 30 مشروع**
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+</div>
