@@ -14,6 +14,7 @@ interface Group {
     start_date: string;
     end_date: string;
     members_count?: number;
+    description?: string;
 }
 
 export default function GroupsPage() {
@@ -25,6 +26,7 @@ export default function GroupsPage() {
     const [formData, setFormData] = useState({
         name: "",
         company_name: "",
+        description: "",
         start_date: "",
         end_date: "",
     });
@@ -33,9 +35,8 @@ export default function GroupsPage() {
         setLoading(true);
         try {
             const response = await api.get('/groups');
-            // Adjust based on API structure, assuming standard Laravel Resource default
-            const data = Array.isArray(response.data.data) ? response.data.data : response.data;
-            setGroups(data || []);
+            const data = Array.isArray(response.data.groups) ? response.data.groups : (response.data.data || []);
+            setGroups(data);
         } catch (error) {
             console.error(error);
             toast.error("فشل تحميل المجموعات");
@@ -54,7 +55,7 @@ export default function GroupsPage() {
             await api.post('/groups', formData);
             toast.success("تم إنشاء المجموعة بنجاح");
             setIsModalOpen(false);
-            setFormData({ name: "", company_name: "", start_date: "", end_date: "" });
+            setFormData({ name: "", company_name: "", description: "", start_date: "", end_date: "" });
             fetchGroups();
         } catch (error: any) {
             toast.error(error.response?.data?.message || "فشل إنشاء المجموعة");
@@ -95,16 +96,17 @@ export default function GroupsPage() {
                                     <div className="w-12 h-12 bg-sky-50 rounded-lg flex items-center justify-center text-sky-600 font-bold text-xl border border-sky-100">
                                         {group.name.substring(0, 2).toUpperCase()}
                                     </div>
-                                    {/* Menu or options could go here */}
                                 </div>
                                 <h3 className="text-lg font-bold text-slate-900 mb-1">{group.name}</h3>
-                                <p className="text-sm text-slate-500 mb-4">{group.company_name}</p>
+                                <p className="text-sm text-slate-500 mb-2">{group.company_name}</p>
 
                                 <div className="space-y-2 text-sm text-slate-600">
-                                    <div className="flex items-center gap-2">
-                                        <Calendar className="w-4 h-4 text-slate-400" />
-                                        <span>{group.start_date} - {group.end_date}</span>
-                                    </div>
+                                    {group.start_date && (
+                                        <div className="flex items-center gap-2">
+                                            <Calendar className="w-4 h-4 text-slate-400" />
+                                            <span>{group.start_date} - {group.end_date}</span>
+                                        </div>
+                                    )}
                                     <div className="flex items-center gap-2">
                                         <Users className="w-4 h-4 text-slate-400" />
                                         <span>{group.members_count || 0} أعضاء</span>
@@ -153,13 +155,21 @@ export default function GroupsPage() {
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-slate-700 mb-1">اسم الشركة</label>
+                                        <label className="block text-sm font-medium text-slate-700 mb-1">اسم الشركة (اختياري)</label>
                                         <input
                                             type="text"
-                                            required
                                             value={formData.company_name}
                                             onChange={(e) => setFormData({ ...formData, company_name: e.target.value })}
                                             className="w-full rounded-lg border-slate-300 border px-3 py-2 text-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-slate-700 mb-1">وصف المجموعة (اختياري)</label>
+                                        <textarea
+                                            value={formData.description}
+                                            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                                            rows={2}
+                                            className="w-full rounded-lg border-slate-300 border px-3 py-2 text-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 resize-none"
                                         />
                                     </div>
                                     <div className="flex gap-4">
@@ -167,7 +177,6 @@ export default function GroupsPage() {
                                             <label className="block text-sm font-medium text-slate-700 mb-1">تاريخ البدء</label>
                                             <input
                                                 type="date"
-                                                required
                                                 value={formData.start_date}
                                                 onChange={(e) => setFormData({ ...formData, start_date: e.target.value })}
                                                 className="w-full rounded-lg border-slate-300 border px-3 py-2 text-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
@@ -177,7 +186,6 @@ export default function GroupsPage() {
                                             <label className="block text-sm font-medium text-slate-700 mb-1">تاريخ الانتهاء</label>
                                             <input
                                                 type="date"
-                                                required
                                                 value={formData.end_date}
                                                 onChange={(e) => setFormData({ ...formData, end_date: e.target.value })}
                                                 className="w-full rounded-lg border-slate-300 border px-3 py-2 text-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
