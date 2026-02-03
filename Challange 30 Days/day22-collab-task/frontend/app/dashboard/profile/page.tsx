@@ -3,36 +3,43 @@
 import { useEffect, useState } from "react";
 import api from "@/lib/axios";
 import toast from "react-hot-toast";
-import { User, Lock, Mail } from "lucide-react";
+import { User, Lock, Briefcase, AtSign } from "lucide-react";
 
 export default function ProfilePage() {
-    const [loading, setLoading] = useState(false); // For fetching initial data if needed
+    const [loading, setLoading] = useState(false);
     const [savingInfo, setSavingInfo] = useState(false);
     const [savingPassword, setSavingPassword] = useState(false);
 
     const [userInfo, setUserInfo] = useState({
-        name: "",
+        first_name: "",
+        last_name: "",
+        username: "",
         email: "",
+        job_title: "",
     });
 
     const [passwordData, setPasswordData] = useState({
-        currnet_password: "", // Note: API might expect 'current_password' or similar. Assuming standard laravel fortify/breeze often uses current_password, key from instructions was PUT /profile/password
-        password: "",
-        password_confirmation: "",
+        current_password: "", // Corrected field name based on ProfileController
+        new_password: "",
+        new_password_confirmation: "", // Controller validation uses 'confirmed' which expects 'new_password_confirmation' usually, but code said 'new_password' => 'confirmed'.. Laravel expects new_password_confirmation.
     });
 
     useEffect(() => {
-        // Fetch profile data
         const fetchProfile = async () => {
             try {
+                // ProfileController@show returns { user: ... }
                 const res = await api.get('/profile');
+                const u = res.data.user;
                 setUserInfo({
-                    name: res.data.name || "",
-                    email: res.data.email || "",
+                    first_name: u.first_name || "",
+                    last_name: u.last_name || "",
+                    username: u.username || "",
+                    email: u.email || "",
+                    job_title: u.job_title || "",
                 });
             } catch (error) {
                 console.error(error);
-                // toast.error("فشل تحميل البيانات الشخصية");
+                toast.error("فشل تحميل البيانات الشخصية");
             }
         };
         fetchProfile();
@@ -45,7 +52,14 @@ export default function ProfilePage() {
             await api.put('/profile', userInfo);
             toast.success("تم تحديث المعلومات بنجاح");
         } catch (error: any) {
-            toast.error(error.response?.data?.message || "لابد التحقق من كلمة المرور"); // Changed message to generic failure
+            if (error.response && error.response.data && error.response.data.errors) {
+                const errors = error.response.data.errors;
+                Object.keys(errors).forEach((key) => {
+                    toast.error(errors[key][0]);
+                });
+            } else {
+                toast.error("فشل تحديث المعلومات");
+            }
         } finally {
             setSavingInfo(false);
         }
@@ -53,18 +67,27 @@ export default function ProfilePage() {
 
     const handleChangePassword = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (passwordData.password !== passwordData.password_confirmation) {
+        if (passwordData.new_password !== passwordData.new_password_confirmation) {
             toast.error("كلمتا المرور غير متطابقتين");
             return;
         }
 
         setSavingPassword(true);
         try {
-            await api.put('/profile/password', passwordData);
+            // ProfileController@changePassword requires: current_password, new_password, new_password_confirmation
+            await api.put('/profile/password', {
+                current_password: passwordData.current_password,
+                new_password: passwordData.new_password,
+                new_password_confirmation: passwordData.new_password_confirmation
+            });
             toast.success("تم تغيير كلمة المرور بنجاح");
-            setPasswordData({ currnet_password: "", password: "", password_confirmation: "" });
+            setPasswordData({ current_password: "", new_password: "", new_password_confirmation: "" });
         } catch (error: any) {
-            toast.error(error.response?.data?.message || "فشل تغيير كلمة المرور");
+            if (error.response && error.response.data && error.response.data.message) {
+                toast.error(error.response.data.message);
+            } else {
+                toast.error("فشل تغيير كلمة المرور");
+            }
         } finally {
             setSavingPassword(false);
         }
@@ -88,26 +111,61 @@ export default function ProfilePage() {
                     </div>
 
                     <form onSubmit={handleUpdateInfo} className="space-y-4">
-                        <div>
-                            <label className="block text-sm font-medium text-slate-700 mb-1">الاسم الكامل</label>
-                            <input
-                                type="text"
-                                value={userInfo.name}
-                                onChange={(e) => setUserInfo({ ...userInfo, name: e.target.value })}
-                                className="w-full rounded-lg border-slate-300 border px-3 py-2.5 text-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
-                            />
+                        <div className="flex gap-4">
+                            <div className="flex-1">
+                                <label className="block text-sm font-medium text-slate-700 mb-1">الاسم الأول</label>
+                                <input
+                                    type="text"
+                                    value={userInfo.first_name}
+                                    onChange={(e) => setUserInfo({ ...userInfo, first_name: e.target.value })}
+                                    className="w-full rounded-lg border-slate-300 border px-3 py-2.5 text-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
+                                />
+                            </div>
+                            <div className="flex-1">
+                                <label className="block text-sm font-medium text-slate-700 mb-1">الاسم الأخير</label>
+                                <input
+                                    type="text"
+                                    value={userInfo.last_name}
+                                    onChange={(e) => setUserInfo({ ...userInfo, last_name: e.target.value })}
+                                    className="w-full rounded-lg border-slate-300 border px-3 py-2.5 text-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
+                                />
+                            </div>
                         </div>
+
                         <div>
-                            <label className="block text-sm font-medium text-slate-700 mb-1">البريد الإلكتروني</label>
+                            <label className="block text-sm font-medium text-slate-700 mb-1">اسم المستخدم</label>
                             <div className="relative">
                                 <input
-                                    type="email"
-                                    value={userInfo.email}
-                                    onChange={(e) => setUserInfo({ ...userInfo, email: e.target.value })}
-                                    className="w-full rounded-lg border-slate-300 border px-3 py-2.5 text-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 pl-10" // Padding for icon if LTR, but we are RTL so maybe no padding needed or icon on left?
+                                    type="text"
+                                    value={userInfo.username}
+                                    onChange={(e) => setUserInfo({ ...userInfo, username: e.target.value })}
+                                    className="w-full rounded-lg border-slate-300 border px-3 py-2.5 text-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 pl-10"
                                 />
-                                {/* <Mail className="absolute left-3 top-2.5 w-4 h-4 text-slate-400" /> */}
+                                {/* <AtSign className="absolute left-3 top-2.5 w-4 h-4 text-slate-400" /> */}
                             </div>
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-slate-700 mb-1">المسمى الوظيفي</label>
+                            <div className="relative">
+                                <input
+                                    type="text"
+                                    value={userInfo.job_title}
+                                    onChange={(e) => setUserInfo({ ...userInfo, job_title: e.target.value })}
+                                    className="w-full rounded-lg border-slate-300 border px-3 py-2.5 text-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 pl-10"
+                                />
+                                {/* <Briefcase className="absolute left-3 top-2.5 w-4 h-4 text-slate-400" /> */}
+                            </div>
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-slate-700 mb-1">البريد الإلكتروني</label>
+                            <input
+                                type="email"
+                                value={userInfo.email}
+                                onChange={(e) => setUserInfo({ ...userInfo, email: e.target.value })}
+                                className="w-full rounded-lg border-slate-300 border px-3 py-2.5 text-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
+                            />
                         </div>
 
                         <div className="pt-4">
@@ -136,8 +194,8 @@ export default function ProfilePage() {
                             <label className="block text-sm font-medium text-slate-700 mb-1">كلمة المرور الحالية</label>
                             <input
                                 type="password"
-                                value={passwordData.currnet_password}
-                                onChange={(e) => setPasswordData({ ...passwordData, currnet_password: e.target.value })}
+                                value={passwordData.current_password}
+                                onChange={(e) => setPasswordData({ ...passwordData, current_password: e.target.value })}
                                 className="w-full rounded-lg border-slate-300 border px-3 py-2.5 text-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
                             />
                         </div>
@@ -145,8 +203,8 @@ export default function ProfilePage() {
                             <label className="block text-sm font-medium text-slate-700 mb-1">كلمة المرور الجديدة</label>
                             <input
                                 type="password"
-                                value={passwordData.password}
-                                onChange={(e) => setPasswordData({ ...passwordData, password: e.target.value })}
+                                value={passwordData.new_password}
+                                onChange={(e) => setPasswordData({ ...passwordData, new_password: e.target.value })}
                                 className="w-full rounded-lg border-slate-300 border px-3 py-2.5 text-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
                             />
                         </div>
@@ -154,8 +212,8 @@ export default function ProfilePage() {
                             <label className="block text-sm font-medium text-slate-700 mb-1">تأكيد كلمة المرور</label>
                             <input
                                 type="password"
-                                value={passwordData.password_confirmation}
-                                onChange={(e) => setPasswordData({ ...passwordData, password_confirmation: e.target.value })}
+                                value={passwordData.new_password_confirmation}
+                                onChange={(e) => setPasswordData({ ...passwordData, new_password_confirmation: e.target.value })}
                                 className="w-full rounded-lg border-slate-300 border px-3 py-2.5 text-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
                             />
                         </div>
