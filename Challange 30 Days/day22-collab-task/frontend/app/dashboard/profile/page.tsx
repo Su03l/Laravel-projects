@@ -3,12 +3,17 @@
 import { useEffect, useState } from "react";
 import api from "@/lib/axios";
 import toast from "react-hot-toast";
-import { User, Lock, Briefcase, AtSign, Mail, Save, RefreshCw } from "lucide-react";
+import { User, Lock, Briefcase, AtSign, Mail, Save, RefreshCw, Eye, EyeOff } from "lucide-react";
 
 export default function ProfilePage() {
     const [loading, setLoading] = useState(false);
     const [savingInfo, setSavingInfo] = useState(false);
     const [savingPassword, setSavingPassword] = useState(false);
+
+    // Show/Hide Password States
+    const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+    const [showNewPassword, setShowNewPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const [userInfo, setUserInfo] = useState({
         first_name: "",
@@ -226,12 +231,19 @@ export default function ProfilePage() {
                                     <Lock className="h-5 w-5 text-slate-400 group-focus-within:text-rose-500 transition-colors" />
                                 </div>
                                 <input
-                                    type="password"
+                                    type={showCurrentPassword ? "text" : "password"}
                                     value={passwordData.current_password}
                                     onChange={(e) => setPasswordData({ ...passwordData, current_password: e.target.value })}
-                                    className="w-full rounded-2xl border-slate-200 border px-4 py-3 pr-10 text-sm focus:border-rose-500 focus:outline-none focus:ring-2 focus:ring-rose-500/20 bg-slate-50 focus:bg-white transition-all font-medium"
+                                    className="w-full rounded-2xl border-slate-200 border px-4 py-3 pr-10 pl-10 text-sm focus:border-rose-500 focus:outline-none focus:ring-2 focus:ring-rose-500/20 bg-slate-50 focus:bg-white transition-all font-medium"
                                     placeholder="••••••••"
                                 />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                                    className="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 hover:text-rose-500 transition-colors focus:outline-none"
+                                >
+                                    {showCurrentPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                                </button>
                             </div>
                         </div>
                         <div className="relative group">
@@ -241,12 +253,19 @@ export default function ProfilePage() {
                                     <Lock className="h-5 w-5 text-slate-400 group-focus-within:text-rose-500 transition-colors" />
                                 </div>
                                 <input
-                                    type="password"
+                                    type={showNewPassword ? "text" : "password"}
                                     value={passwordData.new_password}
                                     onChange={(e) => setPasswordData({ ...passwordData, new_password: e.target.value })}
-                                    className="w-full rounded-2xl border-slate-200 border px-4 py-3 pr-10 text-sm focus:border-rose-500 focus:outline-none focus:ring-2 focus:ring-rose-500/20 bg-slate-50 focus:bg-white transition-all font-medium"
+                                    className="w-full rounded-2xl border-slate-200 border px-4 py-3 pr-10 pl-10 text-sm focus:border-rose-500 focus:outline-none focus:ring-2 focus:ring-rose-500/20 bg-slate-50 focus:bg-white transition-all font-medium"
                                     placeholder="••••••••"
                                 />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowNewPassword(!showNewPassword)}
+                                    className="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 hover:text-rose-500 transition-colors focus:outline-none"
+                                >
+                                    {showNewPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                                </button>
                             </div>
                         </div>
                         <div className="relative group">
@@ -256,12 +275,19 @@ export default function ProfilePage() {
                                     <Lock className="h-5 w-5 text-slate-400 group-focus-within:text-rose-500 transition-colors" />
                                 </div>
                                 <input
-                                    type="password"
+                                    type={showConfirmPassword ? "text" : "password"}
                                     value={passwordData.new_password_confirmation}
                                     onChange={(e) => setPasswordData({ ...passwordData, new_password_confirmation: e.target.value })}
-                                    className="w-full rounded-2xl border-slate-200 border px-4 py-3 pr-10 text-sm focus:border-rose-500 focus:outline-none focus:ring-2 focus:ring-rose-500/20 bg-slate-50 focus:bg-white transition-all font-medium"
+                                    className="w-full rounded-2xl border-slate-200 border px-4 py-3 pr-10 pl-10 text-sm focus:border-rose-500 focus:outline-none focus:ring-2 focus:ring-rose-500/20 bg-slate-50 focus:bg-white transition-all font-medium"
                                     placeholder="••••••••"
                                 />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                    className="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 hover:text-rose-500 transition-colors focus:outline-none"
+                                >
+                                    {showConfirmPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                                </button>
                             </div>
                         </div>
 
