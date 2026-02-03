@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import api from "@/lib/axios";
 import toast from "react-hot-toast";
-import { User, Lock, Briefcase, AtSign } from "lucide-react";
+import { User, Lock, Briefcase, AtSign, Mail, Save, RefreshCw } from "lucide-react";
 
 export default function ProfilePage() {
     const [loading, setLoading] = useState(false);
@@ -19,15 +19,14 @@ export default function ProfilePage() {
     });
 
     const [passwordData, setPasswordData] = useState({
-        current_password: "", // Corrected field name based on ProfileController
+        current_password: "",
         new_password: "",
-        new_password_confirmation: "", // Controller validation uses 'confirmed' which expects 'new_password_confirmation' usually, but code said 'new_password' => 'confirmed'.. Laravel expects new_password_confirmation.
+        new_password_confirmation: "",
     });
 
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                // ProfileController@show returns { user: ... }
                 const res = await api.get('/profile');
                 const u = res.data.user;
                 setUserInfo({
@@ -74,7 +73,6 @@ export default function ProfilePage() {
 
         setSavingPassword(true);
         try {
-            // ProfileController@changePassword requires: current_password, new_password, new_password_confirmation
             await api.put('/profile/password', {
                 current_password: passwordData.current_password,
                 new_password: passwordData.new_password,
@@ -94,86 +92,114 @@ export default function ProfilePage() {
     };
 
     return (
-        <div className="max-w-4xl mx-auto space-y-8">
+        <div className="max-w-5xl mx-auto space-y-8">
             <div>
-                <h1 className="text-2xl font-bold text-slate-900">الملف الشخصي</h1>
-                <p className="text-slate-500 mt-1">إدارة معلوماتك الشخصية والأمان.</p>
+                <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">الملف الشخصي</h1>
+                <p className="text-slate-500 mt-2 font-medium">إدارة معلوماتك الشخصية وإعدادات الأمان.</p>
             </div>
 
-            <div className="grid gap-8 md:grid-cols-2">
+            <div className="grid gap-8 lg:grid-cols-2">
                 {/* Update Info */}
-                <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm">
-                    <div className="flex items-center gap-3 mb-6 pb-4 border-b border-slate-50">
-                        <div className="w-10 h-10 bg-sky-50 rounded-lg flex items-center justify-center text-sky-500">
-                            <User className="w-5 h-5" />
+                <div className="bg-white/80 backdrop-blur-sm p-8 rounded-3xl border border-slate-100 shadow-xl shadow-slate-200/50">
+                    <div className="flex items-center gap-4 mb-8 pb-4 border-b border-slate-50">
+                        <div className="w-12 h-12 bg-sky-100 rounded-2xl flex items-center justify-center text-sky-600 shadow-inner">
+                            <User className="w-6 h-6" />
                         </div>
-                        <h2 className="text-lg font-bold text-slate-900">المعلومات الأساسية</h2>
+                        <div>
+                            <h2 className="text-xl font-bold text-slate-900">المعلومات الأساسية</h2>
+                            <p className="text-xs text-slate-400">قم بتحديث بياناتك العامة</p>
+                        </div>
                     </div>
 
-                    <form onSubmit={handleUpdateInfo} className="space-y-4">
-                        <div className="flex gap-4">
-                            <div className="flex-1">
-                                <label className="block text-sm font-medium text-slate-700 mb-1">الاسم الأول</label>
-                                <input
-                                    type="text"
-                                    value={userInfo.first_name}
-                                    onChange={(e) => setUserInfo({ ...userInfo, first_name: e.target.value })}
-                                    className="w-full rounded-lg border-slate-300 border px-3 py-2.5 text-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
-                                />
+                    <form onSubmit={handleUpdateInfo} className="space-y-5">
+                        <div className="flex gap-4 flex-col sm:flex-row">
+                            <div className="flex-1 relative group">
+                                <label className="block text-sm font-semibold text-slate-700 mb-2">الاسم الأول</label>
+                                <div className="relative">
+                                    <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                        <User className="h-5 w-5 text-slate-400 group-focus-within:text-sky-500 transition-colors" />
+                                    </div>
+                                    <input
+                                        type="text"
+                                        value={userInfo.first_name}
+                                        onChange={(e) => setUserInfo({ ...userInfo, first_name: e.target.value })}
+                                        className="w-full rounded-2xl border-slate-200 border px-4 py-3 pr-10 text-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20 bg-slate-50 focus:bg-white transition-all font-medium"
+                                        placeholder="الاسم الأول"
+                                    />
+                                </div>
                             </div>
-                            <div className="flex-1">
-                                <label className="block text-sm font-medium text-slate-700 mb-1">الاسم الأخير</label>
-                                <input
-                                    type="text"
-                                    value={userInfo.last_name}
-                                    onChange={(e) => setUserInfo({ ...userInfo, last_name: e.target.value })}
-                                    className="w-full rounded-lg border-slate-300 border px-3 py-2.5 text-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
-                                />
+                            <div className="flex-1 relative group">
+                                <label className="block text-sm font-semibold text-slate-700 mb-2">الاسم الأخير</label>
+                                <div className="relative">
+                                    <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                        <User className="h-5 w-5 text-slate-400 group-focus-within:text-sky-500 transition-colors" />
+                                    </div>
+                                    <input
+                                        type="text"
+                                        value={userInfo.last_name}
+                                        onChange={(e) => setUserInfo({ ...userInfo, last_name: e.target.value })}
+                                        className="w-full rounded-2xl border-slate-200 border px-4 py-3 pr-10 text-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20 bg-slate-50 focus:bg-white transition-all font-medium"
+                                        placeholder="الاسم الأخير"
+                                    />
+                                </div>
                             </div>
                         </div>
 
-                        <div>
-                            <label className="block text-sm font-medium text-slate-700 mb-1">اسم المستخدم</label>
+                        <div className="relative group">
+                            <label className="block text-sm font-semibold text-slate-700 mb-2">اسم المستخدم</label>
                             <div className="relative">
+                                <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                    <AtSign className="h-5 w-5 text-slate-400 group-focus-within:text-sky-500 transition-colors" />
+                                </div>
                                 <input
                                     type="text"
                                     value={userInfo.username}
                                     onChange={(e) => setUserInfo({ ...userInfo, username: e.target.value })}
-                                    className="w-full rounded-lg border-slate-300 border px-3 py-2.5 text-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 pl-10"
+                                    className="w-full rounded-2xl border-slate-200 border px-4 py-3 pr-10 text-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20 bg-slate-50 focus:bg-white transition-all font-medium"
+                                    placeholder="username"
                                 />
-                                {/* <AtSign className="absolute left-3 top-2.5 w-4 h-4 text-slate-400" /> */}
                             </div>
                         </div>
 
-                        <div>
-                            <label className="block text-sm font-medium text-slate-700 mb-1">المسمى الوظيفي</label>
+                        <div className="relative group">
+                            <label className="block text-sm font-semibold text-slate-700 mb-2">المسمى الوظيفي</label>
                             <div className="relative">
+                                <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                    <Briefcase className="h-5 w-5 text-slate-400 group-focus-within:text-sky-500 transition-colors" />
+                                </div>
                                 <input
                                     type="text"
                                     value={userInfo.job_title}
                                     onChange={(e) => setUserInfo({ ...userInfo, job_title: e.target.value })}
-                                    className="w-full rounded-lg border-slate-300 border px-3 py-2.5 text-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 pl-10"
+                                    className="w-full rounded-2xl border-slate-200 border px-4 py-3 pr-10 text-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20 bg-slate-50 focus:bg-white transition-all font-medium"
+                                    placeholder="مثال: مطور برمجيات"
                                 />
-                                {/* <Briefcase className="absolute left-3 top-2.5 w-4 h-4 text-slate-400" /> */}
                             </div>
                         </div>
 
-                        <div>
-                            <label className="block text-sm font-medium text-slate-700 mb-1">البريد الإلكتروني</label>
-                            <input
-                                type="email"
-                                value={userInfo.email}
-                                onChange={(e) => setUserInfo({ ...userInfo, email: e.target.value })}
-                                className="w-full rounded-lg border-slate-300 border px-3 py-2.5 text-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
-                            />
+                        <div className="relative group">
+                            <label className="block text-sm font-semibold text-slate-700 mb-2">البريد الإلكتروني</label>
+                            <div className="relative">
+                                <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                    <Mail className="h-5 w-5 text-slate-400 group-focus-within:text-sky-500 transition-colors" />
+                                </div>
+                                <input
+                                    type="email"
+                                    value={userInfo.email}
+                                    onChange={(e) => setUserInfo({ ...userInfo, email: e.target.value })}
+                                    className="w-full rounded-2xl border-slate-200 border px-4 py-3 pr-10 text-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20 bg-slate-50 focus:bg-white transition-all font-medium"
+                                    placeholder="your@email.com"
+                                />
+                            </div>
                         </div>
 
-                        <div className="pt-4">
+                        <div className="pt-6">
                             <button
                                 type="submit"
                                 disabled={savingInfo}
-                                className="w-full md:w-auto bg-sky-500 text-white px-6 py-2.5 rounded-lg font-medium hover:bg-sky-600 focus:ring-4 focus:ring-sky-100 transition-all"
+                                className="w-full sm:w-auto bg-gradient-to-r from-sky-500 to-sky-600 text-white px-8 py-3 rounded-xl font-bold hover:from-sky-600 hover:to-sky-700 focus:ring-4 focus:ring-sky-100 transition-all shadow-lg shadow-sky-200 transform hover:-translate-y-0.5 flex items-center justify-center gap-2"
                             >
+                                <Save className="w-5 h-5" />
                                 {savingInfo ? "جاري الحفظ..." : "حفظ التغييرات"}
                             </button>
                         </div>
@@ -181,49 +207,71 @@ export default function ProfilePage() {
                 </div>
 
                 {/* Change Password */}
-                <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm">
-                    <div className="flex items-center gap-3 mb-6 pb-4 border-b border-slate-50">
-                        <div className="w-10 h-10 bg-rose-50 rounded-lg flex items-center justify-center text-rose-500">
-                            <Lock className="w-5 h-5" />
+                <div className="bg-white/80 backdrop-blur-sm p-8 rounded-3xl border border-slate-100 shadow-xl shadow-slate-200/50 h-fit">
+                    <div className="flex items-center gap-4 mb-8 pb-4 border-b border-slate-50">
+                        <div className="w-12 h-12 bg-rose-100 rounded-2xl flex items-center justify-center text-rose-600 shadow-inner">
+                            <Lock className="w-6 h-6" />
                         </div>
-                        <h2 className="text-lg font-bold text-slate-900">الأمان وكلمة المرور</h2>
+                        <div>
+                            <h2 className="text-xl font-bold text-slate-900">الأمان وكلمة المرور</h2>
+                            <p className="text-xs text-slate-400">حافظ على أمان حسابك</p>
+                        </div>
                     </div>
 
-                    <form onSubmit={handleChangePassword} className="space-y-4">
-                        <div>
-                            <label className="block text-sm font-medium text-slate-700 mb-1">كلمة المرور الحالية</label>
-                            <input
-                                type="password"
-                                value={passwordData.current_password}
-                                onChange={(e) => setPasswordData({ ...passwordData, current_password: e.target.value })}
-                                className="w-full rounded-lg border-slate-300 border px-3 py-2.5 text-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
-                            />
+                    <form onSubmit={handleChangePassword} className="space-y-5">
+                        <div className="relative group">
+                            <label className="block text-sm font-semibold text-slate-700 mb-2">كلمة المرور الحالية</label>
+                            <div className="relative">
+                                <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                    <Lock className="h-5 w-5 text-slate-400 group-focus-within:text-rose-500 transition-colors" />
+                                </div>
+                                <input
+                                    type="password"
+                                    value={passwordData.current_password}
+                                    onChange={(e) => setPasswordData({ ...passwordData, current_password: e.target.value })}
+                                    className="w-full rounded-2xl border-slate-200 border px-4 py-3 pr-10 text-sm focus:border-rose-500 focus:outline-none focus:ring-2 focus:ring-rose-500/20 bg-slate-50 focus:bg-white transition-all font-medium"
+                                    placeholder="••••••••"
+                                />
+                            </div>
                         </div>
-                        <div>
-                            <label className="block text-sm font-medium text-slate-700 mb-1">كلمة المرور الجديدة</label>
-                            <input
-                                type="password"
-                                value={passwordData.new_password}
-                                onChange={(e) => setPasswordData({ ...passwordData, new_password: e.target.value })}
-                                className="w-full rounded-lg border-slate-300 border px-3 py-2.5 text-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
-                            />
+                        <div className="relative group">
+                            <label className="block text-sm font-semibold text-slate-700 mb-2">كلمة المرور الجديدة</label>
+                            <div className="relative">
+                                <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                    <Lock className="h-5 w-5 text-slate-400 group-focus-within:text-rose-500 transition-colors" />
+                                </div>
+                                <input
+                                    type="password"
+                                    value={passwordData.new_password}
+                                    onChange={(e) => setPasswordData({ ...passwordData, new_password: e.target.value })}
+                                    className="w-full rounded-2xl border-slate-200 border px-4 py-3 pr-10 text-sm focus:border-rose-500 focus:outline-none focus:ring-2 focus:ring-rose-500/20 bg-slate-50 focus:bg-white transition-all font-medium"
+                                    placeholder="••••••••"
+                                />
+                            </div>
                         </div>
-                        <div>
-                            <label className="block text-sm font-medium text-slate-700 mb-1">تأكيد كلمة المرور</label>
-                            <input
-                                type="password"
-                                value={passwordData.new_password_confirmation}
-                                onChange={(e) => setPasswordData({ ...passwordData, new_password_confirmation: e.target.value })}
-                                className="w-full rounded-lg border-slate-300 border px-3 py-2.5 text-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
-                            />
+                        <div className="relative group">
+                            <label className="block text-sm font-semibold text-slate-700 mb-2">تأكيد كلمة المرور</label>
+                            <div className="relative">
+                                <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                    <Lock className="h-5 w-5 text-slate-400 group-focus-within:text-rose-500 transition-colors" />
+                                </div>
+                                <input
+                                    type="password"
+                                    value={passwordData.new_password_confirmation}
+                                    onChange={(e) => setPasswordData({ ...passwordData, new_password_confirmation: e.target.value })}
+                                    className="w-full rounded-2xl border-slate-200 border px-4 py-3 pr-10 text-sm focus:border-rose-500 focus:outline-none focus:ring-2 focus:ring-rose-500/20 bg-slate-50 focus:bg-white transition-all font-medium"
+                                    placeholder="••••••••"
+                                />
+                            </div>
                         </div>
 
-                        <div className="pt-4">
+                        <div className="pt-6">
                             <button
                                 type="submit"
                                 disabled={savingPassword}
-                                className="w-full md:w-auto bg-slate-900 text-white px-6 py-2.5 rounded-lg font-medium hover:bg-slate-800 focus:ring-4 focus:ring-slate-100 transition-all"
+                                className="w-full sm:w-auto bg-slate-900 text-white px-8 py-3 rounded-xl font-bold hover:bg-slate-800 focus:ring-4 focus:ring-slate-100 transition-all shadow-lg shadow-slate-200 transform hover:-translate-y-0.5 flex items-center justify-center gap-2"
                             >
+                                <RefreshCw className="w-5 h-5" />
                                 {savingPassword ? "جاري التحديث..." : "تحديث كلمة المرور"}
                             </button>
                         </div>
