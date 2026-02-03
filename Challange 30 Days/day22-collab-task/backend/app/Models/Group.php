@@ -1,0 +1,32 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Group extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'company_name',
+        'description',
+        'start_date',
+        'end_date',
+        'owner_id'
+    ];
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'group_user')
+            ->withPivot('role')
+            ->withTimestamps();
+    }
+
+    public function owner()
+    {
+        return $this->belongsTo(User::class, 'owner_id');
+    }
+}
