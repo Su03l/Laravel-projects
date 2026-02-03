@@ -2,7 +2,7 @@
 
 import { useState, Fragment, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { X, Calendar, Flag, Users } from "lucide-react";
+import { X, Calendar, Flag, Users, FileText } from "lucide-react";
 import api from "@/lib/axios";
 import toast from "react-hot-toast";
 
@@ -17,8 +17,10 @@ export default function TaskModal({ isOpen, onClose, onSuccess, groupId }: TaskM
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         title: "",
+        content: "",
         priority: "medium",
-        due_date: "",
+        start_date: "",
+        end_date: "",
         group_id: groupId || "",
         assigned_to: "",
     });
@@ -29,7 +31,7 @@ export default function TaskModal({ isOpen, onClose, onSuccess, groupId }: TaskM
         }
     }, [groupId]);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
     };
@@ -57,8 +59,10 @@ export default function TaskModal({ isOpen, onClose, onSuccess, groupId }: TaskM
             // Reset form
             setFormData({
                 title: "",
+                content: "",
                 priority: "medium",
-                due_date: "",
+                start_date: "",
+                end_date: "",
                 group_id: groupId || "",
                 assigned_to: "",
             });
@@ -96,7 +100,7 @@ export default function TaskModal({ isOpen, onClose, onSuccess, groupId }: TaskM
                             leaveFrom="opacity-100 scale-100"
                             leaveTo="opacity-0 scale-95"
                         >
-                            <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-right align-middle shadow-xl transition-all font-sans">
+                            <Dialog.Panel className="w-full max-w-lg transform overflow-hidden rounded-2xl bg-white p-6 text-right align-middle shadow-xl transition-all font-sans">
                                 <div className="flex items-center justify-between mb-6">
                                     <Dialog.Title
                                         as="h3"
@@ -128,41 +132,67 @@ export default function TaskModal({ isOpen, onClose, onSuccess, groupId }: TaskM
                                         />
                                     </div>
 
-                                    {/* Priority & Due Date Row */}
+                                    {/* Content (Description) */}
+                                    <div>
+                                        <label className="block text-sm font-medium text-slate-700 mb-1.5">
+                                            التفاصيل (اختياري)
+                                        </label>
+                                        <textarea
+                                            name="content"
+                                            value={formData.content}
+                                            onChange={handleChange}
+                                            rows={3}
+                                            placeholder="أضف وصفاً تفصيلياً للمهمة..."
+                                            className="w-full rounded-lg border-slate-300 border px-3 py-2.5 text-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 placeholder:text-slate-400 resize-none"
+                                        />
+                                    </div>
+
+                                    {/* Priority */}
+                                    <div>
+                                        <label className="block text-sm font-medium text-slate-700 mb-1.5">
+                                            الأولوية
+                                        </label>
+                                        <div className="relative">
+                                            <select
+                                                name="priority"
+                                                value={formData.priority}
+                                                onChange={handleChange}
+                                                className="w-full rounded-lg border-slate-300 border px-3 py-2.5 text-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 appearance-none bg-white"
+                                            >
+                                                <option value="low">منخفضة</option>
+                                                <option value="medium">متوسطة</option>
+                                                <option value="high">عالية</option>
+                                            </select>
+                                            <Flag className="absolute left-3 top-3 w-4 h-4 text-slate-400 pointer-events-none" />
+                                        </div>
+                                    </div>
+
+                                    {/* Dates Row */}
                                     <div className="flex gap-4">
                                         <div className="flex-1">
                                             <label className="block text-sm font-medium text-slate-700 mb-1.5">
-                                                الأولوية
+                                                تاريخ البدء
                                             </label>
-                                            <div className="relative">
-                                                <select
-                                                    name="priority"
-                                                    value={formData.priority}
-                                                    onChange={handleChange}
-                                                    className="w-full rounded-lg border-slate-300 border px-3 py-2.5 text-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 appearance-none bg-white"
-                                                >
-                                                    <option value="low">منخفضة</option>
-                                                    <option value="medium">متوسطة</option>
-                                                    <option value="high">عالية</option>
-                                                </select>
-                                                <Flag className="absolute left-3 top-3 w-4 h-4 text-slate-400 pointer-events-none" />
-                                            </div>
+                                            <input
+                                                type="date"
+                                                name="start_date"
+                                                value={formData.start_date}
+                                                onChange={handleChange}
+                                                className="w-full rounded-lg border-slate-300 border px-3 py-2.5 text-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
+                                            />
                                         </div>
 
                                         <div className="flex-1">
                                             <label className="block text-sm font-medium text-slate-700 mb-1.5">
-                                                تاريخ الاستحقاق
+                                                تاريخ الانتهاء
                                             </label>
-                                            <div className="relative">
-                                                <input
-                                                    type="date"
-                                                    name="due_date"
-                                                    value={formData.due_date}
-                                                    onChange={handleChange}
-                                                    className="w-full rounded-lg border-slate-300 border px-3 py-2.5 text-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
-                                                />
-                                                {/* Calendar Icon overlay or just trust browser date picker */}
-                                            </div>
+                                            <input
+                                                type="date"
+                                                name="end_date"
+                                                value={formData.end_date}
+                                                onChange={handleChange}
+                                                className="w-full rounded-lg border-slate-300 border px-3 py-2.5 text-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
+                                            />
                                         </div>
                                     </div>
 
