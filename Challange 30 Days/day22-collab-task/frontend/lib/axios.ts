@@ -29,10 +29,8 @@ api.interceptors.response.use(
     },
     (error) => {
         if (error.response && error.response.status === 401) {
-            // Handle unauthorized access (e.g., redirect to login)
             if (typeof window !== 'undefined') {
                 localStorage.removeItem('token');
-                // Optional: Redirect to login if not already there
                 if (window.location.pathname !== '/login' && window.location.pathname !== '/register' && window.location.pathname !== '/') {
                     window.location.href = '/login';
                 }
