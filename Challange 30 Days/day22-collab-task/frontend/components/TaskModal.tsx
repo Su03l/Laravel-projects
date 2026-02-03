@@ -2,7 +2,7 @@
 
 import { useState, Fragment, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { X, Calendar, Flag, Users, FileText } from "lucide-react";
+import { X, Calendar, Flag, Users, FileText, Type, Hash } from "lucide-react";
 import api from "@/lib/axios";
 import toast from "react-hot-toast";
 
@@ -86,7 +86,7 @@ export default function TaskModal({ isOpen, onClose, onSuccess, groupId }: TaskM
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
                 >
-                    <div className="fixed inset-0 bg-black/25 backdrop-blur-sm" />
+                    <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm" />
                 </Transition.Child>
 
                 <div className="fixed inset-0 overflow-y-auto">
@@ -94,141 +94,167 @@ export default function TaskModal({ isOpen, onClose, onSuccess, groupId }: TaskM
                         <Transition.Child
                             as={Fragment}
                             enter="ease-out duration-300"
-                            enterFrom="opacity-0 scale-95"
-                            enterTo="opacity-100 scale-100"
+                            enterFrom="opacity-0 scale-95 translate-y-4"
+                            enterTo="opacity-100 scale-100 translate-y-0"
                             leave="ease-in duration-200"
-                            leaveFrom="opacity-100 scale-100"
-                            leaveTo="opacity-0 scale-95"
+                            leaveFrom="opacity-100 scale-100 translate-y-0"
+                            leaveTo="opacity-0 scale-95 translate-y-4"
                         >
-                            <Dialog.Panel className="w-full max-w-lg transform overflow-hidden rounded-2xl bg-white p-6 text-right align-middle shadow-xl transition-all font-sans">
-                                <div className="flex items-center justify-between mb-6">
-                                    <Dialog.Title
-                                        as="h3"
-                                        className="text-lg font-bold leading-6 text-slate-900"
-                                    >
-                                        إنشاء مهمة جديدة
-                                    </Dialog.Title>
+                            <Dialog.Panel className="w-full max-w-xl transform overflow-hidden rounded-3xl bg-white p-8 text-right align-middle shadow-2xl transition-all font-sans relative">
+
+                                {/* Header */}
+                                <div className="flex items-center justify-between mb-8 border-b border-slate-50 pb-4">
+                                    <div>
+                                        <Dialog.Title as="h3" className="text-2xl font-extrabold leading-6 text-slate-900 tracking-tight">
+                                            مهمة جديدة
+                                        </Dialog.Title>
+                                        <p className="text-sm text-slate-500 mt-1">أضف تفاصيل المهمة للفريق</p>
+                                    </div>
                                     <button
                                         onClick={onClose}
-                                        className="rounded-full p-1 hover:bg-slate-100 transition-colors"
+                                        className="rounded-full p-2 bg-slate-50 text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
                                     >
-                                        <X className="w-5 h-5 text-slate-500" />
+                                        <X className="w-5 h-5" />
                                     </button>
                                 </div>
 
-                                <form onSubmit={handleSubmit} className="space-y-4">
+                                <form onSubmit={handleSubmit} className="space-y-6">
                                     {/* Title */}
-                                    <div>
-                                        <label className="block text-sm font-medium text-slate-700 mb-1.5">
+                                    <div className="relative group">
+                                        <label className="block text-sm font-bold text-slate-700 mb-2">
                                             عنوان المهمة
                                         </label>
-                                        <input
-                                            type="text"
-                                            name="title"
-                                            value={formData.title}
-                                            onChange={handleChange}
-                                            placeholder="مثال: تحديث الصفحة الرئيسية"
-                                            className="w-full rounded-lg border-slate-300 border px-3 py-2.5 text-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 placeholder:text-slate-400"
-                                        />
+                                        <div className="relative">
+                                            <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                                <Type className="h-5 w-5 text-slate-400 group-focus-within:text-sky-500 transition-colors" />
+                                            </div>
+                                            <input
+                                                type="text"
+                                                name="title"
+                                                value={formData.title}
+                                                onChange={handleChange}
+                                                placeholder="مثال: تحديث الصفحة الرئيسية"
+                                                className="w-full rounded-2xl border-slate-200 border px-4 py-3 pr-10 text-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20 bg-slate-50 focus:bg-white transition-all font-medium placeholder:text-slate-400"
+                                            />
+                                        </div>
                                     </div>
 
                                     {/* Content (Description) */}
-                                    <div>
-                                        <label className="block text-sm font-medium text-slate-700 mb-1.5">
+                                    <div className="relative group">
+                                        <label className="block text-sm font-bold text-slate-700 mb-2">
                                             التفاصيل (اختياري)
                                         </label>
-                                        <textarea
-                                            name="content"
-                                            value={formData.content}
-                                            onChange={handleChange}
-                                            rows={3}
-                                            placeholder="أضف وصفاً تفصيلياً للمهمة..."
-                                            className="w-full rounded-lg border-slate-300 border px-3 py-2.5 text-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 placeholder:text-slate-400 resize-none"
-                                        />
+                                        <div className="relative">
+                                            <div className="absolute top-3 right-0 pr-3 flex items-start pointer-events-none">
+                                                <FileText className="h-5 w-5 text-slate-400 group-focus-within:text-sky-500 transition-colors" />
+                                            </div>
+                                            <textarea
+                                                name="content"
+                                                value={formData.content}
+                                                onChange={handleChange}
+                                                rows={3}
+                                                placeholder="أضف وصفاً تفصيلياً للمهمة..."
+                                                className="w-full rounded-2xl border-slate-200 border px-4 py-3 pr-10 text-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20 bg-slate-50 focus:bg-white transition-all font-medium placeholder:text-slate-400 resize-none"
+                                            />
+                                        </div>
                                     </div>
 
                                     {/* Priority */}
-                                    <div>
-                                        <label className="block text-sm font-medium text-slate-700 mb-1.5">
+                                    <div className="relative group">
+                                        <label className="block text-sm font-bold text-slate-700 mb-2">
                                             الأولوية
                                         </label>
                                         <div className="relative">
+                                            <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none z-10">
+                                                <Flag className="h-5 w-5 text-slate-400 group-focus-within:text-sky-500 transition-colors" />
+                                            </div>
                                             <select
                                                 name="priority"
                                                 value={formData.priority}
                                                 onChange={handleChange}
-                                                className="w-full rounded-lg border-slate-300 border px-3 py-2.5 text-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 appearance-none bg-white"
+                                                className="w-full rounded-2xl border-slate-200 border px-4 py-3 pr-10 text-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20 bg-slate-50 focus:bg-white transition-all font-medium appearance-none"
                                             >
                                                 <option value="low">منخفضة</option>
                                                 <option value="medium">متوسطة</option>
                                                 <option value="high">عالية</option>
                                             </select>
-                                            <Flag className="absolute left-3 top-3 w-4 h-4 text-slate-400 pointer-events-none" />
                                         </div>
                                     </div>
 
                                     {/* Dates Row */}
                                     <div className="flex gap-4">
-                                        <div className="flex-1">
-                                            <label className="block text-sm font-medium text-slate-700 mb-1.5">
+                                        <div className="flex-1 relative group">
+                                            <label className="block text-sm font-bold text-slate-700 mb-2">
                                                 تاريخ البدء
                                             </label>
-                                            <input
-                                                type="date"
-                                                name="start_date"
-                                                value={formData.start_date}
-                                                onChange={handleChange}
-                                                className="w-full rounded-lg border-slate-300 border px-3 py-2.5 text-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
-                                            />
+                                            <div className="relative">
+                                                <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                                    <Calendar className="h-5 w-5 text-slate-400 group-focus-within:text-sky-500 transition-colors" />
+                                                </div>
+                                                <input
+                                                    type="date"
+                                                    name="start_date"
+                                                    value={formData.start_date}
+                                                    onChange={handleChange}
+                                                    className="w-full rounded-2xl border-slate-200 border px-4 py-3 pr-10 text-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20 bg-slate-50 focus:bg-white transition-all font-medium"
+                                                />
+                                            </div>
                                         </div>
 
-                                        <div className="flex-1">
-                                            <label className="block text-sm font-medium text-slate-700 mb-1.5">
+                                        <div className="flex-1 relative group">
+                                            <label className="block text-sm font-bold text-slate-700 mb-2">
                                                 تاريخ الانتهاء
                                             </label>
-                                            <input
-                                                type="date"
-                                                name="end_date"
-                                                value={formData.end_date}
-                                                onChange={handleChange}
-                                                className="w-full rounded-lg border-slate-300 border px-3 py-2.5 text-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
-                                            />
+                                            <div className="relative">
+                                                <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                                    <Calendar className="h-5 w-5 text-slate-400 group-focus-within:text-sky-500 transition-colors" />
+                                                </div>
+                                                <input
+                                                    type="date"
+                                                    name="end_date"
+                                                    value={formData.end_date}
+                                                    onChange={handleChange}
+                                                    className="w-full rounded-2xl border-slate-200 border px-4 py-3 pr-10 text-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20 bg-slate-50 focus:bg-white transition-all font-medium"
+                                                />
+                                            </div>
                                         </div>
                                     </div>
 
                                     {/* Group (Optional/Hidden if pre-filled) */}
                                     {!groupId && (
-                                        <div>
-                                            <label className="block text-sm font-medium text-slate-700 mb-1.5">
+                                        <div className="relative group">
+                                            <label className="block text-sm font-bold text-slate-700 mb-2">
                                                 رقم المجموعة (اختياري)
                                             </label>
                                             <div className="relative">
+                                                <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                                    <Hash className="h-5 w-5 text-slate-400 group-focus-within:text-sky-500 transition-colors" />
+                                                </div>
                                                 <input
                                                     type="number"
                                                     name="group_id"
                                                     value={formData.group_id}
                                                     onChange={handleChange}
                                                     placeholder="أدخل رقم المجموعة"
-                                                    className="w-full rounded-lg border-slate-300 border px-3 py-2.5 text-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500"
+                                                    className="w-full rounded-2xl border-slate-200 border px-4 py-3 pr-10 text-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/20 bg-slate-50 focus:bg-white transition-all font-medium"
                                                 />
-                                                <Users className="absolute left-3 top-3 w-4 h-4 text-slate-400 pointer-events-none" />
                                             </div>
                                         </div>
                                     )}
 
                                     {/* Actions */}
-                                    <div className="mt-8 flex justify-end gap-3 pt-4 border-t border-slate-100">
+                                    <div className="mt-8 flex justify-end gap-3 pt-6 border-t border-slate-50">
                                         <button
                                             type="button"
                                             onClick={onClose}
-                                            className="rounded-lg px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 transition-colors"
+                                            className="rounded-xl px-6 py-3 text-sm font-bold text-slate-600 hover:bg-slate-50 hover:text-slate-800 transition-colors"
                                         >
                                             إلغاء
                                         </button>
                                         <button
                                             type="submit"
                                             disabled={loading}
-                                            className="rounded-lg bg-sky-500 px-6 py-2 text-sm font-medium text-white hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 disabled:opacity-50 transition-all shadow-sm shadow-sky-200"
+                                            className="rounded-xl bg-gradient-to-r from-sky-500 to-sky-600 px-8 py-3 text-sm font-bold text-white hover:from-sky-600 hover:to-sky-700 focus:outline-none focus:ring-4 focus:ring-sky-100 disabled:opacity-50 transition-all shadow-lg shadow-sky-200 transform hover:-translate-y-0.5"
                                         >
                                             {loading ? "جاري الإنشاء..." : "إنشاء المهمة"}
                                         </button>
