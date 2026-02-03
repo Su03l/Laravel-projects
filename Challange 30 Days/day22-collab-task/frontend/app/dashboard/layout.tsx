@@ -7,10 +7,10 @@ import clsx from "clsx";
 import { useRouter } from "next/navigation";
 
 const sidebarLinks = [
-    { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-    { name: "My Tasks", href: "/dashboard/tasks", icon: CheckSquare },
-    { name: "Groups", href: "/dashboard/groups", icon: Users },
-    { name: "Profile", href: "/dashboard/profile", icon: User },
+    { name: "لوحة القيادة", href: "/dashboard", icon: LayoutDashboard },
+    { name: "مهامي", href: "/dashboard/tasks", icon: CheckSquare },
+    { name: "المجموعات", href: "/dashboard/groups", icon: Users },
+    { name: "الملف الشخصي", href: "/dashboard/profile", icon: User },
 ];
 
 export default function DashboardLayout({
@@ -22,21 +22,20 @@ export default function DashboardLayout({
     const router = useRouter();
 
     const handleLogout = () => {
-        // Determine strict logout behavior
         localStorage.removeItem("token");
         router.push("/login");
     };
 
     return (
         <div className="min-h-screen bg-slate-50 flex">
-            {/* Sidebar */}
-            <aside className="fixed inset-y-0 left-0 w-64 bg-white border-r border-slate-200 z-50 flex flex-col">
+            {/* Sidebar - Right aligned in RTL naturally because of global direction */}
+            <aside className="fixed inset-y-0 right-0 w-64 bg-white border-l border-slate-200 z-50 flex flex-col">
                 <div className="p-6 border-b border-slate-100">
                     <h1 className="text-xl font-bold text-slate-900 flex items-center gap-2">
                         <div className="w-8 h-8 bg-sky-500 rounded-lg flex items-center justify-center text-white text-lg">
-                            T
+                            م
                         </div>
-                        TaskMaster
+                        مدير المهام
                     </h1>
                 </div>
 
@@ -68,20 +67,20 @@ export default function DashboardLayout({
                         className="flex w-full items-center gap-3 px-4 py-3 text-sm font-medium text-slate-600 rounded-lg hover:bg-red-50 hover:text-red-600 transition-colors"
                     >
                         <LogOut className="w-5 h-5" />
-                        Logout
+                        تسجيل الخروج
                     </button>
                 </div>
             </aside>
 
-            {/* Main Content */}
-            <div className="flex-1 ml-64 flex flex-col">
+            {/* Main Content - Pushed Left */}
+            <div className="flex-1 mr-64 flex flex-col">
                 {/* Top Bar */}
                 <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-end px-8 sticky top-0 z-40">
-                    {/* Placeholder for user info if we had global state, for now static or fetched later */}
+                    {/* Placeholder for user info */}
                     <div className="flex items-center gap-4">
-                        <span className="text-sm font-medium text-slate-900">John Doe</span>
+                        <span className="text-sm font-medium text-slate-900">المستخدم</span>
                         <div className="w-8 h-8 rounded-full bg-sky-100 border border-sky-200 flex items-center justify-center text-sky-600 font-bold text-xs">
-                            JD
+                            م
                         </div>
                     </div>
                 </header>
