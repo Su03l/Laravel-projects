@@ -54,6 +54,7 @@
 | 19  | [day19-url-shortener](./Challange%2030%20Days/day19-url-shortener)                     | نظام اختصار روابط ذكي (Smart URL Shortener)         | Link Management، Click Tracking، Custom Aliases، RESTful API            |
 | 20  | [day20-reporter](./Challange%2030%20Days/day20-reporter)                               | لوحة تحكم مالية وإصدار فواتير (Financial Dashboard) | Invoice Generation، Arabic PDF، Excel Export، Role Management           |
 | 21  | [day21-The-Media-Converter-API](./Challange%2030%20Days/day21-The-Media-Converter-API) | نظام أدوات للمطورين (Developer Tools API)           | QR Code Generation، Crypto Prices، Image Processing، UUID Generator     |
+| 22  | [day22-collab-task](./Challange%2030%20Days/day22-collab-task)                         | نظام إدارة مهام تعاوني (Collaborative Task Manager) | Team Collaboration، Task Assignment، Comments System، Role-Based Access |
 
 ---
 
