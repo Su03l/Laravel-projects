@@ -72,9 +72,17 @@ class ChatController extends Controller
                 'last_message_at' => now(),
             ]);
 
-            $conv->participants()->attach([
-                $myId => ['joined_at' => now()],
-                $targetId => ['joined_at' => now()]
+            // استخدام Participant::create بدلاً من attach لأن العلاقة hasMany
+            Participant::create([
+                'conversation_id' => $conv->id,
+                'user_id' => $myId,
+                'joined_at' => now()
+            ]);
+
+            Participant::create([
+                'conversation_id' => $conv->id,
+                'user_id' => $targetId,
+                'joined_at' => now()
             ]);
 
             return $conv;
@@ -115,11 +123,20 @@ class ChatController extends Controller
             ]);
 
             // إضافة الأدمن
-            $conv->participants()->attach(auth()->id(), ['is_admin' => true, 'joined_at' => now()]);
+            Participant::create([
+                'conversation_id' => $conv->id,
+                'user_id' => auth()->id(),
+                'is_admin' => true,
+                'joined_at' => now()
+            ]);
 
             // إضافة الأعضاء
             foreach ($request->participants as $userId) {
-                $conv->participants()->attach($userId, ['joined_at' => now()]);
+                Participant::create([
+                    'conversation_id' => $conv->id,
+                    'user_id' => $userId,
+                    'joined_at' => now()
+                ]);
             }
 
             return $conv;
@@ -176,10 +193,10 @@ class ChatController extends Controller
             // حساب عدد الرسائل غير المقروءة
             ->withCount(['messages as unread_count' => function ($query) use ($user) {
                 $query->where('user_id', '!=', $user->id)
-                      ->where('is_read', false)
-                      ->whereDoesntHave('hiddenFor', function ($q) use ($user) {
-                          $q->where('user_id', $user->id);
-                      });
+                    ->where('is_read', false)
+                    ->whereDoesntHave('hiddenFor', function ($q) use ($user) {
+                        $q->where('user_id', $user->id);
+                    });
             }])
             ->get()
             ->map(function ($conv) use ($user) {
