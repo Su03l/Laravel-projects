@@ -16,11 +16,13 @@ import {
 import { motion } from 'framer-motion';
 import { clsx } from 'clsx';
 import { useRouter } from 'next/navigation';
+import CreateGroupModal from './CreateGroupModal';
 
 export default function Sidebar() {
     const router = useRouter();
     const { user, conversations, activeConversationId, setActiveConversation } = useStore();
     const [searchTerm, setSearchTerm] = useState('');
+    const [isGroupModalOpen, setIsGroupModalOpen] = useState(false);
 
     const handleLogout = () => {
         localStorage.removeItem('token');
