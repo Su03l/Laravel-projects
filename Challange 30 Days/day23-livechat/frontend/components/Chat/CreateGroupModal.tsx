@@ -1,142 +1,238 @@
 'use client';
 
-import { Fragment, useState } from 'react';
-import { Dialog, Transition } from '@headlessui/react';
-import { X, Search, Check, Users } from 'lucide-react';
+import { useState } from 'react';
+import { X, Search, Check, Users, Loader2, Phone } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { clsx } from 'clsx';
+import axios from '@/lib/axios';
+import { toast } from 'react-hot-toast';
+import { useStore } from '@/lib/store';
 
 interface CreateGroupModalProps {
     isOpen: boolean;
     onClose: () => void;
 }
 
+interface SearchedUser {
+    id: number;
+    name: string;
+    phone: string;
+    avatar?: string;
+}
+
 export default function CreateGroupModal({ isOpen, onClose }: CreateGroupModalProps) {
     const [groupName, setGroupName] = useState('');
-    const [selectedUsers, setSelectedUsers] = useState<number[]>([]);
-    const [searchTerm, setSearchTerm] = useState('');
+    const [selectedUsers, setSelectedUsers] = useState<SearchedUser[]>([]);
+    const [searchPhone, setSearchPhone] = useState('');
+    const [searchResult, setSearchResult] = useState<SearchedUser | null>(null);
+    const [searching, setSearching] = useState(false);
+    const [creating, setCreating] = useState(false);
+    const { setConversations, setActiveConversation, conversations } = useStore();
 
-    // Mock users
-    const users = [
-        { id: 1, name: 'سلطان محمد', avatar: null },
-        { id: 2, name: 'خالد عبد الله', avatar: null },
-        { id: 3, name: 'فهد الناصر', avatar: null },
-        { id: 4, name: 'نورة السعد', avatar: null },
-    ];
+    const handleSearch = async () => {
+        if (searchPhone.length < 10) {
+            toast.error('أدخل رقم جوال صحيح');
+            return;
+        }
 
-    const toggleUser = (id: number) => {
-        if (selectedUsers.includes(id)) {
-            setSelectedUsers(selectedUsers.filter(uId => uId !== id));
-        } else {
-            setSelectedUsers([...selectedUsers, id]);
+        setSearching(true);
+        try {
+            const { data } = await axios.post('/chat/check-number', { phone: searchPhone });
+            if (data.user) {
+                setSearchResult(data.user);
+            }
+        } catch (error) {
+            toast.error('ما لقينا أحد بهالرقم');
+            setSearchResult(null);
+        } finally {
+            setSearching(false);
         }
     };
 
-    const handleCreate = () => {
-        // Logic to create group
+    const addUser = (user: SearchedUser) => {
+        if (!selectedUsers.find(u => u.id === user.id)) {
+            setSelectedUsers([...selectedUsers, user]);
+        }
+        setSearchResult(null);
+        setSearchPhone('');
+    };
+
+    const removeUser = (id: number) => {
+        setSelectedUsers(selectedUsers.filter(u => u.id !== id));
+    };
+
+    const handleCreate = async () => {
+        if (!groupName.trim() || selectedUsers.length === 0) return;
+
+        setCreating(true);
+        try {
+            const { data } = await axios.post('/groups', {
+                name: groupName,
+                participants: selectedUsers.map(u => u.id)
+            });
+
+            // Refresh conversations
+            const convResponse = await axios.get('/conversations');
+            setConversations(convResponse.data.map((conv: { id: number; name: string; is_group: boolean; avatar?: string; last_message?: string; time?: string; unread_count?: number }) => ({
+                id: conv.id,
+                name: conv.name,
+                type: conv.is_group ? 'group' : 'private',
+                updated_at: new Date().toISOString(),
+                participants: [],
+                last_message: conv.last_message ? { content: conv.last_message } : null,
+                unread_count: conv.unread_count || 0
+            })));
+
+            setActiveConversation(data.conversation_id);
+            toast.success('تم إنشاء المجموعة!');
+            handleClose();
+        } catch (error) {
+            toast.error('فشل إنشاء المجموعة');
+        } finally {
+            setCreating(false);
+        }
+    };
+
+    const handleClose = () => {
+        setGroupName('');
+        setSelectedUsers([]);
+        setSearchPhone('');
+        setSearchResult(null);
         onClose();
-        // Assuming a toast/feedback happens in parent or store
     };
 
     return (
-        <Transition appear show={isOpen} as={Fragment}>
-            <Dialog as="div" className="relative z-50" onClose={onClose} dir="rtl">
-                <Transition.Child
-                    as={Fragment}
-                    enter="ease-out duration-300"
-                    enterFrom="opacity-0"
-                    enterTo="opacity-100"
-                    leave="ease-in duration-200"
-                    leaveFrom="opacity-100"
-                    leaveTo="opacity-0"
-                >
-                    <div className="fixed inset-0 bg-black/25 backdrop-blur-sm" />
-                </Transition.Child>
+        <AnimatePresence>
+            {isOpen && (
+                <>
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={handleClose}
+                        className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50"
+                    />
 
-                <div className="fixed inset-0 overflow-y-auto">
-                    <div className="flex min-h-full items-center justify-center p-4 text-center">
-                        <Transition.Child
-                            as={Fragment}
-                            enter="ease-out duration-300"
-                            enterFrom="opacity-0 scale-95"
-                            enterTo="opacity-100 scale-100"
-                            leave="ease-in duration-200"
-                            leaveFrom="opacity-100 scale-100"
-                            leaveTo="opacity-0 scale-95"
-                        >
-                            <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-right align-middle shadow-xl transition-all">
-                                <div className="flex justify-between items-center mb-6">
-                                    <Dialog.Title as="h3" className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                                        <Users className="w-5 h-5 text-sky-500" /> مجموعة جديدة
-                                    </Dialog.Title>
-                                    <button onClick={onClose} className="text-slate-400 hover:text-slate-600">
-                                        <X className="w-5 h-5" />
-                                    </button>
-                                </div>
-
-                                <div className="space-y-4">
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md bg-white rounded-3xl shadow-2xl z-50 overflow-hidden"
+                        dir="rtl"
+                    >
+                        {/* Header */}
+                        <div className="p-6 border-b border-slate-100">
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-12 h-12 bg-gradient-to-tr from-emerald-500 to-teal-500 rounded-2xl flex items-center justify-center">
+                                        <Users className="w-6 h-6 text-white" />
+                                    </div>
                                     <div>
-                                        <label className="text-sm font-medium text-slate-700 ml-1 block mb-2">اسم المجموعة</label>
+                                        <h2 className="text-xl font-bold text-slate-900">مجموعة جديدة</h2>
+                                        <p className="text-sm text-slate-500">أضف الأعضاء وابدأ</p>
+                                    </div>
+                                </div>
+                                <button onClick={handleClose} className="p-2 hover:bg-slate-100 rounded-xl">
+                                    <X className="w-5 h-5 text-slate-500" />
+                                </button>
+                            </div>
+                        </div>
+
+                        <div className="p-6 space-y-4 max-h-[60vh] overflow-y-auto">
+                            {/* Group Name */}
+                            <div>
+                                <label className="text-sm font-medium text-slate-700 block mb-2">اسم المجموعة</label>
+                                <input
+                                    type="text"
+                                    placeholder="مثلاً: قروب الشباب"
+                                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20"
+                                    value={groupName}
+                                    onChange={(e) => setGroupName(e.target.value)}
+                                />
+                            </div>
+
+                            {/* Selected Users */}
+                            {selectedUsers.length > 0 && (
+                                <div>
+                                    <label className="text-sm font-medium text-slate-700 block mb-2">الأعضاء المختارين ({selectedUsers.length})</label>
+                                    <div className="flex flex-wrap gap-2">
+                                        {selectedUsers.map(user => (
+                                            <div key={user.id} className="flex items-center gap-2 px-3 py-1.5 bg-emerald-50 text-emerald-700 rounded-full text-sm">
+                                                <span>{user.name}</span>
+                                                <button onClick={() => removeUser(user.id)} className="hover:text-red-500">
+                                                    <X className="w-4 h-4" />
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Search Users by Phone */}
+                            <div>
+                                <label className="text-sm font-medium text-slate-700 block mb-2">إضافة عضو بالرقم</label>
+                                <div className="flex gap-2">
+                                    <div className="relative flex-1">
+                                        <Phone className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                                         <input
-                                            type="text"
-                                            placeholder="مثلا: قروب الاستراحة"
-                                            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500/20"
-                                            value={groupName}
-                                            onChange={(e) => setGroupName(e.target.value)}
+                                            type="tel"
+                                            placeholder="05XXXXXXXX"
+                                            className="w-full pr-10 pl-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-left focus:outline-none focus:border-emerald-500"
+                                            value={searchPhone}
+                                            onChange={(e) => {
+                                                const val = e.target.value.replace(/\D/g, '').slice(0, 10);
+                                                setSearchPhone(val);
+                                                setSearchResult(null);
+                                            }}
+                                            onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
                                         />
                                     </div>
-
-                                    <div>
-                                        <label className="text-sm font-medium text-slate-700 ml-1 block mb-2">إضافة الأعضاء</label>
-                                        <div className="relative mb-2">
-                                            <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                                            <input
-                                                type="text"
-                                                placeholder="ابحث عن الأعضاء..."
-                                                className="w-full pr-9 pl-4 py-2 bg-slate-50 rounded-lg text-sm focus:outline-none"
-                                                value={searchTerm}
-                                                onChange={(e) => setSearchTerm(e.target.value)}
-                                            />
-                                        </div>
-                                        <div className="max-h-48 overflow-y-auto space-y-1">
-                                            {users.map(user => (
-                                                <div
-                                                    key={user.id}
-                                                    onClick={() => toggleUser(user.id)}
-                                                    className="flex items-center justify-between p-2 hover:bg-slate-50 rounded-lg cursor-pointer"
-                                                >
-                                                    <div className="flex items-center gap-3">
-                                                        <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-xs font-bold text-slate-500">
-                                                            {user.name[0]}
-                                                        </div>
-                                                        <span className="text-sm text-slate-700">{user.name}</span>
-                                                    </div>
-                                                    <div className={clsx(
-                                                        "w-5 h-5 rounded border flex items-center justify-center transition-colors",
-                                                        selectedUsers.includes(user.id) ? "bg-sky-500 border-sky-500 text-white" : "border-slate-300 bg-white"
-                                                    )}>
-                                                        {selectedUsers.includes(user.id) && <Check className="w-3 h-3" />}
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="mt-8">
                                     <button
-                                        type="button"
-                                        className="w-full inline-flex justify-center rounded-xl border border-transparent bg-sky-500 px-4 py-3 text-sm font-medium text-white hover:bg-sky-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                                        onClick={handleCreate}
-                                        disabled={!groupName || selectedUsers.length === 0}
+                                        onClick={handleSearch}
+                                        disabled={searchPhone.length < 10 || searching}
+                                        className="px-4 py-3 bg-slate-900 text-white rounded-xl disabled:opacity-50"
                                     >
-                                        إنشاء المجموعة
+                                        {searching ? <Loader2 className="w-5 h-5 animate-spin" /> : <Search className="w-5 h-5" />}
                                     </button>
                                 </div>
-                            </Dialog.Panel>
-                        </Transition.Child>
-                    </div>
-                </div>
-            </Dialog>
-        </Transition>
+
+                                {/* Search Result */}
+                                {searchResult && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: -10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        className="mt-3 p-3 bg-emerald-50 rounded-xl border border-emerald-100 flex items-center justify-between"
+                                    >
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center text-emerald-600 font-bold">
+                                                {searchResult.name[0]}
+                                            </div>
+                                            <span className="font-medium text-slate-900">{searchResult.name}</span>
+                                        </div>
+                                        <button
+                                            onClick={() => addUser(searchResult)}
+                                            className="p-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600"
+                                        >
+                                            <Check className="w-5 h-5" />
+                                        </button>
+                                    </motion.div>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Footer */}
+                        <div className="p-6 border-t border-slate-100">
+                            <button
+                                onClick={handleCreate}
+                                disabled={!groupName.trim() || selectedUsers.length === 0 || creating}
+                                className="w-full py-4 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-bold rounded-2xl transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+                            >
+                                {creating ? <Loader2 className="w-5 h-5 animate-spin" /> : <><Users className="w-5 h-5" /> إنشاء المجموعة</>}
+                            </button>
+                        </div>
+                    </motion.div>
+                </>
+            )}
+        </AnimatePresence>
     );
 }
