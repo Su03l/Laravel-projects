@@ -1,16 +1,20 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useStore } from '@/lib/store';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
 import { Camera, LogOut, Loader2, Save, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
+import axios from '@/lib/axios';
 
 export default function ProfilePage() {
     const { user, setUser } = useStore();
     const router = useRouter();
     const [loading, setLoading] = useState(false);
+    const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+    const [avatarFile, setAvatarFile] = useState<File | null>(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
     const [formData, setFormData] = useState({
         name: user?.name || '',
         bio: user?.bio || '',
@@ -23,16 +27,66 @@ export default function ProfilePage() {
         router.push('/login');
     };
 
+    const handleAvatarClick = () => {
+        fileInputRef.current?.click();
+    };
+
+    const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            setAvatarFile(file);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setAvatarPreview(reader.result as string);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
     const handleSave = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
-        // Simulate API call
-        setTimeout(() => {
-            setLoading(false);
-            setUser({ ...user!, ...formData });
+
+        try {
+            const data = new FormData();
+            data.append('name', formData.name);
+            data.append('about', formData.bio);
+
+            if (avatarFile) {
+                data.append('avatar', avatarFile);
+            }
+
+            const response = await axios.post('/profile', data, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+
+            const updatedUser = response.data.user;
+            setUser({
+                ...user!,
+                name: updatedUser.name,
+                bio: updatedUser.about,
+                avatar: updatedUser.avatar ? `http://localhost:8000/storage/${updatedUser.avatar}` : user?.avatar,
+            });
+
+            // Save PIN separately if provided
+            if (formData.pin && formData.pin.length === 4) {
+                await axios.post('/profile/pin', { pin: formData.pin });
+                toast.success('تم تعيين رمز الحماية');
+            }
+
             toast.success('تم تحديث الملف الشخصي بنجاح');
-        }, 1000);
+            setAvatarFile(null);
+        } catch (error) {
+            console.error('Error updating profile:', error);
+            toast.error('فشل تحديث الملف الشخصي');
+        } finally {
+            setLoading(false);
+        }
     };
+
+    const displayAvatar = avatarPreview || (user?.avatar ? (user.avatar.startsWith('http') ? user.avatar : `http://localhost:8000/storage/${user.avatar}`) : null);
 
     return (
         <div className="h-full bg-white flex flex-col items-center justify-center p-6 relative">
@@ -45,10 +99,10 @@ export default function ProfilePage() {
 
                 <div className="bg-slate-50 p-8 rounded-[32px] border border-slate-100 shadow-sm">
                     <div className="flex flex-col items-center mb-8">
-                        <div className="relative group cursor-pointer">
+                        <div className="relative group cursor-pointer" onClick={handleAvatarClick}>
                             <div className="w-24 h-24 rounded-full bg-slate-200 overflow-hidden border-4 border-white shadow-sm">
-                                {user?.avatar ? (
-                                    <img src={user.avatar} alt="Avatar" className="w-full h-full object-cover" />
+                                {displayAvatar ? (
+                                    <img src={displayAvatar} alt="Avatar" className="w-full h-full object-cover" />
                                 ) : (
                                     <div className="w-full h-full flex items-center justify-center bg-sky-100 text-sky-600 font-bold text-2xl">
                                         {user?.name?.[0] || 'م'}
@@ -59,6 +113,13 @@ export default function ProfilePage() {
                                 <Camera className="w-6 h-6 text-white" />
                             </div>
                         </div>
+                        <input
+                            ref={fileInputRef}
+                            type="file"
+                            accept="image/*"
+                            onChange={handleAvatarChange}
+                            className="hidden"
+                        />
                         <p className="text-slate-400 text-sm mt-2">اضغط لتغيير الصورة</p>
                     </div>
 
@@ -119,3 +180,4 @@ export default function ProfilePage() {
         </div>
     );
 }
+
