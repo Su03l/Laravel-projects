@@ -25,6 +25,7 @@ export default function LoginPage() {
         try {
             const { data } = await axios.post('/login', formData);
             localStorage.setItem('token', data.token);
+            document.cookie = `token=${data.token}; path=/; max-age=86400; SameSite=Lax`;
             setUser(data.user);
             toast.success('Welcome back!');
             router.push('/dashboard');
