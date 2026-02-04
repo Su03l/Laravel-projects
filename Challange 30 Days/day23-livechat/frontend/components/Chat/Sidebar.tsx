@@ -8,10 +8,7 @@ import {
     Plus,
     Lock,
     MoreVertical,
-    LogOut,
-    User as UserIcon,
-    MessageSquare,
-    Settings
+    LogOut
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { clsx } from 'clsx';
