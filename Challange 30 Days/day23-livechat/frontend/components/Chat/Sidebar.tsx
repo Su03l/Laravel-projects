@@ -98,6 +98,22 @@ export default function Sidebar() {
         setShowLockedChats(true);
     };
 
+    const handleDeleteConversation = async (e: React.MouseEvent, convId: number) => {
+        e.stopPropagation(); // Prevent selecting the conversation
+
+        if (!confirm('هل أنت متأكد من حذف هذه المحادثة؟')) return;
+
+        try {
+            await axios.delete(`/conversations/${convId}`);
+            setConversations(conversations.filter(c => c.id !== convId));
+            if (activeConversationId === convId) {
+                setActiveConversation(null);
+            }
+        } catch (error) {
+            console.error('Failed to delete conversation:', error);
+        }
+    };
+
     const filteredConversations = conversations.filter(conv =>
         conv.name?.toLowerCase().includes(searchTerm.toLowerCase())
     );
