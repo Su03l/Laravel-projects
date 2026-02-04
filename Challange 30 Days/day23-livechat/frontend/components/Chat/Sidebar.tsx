@@ -134,6 +134,8 @@ export default function Sidebar() {
                     </div>
                 )}
             </div>
+
+            <CreateGroupModal isOpen={isGroupModalOpen} onClose={() => setIsGroupModalOpen(false)} />
         </aside>
     );
 }
