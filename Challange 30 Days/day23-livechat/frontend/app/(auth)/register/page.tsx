@@ -27,6 +27,7 @@ export default function RegisterPage() {
         try {
             const { data } = await axios.post('/register', formData);
             localStorage.setItem('token', data.token);
+            document.cookie = `token=${data.token}; path=/; max-age=86400; SameSite=Lax`;
             setUser(data.user);
             toast.success('Account created successfully!');
             router.push('/dashboard');
