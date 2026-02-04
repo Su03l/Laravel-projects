@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import { Outfit } from "next/font/google";
+import { Cairo } from "next/font/google";
 import "./globals.css";
 import { Toaster } from 'react-hot-toast';
 
-const outfit = Outfit({ subsets: ["latin"] });
+const cairo = Cairo({ subsets: ["arabic", "latin"] });
 
 export const metadata: Metadata = {
-  title: "LiveChat Pro",
-  description: "Connect Instantly. Securely.",
+  title: "لايف شات برو LiveChat Pro",
+  description: "تواصل بسرعة وأمان. خليك متصل طول الوقت.",
 };
 
 export default function RootLayout({
@@ -16,18 +16,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={outfit.className}>
+    <html lang="ar" dir="rtl">
+      <body className={cairo.className}>
         {children}
         <Toaster
           position="top-center"
           toastOptions={{
             style: {
-              background: '#333',
+              background: '#0f172a',
               color: '#fff',
+              border: '1px solid #1e293b',
               borderRadius: '24px',
               padding: '12px 24px',
-              fontSize: '14px',
+              fontFamily: 'Cairo, sans-serif',
             },
           }}
         />

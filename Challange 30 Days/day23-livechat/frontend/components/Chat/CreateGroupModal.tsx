@@ -17,10 +17,10 @@ export default function CreateGroupModal({ isOpen, onClose }: CreateGroupModalPr
 
     // Mock users
     const users = [
-        { id: 1, name: 'Alice Johnson', avatar: null },
-        { id: 2, name: 'Bob Smith', avatar: null },
-        { id: 3, name: 'Charlie Brown', avatar: null },
-        { id: 4, name: 'David Lee', avatar: null },
+        { id: 1, name: 'سلطان محمد', avatar: null },
+        { id: 2, name: 'خالد عبد الله', avatar: null },
+        { id: 3, name: 'فهد الناصر', avatar: null },
+        { id: 4, name: 'نورة السعد', avatar: null },
     ];
 
     const toggleUser = (id: number) => {
@@ -39,7 +39,7 @@ export default function CreateGroupModal({ isOpen, onClose }: CreateGroupModalPr
 
     return (
         <Transition appear show={isOpen} as={Fragment}>
-            <Dialog as="div" className="relative z-50" onClose={onClose}>
+            <Dialog as="div" className="relative z-50" onClose={onClose} dir="rtl">
                 <Transition.Child
                     as={Fragment}
                     enter="ease-out duration-300"
@@ -63,10 +63,10 @@ export default function CreateGroupModal({ isOpen, onClose }: CreateGroupModalPr
                             leaveFrom="opacity-100 scale-100"
                             leaveTo="opacity-0 scale-95"
                         >
-                            <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                            <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-right align-middle shadow-xl transition-all">
                                 <div className="flex justify-between items-center mb-6">
                                     <Dialog.Title as="h3" className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                                        <Users className="w-5 h-5 text-sky-500" /> New Group
+                                        <Users className="w-5 h-5 text-sky-500" /> مجموعة جديدة
                                     </Dialog.Title>
                                     <button onClick={onClose} className="text-slate-400 hover:text-slate-600">
                                         <X className="w-5 h-5" />
@@ -75,10 +75,10 @@ export default function CreateGroupModal({ isOpen, onClose }: CreateGroupModalPr
 
                                 <div className="space-y-4">
                                     <div>
-                                        <label className="text-sm font-medium text-slate-700 ml-1 block mb-2">Group Name</label>
+                                        <label className="text-sm font-medium text-slate-700 ml-1 block mb-2">اسم المجموعة</label>
                                         <input
                                             type="text"
-                                            placeholder="e.g. Design Team"
+                                            placeholder="مثلا: قروب الاستراحة"
                                             className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500/20"
                                             value={groupName}
                                             onChange={(e) => setGroupName(e.target.value)}
@@ -86,13 +86,13 @@ export default function CreateGroupModal({ isOpen, onClose }: CreateGroupModalPr
                                     </div>
 
                                     <div>
-                                        <label className="text-sm font-medium text-slate-700 ml-1 block mb-2">Add Members</label>
+                                        <label className="text-sm font-medium text-slate-700 ml-1 block mb-2">إضافة الأعضاء</label>
                                         <div className="relative mb-2">
-                                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                                            <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                                             <input
                                                 type="text"
-                                                placeholder="Search users..."
-                                                className="w-full pl-9 pr-4 py-2 bg-slate-50 rounded-lg text-sm focus:outline-none"
+                                                placeholder="ابحث عن الأعضاء..."
+                                                className="w-full pr-9 pl-4 py-2 bg-slate-50 rounded-lg text-sm focus:outline-none"
                                                 value={searchTerm}
                                                 onChange={(e) => setSearchTerm(e.target.value)}
                                             />
@@ -129,7 +129,7 @@ export default function CreateGroupModal({ isOpen, onClose }: CreateGroupModalPr
                                         onClick={handleCreate}
                                         disabled={!groupName || selectedUsers.length === 0}
                                     >
-                                        Create Group
+                                        إنشاء المجموعة
                                     </button>
                                 </div>
                             </Dialog.Panel>
