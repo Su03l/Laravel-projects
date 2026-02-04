@@ -53,7 +53,7 @@ export default function Sidebar() {
                     <button className="p-2 hover:bg-slate-50 rounded-full text-slate-500 transition-colors">
                         <Lock className="w-5 h-5" />
                     </button>
-                    <button className="p-2 hover:bg-slate-50 rounded-full text-slate-500 transition-colors">
+                    <button onClick={() => setIsGroupModalOpen(true)} className="p-2 hover:bg-slate-50 rounded-full text-slate-500 transition-colors">
                         <Plus className="w-5 h-5" />
                     </button>
                     <div className="relative group">
