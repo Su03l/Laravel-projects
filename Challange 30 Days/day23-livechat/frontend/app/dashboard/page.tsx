@@ -1,14 +1,12 @@
 'use client';
 
-import { useEffect } from 'react';
 import ChatWindow from '@/components/Chat/ChatWindow';
-import ContactInfo from '@/components/Chat/ContactInfo';
 import { useStore } from '@/lib/store';
 import { MessageSquarePlus, Sparkles, Users, Zap } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export default function DashboardPage() {
-    const { activeConversationId, conversations } = useStore();
+    const { activeConversationId } = useStore();
 
     return (
         <div className="flex h-full w-full">
@@ -79,13 +77,7 @@ export default function DashboardPage() {
                     </div>
                 )}
             </div>
-
-            {/* Left Sidebar - Contact Info (Visually Left in RTL) */}
-            {activeConversationId && (
-                <div className="w-80 border-r border-slate-100 hidden xl:block">
-                    <ContactInfo />
-                </div>
-            )}
         </div>
     );
 }
+

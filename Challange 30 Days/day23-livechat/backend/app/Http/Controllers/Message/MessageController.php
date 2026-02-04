@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Message;
 
+use App\Events\MessageSent;
 use App\Http\Controllers\Controller;
 use App\Models\Conversation;
 use App\Models\HiddenMessage;
@@ -96,6 +97,9 @@ class MessageController extends Controller
             'last_message_preview' => $preview,
             'last_message_at' => now(),
         ]);
+
+        // Broadcast the message to all participants
+        broadcast(new MessageSent($message, (int) $conversationId))->toOthers();
 
         return response()->json([
             'message' => 'تم الإرسال',

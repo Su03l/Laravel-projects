@@ -30,9 +30,14 @@ export interface Participant {
 export interface Conversation {
     id: number;
     type: 'private' | 'group';
-    name?: string; // For groups
+    name?: string;
+    avatar?: string;
     updated_at: string;
     last_message?: Message;
     participants: Participant[];
     unread_count?: number;
+    is_online?: boolean;
+    last_seen?: string;
+    user_id?: number;
 }
+

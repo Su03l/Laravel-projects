@@ -5,6 +5,7 @@ use App\Http\Controllers\chat\ChatController;
 use App\Http\Controllers\Message\MessageController;
 use App\Http\Controllers\User\ProfileController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/register', [AuthController::class, 'register']);
@@ -40,4 +41,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/messages/{id}', [MessageController::class, 'update']);
     Route::delete('/messages/{id}', [MessageController::class, 'destroy']);
 
+    // Broadcasting Auth
+    Route::post('/broadcasting/auth', function (Request $request) {
+        return Broadcast::auth($request);
+    });
 });
