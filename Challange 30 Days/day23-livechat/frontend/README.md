@@ -1,36 +1,70 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LiveChat Frontend - الواجهة الأمامية
 
-## Getting Started
+<div align="center">
 
-First, run the development server:
+![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js) ![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react) ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4-38B2AC?style=for-the-badge&logo=tailwind-css)
+
+**تحدي 30 يوم 30 مشروع - اليوم 23**
+
+</div>
+
+---
+
+## نظرة عامة
+
+### LiveChat App
+
+تطبيق محادثة فوري عصري يهدف لربط الأشخاص ببعضهم البعض بسرعة وسهولة. يتميز التطبيق بواجهة مستخدم جذابة وسريعة الاستجابة، تدعم المحادثات الفردية والجماعية مع تحديثات لحظية.
+
+![Home Page](./public/home1.png)
+
+## المميزات
+
+- **محادثة فورية (Real-time):** استقبال وإرسال الرسائل لحظياً باستخدام Laravel Reverb & Echo.
+- **واجهة عصرية:** تصميم نظيف ومريح للعين باستخدام TailwindCSS v4.
+- **إدارة المجموعات:** إنشاء وإدارة مجموعات الدردشة بسهولة.
+- **حماية الخصوصية:** دعم PIN للمحادثات الخاصة.
+- **متجاوب:** يعمل بكفاءة على جميع الأجهزة (موبايل، تابلت، ديسكتوب).
+
+## التقنيات المستخدمة
+
+- **Framework:** Next.js 16 (App Router)
+- **Library:** React 19
+- **Styling:** TailwindCSS v4
+- **Real-time:** Laravel Echo & Pusher JS
+
+## التثبيت والإعداد
+
+### 1. تثبيت الحزم
+
+```bash
+npm install
+```
+
+### 2. إعداد البيئة
+
+تأكد من إعداد ملف `.env.local` لربطه بالباك اند:
+
+```env
+NEXT_PUBLIC_BACKEND_URL=http://localhost:8000
+NEXT_PUBLIC_REVERB_APP_KEY=your_app_key
+NEXT_PUBLIC_REVERB_HOST=localhost
+NEXT_PUBLIC_REVERB_PORT=8080
+NEXT_PUBLIC_REVERB_SCHEME=http
+```
+
+### 3. تشغيل المشروع
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+افتح المتصفح على [http://localhost:3000](http://localhost:3000) واستمتع بالتجربة!
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+<div align="center">
 
-## Learn More
+**صنع ضمن تحدي 30 يوم 30 مشروع**
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+</div>
