@@ -1,9 +1,45 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
+@theme {
+  /* Colors */
+  --color-background: #ffffff;
+  --color-foreground: #020617; /* slate-950 */
+
+  --color-primary: #0ea5e9; /* sky-500 */
+  --color-primary-foreground: #ffffff;
+
+  --color-secondary: #f1f5f9; /* slate-100 */
+  --color-secondary-foreground: #64748b; /* slate-500 */
+
+  /* Border Radius */
+  --radius-3xl: 32px;
+
+  /* Animations */
+  --animate-float: float 6s ease-in-out infinite;
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+}
+
+/* Utilities */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Global Styles */
 @layer base {
   body {
-    @apply bg-background text-foreground antialiased;
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    @apply antialiased;
   }
 }

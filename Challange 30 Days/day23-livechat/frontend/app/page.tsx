@@ -122,7 +122,7 @@ export default function Home() {
       </section>
 
       <footer className="py-12 border-t border-slate-100 text-center text-slate-400">
-        <p>&copy; 2024 LiveChat Pro. Crafted with ❤️.</p>
+        <p>&copy; 2024 LiveChat Pro. Crafted within the 30 Days 30 Projects Challenge: LiveChat Pro Idea.</p>
       </footer>
     </main>
   );
