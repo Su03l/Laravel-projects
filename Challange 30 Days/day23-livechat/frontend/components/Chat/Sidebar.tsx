@@ -242,6 +242,14 @@ export default function Sidebar() {
                                     {conv.unread_count}
                                 </div>
                             ) : null}
+                            {/* Delete button - appears on hover */}
+                            <button
+                                onClick={(e) => handleDeleteConversation(e, conv.id)}
+                                className="opacity-0 group-hover:opacity-100 p-1.5 hover:bg-red-100 rounded-lg text-slate-400 hover:text-red-500 transition-all flex-shrink-0"
+                                title="حذف المحادثة"
+                            >
+                                <Trash2 className="w-4 h-4" />
+                            </button>
                         </div>
                     </div>
                 ))}
