@@ -214,10 +214,97 @@ export default function ProfilePage() {
                                 </button>
                             </div>
                         </form>
+
+                        {/* Change Password Section */}
+                        <div className="mt-12 pt-8 border-t border-slate-100">
+                            <h2 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+                                <Shield className="w-5 h-5 text-indigo-500" />
+                                تغيير كلمة المرور
+                            </h2>
+                            <ChangePasswordForm />
+                        </div>
                     </motion.div>
                 </div>
             </div>
         </div>
+    );
+}
+
+function ChangePasswordForm() {
+    const [loading, setLoading] = useState(false);
+    const [passwordData, setPasswordData] = useState({
+        current_password: '',
+        new_password: '',
+        new_password_confirmation: '',
+    });
+
+    const handleChangePassword = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setLoading(true);
+
+        try {
+            await axios.post('/profile/password', passwordData);
+            toast.success('تم تغيير كلمة المرور بنجاح');
+            setPasswordData({
+                current_password: '',
+                new_password: '',
+                new_password_confirmation: '',
+            });
+        } catch (error: any) {
+            console.error('Error changing password:', error);
+            const message = error.response?.data?.message || 'فشل تغيير كلمة المرور';
+            toast.error(message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    return (
+        <form onSubmit={handleChangePassword} className="space-y-6">
+            <div className="space-y-2 group">
+                <label className="text-sm font-bold text-slate-700">كلمة المرور الحالية</label>
+                <input
+                    type="password"
+                    required
+                    className="w-full px-6 py-4 bg-slate-50/50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 hover:bg-white transition-all"
+                    value={passwordData.current_password}
+                    onChange={(e) => setPasswordData({ ...passwordData, current_password: e.target.value })}
+                />
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-6">
+                <div className="space-y-2 group">
+                    <label className="text-sm font-bold text-slate-700">كلمة المرور الجديدة</label>
+                    <input
+                        type="password"
+                        required
+                        minLength={6}
+                        className="w-full px-6 py-4 bg-slate-50/50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 hover:bg-white transition-all"
+                        value={passwordData.new_password}
+                        onChange={(e) => setPasswordData({ ...passwordData, new_password: e.target.value })}
+                    />
+                </div>
+                <div className="space-y-2 group">
+                    <label className="text-sm font-bold text-slate-700">تأكيد كلمة المرور</label>
+                    <input
+                        type="password"
+                        required
+                        minLength={6}
+                        className="w-full px-6 py-4 bg-slate-50/50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 hover:bg-white transition-all"
+                        value={passwordData.new_password_confirmation}
+                        onChange={(e) => setPasswordData({ ...passwordData, new_password_confirmation: e.target.value })}
+                    />
+                </div>
+            </div>
+
+            <button
+                type="submit"
+                disabled={loading}
+                className="w-full py-4 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 font-bold rounded-2xl border border-indigo-100 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+            >
+                {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : 'تحديث كلمة المرور'}
+            </button>
+        </form>
     );
 }
 

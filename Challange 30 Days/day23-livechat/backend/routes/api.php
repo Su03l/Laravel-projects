@@ -16,9 +16,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 
     Route::get('/me', [ProfileController::class, 'me']);
-    Route::get('/users/{id}', [ProfileController::class, 'show']); // New: عرض بروفايل مستخدم آخر
+    Route::get('/users/{id}', [ProfileController::class, 'show']); 
     Route::post('/profile', [ProfileController::class, 'update']);
     Route::post('/profile/pin', [ProfileController::class, 'setChatPin']);
+    Route::post('/profile/password', [ProfileController::class, 'changePassword']);
 
     // Chat Routes
     Route::post('/chat/check-number', [ChatController::class, 'checkNumber']);
