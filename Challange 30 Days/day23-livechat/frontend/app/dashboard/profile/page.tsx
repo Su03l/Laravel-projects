@@ -149,7 +149,7 @@ function OverviewTab({ user }: { user: any }) {
 
             <h2 className="text-2xl font-bold text-slate-900 mb-2">{user?.name}</h2>
             <p className="text-slate-500 max-w-md mx-auto mb-8 px-4 leading-relaxed">
-                {user?.bio || 'لا توجد نبذة شخصية'}
+                {user?.about || 'لا توجد نبذة شخصية'}
             </p>
 
             <div className="grid grid-cols-2 gap-4 w-full max-w-md">
@@ -173,7 +173,7 @@ function EditProfileTab({ user, setUser }: { user: any, setUser: any }) {
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [formData, setFormData] = useState({
         name: user?.name || '',
-        bio: user?.bio || '',
+        about: user?.about || '',
     });
 
     const handleAvatarClick = () => {
@@ -199,7 +199,7 @@ function EditProfileTab({ user, setUser }: { user: any, setUser: any }) {
         try {
             const data = new FormData();
             data.append('name', formData.name);
-            data.append('about', formData.bio);
+            data.append('about', formData.about);
 
             if (avatarFile) {
                 data.append('avatar', avatarFile);
@@ -215,7 +215,7 @@ function EditProfileTab({ user, setUser }: { user: any, setUser: any }) {
             setUser({
                 ...user!,
                 name: updatedUser.name,
-                bio: updatedUser.about,
+                about: updatedUser.about,
                 avatar: updatedUser.avatar,
             });
 
@@ -311,8 +311,8 @@ function EditProfileTab({ user, setUser }: { user: any, setUser: any }) {
                     <textarea
                         className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all resize-none"
                         rows={3}
-                        value={formData.bio}
-                        onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
+                        value={formData.about}
+                        onChange={(e) => setFormData({ ...formData, about: e.target.value })}
                     />
                 </div>
             </div>
