@@ -4,9 +4,10 @@ import { useState, useRef } from 'react';
 import { useStore } from '@/lib/store';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
-import { Camera, LogOut, Loader2, Save, ArrowLeft } from 'lucide-react';
+import { Camera, LogOut, Loader2, Save, ArrowLeft, Shield, User, FileText } from 'lucide-react';
 import Link from 'next/link';
 import axios from '@/lib/axios';
+import { motion } from 'framer-motion';
 
 export default function ProfilePage() {
     const { user, setUser } = useStore();
@@ -89,92 +90,131 @@ export default function ProfilePage() {
     const displayAvatar = avatarPreview || (user?.avatar ? (user.avatar.startsWith('http') ? user.avatar : `http://localhost:8000/storage/${user.avatar}`) : null);
 
     return (
-        <div className="h-full bg-white flex flex-col items-center justify-center p-6 relative">
-            <Link href="/dashboard" className="absolute top-6 right-6 p-2 rounded-full hover:bg-slate-50 text-slate-500 transition-colors">
-                <ArrowLeft className="w-6 h-6 rotate-180" />
-            </Link>
+        <div className="h-full relative overflow-hidden bg-slate-50">
+            {/* Background Gradients & Decorations */}
+            <div className="absolute inset-0 pointer-events-none">
+                <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-sky-100/40 rounded-full blur-3xl opacity-60"></div>
+                <div className="absolute bottom-[-10%] left-[-5%] w-[500px] h-[500px] bg-purple-100/40 rounded-full blur-3xl opacity-60"></div>
+            </div>
 
-            <div className="w-full max-w-2xl">
-                <h1 className="text-3xl font-bold text-slate-900 mb-8 text-center">الإعدادات</h1>
-
-                <div className="bg-slate-50 p-8 rounded-[32px] border border-slate-100 shadow-sm">
-                    <div className="flex flex-col items-center mb-8">
-                        <div className="relative group cursor-pointer" onClick={handleAvatarClick}>
-                            <div className="w-24 h-24 rounded-full bg-slate-200 overflow-hidden border-4 border-white shadow-sm">
-                                {displayAvatar ? (
-                                    <img src={displayAvatar} alt="Avatar" className="w-full h-full object-cover" />
-                                ) : (
-                                    <div className="w-full h-full flex items-center justify-center bg-sky-100 text-sky-600 font-bold text-2xl">
-                                        {user?.name?.[0] || 'م'}
-                                    </div>
-                                )}
-                            </div>
-                            <div className="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                <Camera className="w-6 h-6 text-white" />
-                            </div>
-                        </div>
-                        <input
-                            ref={fileInputRef}
-                            type="file"
-                            accept="image/*"
-                            onChange={handleAvatarChange}
-                            className="hidden"
-                        />
-                        <p className="text-slate-400 text-sm mt-2">اضغط لتغيير الصورة</p>
+            <div className="h-full overflow-y-auto relative z-10 p-6 flex flex-col items-center">
+                <div className="w-full max-w-2xl">
+                    {/* Header */}
+                    <div className="flex items-center justify-between mb-8">
+                        <h1 className="text-3xl font-bold text-slate-900">الإعدادات</h1>
+                        <Link href="/dashboard" className="p-3 bg-white rounded-xl shadow-sm border border-slate-100 text-slate-500 hover:text-sky-600 hover:bg-sky-50 transition-all group">
+                            <ArrowLeft className="w-5 h-5 rotate-180 group-hover:-translate-x-1 transition-transform" />
+                        </Link>
                     </div>
 
-                    <form onSubmit={handleSave} className="space-y-6">
-                        <div className="space-y-2">
-                            <label className="text-sm font-bold text-slate-700 block">الإسم الكريم</label>
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.4 }}
+                        className="bg-white/80 backdrop-blur-xl p-8 rounded-[32px] border border-white/50 shadow-xl shadow-slate-200/50"
+                    >
+                        {/* Avatar Section */}
+                        <div className="flex flex-col items-center mb-10">
+                            <div className="relative group cursor-pointer" onClick={handleAvatarClick}>
+                                <div className="w-32 h-32 rounded-full bg-slate-100 overflow-hidden border-4 border-white shadow-lg shadow-sky-100 group-hover:scale-105 transition-transform duration-300">
+                                    {displayAvatar ? (
+                                        <img src={displayAvatar} alt="Avatar" className="w-full h-full object-cover" />
+                                    ) : (
+                                        <div className="w-full h-full flex items-center justify-center bg-gradient-to-tr from-sky-400 to-indigo-500 text-white font-bold text-4xl">
+                                            {user?.name?.[0] || 'م'}
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+                                    <Camera className="w-8 h-8 text-white scale-75 group-hover:scale-100 transition-transform" />
+                                </div>
+                                <div className="absolute bottom-1 right-1 bg-white p-2 rounded-full shadow-md text-sky-500 border border-slate-50 group-hover:rotate-12 transition-transform">
+                                    <Camera className="w-4 h-4" />
+                                </div>
+                            </div>
                             <input
-                                type="text"
-                                className="w-full px-6 py-3 bg-white border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all"
-                                value={formData.name}
-                                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                ref={fileInputRef}
+                                type="file"
+                                accept="image/*"
+                                onChange={handleAvatarChange}
+                                className="hidden"
                             />
+                            <p className="text-slate-400 text-sm mt-4">اضغط على الصورة للتغيير</p>
                         </div>
 
-                        <div className="space-y-2">
-                            <label className="text-sm font-bold text-slate-700 block">نبذة عنك</label>
-                            <textarea
-                                className="w-full px-6 py-3 bg-white border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all resize-none"
-                                rows={3}
-                                placeholder="اكتب شي عنك..."
-                                value={formData.bio}
-                                onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
-                            />
-                        </div>
+                        <form onSubmit={handleSave} className="space-y-8">
+                            <div className="grid gap-6">
+                                {/* Name Input */}
+                                <div className="space-y-2 group">
+                                    <label className="text-sm font-bold text-slate-700 flex items-center gap-2">
+                                        <User className="w-4 h-4 text-sky-500" />
+                                        الإسم الكريم
+                                    </label>
+                                    <input
+                                        type="text"
+                                        className="w-full px-6 py-4 bg-slate-50/50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 hover:bg-white transition-all text-slate-700 font-medium"
+                                        value={formData.name}
+                                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                    />
+                                </div>
 
-                        <div className="space-y-2">
-                            <label className="text-sm font-bold text-slate-700 block">رقم سري للمحادثات (PIN)</label>
-                            <input
-                                type="password"
-                                placeholder="****"
-                                className="w-full px-6 py-3 bg-white border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 transition-all font-mono text-center tracking-widest"
-                                value={formData.pin}
-                                onChange={(e) => setFormData({ ...formData, pin: e.target.value })}
-                                maxLength={4}
-                            />
-                        </div>
+                                {/* Bio Input */}
+                                <div className="space-y-2 group">
+                                    <label className="text-sm font-bold text-slate-700 flex items-center gap-2">
+                                        <FileText className="w-4 h-4 text-purple-500" />
+                                        نبذة عنك
+                                    </label>
+                                    <textarea
+                                        className="w-full px-6 py-4 bg-slate-50/50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 hover:bg-white transition-all resize-none text-slate-700 leading-relaxed"
+                                        rows={3}
+                                        placeholder="اكتب شي عنك..."
+                                        value={formData.bio}
+                                        onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
+                                    />
+                                </div>
 
-                        <div className="flex gap-4 pt-4">
-                            <button
-                                type="submit"
-                                disabled={loading}
-                                className="flex-1 py-3 bg-sky-500 hover:bg-sky-600 text-white font-bold rounded-xl shadow-lg shadow-sky-500/25 transition-all flex items-center justify-center gap-2"
-                            >
-                                {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <><Save className="w-4 h-4" /> حفظ التغييرات</>}
-                            </button>
+                                {/* PIN Input */}
+                                <div className="space-y-2 group">
+                                    <label className="text-sm font-bold text-slate-700 flex items-center gap-2">
+                                        <Shield className="w-4 h-4 text-emerald-500" />
+                                        رقم سري للمحادثات (PIN)
+                                    </label>
+                                    <div className="relative">
+                                        <input
+                                            type="password"
+                                            placeholder="****"
+                                            className="w-full px-6 py-4 bg-slate-50/50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 hover:bg-white transition-all font-mono text-center tracking-[1em] text-lg"
+                                            value={formData.pin}
+                                            onChange={(e) => setFormData({ ...formData, pin: e.target.value })}
+                                            maxLength={4}
+                                        />
+                                        <div className="absolute left-6 top-1/2 -translate-y-1/2 text-xs text-slate-400 bg-white px-2 py-1 rounded-md border border-slate-100 shadow-sm">
+                                            مكون من 4 أرقام
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-                            <button
-                                type="button"
-                                onClick={handleLogout}
-                                className="px-6 py-3 bg-red-50 hover:bg-red-100 text-red-500 font-bold rounded-xl transition-all flex items-center justify-center gap-2"
-                            >
-                                <LogOut className="w-4 h-4" /> خروج
-                            </button>
-                        </div>
-                    </form>
+                            <div className="pt-6 flex gap-4 border-t border-slate-100">
+                                <button
+                                    type="submit"
+                                    disabled={loading}
+                                    className="flex-[2] py-4 bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-600 hover:to-indigo-700 text-white font-bold rounded-2xl shadow-lg shadow-sky-500/25 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+                                >
+                                    {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <><Save className="w-5 h-5" /> حفظ التغييرات</>}
+                                </button>
+
+                                <button
+                                    type="button"
+                                    onClick={handleLogout}
+                                    className="flex-1 py-4 bg-red-50 hover:bg-red-100 text-red-500 font-bold rounded-2xl border border-red-100 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+                                >
+                                    <LogOut className="w-5 h-5" />
+                                    <span className="hidden sm:inline">خروج</span>
+                                </button>
+                            </div>
+                        </form>
+                    </motion.div>
                 </div>
             </div>
         </div>
