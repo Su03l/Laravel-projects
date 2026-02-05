@@ -4,7 +4,7 @@ import { useState, useRef } from 'react';
 import { useStore } from '@/lib/store';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
-import { Camera, LogOut, Loader2, Save, ArrowLeft, Shield, User, FileText, LayoutDashboard, Lock, PenSquare } from 'lucide-react';
+import { Camera, LogOut, Loader2, Save, ArrowLeft, Shield, Trash2, User, FileText, LayoutDashboard, Lock, PenSquare } from 'lucide-react';
 import Link from 'next/link';
 import axios from '@/lib/axios';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -230,6 +230,23 @@ function EditProfileTab({ user, setUser }: { user: any, setUser: any }) {
         }
     };
 
+    const handleDeleteAvatar = async () => {
+        if (!confirm('هل أنت متأكد من حذف الصورة الشخصية؟')) return;
+        setLoading(true);
+        try {
+            await axios.delete('/profile/avatar');
+            setUser({ ...user!, avatar: null });
+            toast.success('تم حذف الصورة الشخصية');
+            setAvatarPreview(null);
+            setAvatarFile(null);
+        } catch (error: any) {
+            console.error('Error deleting avatar:', error);
+            toast.error('فشل حذف الصورة');
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const displayAvatar = avatarPreview || (user?.avatar ? (user.avatar.startsWith('http') ? user.avatar : `${process.env.NEXT_PUBLIC_API_URL}/storage/${user.avatar}`) : null);
 
     return (
@@ -258,6 +275,16 @@ function EditProfileTab({ user, setUser }: { user: any, setUser: any }) {
                 <div>
                     <h3 className="font-bold text-slate-900">صورة الملف الشخصي</h3>
                     <p className="text-sm text-slate-500">اضغط على الصورة لتغييرها</p>
+                    {user?.avatar && (
+                        <button
+                            type="button"
+                            onClick={handleDeleteAvatar}
+                            className="mt-2 text-xs text-red-500 hover:text-red-700 flex items-center gap-1"
+                        >
+                            <Trash2 className="w-3 h-3" />
+                            حذف الصورة
+                        </button>
+                    )}
                 </div>
                 <input
                     ref={fileInputRef}

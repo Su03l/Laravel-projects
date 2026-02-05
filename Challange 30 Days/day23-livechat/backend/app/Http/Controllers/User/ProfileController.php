@@ -93,4 +93,32 @@ class ProfileController extends Controller
             'message' => 'تم تغيير كلمة المرور بنجاح'
         ]);
     }
+
+    public function deleteAvatar(Request $request)
+    {
+        $user = $request->user();
+
+        if ($user->avatar) {
+            // Because we use an accessor that prepends the URL, we need to be careful.
+            // But wait, the database stores the relative path 'avatars/filename.jpg'.
+            // The accessor 'avatar' returns the full URL.
+            // We should access the raw attribute using getRawOriginal or similar if needed,
+            // OR just use the 'avatar' column directly if the model allows.
+            // However, $user->avatar accessor returns URL.
+            // Let's use getAttributes()['avatar'] matches raw DB value.
+
+            $avatarPath = $user->getAttributes()['avatar'] ?? null;
+
+            if ($avatarPath) {
+                Storage::disk('public')->delete($avatarPath);
+                $user->avatar = null;
+                $user->save();
+            }
+        }
+
+        return response()->json([
+            'message' => 'تم حذف الصورة الشخصية',
+            'user' => $user
+        ]);
+    }
 }
