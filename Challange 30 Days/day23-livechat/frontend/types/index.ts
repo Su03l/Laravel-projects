@@ -39,5 +39,6 @@ export interface Conversation {
     is_online?: boolean;
     last_seen?: string;
     user_id?: number;
+    other_user_id?: number;
 }
 
