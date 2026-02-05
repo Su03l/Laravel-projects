@@ -127,7 +127,7 @@ export default function Sidebar() {
                         <div className="w-10 h-10 rounded-full bg-slate-200 overflow-hidden hover:opacity-80 transition-opacity">
                             {user?.avatar ? (
                                 <img
-                                    src={user.avatar.startsWith('http') ? user.avatar : `http://localhost:8000/storage/${user.avatar}`}
+                                    src={user.avatar.startsWith('http') ? user.avatar : `${process.env.NEXT_PUBLIC_API_URL}/storage/${user.avatar}`}
                                     alt="Profile"
                                     className="w-full h-full object-cover"
                                 />
@@ -224,7 +224,7 @@ export default function Sidebar() {
                                 <div className="w-full h-full rounded-2xl bg-slate-200 overflow-hidden">
                                     {conv.avatar ? (
                                         <img
-                                            src={conv.avatar.startsWith('http') ? conv.avatar : `http://localhost:8000/storage/${conv.avatar}`}
+                                            src={conv.avatar.startsWith('http') ? conv.avatar : `${process.env.NEXT_PUBLIC_API_URL}/storage/${conv.avatar}`}
                                             alt={conv.name}
                                             className="w-full h-full object-cover"
                                         />

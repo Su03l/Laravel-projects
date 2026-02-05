@@ -113,7 +113,7 @@ function TabButton({ active, onClick, icon, label }: { active: boolean; onClick:
 }
 
 function OverviewTab({ user }: { user: any }) {
-    const displayAvatar = user?.avatar ? (user.avatar.startsWith('http') ? user.avatar : `http://localhost:8000/storage/${user.avatar}`) : null;
+    const displayAvatar = user?.avatar ? (user.avatar.startsWith('http') ? user.avatar : `${process.env.NEXT_PUBLIC_API_URL}/storage/${user.avatar}`) : null;
 
     return (
         <motion.div
@@ -216,7 +216,7 @@ function EditProfileTab({ user, setUser }: { user: any, setUser: any }) {
                 ...user!,
                 name: updatedUser.name,
                 bio: updatedUser.about,
-                avatar: updatedUser.avatar ? `http://localhost:8000/storage/${updatedUser.avatar}` : user?.avatar,
+                avatar: updatedUser.avatar,
             });
 
             toast.success('تم تحديث الملف الشخصي بنجاح');
@@ -230,7 +230,7 @@ function EditProfileTab({ user, setUser }: { user: any, setUser: any }) {
         }
     };
 
-    const displayAvatar = avatarPreview || (user?.avatar ? (user.avatar.startsWith('http') ? user.avatar : `http://localhost:8000/storage/${user.avatar}`) : null);
+    const displayAvatar = avatarPreview || (user?.avatar ? (user.avatar.startsWith('http') ? user.avatar : `${process.env.NEXT_PUBLIC_API_URL}/storage/${user.avatar}`) : null);
 
     return (
         <motion.form
