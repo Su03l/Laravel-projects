@@ -20,7 +20,7 @@ class ProfileController extends Controller
      */
     public function show($id)
     {
-        $user = User::select('id', 'name', 'phone', 'avatar', 'about', 'is_online', 'last_seen_at')
+        $user = User::select('id', 'name', 'phone', 'avatar', 'about', 'is_online', 'last_seen_at', 'created_at')
             ->findOrFail($id);
 
         return response()->json($user);
