@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -27,6 +28,16 @@ class Message extends Model
         'is_read' => 'boolean',
         'read_at' => 'datetime',
     ];
+
+    /**
+     * تحويل مسار المرفق إلى رابط كامل تلقائياً
+     */
+    protected function attachmentUrl(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => $value ? url('storage/' . $value) : null,
+        );
+    }
 
     // المرسل
     public function sender()
