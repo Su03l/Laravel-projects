@@ -28,6 +28,7 @@
 | 20  | [day20-reporter](https://github.com/Su03l/Laravel-projects/tree/main/Challange%2030%20Days/day20-reporter)                               | لوحة تحكم مالية وإصدار فواتير (Financial Dashboard) | Invoice Generation، Arabic PDF، Excel Export، Role Management           |
 | 21  | [day21-The-Media-Converter-API](https://github.com/Su03l/Laravel-projects/tree/main/Challange%2030%20Days/day21-The-Media-Converter-API) | نظام أدوات للمطورين (Developer Tools API)           | QR Code Generation، Crypto Prices، Image Processing، UUID Generator     |
 | 22  | [day22-collab-task](https://github.com/Su03l/Laravel-projects/tree/main/Challange%2030%20Days/day22-collab-task)                         | نظام إدارة مهام تعاوني (Collaborative Task Manager) | Team Collaboration، Task Assignment، Comments System، Role-Based Access |
+| 23  | [day23-livechat](https://github.com/Su03l/Laravel-projects/tree/main/Challange%2030%20Days/day23-livechat)                               | نظام محادثة فورية (Real-time Live Chat API)         | Real-time Messaging، Reverb، Private Channels، Sanctum Auth             |
 
 ## التقنيات المستخدمة
 
