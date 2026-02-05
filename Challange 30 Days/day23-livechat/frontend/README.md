@@ -1,8 +1,8 @@
-# LiveChat Frontend - الواجهة الأمامية
+# Live Chat Application - الواجهة الأمامية
 
 <div align="center">
 
-![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js) ![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react) ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4-38B2AC?style=for-the-badge&logo=tailwind-css)
+![Next.js](https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js) ![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react) ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-v4-38B2AC?style=for-the-badge&logo=tailwind-css) ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript)
 
 **تحدي 30 يوم 30 مشروع - اليوم 23**
 
@@ -10,30 +10,35 @@
 
 ---
 
+<div align="center">
+  <img src="public/home1.png" alt="Live Chat Screenshot" width="800" style="border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+</div>
+
+<br>
+
 ## نظرة عامة
 
-### LiveChat App
+هذه الواجهة الأمامية لنظام المحادثة الفوري، مبنية باستخدام **Next.js** لتقديم أداء عالي وتجربة مستخدم سلسة. تتميز بتصميم عصري وجذاب يدعم اللغة العربية (RTL)، مع تأثيرات حركية ناعمة وتحديث لحظي للبيانات.
 
-تطبيق محادثة فوري عصري يهدف لربط الأشخاص ببعضهم البعض بسرعة وسهولة. يتميز التطبيق بواجهة مستخدم جذابة وسريعة الاستجابة، تدعم المحادثات الفردية والجماعية مع تحديثات لحظية.
+## المميزات الرئيسية
 
-![Home Page](./public/home1.png)
-
-## المميزات
-
-- **محادثة فورية (Real-time):** استقبال وإرسال الرسائل لحظياً باستخدام Laravel Reverb & Echo.
-- **واجهة عصرية:** تصميم نظيف ومريح للعين باستخدام TailwindCSS v4.
-- **إدارة المجموعات:** إنشاء وإدارة مجموعات الدردشة بسهولة.
-- **حماية الخصوصية:** دعم PIN للمحادثات الخاصة.
-- **متجاوب:** يعمل بكفاءة على جميع الأجهزة (موبايل، تابلت، ديسكتوب).
+- **⚡ تحديث لحظي:** استقبال الرسائل والتنبيهات فوراً دون تحديث الصفحة.
+- **🎨 تصميم عصري:** واجهة مستخدم جميلة وتفاعلية مبنية بـ Tailwind CSS.
+- **📱 متجاوبة بالكامل:** تعمل بكفاءة على جميع الأجهزة (موبايل، تابلت، ديسكتوب).
+- **🔒 حماية الخصوصية:** واجهة خاصة لقفل المحادثات والدخول برمز سري.
+- **👤 ملف شخصي متكامل:** إمكانية تعديل البيانات، الصورة الشخصية، والنبذة.
 
 ## التقنيات المستخدمة
 
-- **Framework:** Next.js 16 (App Router)
-- **Library:** React 19
-- **Styling:** TailwindCSS v4
-- **Real-time:** Laravel Echo & Pusher JS
+- **Framework:** Next.js 14 (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS 4
+- **Real-time:** Pusher JS & Laravel Echo
+- **HTTP Client:** Axios
+- **Animations:** Framer Motion
+- **Icons:** Lucide React
 
-## التثبيت والإعداد
+## التثبيت والتشغيل
 
 ### 1. تثبيت الحزم
 
@@ -41,16 +46,14 @@
 npm install
 ```
 
-### 2. إعداد البيئة
+### 2. إعداد المتغيرات
 
-تأكد من إعداد ملف `.env.local` لربطه بالباك اند:
+تأكد من وجود ملف `.env.local` يحتوي على رابط الـ API وإعدادات Pusher:
 
 ```env
-NEXT_PUBLIC_BACKEND_URL=http://localhost:8000
-NEXT_PUBLIC_REVERB_APP_KEY=your_app_key
-NEXT_PUBLIC_REVERB_HOST=localhost
-NEXT_PUBLIC_REVERB_PORT=8080
-NEXT_PUBLIC_REVERB_SCHEME=http
+NEXT_PUBLIC_API_URL=http://localhost:8000
+NEXT_PUBLIC_PUSHER_KEY=your_key
+NEXT_PUBLIC_PUSHER_CLUSTER=your_cluster
 ```
 
 ### 3. تشغيل المشروع
@@ -59,7 +62,7 @@ NEXT_PUBLIC_REVERB_SCHEME=http
 npm run dev
 ```
 
-افتح المتصفح على [http://localhost:3000](http://localhost:3000) واستمتع بالتجربة!
+سيتم تشغيل التطبيق على الرابط: `http://localhost:3000`
 
 ---
 

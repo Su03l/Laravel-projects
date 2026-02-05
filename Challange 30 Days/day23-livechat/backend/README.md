@@ -1,8 +1,8 @@
-# LiveChat API - الخادم الخلفي
+# Live Chat System API - الخادم الخلفي
 
 <div align="center">
 
-![Laravel](https://img.shields.io/badge/Laravel-12-FF2D20?style=for-the-badge&logo=laravel) ![PHP](https://img.shields.io/badge/PHP-8.2+-777BB4?style=for-the-badge&logo=php) ![MySQL](https://img.shields.io/badge/MySQL-Database-003B57?style=for-the-badge&logo=mysql) ![Sanctum](https://img.shields.io/badge/Auth-Sanctum-38BDF8?style=for-the-badge&logo=laravel) ![Reverb](https://img.shields.io/badge/RealTime-Reverb-FF2D20?style=for-the-badge&logo=laravel)
+![Laravel](https://img.shields.io/badge/Laravel-11-FF2D20?style=for-the-badge&logo=laravel) ![PHP](https://img.shields.io/badge/PHP-8.2+-777BB4?style=for-the-badge&logo=php) ![MySQL](https://img.shields.io/badge/MySQL-Database-003B57?style=for-the-badge&logo=mysql) ![Sanctum](https://img.shields.io/badge/Auth-Sanctum-38BDF8?style=for-the-badge&logo=laravel)
 
 **تحدي 30 يوم 30 مشروع - اليوم 23**
 
@@ -12,20 +12,20 @@
 
 ## نظرة عامة
 
-"LiveChat" هو نظام محادثة فوري متطور يتيح للمستخدمين التواصل بشكل لحظي وسلس. يوفر النظام إمكانية إنشاء محادثات فردية وجماعية، تبادل الرسائل، وتأمين المحادثات باستخدام رمز PIN، مع دعم كامل للغة العربية وتقنيات الـ Real-time باستخدام Laravel Reverb.
+"Live Chat System" هو نظام محادثة فوري متكامل يتيح للمستخدمين التواصل بشكل لحظي وآمن. يوفر النظام إمكانية المحادثات الخاصة والجماعية، مشاركة الملفات، وتأمين المحادثات برقم سري (PIN)، مما يجعله بيئة تواصل فعالة وآمنة تدعم اللغة العربية بالكامل.
 
 ## المشكلات التي يحلها
 
-| المشكلة               | الحل                                                     |
-| :-------------------- | :------------------------------------------------------- |
-| بطء التواصل التقليدي  | نظام محادثة فوري (Real-time) يعتمد على WebSockets        |
-| صعوبة إدارة المجموعات | إمكانية إنشاء مجموعات (Groups) وإدارتها بسهولة           |
-| الخصوصية والأمان      | تأمين المحادثات برمز PIN خاص وحماية البيانات             |
-| تشتت المحادثات        | تنظيم المحادثات في قائمة واحدة مع إمكانية البحث والفلترة |
+| المشكلة          | الحل                                         |
+| :--------------- | :------------------------------------------- |
+| تأخر التواصل     | نظام محادثة فوري (Real-time) باستخدام Pusher |
+| الخصوصية والأمان | إمكانية قفل المحادثات الهامة برقم سري (PIN)  |
+| التواصل الجماعي  | دعم المجموعات (Groups) مع إدارة الأعضاء      |
+| مشاركة الوسائط   | دعم إرسال الصور والمرفقات داخل المحادثات     |
 
 ## المميزات التقنية
 
-`Real-Time Messaging` `Group Chat` `Secure Conversations (PIN)` `Message Status` `User Presence` `RESTful API`
+`Real-time Messaging` `Private/Group Chats` `Locked Conversations` `File Sharing` `Profile Management` `RESTful API`
 
 ## توثيق الـ API
 
@@ -43,59 +43,69 @@ POST /api/login
 
 ```http
 POST /api/register
-# Body: { name, phone_number, email, password }
+# Body: { name, email, password, phone }
 ```
 
-### الملف الشخصي (Profile)
+### إدارة الملف الشخصي (Profile)
 
-#### عرض بياناتي
+#### تحديث البيانات
 
 ```http
-GET /api/me
+POST /api/profile
+# Body: { name, about, avatar }
 ```
 
-#### تعيين رمز PIN
+#### تعيين رمز الحماية (PIN)
 
 ```http
 POST /api/profile/pin
-# Body: { pin }
+# Body: { pin: "1234" }
 ```
 
-### المحادثات (Chat)
+### المحادثات (Conversations)
 
 #### بدء محادثة جديدة
 
 ```http
 POST /api/chat
-# Body: { user_id }
+# Body: { user_id: 1 }
 ```
 
 #### إنشاء مجموعة
 
 ```http
 POST /api/groups
-# Body: { name, description, members: [id1, id2] }
+# Body: { name, description, user_ids: [1, 2] }
 ```
 
-#### عرض المحادثات
+#### قائمة المحادثات
 
 ```http
 GET /api/conversations
+# Returns: List of private and group conversations
+```
+
+#### قفل/فتح محادثة
+
+```http
+POST /api/conversations/{id}/lock
+# Toggle lock status for secure chats
 ```
 
 ### الرسائل (Messages)
+
+#### جلب الرسائل
+
+```http
+GET /api/conversations/{id}/messages
+# Returns: List of messages with sender details
+```
 
 #### إرسال رسالة
 
 ```http
 POST /api/conversations/{id}/messages
-# Body: { message, type }
-```
-
-#### عرض الرسائل
-
-```http
-GET /api/conversations/{id}/messages
+# Body: { content, type: "text"|"image", file? }
 ```
 
 ## هيكل المشروع
@@ -105,11 +115,10 @@ backend/
 ├── app/
 │   ├── Http/Controllers/
 │   │   ├── Auth/            # المصادقة
+│   │   ├── User/            # الملف الشخصي
 │   │   ├── Chat/            # إدارة المحادثات والمجموعات
-│   │   ├── Message/         # إدارة الرسائل
-│   │   └── User/            # الملف الشخصي
-│   ├── Models/              # (User, Conversation, Message, Group...)
-│   └── Events/              # أحداث الـ Real-time
+│   │   └── Message/         # الرسائل والمرفقات
+│   └── Models/              # (User, Conversation, Message, Participant...)
 └── routes/
     └── api.php              # مسارات المشروع
 ```
@@ -128,28 +137,20 @@ composer install
 cp .env.example .env
 php artisan key:generate
 php artisan migrate
+php artisan storage:link
 ```
 
-### 3. تشغيل الخادم والـ Reverb
+### 3. إعداد Pusher
+
+تأكد من إعداد متغيرات Pusher في ملف `.env` لتفعيل التحديث اللحظي.
+
+### 4. تشغيل الخادم
 
 ```bash
-# تشغيل السيرفر
 php artisan serve
-
-# في نافذة أخرى: تشغيل Reverb للمحادثة الفورية
-php artisan reverb:start
 ```
 
 ---
-
-## تشغيل كل شي تمام ؟
-
-للتأكد من أن كل شيء يعمل بشكل صحيح:
-
-1. تأكد من أن قاعدة البيانات متصلة.
-2. تأكد من تشغيل `php artisan serve`.
-3. تأكد من تشغيل `php artisan reverb:start` ليعمل الشات الفوري.
-4. استخدم Postman لتجربة تسجيل الدخول وإنشاء محادثة.
 
 <div align="center">
 
