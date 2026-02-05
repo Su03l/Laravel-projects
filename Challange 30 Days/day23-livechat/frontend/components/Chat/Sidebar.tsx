@@ -51,7 +51,8 @@ export default function Sidebar() {
                 last_message?: string;
                 time?: string;
                 unread_count?: number;
-                is_online?: boolean
+                is_online?: boolean;
+                other_user_id?: number;
             }) => ({
                 id: conv.id,
                 name: conv.name,
@@ -61,7 +62,8 @@ export default function Sidebar() {
                 participants: [],
                 last_message: conv.last_message ? { content: conv.last_message, created_at: conv.time } : null,
                 unread_count: conv.unread_count || 0,
-                is_online: conv.is_online
+                is_online: conv.is_online,
+                other_user_id: conv.other_user_id,
             }));
 
             setConversations(mapped);
