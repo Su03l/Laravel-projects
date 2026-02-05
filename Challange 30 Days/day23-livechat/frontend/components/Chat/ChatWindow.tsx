@@ -233,7 +233,7 @@ export default function ChatWindow() {
                         )}
                     </div>
                     <div>
-                        <Link href={activeConversation.is_group ? '#' : (activeConversation.other_user_id ? `/dashboard/profile/${activeConversation.other_user_id}` : '/dashboard/profile')} className="hover:text-sky-600 transition-colors">
+                        <Link href={activeConversation.type === 'group' ? '#' : (activeConversation.other_user_id ? `/dashboard/profile/${activeConversation.other_user_id}` : '/dashboard/profile')} className="hover:text-sky-600 transition-colors">
                             <h2 className="font-bold text-slate-900 text-lg cursor-pointer hover:underline decoration-sky-500 decoration-2 underline-offset-2">
                                 {activeConversation.name}
                             </h2>
