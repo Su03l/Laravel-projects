@@ -126,7 +126,11 @@ export default function Sidebar() {
                     <Link href="/dashboard/profile">
                         <div className="w-10 h-10 rounded-full bg-slate-200 overflow-hidden hover:opacity-80 transition-opacity">
                             {user?.avatar ? (
-                                <img src={user.avatar} alt="Profile" className="w-full h-full object-cover" />
+                                <img
+                                    src={user.avatar.startsWith('http') ? user.avatar : `http://localhost:8000/storage/${user.avatar}`}
+                                    alt="Profile"
+                                    className="w-full h-full object-cover"
+                                />
                             ) : (
                                 <div className="w-full h-full flex items-center justify-center bg-sky-100 text-sky-600 font-bold">
                                     {user?.name?.[0] || 'م'}
@@ -218,9 +222,17 @@ export default function Sidebar() {
                         <div className="flex gap-3 items-center">
                             <div className="relative w-12 h-12 flex-shrink-0">
                                 <div className="w-full h-full rounded-2xl bg-slate-200 overflow-hidden">
-                                    <div className="w-full h-full flex items-center justify-center bg-purple-100 text-purple-600 font-bold">
-                                        {conv.name?.[0] || 'م'}
-                                    </div>
+                                    {conv.avatar ? (
+                                        <img
+                                            src={conv.avatar.startsWith('http') ? conv.avatar : `http://localhost:8000/storage/${conv.avatar}`}
+                                            alt={conv.name}
+                                            className="w-full h-full object-cover"
+                                        />
+                                    ) : (
+                                        <div className="w-full h-full flex items-center justify-center bg-purple-100 text-purple-600 font-bold">
+                                            {conv.name?.[0] || 'م'}
+                                        </div>
+                                    )}
                                 </div>
                                 {conv.is_online && (
                                     <div className="absolute bottom-0 left-0 w-3.5 h-3.5 bg-green-500 rounded-full border-2 border-white"></div>
