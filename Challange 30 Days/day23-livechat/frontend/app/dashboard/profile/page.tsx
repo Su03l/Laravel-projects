@@ -102,8 +102,8 @@ function TabButton({ active, onClick, icon, label }: { active: boolean; onClick:
         <button
             onClick={onClick}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all font-medium ${active
-                    ? 'bg-gradient-to-r from-sky-500 to-indigo-600 text-white shadow-lg shadow-sky-500/25'
-                    : 'text-slate-600 hover:bg-slate-50'
+                ? 'bg-gradient-to-r from-sky-500 to-indigo-600 text-white shadow-lg shadow-sky-500/25'
+                : 'text-slate-600 hover:bg-slate-50'
                 }`}
         >
             {icon}
@@ -221,9 +221,10 @@ function EditProfileTab({ user, setUser }: { user: any, setUser: any }) {
 
             toast.success('تم تحديث الملف الشخصي بنجاح');
             setAvatarFile(null);
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error updating profile:', error);
-            toast.error('فشل تحديث الملف الشخصي');
+            const message = error.response?.data?.message || 'فشل تحديث الملف الشخصي';
+            toast.error(message);
         } finally {
             setLoading(false);
         }
