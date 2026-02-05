@@ -217,6 +217,7 @@ class ChatController extends Controller
                     'last_message' => $conv->last_message_preview,
                     'time' => $conv->last_message_at?->diffForHumans(),
                     'unread_count' => $conv->unread_count,
+                    'other_user_id' => $otherUser?->id,
                 ];
             });
 
