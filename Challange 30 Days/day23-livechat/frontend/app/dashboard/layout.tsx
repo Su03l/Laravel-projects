@@ -2,13 +2,52 @@
 
 import Sidebar from '@/components/Chat/Sidebar';
 import { useStore } from '@/lib/store';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import axios from '@/lib/axios';
 
 export default function DashboardLayout({
     children,
 }: {
     children: React.ReactNode;
 }) {
-    const { activeConversationId } = useStore();
+    const { user, setUser } = useStore();
+    const router = useRouter();
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            const token = localStorage.getItem('token');
+
+            if (!token) {
+                router.push('/login');
+                return;
+            }
+
+            if (!user) {
+                try {
+                    const { data } = await axios.get('/me');
+                    setUser(data);
+                } catch (error) {
+                    console.error('Failed to fetch user:', error);
+                    localStorage.removeItem('token');
+                    router.push('/login');
+                }
+            }
+
+            setIsLoading(false);
+        };
+
+        fetchUser();
+    }, [user, setUser, router]);
+
+    if (isLoading) {
+        return (
+            <div className="h-screen w-full flex items-center justify-center bg-slate-50">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-sky-500"></div>
+            </div>
+        );
+    }
 
     return (
         <div className="h-screen w-full bg-slate-50 flex overflow-hidden" dir="rtl">
