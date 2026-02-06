@@ -29,6 +29,7 @@
 | 21  | [day21-The-Media-Converter-API](https://github.com/Su03l/Laravel-projects/tree/main/Challange%2030%20Days/day21-The-Media-Converter-API) | نظام أدوات للمطورين (Developer Tools API)           | QR Code Generation، Crypto Prices، Image Processing، UUID Generator     |
 | 22  | [day22-collab-task](https://github.com/Su03l/Laravel-projects/tree/main/Challange%2030%20Days/day22-collab-task)                         | نظام إدارة مهام تعاوني (Collaborative Task Manager) | Team Collaboration، Task Assignment، Comments System، Role-Based Access |
 | 23  | [day23-livechat](https://github.com/Su03l/Laravel-projects/tree/main/Challange%2030%20Days/day23-livechat)                               | نظام محادثة فورية (Real-time Live Chat API)         | Real-time Messaging، Reverb، Private Channels، Sanctum Auth             |
+| 24  | [day24-ticket-system](https://github.com/Su03l/Laravel-projects/tree/main/Challange%2030%20Days/day24-ticket-system)                     | نظام دعم فني وتذاكر (Ticket Support System)         | Smart SLA Calculation، RBAC Roles، Internal Comments، Ticket Assignment |
 
 ## التقنيات المستخدمة
 
