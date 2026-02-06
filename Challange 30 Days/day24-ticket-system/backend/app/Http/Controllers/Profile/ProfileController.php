@@ -17,7 +17,7 @@ class ProfileController extends Controller
 
         return response()->json([
             'user' => $user,
-            'roles' => $user->getRoleNames(), // هل هو Admin أو Agent؟
+            'roles' => $user->getRoleNames(), 
             'permissions' => $user->getAllPermissions()->pluck('name'),
         ]);
     }
