@@ -13,17 +13,13 @@ class DatabaseSeeder extends Seeder
     use WithoutModelEvents;
 
     public function run(): void
-    {
-        // 1. استدعاء سيدر الأقسام (ضروري جداً للتذاكر)
-        // تأكد أنك أنشأت ملف CategorySeeder مسبقاً
+ 
         $this->call(CategorySeeder::class);
 
-        // 2. إنشاء الأدوار الأساسية
         $adminRole = Role::firstOrCreate(['name' => 'Admin']);
         $agentRole = Role::firstOrCreate(['name' => 'Agent']);
         $customerRole = Role::firstOrCreate(['name' => 'Customer']);
 
-        // 3. حساب الأدمن (Admin) 👮‍♂️
         $admin = User::create([
             'name' => 'مدير النظام',
             'email' => 'admin@nexus.com',
