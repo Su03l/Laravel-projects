@@ -22,10 +22,6 @@ class ProfileController extends Controller
         ]);
     }
 
-    /**
-     * 2. عرض بروفايل شخص آخر (Show User Profile)
-     * يستخدمها الموظف (Agent) لما يفتح تذكرة ويبي يشوف مين هذا العميل وتاريخه
-     */
     public function show($id)
     {
         $user = User::findOrFail($id);
