@@ -47,17 +47,13 @@ class ProfileController extends Controller
             'avatar' => 'nullable|image|max:10240',
         ]);
 
-        // تحديث البيانات النصية
         if ($request->name) $user->name = $request->name;
         if ($request->phone) $user->phone = $request->phone;
 
-        // معالجة رفع الصورة
         if ($request->hasFile('avatar')) {
-            // حذف الصورة القديمة لو موجودة
             if ($user->avatar) {
                 Storage::disk('public')->delete($user->avatar);
             }
-            // حفظ الجديدة
             $path = $request->file('avatar')->store('avatars', 'public');
             $user->avatar = $path;
         }
@@ -70,9 +66,6 @@ class ProfileController extends Controller
         ]);
     }
 
-    /**
-     * 4. تغيير كلمة المرور (Change Password)
-     */
     public function changePassword(Request $request)
     {
         $request->validate([
@@ -82,14 +75,12 @@ class ProfileController extends Controller
 
         $user = $request->user();
 
-        // التأكد من الباسورد القديم
         if (!Hash::check($request->current_password, $user->password)) {
             throw ValidationException::withMessages([
                 'current_password' => ['كلمة المرور الحالية غير صحيحة'],
             ]);
         }
 
-        // تحديث
         $user->update([
             'password' => Hash::make($request->new_password)
         ]);
