@@ -28,7 +28,6 @@ class DatabaseSeeder extends Seeder
         ]);
         $admin->assignRole($adminRole);
 
-        // 4. حساب العميل (Customer/User) 👤
         $customer = User::create([
             'name' => 'عميل محترم',
             'email' => 'client@nexus.com',
