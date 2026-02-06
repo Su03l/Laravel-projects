@@ -26,7 +26,6 @@ class ProfileController extends Controller
     {
         $user = User::findOrFail($id);
 
-        // هنا مستقبلاً ممكن نضيف: تذاكر العميل السابقة، تقييمه، ملاحظات عليه
         return response()->json([
             'id' => $user->id,
             'name' => $user->name,
@@ -38,10 +37,6 @@ class ProfileController extends Controller
         ]);
     }
 
-    /**
-     * 3. تحديث البروفايل (Update Profile)
-     * الاسم، الصورة، الجوال
-     */
     public function update(Request $request)
     {
         $user = $request->user();
