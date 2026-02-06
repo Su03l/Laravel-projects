@@ -36,7 +36,6 @@ class DatabaseSeeder extends Seeder
         ]);
         $customer->assignRole($customerRole);
 
-        // 5. حساب موظف (Agent) - نحتاجه لاحقاً للرد
         $agent = User::create([
             'name' => 'موظف الدعم',
             'email' => 'agent@nexus.com',
