@@ -12,13 +12,15 @@ use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
+
+    // login function
     public function login(Request $request, LoginUserAction $action)
     {
         // 1. Validation
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
-            'remember_me' => 'boolean' // 👈 استقبال الحقل
+            'remember_me' => 'boolean' 
         ]);
 
         // 2. DTO
