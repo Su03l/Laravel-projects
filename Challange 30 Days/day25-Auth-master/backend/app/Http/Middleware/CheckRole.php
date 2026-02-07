@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Enums\UserRole;
 
-// لا تنس استدعاء الـ Enum
 
 class CheckRole
 {
