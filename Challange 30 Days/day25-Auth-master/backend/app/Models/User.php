@@ -40,7 +40,7 @@ class User extends Authenticatable
             'role' => UserRole::class,
             'status' => UserStatus::class,
             'otp_verified_at' => 'datetime',
-            'two_factor_enabled' => 'boolean', //  الجديد
+            'two_factor_enabled' => 'boolean', 
             'banned_until' => 'datetime',
             'otp_expires_at' => 'datetime',
         ];
