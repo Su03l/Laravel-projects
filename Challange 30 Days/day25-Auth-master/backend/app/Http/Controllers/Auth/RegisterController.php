@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
+
+    // register function
     public function register(Request $request, RegisterNewUserAction $action)
     {
         $request->validate([
@@ -25,7 +27,7 @@ class RegisterController extends Controller
 
         return response()->json([
             'message' => 'تم التسجيل، تحقق من الكود',
-            'data' => new UserResource($user), // 👈 نستخدم Resource العامة
+            'data' => new UserResource($user), //  نستخدم Resource العامة
         ]);
     }
 }
