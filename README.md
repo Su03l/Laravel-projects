@@ -57,6 +57,7 @@
 | 22  | [day22-collab-task](./Challange%2030%20Days/day22-collab-task)                         | نظام إدارة مهام تعاوني (Collaborative Task Manager) | Team Collaboration، Task Assignment، Comments System، Role-Based Access |
 | 23  | [day23-livechat](./Challange%2030%20Days/day23-livechat)                               | نظام محادثة فورية (Real-time Live Chat API)         | Real-time Messaging، Reverb، Private Channels، Sanctum Auth             |
 | 24  | [day24-ticket-system](./Challange%2030%20Days/day24-ticket-system)                     | نظام دعم فني وتذاكر (Ticket Support System)         | Smart SLA Calculation، RBAC Roles، Internal Comments، Ticket Assignment |
+| 25  | [day25-Auth-master](./Challange%2030%20Days/day25-Auth-master)                         | نظام المصادقة المتقدم (AuthMaster API)              | 2FA، OTP Verification، RBAC، Secure Sessions                            |
 
 ---
 
