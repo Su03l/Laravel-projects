@@ -18,6 +18,10 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
+            'phone' => $this->phone,
+            'role' => $this->role,
+            'avatar' => $this->avatar ? asset('storage/' . $this->avatar) : null,
+            'two_factor_enabled' => $this->two_factor_enabled,
         ];
     }
 }
