@@ -55,7 +55,8 @@ class AdminDashboardController extends Controller
         $action->execute($user, $days);
 
         return response()->json([
-            'message' => 'تم حظر المستخدم بنجاح'
+            'message' => 'تم حظر المستخدم بنجاح',
+            'user' => new AdminUserResource($user)
         ]);
     }
 
@@ -64,7 +65,8 @@ class AdminDashboardController extends Controller
     {
         $action->execute($user);
         return response()->json([
-            'message' => 'تم حذف صورة المستخدم المخالفة'
+            'message' => 'تم حذف صورة المستخدم المخالفة',
+            'user' => new AdminUserResource($user)
         ]);
     }
 
