@@ -18,18 +18,19 @@ import {
 } from "@/components/ui/card"
 import api from "@/services/api"
 import { User, Phone, Save, Shield, KeyRound, Loader2, UploadCloud } from "lucide-react"
+import Image from "next/image"
 
 const profileSchema = z.object({
-    name: z.string().min(2),
-    phone: z.string().min(10).optional().or(z.literal("")),
+    name: z.string().min(2, "الاسم لازم يكون حرفين على الأقل"),
+    phone: z.string().min(10, "رقم الجوال لازم يكون 10 أرقام").optional().or(z.literal("")),
 })
 
 const passwordSchema = z.object({
-    current_password: z.string().min(1),
-    password: z.string().min(8),
+    current_password: z.string().min(1, "كلمة المرور الحالية مطلوبة"),
+    password: z.string().min(8, "كلمة المرور الجديدة لازم تكون 8 خانات"),
     password_confirmation: z.string(),
 }).refine((data) => data.password === data.password_confirmation, {
-    message: "Passwords do not match",
+    message: "كلمات المرور غير متطابقة",
     path: ["password_confirmation"],
 })
 
@@ -58,14 +59,11 @@ export default function ProfilePage() {
     async function onProfileSubmit(data: z.infer<typeof profileSchema>) {
         setIsLoading(true)
         try {
-            // Send as JSON since backend handles it or formData?
-            // The DTO handles request->file('avatar') separately.
-            // Request->input('name') handles JSON or Form.
             const response = await api.post('/profile/update', data)
             updateUser(response.data.data || response.data)
-            toast.success("Profile updated successfully")
+            toast.success("تم تحديث الملف الشخصي بنجاح")
         } catch (error: any) {
-            toast.error(error.response?.data?.message || "Failed to update profile")
+            toast.error(error.response?.data?.message || "فشل تحديث البيانات")
         } finally {
             setIsLoading(false)
         }
@@ -75,10 +73,10 @@ export default function ProfilePage() {
         setIsLoading(true)
         try {
             await api.post('/profile/change-password', data)
-            toast.success("Password changed successfully")
+            toast.success("تم تغيير كلمة المرور بنجاح")
             passwordForm.reset()
         } catch (error: any) {
-            toast.error(error.response?.data?.message || "Failed to change password")
+            toast.error(error.response?.data?.message || "فشل تغيير كلمة المرور")
         } finally {
             setIsLoading(false)
         }
@@ -89,10 +87,10 @@ export default function ProfilePage() {
             const shouldEnable = !user?.two_factor_enabled;
             const response = await api.post('/profile/2fa', { enable: shouldEnable })
             updateUser({ ...user!, two_factor_enabled: shouldEnable })
-            toast.success(response.data.message || "2FA status updated")
+            toast.success(shouldEnable ? "تم تفعيل التحقق الثنائي" : "تم تعطيل التحقق الثنائي")
         } catch (e) {
             console.error(e)
-            toast.error("Failed to update 2FA settings")
+            toast.error("فشل تحديث إعدادات الأمان")
         }
     }
 
@@ -102,10 +100,6 @@ export default function ProfilePage() {
         const file = e.target.files[0];
         const formData = new FormData();
         formData.append('avatar', file);
-        // We must also append other fields if the backend replaces them with null if missing?
-        // DTO logic: `name: $request->input('name')`. If missing in input, it might be null.
-        // If we only send avatar, name might become null!
-        // Let's send current name/phone as well to be safe.
         formData.append('name', user?.name || "");
         if (user?.phone) formData.append('phone', user.phone);
 
@@ -116,35 +110,35 @@ export default function ProfilePage() {
             });
 
             updateUser(res.data.data || res.data);
-            toast.success("Avatar updated");
+            toast.success("تم تحديث الصورة الرمزية");
         } catch (e) {
-            toast.error("Failed to upload avatar")
+            toast.error("فشل رفع الصورة")
         } finally {
             setIsUploading(false);
         }
     }
 
     return (
-        <div className="space-y-8 animate-in fade-in duration-500">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div className="space-y-8 animate-in fade-in duration-500 pt-20 pb-10">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-b-200 pb-5">
                 <div>
                     <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                        Profile Settings
+                        إعدادات الملف الشخصي
                     </h1>
                     <p className="text-muted-foreground mt-2 text-lg">
-                        Manage your account information and security details.
+                        تحكم في بيانات حسابك وإعدادات الأمان من هنا
                     </p>
                 </div>
             </div>
 
             <div className="grid gap-8 md:grid-cols-12">
-                {/* Left Column: Avatar & Personal Info */}
+                {/* Right Column: Avatar & Personal Info (RTL: First visual column) */}
                 <div className="md:col-span-12 lg:col-span-7 space-y-8">
                     <Card className="border-0 shadow-2xl bg-white/70 backdrop-blur-xl ring-1 ring-white/50">
                         <CardHeader>
-                            <CardTitle className="text-2xl text-left bg-transparent text-foreground">Personal Information</CardTitle>
-                            <CardDescription className="text-left">
-                                Update your photo and personal details here.
+                            <CardTitle className="text-2xl text-right bg-transparent text-foreground">المعلومات الشخصية</CardTitle>
+                            <CardDescription className="text-right">
+                                تحديث صورتك وبياناتك الأساسية
                             </CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-8">
@@ -176,10 +170,10 @@ export default function ProfilePage() {
                                         />
                                     </label>
                                 </div>
-                                <div className="text-center sm:text-left space-y-1">
-                                    <h3 className="font-semibold text-lg text-foreground">Profile Photo</h3>
+                                <div className="text-center sm:text-right space-y-1">
+                                    <h3 className="font-semibold text-lg text-foreground">الصورة الشخصية</h3>
                                     <p className="text-sm text-muted-foreground">
-                                        This will be displayed on your profile.
+                                        بيتم عرضها في ملفك الشخصي والتعليقات
                                     </p>
                                 </div>
                             </div>
@@ -187,7 +181,7 @@ export default function ProfilePage() {
                             <form onSubmit={profileForm.handleSubmit(onProfileSubmit)} className="space-y-6">
                                 <div className="grid gap-6 md:grid-cols-2">
                                     <div className="space-y-2">
-                                        <Label htmlFor="name">Full Name</Label>
+                                        <Label htmlFor="name">الاسم الكامل</Label>
                                         <Input
                                             id="name"
                                             startIcon={<User className="h-4 w-4" />}
@@ -196,7 +190,7 @@ export default function ProfilePage() {
                                         />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label htmlFor="phone">Phone Number</Label>
+                                        <Label htmlFor="phone">رقم الجوال</Label>
                                         <Input
                                             id="phone"
                                             startIcon={<Phone className="h-4 w-4" />}
@@ -206,9 +200,9 @@ export default function ProfilePage() {
                                     </div>
                                 </div>
                                 <div className="flex justify-end pt-4">
-                                    <Button type="submit" isLoading={isLoading} className="w-full sm:w-auto min-w-[150px]">
-                                        <Save className="mr-2 h-4 w-4" />
-                                        Save Changes
+                                    <Button type="submit" isLoading={isLoading} className="w-full sm:w-auto min-w-[150px] bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-blue-500/25">
+                                        <Save className="ml-2 h-4 w-4" />
+                                        حفظ التغييرات
                                     </Button>
                                 </div>
                             </form>
@@ -216,13 +210,13 @@ export default function ProfilePage() {
                     </Card>
                 </div>
 
-                {/* Right Column: Security */}
+                {/* Left Column: Security (RTL: Second visual column) */}
                 <div className="md:col-span-12 lg:col-span-5 space-y-8">
                     <Card className="border-0 shadow-2xl bg-white/70 backdrop-blur-xl ring-1 ring-white/50 h-full">
                         <CardHeader>
-                            <CardTitle className="text-2xl text-left bg-transparent text-foreground">Security Settings</CardTitle>
-                            <CardDescription className="text-left">
-                                Manage your password and 2FA.
+                            <CardTitle className="text-2xl text-right bg-transparent text-foreground">إعدادات الأمان</CardTitle>
+                            <CardDescription className="text-right">
+                                تغيير كلمة المرور والتحقق الثنائي
                             </CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-8">
@@ -234,39 +228,39 @@ export default function ProfilePage() {
                                             <Shield className="h-5 w-5" />
                                         </div>
                                         <div>
-                                            <h3 className="font-medium text-foreground">Two-Factor Authentication</h3>
-                                            <p className="text-xs text-muted-foreground">Add an extra layer of security.</p>
+                                            <h3 className="font-medium text-foreground">التحقق الثنائي (2FA)</h3>
+                                            <p className="text-xs text-muted-foreground">أمان إضافي لحسابك</p>
                                         </div>
                                     </div>
                                     <div className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2 ${user?.two_factor_enabled ? 'bg-indigo-600' : 'bg-slate-200'}`}
                                         onClick={toggle2FA}
                                     >
-                                        <span className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${user?.two_factor_enabled ? 'translate-x-5' : 'translate-x-0'}`} />
+                                        <span className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${user?.two_factor_enabled ? '-translate-x-5' : 'translate-x-0'}`} />
                                     </div>
                                 </div>
                             </div>
 
                             {/* Password Form */}
                             <div className="space-y-4">
-                                <div className="flex items-center gap-2 pb-2">
-                                    <KeyRound className="h-5 w-5 text-muted-foreground" />
-                                    <h3 className="font-medium">Change Password</h3>
+                                <div className="flex items-center gap-2 pb-2 text-primary border-b border-border/50">
+                                    <KeyRound className="h-5 w-5" />
+                                    <h3 className="font-medium">تغيير كلمة المرور</h3>
                                 </div>
                                 <form onSubmit={passwordForm.handleSubmit(onPasswordSubmit)} className="space-y-4">
                                     <div className="space-y-2">
-                                        <Label htmlFor="current_password">Current Password</Label>
+                                        <Label htmlFor="current_password">كلمة المرور الحالية</Label>
                                         <Input id="current_password" type="password" {...passwordForm.register("current_password")} error={passwordForm.formState.errors.current_password?.message} />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label htmlFor="new_password">New Password</Label>
+                                        <Label htmlFor="new_password">كلمة المرور الجديدة</Label>
                                         <Input id="new_password" type="password" {...passwordForm.register("password")} error={passwordForm.formState.errors.password?.message} />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label htmlFor="password_confirmation">Confirm New Password</Label>
+                                        <Label htmlFor="password_confirmation">تأكيد كلمة المرور الجديدة</Label>
                                         <Input id="password_confirmation" type="password" {...passwordForm.register("password_confirmation")} error={passwordForm.formState.errors.password_confirmation?.message} />
                                     </div>
-                                    <Button type="submit" isLoading={isLoading} variant="outline" className="w-full">
-                                        Update Password
+                                    <Button type="submit" isLoading={isLoading} variant="outline" className="w-full hover:bg-slate-100">
+                                        تحديث كلمة المرور
                                     </Button>
                                 </form>
                             </div>
