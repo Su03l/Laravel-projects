@@ -19,9 +19,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(OtpServiceInterface::class, LogOtpService::class);
     }
 
-    /**
-     * Bootstrap any application services.
-     */
+
     public function boot(): void
     {
         Scramble::afterOpenApiGenerated(function (OpenApi $openApi) {
