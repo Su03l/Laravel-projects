@@ -19,16 +19,16 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-import { Loader2, Mail, Lock } from "lucide-react"
+import { Lock, Mail, KeyRound } from "lucide-react"
 
 const loginSchema = z.object({
-    email: z.string().email({ message: "Invalid email address" }),
-    password: z.string().min(1, { message: "Password is required" }),
+    email: z.string().email({ message: "البريد الإلكتروني غير صحيح" }),
+    password: z.string().min(1, { message: "كلمة المرور مطلوبة" }),
     remember: z.boolean().default(false).optional(),
 })
 
 const verifySchema = z.object({
-    otp_code: z.string().min(6, { message: "OTP must be 6 digits" }),
+    otp_code: z.string().min(6, { message: "الرمز لازم يكون 6 أرقام" }),
 })
 
 export function LoginForm() {
@@ -62,15 +62,15 @@ export function LoginForm() {
             if (response.status === '2fa_required') {
                 setRequires2FA(true)
                 setEmailFor2FA(response.email || data.email)
-                toast.info("Two-Factor Authentication required")
+                toast.info("مطلوب التحقق الثنائي")
             } else if (response.token && response.user) {
                 login(response.user, response.token)
-                toast.success("Logged in successfully")
+                toast.success("تم تسجيل الدخول بنجاح")
                 router.push("/profile")
             }
         } catch (error: any) {
-            // Error handled by interceptor or generic catch
             console.error(error)
+            toast.error("فشل تسجيل الدخول، تأكد من البيانات")
         } finally {
             setIsLoading(false)
         }
@@ -86,11 +86,12 @@ export function LoginForm() {
 
             if (response.token && response.user) {
                 login(response.user, response.token)
-                toast.success("Verified successfully")
+                toast.success("تم التحقق بنجاح")
                 router.push("/profile")
             }
         } catch (error) {
             console.error(error)
+            toast.error("الرمز غلط أو انتهى")
         } finally {
             setIsLoading(false)
         }
@@ -98,24 +99,30 @@ export function LoginForm() {
 
     if (requires2FA) {
         return (
-            <Card className="w-full">
-                <CardHeader>
-                    <CardTitle>Two-Factor Authentication</CardTitle>
-                    <CardDescription>Enter the code sent to your email.</CardDescription>
+            <Card className="w-full border-0 shadow-xl bg-white/80 backdrop-blur-md ring-1 ring-white/50">
+                <CardHeader className="text-center">
+                    <CardTitle className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                        التحقق الثنائي
+                    </CardTitle>
+                    <CardDescription className="text-lg">
+                        أدخل الكود اللي وصلك على الإيميل
+                    </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <form onSubmit={verifyForm.handleSubmit(onVerifySubmit)} className="space-y-4">
+                    <form onSubmit={verifyForm.handleSubmit(onVerifySubmit)} className="space-y-6">
                         <div className="space-y-2">
-                            <Label htmlFor="otp_code">OTP Code</Label>
+                            <Label htmlFor="otp_code">كود التحقق (OTP)</Label>
                             <Input
                                 id="otp_code"
                                 placeholder="123456"
+                                className="text-center text-lg tracking-widest"
+                                startIcon={<KeyRound className="h-4 w-4" />}
                                 {...verifyForm.register("otp_code")}
                                 error={verifyForm.formState.errors.otp_code?.message}
                             />
                         </div>
-                        <Button type="submit" className="w-full" isLoading={isLoading}>
-                            Verify
+                        <Button type="submit" className="w-full text-lg h-12 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg hover:shadow-blue-500/25" isLoading={isLoading}>
+                            تأكيد الدخول
                         </Button>
                     </form>
                 </CardContent>
@@ -124,15 +131,19 @@ export function LoginForm() {
     }
 
     return (
-        <Card className="w-full">
-            <CardHeader>
-                <CardTitle>Login</CardTitle>
-                <CardDescription>Enter your credentials to access your account.</CardDescription>
+        <Card className="w-full border-0 shadow-xl bg-white/80 backdrop-blur-md ring-1 ring-white/50">
+            <CardHeader className="text-center">
+                <CardTitle className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                    تسجيل الدخول
+                </CardTitle>
+                <CardDescription className="text-lg mt-2">
+                    مرحباً بك مجدداً، أدخل بياناتك للدخول
+                </CardDescription>
             </CardHeader>
             <CardContent>
-                <form onSubmit={loginForm.handleSubmit(onLoginSubmit)} className="space-y-4">
+                <form onSubmit={loginForm.handleSubmit(onLoginSubmit)} className="space-y-5">
                     <div className="space-y-2">
-                        <Label htmlFor="email">Email</Label>
+                        <Label htmlFor="email">البريد الإلكتروني</Label>
                         <Input
                             id="email"
                             type="email"
@@ -143,7 +154,12 @@ export function LoginForm() {
                         />
                     </div>
                     <div className="space-y-2">
-                        <Label htmlFor="password">Password</Label>
+                        <div className="flex items-center justify-between">
+                            <Label htmlFor="password">كلمة المرور</Label>
+                            <a href="/forgot-password" className="text-sm font-medium text-blue-600 hover:text-blue-500 transition-colors">
+                                نسيت الباسورد؟
+                            </a>
+                        </div>
                         <Input
                             id="password"
                             type="password"
@@ -152,28 +168,23 @@ export function LoginForm() {
                             error={loginForm.formState.errors.password?.message}
                         />
                     </div>
-                    <div className="flex justify-end">
-                        <a href="/forgot-password" className="text-sm text-primary hover:underline">
-                            Forgot Password?
-                        </a>
-                    </div>
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-2 space-x-reverse">
                         <input
                             type="checkbox"
                             id="remember"
-                            className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+                            className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-600"
                             {...loginForm.register("remember")}
                         />
-                        <Label htmlFor="remember" className="text-sm font-normal">Remember me</Label>
+                        <Label htmlFor="remember" className="text-sm font-normal cursor-pointer">تذكرني</Label>
                     </div>
-                    <Button type="submit" className="w-full" isLoading={isLoading}>
-                        Sign In
+                    <Button type="submit" className="w-full text-lg h-12 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg hover:shadow-blue-500/25" isLoading={isLoading}>
+                        دخول
                     </Button>
                 </form>
             </CardContent>
             <CardFooter className="justify-center">
                 <p className="text-sm text-muted-foreground">
-                    Don't have an account? <a href="/register" className="text-primary hover:underline">Register</a>
+                    ليس لديك حساب؟ <a href="/register" className="font-semibold text-blue-600 hover:underline">سجل حساب جديد</a>
                 </p>
             </CardFooter>
         </Card>
