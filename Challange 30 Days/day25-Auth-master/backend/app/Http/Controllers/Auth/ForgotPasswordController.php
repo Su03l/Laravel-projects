@@ -18,6 +18,8 @@ class ForgotPasswordController extends Controller
         return response()->json(['message' => 'تم إرسال رمز استعادة كلمة المرور إلى بريدك.']);
     }
 
+
+    //reset the password
     public function reset(Request $request, ResetPasswordAction $action) {
         $request->validate([
             'email' => 'required|email',
