@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Cairo } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
 
-const inter = Inter({ subsets: ["latin"] });
+const cairo = Cairo({ subsets: ["arabic"] });
 
 export const metadata: Metadata = {
-    title: "AuthMaster",
-    description: "Advanced Authentication System",
+    title: "مصادقة متقدمة", // AuthMaster in Arabic
+    description: "نظام مصادقة متقدم",
 };
 
 export default function RootLayout({
@@ -16,8 +16,8 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en">
-            <body className={inter.className}>
+        <html lang="ar" dir="rtl">
+            <body className={cairo.className}>
                 {children}
                 <Toaster position="top-center" richColors />
             </body>
