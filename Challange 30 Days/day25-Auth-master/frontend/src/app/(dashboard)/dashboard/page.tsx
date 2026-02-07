@@ -16,13 +16,6 @@ export default function DashboardPage() {
         admins: 0
     })
 
-    useEffect(() => {
-        // Fetch stats if user is admin, or just show welcome message
-        if (user?.role === 'admin') {
-            fetchStats()
-        }
-    }, [user])
-
     const fetchStats = async () => {
         try {
             const response = await api.get('/admin/users')
@@ -37,6 +30,13 @@ export default function DashboardPage() {
             console.error("Failed to fetch stats", e)
         }
     }
+
+    useEffect(() => {
+        // Fetch stats if user is admin, or just show welcome message
+        if (user?.role === 'admin') {
+            fetchStats()
+        }
+    }, [user])
 
     return (
         <div className="space-y-8 pt-20 pb-10 animate-in fade-in duration-500">
