@@ -19,7 +19,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Dialog, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
-import { Loader2, Trash2, Ban, CheckCircle, Shield } from "lucide-react"
+import { Loader2, Trash2, Ban, CheckCircle, Shield, Plus } from "lucide-react"
 
 export default function AdminPage() {
     const { user } = useAuthStore()
@@ -89,9 +89,15 @@ export default function AdminPage() {
 
     return (
         <div className="space-y-6 pt-20 pb-10">
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent w-fit">
-                لوحة التحكم
-            </h1>
+            <div className="flex items-center justify-between">
+                <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent w-fit">
+                    لوحة التحكم
+                </h1>
+                <Button onClick={() => router.push('/admin/create-user')} className="bg-blue-600 hover:bg-blue-700 text-white shadow-md hover:shadow-lg transition-all">
+                    <Plus className="ml-2 h-4 w-4" />
+                    إضافة مستخدم
+                </Button>
+            </div>
 
             <Card className="border-0 shadow-xl bg-white/70 backdrop-blur-xl ring-1 ring-white/50">
                 <CardHeader>
