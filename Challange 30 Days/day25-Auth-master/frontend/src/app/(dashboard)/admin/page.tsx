@@ -43,7 +43,8 @@ export default function AdminPage() {
     async function fetchUsers() {
         try {
             const response = await api.get('/admin/users')
-            setUsers(response.data.users || response.data) // Adjust based on actual API response structure
+            // JsonResource::collection wraps data in 'data' property
+            setUsers(response.data.data || response.data)
         } catch (e) {
             console.error(e)
         } finally {
