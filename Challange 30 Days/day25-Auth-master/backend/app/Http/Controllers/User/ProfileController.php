@@ -34,6 +34,7 @@ class ProfileController extends Controller
         return new UserResource($user);
     }
 
+    // change password function
     public function changePassword(Request $request, ChangePasswordAction $action)
     {
         $request->validate([
