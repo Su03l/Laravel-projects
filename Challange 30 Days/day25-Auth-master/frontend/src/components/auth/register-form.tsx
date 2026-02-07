@@ -22,13 +22,13 @@ import Link from "next/link"
 import { User, Mail, Phone, Lock } from "lucide-react"
 
 const registerSchema = z.object({
-    name: z.string().min(2, "Name must be at least 2 characters"),
-    email: z.string().email("Invalid email address"),
-    phone: z.string().min(10, "Phone number must be at least 10 characters"),
-    password: z.string().min(8, "Password must be at least 8 characters"),
+    name: z.string().min(2, "الاسم لازم يكون حرفين على الأقل"),
+    email: z.string().email("البريد الإلكتروني غير صحيح"),
+    phone: z.string().min(10, "رقم الجوال لازم يكون 10 أرقام على الأقل"),
+    password: z.string().min(8, "كلمة المرور لازم تكون 8 خانات على الأقل"),
     password_confirmation: z.string(),
 }).refine((data) => data.password === data.password_confirmation, {
-    message: "Passwords do not match",
+    message: "كلمات المرور غير متطابقة",
     path: ["password_confirmation"],
 })
 
@@ -51,7 +51,7 @@ export function RegisterForm() {
         setIsLoading(true)
         try {
             await authService.register(data)
-            toast.success("Registration successful! Please verify your email.")
+            toast.success("تم إنشاء الحساب بنجاح! يرجى تفعيل بريدك الإلكتروني.")
             localStorage.setItem('verification_email', data.email);
             router.push("/verify-otp")
         } catch (error: any) {
@@ -60,6 +60,8 @@ export function RegisterForm() {
                 Object.keys(errors).forEach((key) => {
                     form.setError(key as any, { message: errors[key][0] });
                 });
+            } else {
+                toast.error("حدث خطأ ما، حاول مرة أخرى")
             }
         } finally {
             setIsLoading(false)
@@ -67,43 +69,50 @@ export function RegisterForm() {
     }
 
     return (
-        <Card className="w-full">
-            <CardHeader>
-                <CardTitle>Create an Account</CardTitle>
-                <CardDescription>Enter your details to register.</CardDescription>
+        <Card className="w-full border-0 shadow-xl bg-white/80 backdrop-blur-md ring-1 ring-white/50">
+            <CardHeader className="text-center">
+                <CardTitle className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                    إنشاء حساب جديد
+                </CardTitle>
+                <CardDescription className="text-lg mt-2">
+                    سجل بياناتك عشان تبدأ معنا
+                </CardDescription>
             </CardHeader>
             <CardContent>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
                     <div className="space-y-2">
-                        <Label htmlFor="name">Name</Label>
+                        <Label htmlFor="name">الاسم الكامل</Label>
                         <Input
                             id="name"
+                            placeholder="مثال: محمد أحمد"
                             startIcon={<User className="h-4 w-4" />}
                             {...form.register("name")}
                             error={form.formState.errors.name?.message}
                         />
                     </div>
                     <div className="space-y-2">
-                        <Label htmlFor="email">Email</Label>
+                        <Label htmlFor="email">البريد الإلكتروني</Label>
                         <Input
                             id="email"
                             type="email"
+                            placeholder="name@example.com"
                             startIcon={<Mail className="h-4 w-4" />}
                             {...form.register("email")}
                             error={form.formState.errors.email?.message}
                         />
                     </div>
                     <div className="space-y-2">
-                        <Label htmlFor="phone">Phone</Label>
+                        <Label htmlFor="phone">رقم الجوال</Label>
                         <Input
                             id="phone"
+                            placeholder="05xxxxxxxx"
                             startIcon={<Phone className="h-4 w-4" />}
                             {...form.register("phone")}
                             error={form.formState.errors.phone?.message}
                         />
                     </div>
                     <div className="space-y-2">
-                        <Label htmlFor="password">Password</Label>
+                        <Label htmlFor="password">كلمة المرور</Label>
                         <Input
                             id="password"
                             type="password"
@@ -113,7 +122,7 @@ export function RegisterForm() {
                         />
                     </div>
                     <div className="space-y-2">
-                        <Label htmlFor="password_confirmation">Confirm Password</Label>
+                        <Label htmlFor="password_confirmation">تأكيد كلمة المرور</Label>
                         <Input
                             id="password_confirmation"
                             type="password"
@@ -122,14 +131,14 @@ export function RegisterForm() {
                             error={form.formState.errors.password_confirmation?.message}
                         />
                     </div>
-                    <Button type="submit" className="w-full" isLoading={isLoading}>
-                        Register
+                    <Button type="submit" className="w-full text-lg h-12 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg hover:shadow-blue-500/25" isLoading={isLoading}>
+                        تسجيل حساب
                     </Button>
                 </form>
             </CardContent>
             <CardFooter className="justify-center">
                 <p className="text-sm text-muted-foreground">
-                    Already have an account? <Link href="/login" className="text-primary hover:underline">Sign In</Link>
+                    عندك حساب؟ <Link href="/login" className="font-semibold text-blue-600 hover:underline">سجل دخول</Link>
                 </p>
             </CardFooter>
         </Card>
