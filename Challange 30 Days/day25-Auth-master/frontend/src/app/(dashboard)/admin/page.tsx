@@ -70,6 +70,17 @@ export default function AdminPage() {
         }
     }
 
+    const handleDeleteUser = async (userId: number) => {
+        if (!confirm("هل أنت متأكد من حذف هذا المستخدم نهائياً؟ لا يمكن التراجع عن هذا الإجراء.")) return;
+        try {
+            await api.delete(`/admin/users/${userId}`)
+            toast.success("تم حذف المستخدم بنجاح")
+            fetchUsers()
+        } catch (e: any) {
+            toast.error(e.response?.data?.message || "فشل حذف المستخدم")
+        }
+    }
+
     const handleBanClick = (user: AdminUser) => {
         setSelectedUser(user)
         setBanModalOpen(true)
@@ -192,9 +203,12 @@ export default function AdminPage() {
                                                 </Button>
                                                 {u.avatar && (
                                                     <Button variant="outline" size="sm" onClick={() => handleRemoveAvatar(u.id)} title="حذف الصورة">
-                                                        <Trash2 className="w-4 h-4 text-red-500" />
+                                                        <Trash2 className="w-4 h-4 text-orange-500" />
                                                     </Button>
                                                 )}
+                                                <Button variant="outline" size="sm" onClick={() => handleDeleteUser(u.id)} title="حذف المستخدم">
+                                                    <Trash2 className="w-4 h-4 text-red-600" />
+                                                </Button>
                                             </div>
                                         </TableCell>
                                     </TableRow>

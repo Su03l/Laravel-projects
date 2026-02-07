@@ -89,4 +89,19 @@ class AdminDashboardController extends Controller
             'user' => new AdminUserResource($user)
         ]);
     }
+
+    // حذف المستخدم نهائياً
+    public function destroy(User $user)
+    {
+        // نمنع الأدمن من حذف نفسه
+        if ($user->id === auth()->id()) {
+            return response()->json(['message' => 'لا يمكنك حذف حسابك بنفسك.'], 403);
+        }
+
+        $user->delete();
+
+        return response()->json([
+            'message' => 'تم حذف المستخدم نهائياً'
+        ]);
+    }
 }
