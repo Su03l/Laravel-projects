@@ -8,6 +8,8 @@ use App\DTOs\ResetPasswordDTO;
 use App\Actions\SendResetCodeAction;
 use App\Actions\ResetPasswordAction;
 
+
+//forgot password controller
 class ForgotPasswordController extends Controller
 {
     public function sendCode(Request $request, SendResetCodeAction $action) {
