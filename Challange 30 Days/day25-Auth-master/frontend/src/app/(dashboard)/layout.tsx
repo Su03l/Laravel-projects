@@ -35,7 +35,7 @@ export default function DashboardLayout({
     }
 
     return (
-        <div className="min-h-screen bg-muted/40">
+        <div className="min-h-screen">
             <DashboardNav />
             <main className="container mx-auto py-6 px-4">
                 {children}

@@ -120,7 +120,7 @@ export default function ProfilePage() {
 
     return (
         <div className="space-y-8 animate-in fade-in duration-500 pt-20 pb-10">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-b-200 pb-5">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-200 pb-5">
                 <div>
                     <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
                         إعدادات الملف الشخصي
