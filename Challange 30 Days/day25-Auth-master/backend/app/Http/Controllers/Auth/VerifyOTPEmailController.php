@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 
 class VerifyOTPEmailController extends Controller
 {
+
+    // verify function
     public function verify(Request $request, VerifyUserAction $action)
     {
         // 1. Validation
@@ -38,6 +40,7 @@ class VerifyOTPEmailController extends Controller
         ]);
     }
 
+    // resend otp function
     public function resendOtp(Request $request, ResendOtpAction $action)
     {
         $request->validate(['email' => 'required|email']);
