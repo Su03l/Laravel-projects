@@ -49,6 +49,7 @@ class ProfileController extends Controller
         ]);
     }
 
+    // toggle two factor function
     public function toggleTwoFactor(Request $request)
     {
         $request->validate(['enable' => 'required|boolean']);
