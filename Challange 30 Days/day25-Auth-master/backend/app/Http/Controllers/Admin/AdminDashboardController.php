@@ -13,11 +13,12 @@ use Illuminate\Http\Request;
 
 class AdminDashboardController extends Controller
 {
-    // عرض كل المستخدمين بتفاصيلهم
+    // عرض كل المستخدمين بتفاصيلهم (مع صفحات)
     public function index()
     {
-        // نجيب الكل ما عداي أنا (الأدمن الحالي)
-        $users = User::where('id', '!=', auth()->id())->latest()->get();
+        // نجيب الكل ما عداي أنا (الأدمن الحالي) - 50 مستخدم في الصفحة
+        // User requesting to start from 1 (Oldest first)
+        $users = User::where('id', '!=', auth()->id())->oldest()->paginate(50);
 
         //  نستخدم Resource الأدمن
         return AdminUserResource::collection($users);
@@ -102,6 +103,32 @@ class AdminDashboardController extends Controller
 
         return response()->json([
             'message' => 'تم حذف المستخدم نهائياً'
+        ]);
+    }
+
+    // إحصائيات لوحة التحكم
+    public function stats()
+    {
+        $totalUsers = User::count();
+        $activeUsers = User::whereNull('banned_until')->count();
+        $adminsCount = User::where('role', 'admin')->count();
+        $employeesCount = User::where('role', 'employee')->count();
+        $newUsers24h = User::where('created_at', '>=', now()->subDay())->count();
+
+        // إحصائيات الرسم البياني (توزيع الأدوار)
+        $rolesDistribution = [
+            ['name' => 'مسؤول', 'total' => $adminsCount],
+            ['name' => 'موظف', 'total' => $employeesCount],
+            ['name' => 'مستخدم', 'total' => User::where('role', 'user')->count()],
+        ];
+
+        return response()->json([
+            'total_users' => $totalUsers,
+            'active_users' => $activeUsers,
+            'admins_count' => $adminsCount,
+            'employees_count' => $employeesCount,
+            'new_users_24h' => $newUsers24h,
+            'roles_distribution' => $rolesDistribution
         ]);
     }
 }

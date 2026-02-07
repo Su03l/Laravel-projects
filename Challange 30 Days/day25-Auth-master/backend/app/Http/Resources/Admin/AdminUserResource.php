@@ -4,6 +4,7 @@ namespace App\Http\Resources\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class AdminUserResource extends JsonResource
 {
@@ -16,16 +17,14 @@ class AdminUserResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'full_name' => $this->name,
-            'role_badge' => $this->role, // يرجع 'admin' او 'user'
-            'current_status' => $this->status, // 'pending', 'active'
-            'is_verified' => $this->otp_verified_at !== null, // True/False
-            'verified_at' => $this->otp_verified_at?->format('Y-m-d H:i'),
-            'contact' => [
-                'email' => $this->email,
-                'phone' => $this->phone,
-            ],
-            'registered_since' => $this->created_at->diffForHumans(),
+            'name' => $this->name,
+            'email' => $this->email,
+            'role' => $this->role, // Enum or string
+            'avatar' => $this->avatar ? Storage::url($this->avatar) : null,
+            'is_banned' => $this->banned_until && $this->banned_until->isFuture(),
+            'created_at' => $this->created_at->format('Y-m-d'),
+            // Keep old fields just in case, but structure them flat for table
+            'phone' => $this->phone,
         ];
     }
 }

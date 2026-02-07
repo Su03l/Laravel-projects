@@ -31,6 +31,7 @@ Route::middleware('auth:sanctum')->group(function () {
     //  أضفنا middleware للتحقق من أن الرول هو admin
     Route::prefix('admin')->middleware('role:admin')->group(function () {
         Route::get('/users', [AdminDashboardController::class, 'index']); // عرض قائمة المستخدمين
+        Route::get('/stats', [AdminDashboardController::class, 'stats']); // إحصائيات لوحة التحكم
         Route::post('/users', [AdminDashboardController::class, 'storeUser']); // إضافة مستخدم جديد
         Route::post('/users/{user}/ban', [AdminDashboardController::class, 'banUser']); // حظر مستخدم
         Route::delete('/users/{user}/avatar', [AdminDashboardController::class, 'removeAvatar']); // حذف صورة مستخدم مخالفة

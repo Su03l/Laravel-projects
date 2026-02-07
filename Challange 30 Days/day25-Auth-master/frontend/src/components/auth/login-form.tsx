@@ -19,7 +19,8 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-import { Lock, Mail, KeyRound } from "lucide-react"
+import { Lock, Mail } from "lucide-react"
+import { OtpInput } from "@/components/ui/otp-input"
 
 const loginSchema = z.object({
     email: z.string().email({ message: "البريد الإلكتروني غير صحيح" }),
@@ -87,7 +88,7 @@ export function LoginForm() {
             if (response.token && response.user) {
                 login(response.user, response.token)
                 toast.success("تم التحقق بنجاح")
-                router.push("/profile")
+                router.push("/dashboard")
             }
         } catch (error) {
             console.error(error)
@@ -99,27 +100,30 @@ export function LoginForm() {
 
     if (requires2FA) {
         return (
-            <Card className="w-full border-0 shadow-xl bg-white/80 backdrop-blur-md ring-1 ring-white/50">
-                <CardHeader className="text-center">
-                    <CardTitle className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+            <Card className="w-full border-0 shadow-2xl bg-white/80 backdrop-blur-xl ring-1 ring-white/60">
+                <CardHeader className="text-center pb-2">
+                    <CardTitle className="text-3xl font-bold bg-gradient-to-r from-blue-700 to-indigo-700 bg-clip-text text-transparent">
                         التحقق الثنائي
                     </CardTitle>
-                    <CardDescription className="text-lg">
-                        أدخل الكود اللي وصلك على الإيميل
+                    <CardDescription className="text-base text-slate-600 mt-2">
+                        أدخل الكود الذي وصلك على الإيميل
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={verifyForm.handleSubmit(onVerifySubmit)} className="space-y-6">
                         <div className="space-y-2">
                             <Label htmlFor="otp_code">كود التحقق (OTP)</Label>
-                            <Input
-                                id="otp_code"
-                                placeholder="123456"
-                                className="text-center text-lg tracking-widest"
-                                startIcon={<KeyRound className="h-4 w-4" />}
-                                {...verifyForm.register("otp_code")}
-                                error={verifyForm.formState.errors.otp_code?.message}
-                            />
+                            <div className="flex justify-center py-2">
+                                <OtpInput
+                                    value={verifyForm.watch('otp_code')}
+                                    onChange={(val) => verifyForm.setValue('otp_code', val)}
+                                />
+                            </div>
+                            {verifyForm.formState.errors.otp_code && (
+                                <p className="text-sm font-medium text-destructive text-center">
+                                    {verifyForm.formState.errors.otp_code.message}
+                                </p>
+                            )}
                         </div>
                         <Button type="submit" className="w-full text-lg h-12 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg hover:shadow-blue-500/25" isLoading={isLoading}>
                             تأكيد الدخول
@@ -131,12 +135,12 @@ export function LoginForm() {
     }
 
     return (
-        <Card className="w-full border-0 shadow-xl bg-white/80 backdrop-blur-md ring-1 ring-white/50">
-            <CardHeader className="text-center">
-                <CardTitle className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+        <Card className="w-full border-0 shadow-2xl bg-white/80 backdrop-blur-xl ring-1 ring-white/60">
+            <CardHeader className="text-center pb-2">
+                <CardTitle className="text-3xl font-bold bg-gradient-to-r from-blue-700 to-indigo-700 bg-clip-text text-transparent">
                     تسجيل الدخول
                 </CardTitle>
-                <CardDescription className="text-lg mt-2">
+                <CardDescription className="text-base text-slate-600 mt-2">
                     مرحباً بك مجدداً، أدخل بياناتك للدخول
                 </CardDescription>
             </CardHeader>

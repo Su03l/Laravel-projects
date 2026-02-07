@@ -24,7 +24,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             <div className="w-full">
                 <div className="relative">
                     {startIcon && (
-                        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
+                        <div className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">
                             {startIcon}
                         </div>
                     )}
@@ -33,8 +33,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                         type={isPassword ? (showPassword ? "text" : "password") : type}
                         className={cn(
                             "flex h-11 w-full rounded-lg border border-slate-200 bg-white/50 px-4 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-all focus:bg-white focus:border-indigo-500",
-                            startIcon && "pl-10",
-                            (endIcon || isPassword) && "pr-10",
+                            startIcon && "pr-10",
+                            (endIcon || isPassword) && "pl-10",
                             error && "border-red-500 focus-visible:ring-red-500 bg-red-50/50",
                             className
                         )}
@@ -46,7 +46,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                         <button
                             type="button"
                             onClick={togglePasswordVisibility}
-                            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 focus:outline-none"
+                            className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 focus:outline-none"
                             tabIndex={-1}
                         >
                             {showPassword ? (
@@ -56,7 +56,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                             )}
                         </button>
                     ) : endIcon ? (
-                        <div className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">
+                        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">
                             {endIcon}
                         </div>
                     ) : null}

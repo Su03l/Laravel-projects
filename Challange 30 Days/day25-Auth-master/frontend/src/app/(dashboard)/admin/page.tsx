@@ -34,29 +34,49 @@ export default function AdminPage() {
     const router = useRouter()
     const [users, setUsers] = useState<AdminUser[]>([])
     const [isLoading, setIsLoading] = useState(true)
+    const [currentPage, setCurrentPage] = useState(1)
+    const [lastPage, setLastPage] = useState(1)
+    const [totalUsers, setTotalUsers] = useState(0)
 
     const [banModalOpen, setBanModalOpen] = useState(false)
     const [selectedUser, setSelectedUser] = useState<AdminUser | null>(null)
     const [banType, setBanType] = useState<'permanent' | 'temporary'>('permanent')
     const [banDays, setBanDays] = useState('7')
 
+    const [deleteModalOpen, setDeleteModalOpen] = useState(false)
+    const [userToDelete, setUserToDelete] = useState<AdminUser | null>(null)
+
     useEffect(() => {
         if (user && user.role !== 'admin') {
             router.push('/profile')
             return;
         }
-        fetchUsers()
+        fetchUsers(1)
     }, [user, router])
 
-    async function fetchUsers() {
+    async function fetchUsers(page = 1) {
+        setIsLoading(true)
         try {
-            const response = await api.get('/admin/users')
-            setUsers(response.data.data || response.data)
+            const response = await api.get(`/admin/users?page=${page}`)
+            const data = response.data
+            setUsers(data.data)
+            // Laravel Resource pagination structure
+            if (data.meta) {
+                setCurrentPage(data.meta.current_page)
+                setLastPage(data.meta.last_page)
+                setTotalUsers(data.meta.total)
+            }
         } catch (e) {
             console.error(e)
             toast.error("فشل في جلب قائمة المستخدمين")
         } finally {
             setIsLoading(false)
+        }
+    }
+
+    const handlePageChange = (newPage: number) => {
+        if (newPage >= 1 && newPage <= lastPage) {
+            fetchUsers(newPage)
         }
     }
 
@@ -70,13 +90,20 @@ export default function AdminPage() {
         }
     }
 
-    const handleDeleteUser = async (userId: number) => {
-        if (!confirm("هل أنت متأكد من حذف هذا المستخدم نهائياً؟ لا يمكن التراجع عن هذا الإجراء.")) return;
+    const handleDeleteClick = (user: AdminUser) => {
+        setUserToDelete(user)
+        setDeleteModalOpen(true)
+    }
+
+    const confirmDelete = async () => {
+        if (!userToDelete) return;
         try {
-            await api.delete(`/admin/users/${userId}`)
+            await api.delete(`/admin/users/${userToDelete.id}`)
             toast.success("تم حذف المستخدم بنجاح")
-            fetchUsers()
+            setDeleteModalOpen(false)
+            fetchUsers(currentPage)
         } catch (e: any) {
+            console.error(e)
             toast.error(e.response?.data?.message || "فشل حذف المستخدم")
         }
     }
@@ -89,15 +116,18 @@ export default function AdminPage() {
     const confirmBan = async () => {
         if (!selectedUser) return;
         try {
-            await api.post(`/admin/users/${selectedUser.id}/ban`, {
-                type: banType,
-                days: banType === 'temporary' ? banDays : null
-            })
+            const payload: any = { type: banType };
+            if (banType === 'temporary') {
+                payload.days = banDays;
+            }
+
+            await api.post(`/admin/users/${selectedUser.id}/ban`, payload)
             toast.success("تم حظر المستخدم بنجاح")
             setBanModalOpen(false)
-            fetchUsers() // Refresh list
-        } catch (e) {
-            toast.error("فشل حظر المستخدم")
+            fetchUsers(currentPage) // Refresh list, keeping current page
+        } catch (e: any) {
+            console.error(e);
+            toast.error(e.response?.data?.message || "فشل حظر المستخدم")
         }
     }
 
@@ -155,7 +185,7 @@ export default function AdminPage() {
                                                     <img src={u.avatar} className="w-8 h-8 rounded-full object-cover border border-white shadow-sm" />
                                                 ) : (
                                                     <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-xs font-bold">
-                                                        {u.name ? u.name.charAt(0) : "?"}
+                                                        {u.name ? u.name.charAt(0) : "U"}
                                                     </div>
                                                 )}
                                                 <span className="font-medium">{u.name || "مستخدم غير معروف"}</span>
@@ -206,7 +236,7 @@ export default function AdminPage() {
                                                         <Trash2 className="w-4 h-4 text-orange-500" />
                                                     </Button>
                                                 )}
-                                                <Button variant="outline" size="sm" onClick={() => handleDeleteUser(u.id)} title="حذف المستخدم">
+                                                <Button variant="outline" size="sm" onClick={() => handleDeleteClick(u)} title="حذف المستخدم">
                                                     <Trash2 className="w-4 h-4 text-red-600" />
                                                 </Button>
                                             </div>
@@ -215,6 +245,81 @@ export default function AdminPage() {
                                 ))}
                             </TableBody>
                         </Table>
+                    </div>
+
+                    {/* Pagination Controls */}
+                    <div className="flex items-center justify-between mt-4">
+                        <div className="text-sm text-muted-foreground">
+                            إجمالي المستخدمين: {totalUsers}
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => handlePageChange(1)}
+                                disabled={currentPage === 1 || isLoading}
+                                title="الصفحة الأولى"
+                            >
+                                الأول
+                            </Button>
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => handlePageChange(currentPage - 1)}
+                                disabled={currentPage === 1 || isLoading}
+                            >
+                                السابق
+                            </Button>
+
+                            <div className="flex items-center gap-1 mx-2">
+                                {(() => {
+                                    const maxButtons = 10;
+                                    let startPage = Math.max(1, currentPage - Math.floor(maxButtons / 2));
+                                    let endPage = startPage + maxButtons - 1;
+
+                                    if (endPage > lastPage) {
+                                        endPage = lastPage;
+                                        startPage = Math.max(1, endPage - maxButtons + 1);
+                                    }
+
+                                    const pages = [];
+                                    for (let i = startPage; i <= endPage; i++) {
+                                        pages.push(i);
+                                    }
+
+                                    return pages.map(pageNum => (
+                                        <Button
+                                            key={pageNum}
+                                            variant={pageNum === currentPage ? "default" : "outline"}
+                                            size="sm"
+                                            className={`w-9 h-9 p-0 ${pageNum === currentPage ? "bg-blue-600 hover:bg-blue-700 text-white shadow-md pointer-events-none" : "text-slate-600"}`}
+                                            onClick={() => handlePageChange(pageNum)}
+                                            disabled={isLoading}
+                                        >
+                                            {pageNum}
+                                        </Button>
+                                    ));
+                                })()}
+                            </div>
+
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => handlePageChange(currentPage + 1)}
+                                disabled={currentPage === lastPage || isLoading}
+                            >
+                                التالي
+                            </Button>
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => handlePageChange(lastPage)}
+                                disabled={currentPage === lastPage || isLoading}
+                                title="الصفحة الأخيرة"
+                            >
+                                الأخير
+                            </Button>
+                        </div>
                     </div>
                 </CardContent>
             </Card>
@@ -252,6 +357,39 @@ export default function AdminPage() {
                         <DialogFooter className="flex gap-2 justify-end">
                             <Button variant="outline" onClick={() => setBanModalOpen(false)}>إلغاء</Button>
                             <Button variant="destructive" onClick={confirmBan}>تأكيد الحظر</Button>
+                        </DialogFooter>
+                    </div>
+                </div>
+            </Dialog>
+
+            {/* Delete Confirmation Modal */}
+            <Dialog open={deleteModalOpen} onOpenChange={setDeleteModalOpen}>
+                <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-50"></div>
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+                    <div className="bg-white rounded-xl shadow-2xl w-full max-w-md p-6 animate-in zoom-in-95 duration-200 border-2 border-red-100">
+                        <DialogHeader>
+                            <DialogTitle className="text-xl font-bold text-red-600 flex items-center gap-2">
+                                <Trash2 className="w-5 h-5" />
+                                حذف المستخدم نهائياً
+                            </DialogTitle>
+                        </DialogHeader>
+                        <div className="py-6 space-y-4">
+                            <div className="p-4 bg-red-50 rounded-lg text-red-800 text-sm leading-relaxed border border-red-100">
+                                <p className="font-bold mb-1">تحذير:</p>
+                                <p>أنت على وشك حذف حساب <strong>{userToDelete?.name}</strong>.</p>
+                                <p className="mt-2">هذا الإجراء <strong>مستحيل التراجع عنه</strong> وسيؤدي إلى:</p>
+                                <ul className="list-disc list-inside mt-1 space-y-1 opacity-90">
+                                    <li>حذف جميع بيانات المستخدم الشخصية.</li>
+                                    <li>إزالة ارتباطه بأي سجلات في النظام.</li>
+                                    <li>فقدان الوصول للحساب بشكل دائم.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <DialogFooter className="flex gap-2 justify-end">
+                            <Button variant="outline" onClick={() => setDeleteModalOpen(false)}>تراجع</Button>
+                            <Button variant="destructive" onClick={confirmDelete} className="bg-red-600 hover:bg-red-700">
+                                نعم، احذف المستخدم
+                            </Button>
                         </DialogFooter>
                     </div>
                 </div>

@@ -15,11 +15,11 @@ import {
     Card,
     CardContent,
     CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-import { Mail, KeyRound } from "lucide-react"
+import { Mail } from "lucide-react"
+import { OtpInput } from "@/components/ui/otp-input"
 
 const verifySchema = z.object({
     email: z.string().email(),
@@ -66,7 +66,7 @@ export function VerifyOtpForm() {
                 login(response.user, response.token)
                 toast.success("تم تفعيل الحساب بنجاح! حياك الله.")
                 localStorage.removeItem('verification_email')
-                router.push("/profile") // Redirect to dashboard/profile
+                router.push("/dashboard")
             }
         } catch (error: any) {
             if (error.response?.data?.errors) {
@@ -93,13 +93,13 @@ export function VerifyOtpForm() {
     }
 
     return (
-        <Card className="w-full border-0 shadow-xl bg-white/80 backdrop-blur-md ring-1 ring-white/50">
-            <CardHeader className="text-center">
-                <CardTitle className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+        <Card className="w-full border-0 shadow-2xl bg-white/80 backdrop-blur-xl ring-1 ring-white/60">
+            <CardHeader className="text-center pb-2">
+                <CardTitle className="text-3xl font-bold bg-gradient-to-r from-blue-700 to-indigo-700 bg-clip-text text-transparent">
                     تفعيل الحساب
                 </CardTitle>
-                <CardDescription className="text-lg">
-                    وصلك كود على الإيميل، اكتبه هنا عشان نتأكد
+                <CardDescription className="text-base text-slate-600 mt-2">
+                    لقد أرسلنا رمز التحقق إلى بريدك الإلكتروني
                 </CardDescription>
             </CardHeader>
             <CardContent>
@@ -115,15 +115,18 @@ export function VerifyOtpForm() {
                         />
                     </div>
                     <div className="space-y-2">
-                        <Label htmlFor="otp">كود التفعيل</Label>
-                        <Input
-                            id="otp"
-                            placeholder="123456"
-                            className="text-center text-lg tracking-widest"
-                            startIcon={<KeyRound className="h-4 w-4" />}
-                            {...form.register("otp")}
-                            error={form.formState.errors.otp?.message}
-                        />
+                        <Label>كود التفعيل</Label>
+                        <div className="flex justify-center py-2">
+                            <OtpInput
+                                value={form.watch('otp')}
+                                onChange={(val) => form.setValue('otp', val)}
+                            />
+                        </div>
+                        {form.formState.errors.otp && (
+                            <p className="text-sm font-medium text-destructive text-center">
+                                {form.formState.errors.otp.message}
+                            </p>
+                        )}
                     </div>
                     <Button type="submit" className="w-full text-lg h-12 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg hover:shadow-blue-500/25" isLoading={isLoading}>
                         تفعيل

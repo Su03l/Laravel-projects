@@ -49,12 +49,12 @@ export function ForgotPasswordForm() {
     }
 
     return (
-        <Card className="w-full border-0 shadow-xl bg-white/80 backdrop-blur-md ring-1 ring-white/50">
-            <CardHeader className="text-center">
-                <CardTitle className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+        <Card className="w-full border-0 shadow-2xl bg-white/80 backdrop-blur-xl ring-1 ring-white/60">
+            <CardHeader className="text-center pb-2">
+                <CardTitle className="text-3xl font-bold bg-gradient-to-r from-blue-700 to-indigo-700 bg-clip-text text-transparent">
                     نسيت الباسورد؟
                 </CardTitle>
-                <CardDescription className="text-lg">
+                <CardDescription className="text-base text-slate-600 mt-2">
                     ولا يهمك، اكتب إيميلك وبنرسل لك كود الاستعادة
                 </CardDescription>
             </CardHeader>
