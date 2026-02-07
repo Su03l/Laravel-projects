@@ -19,9 +19,10 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import Link from "next/link"
+import { Mail } from "lucide-react"
 
 const schema = z.object({
-    email: z.string().email(),
+    email: z.string().email("البريد الإلكتروني غير صحيح"),
 })
 
 export function ForgotPasswordForm() {
@@ -37,36 +38,47 @@ export function ForgotPasswordForm() {
         setIsLoading(true)
         try {
             await passwordService.forgotPassword(data.email)
-            toast.success("Reset code sent to your email")
+            toast.success("تم إرسال كود الاستعادة على إيميلك")
             // Pass email to reset page
             router.push(`/reset-password?email=${encodeURIComponent(data.email)}`)
         } catch (e) {
-            //
+            toast.error("حدث خطأ، تأكد من الإيميل وحاول مرة ثانية")
         } finally {
             setIsLoading(false)
         }
     }
 
     return (
-        <Card className="w-full">
-            <CardHeader>
-                <CardTitle>Forgot Password</CardTitle>
-                <CardDescription>Enter your email to receive a reset code.</CardDescription>
+        <Card className="w-full border-0 shadow-xl bg-white/80 backdrop-blur-md ring-1 ring-white/50">
+            <CardHeader className="text-center">
+                <CardTitle className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                    نسيت الباسورد؟
+                </CardTitle>
+                <CardDescription className="text-lg">
+                    ولا يهمك، اكتب إيميلك وبنرسل لك كود الاستعادة
+                </CardDescription>
             </CardHeader>
             <CardContent>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                     <div className="space-y-2">
-                        <Label htmlFor="email">Email</Label>
-                        <Input id="email" type="email" {...form.register("email")} error={form.formState.errors.email?.message} />
+                        <Label htmlFor="email">البريد الإلكتروني</Label>
+                        <Input
+                            id="email"
+                            type="email"
+                            placeholder="name@example.com"
+                            startIcon={<Mail className="h-4 w-4" />}
+                            {...form.register("email")}
+                            error={form.formState.errors.email?.message}
+                        />
                     </div>
-                    <Button type="submit" className="w-full" isLoading={isLoading}>
-                        Send Reset Code
+                    <Button type="submit" className="w-full text-lg h-12 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg hover:shadow-blue-500/25" isLoading={isLoading}>
+                        إرسال الكود
                     </Button>
                 </form>
             </CardContent>
             <CardFooter className="justify-center">
-                <Link href="/login" className="text-sm text-primary hover:underline">
-                    Back to Login
+                <Link href="/login" className="text-sm font-medium text-blue-600 hover:underline">
+                    رجوع لتسجيل الدخول
                 </Link>
             </CardFooter>
         </Card>
