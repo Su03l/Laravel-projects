@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 class ProfileController extends Controller
 {
 
+    // show profile function
     public function show(Request $request)
     {
         // مجرد إرجاع المستخدم الحالي مغلفاً بالريسروس
