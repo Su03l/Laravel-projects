@@ -16,7 +16,7 @@ export const authService = {
         return response.data;
     },
 
-    async verifyLoginOtp(data: { email: string; otp: string }): Promise<LoginResponse> {
+    async verifyLoginOtp(data: { email: string; otp_code: string }): Promise<LoginResponse> {
         const response = await api.post<LoginResponse>('/auth/login/verify', data);
         return response.data;
     },

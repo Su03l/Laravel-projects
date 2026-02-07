@@ -28,7 +28,7 @@ const loginSchema = z.object({
 })
 
 const verifySchema = z.object({
-    otp: z.string().min(6, { message: "OTP must be 6 digits" }),
+    otp_code: z.string().min(6, { message: "OTP must be 6 digits" }),
 })
 
 export function LoginForm() {
@@ -50,7 +50,7 @@ export function LoginForm() {
     const verifyForm = useForm<z.infer<typeof verifySchema>>({
         resolver: zodResolver(verifySchema),
         defaultValues: {
-            otp: "",
+            otp_code: "",
         },
     })
 
@@ -81,7 +81,7 @@ export function LoginForm() {
         try {
             const response = await authService.verifyLoginOtp({
                 email: emailFor2FA,
-                otp: data.otp,
+                otp_code: data.otp_code,
             })
 
             if (response.token && response.user) {
@@ -106,12 +106,12 @@ export function LoginForm() {
                 <CardContent>
                     <form onSubmit={verifyForm.handleSubmit(onVerifySubmit)} className="space-y-4">
                         <div className="space-y-2">
-                            <Label htmlFor="otp">OTP Code</Label>
+                            <Label htmlFor="otp_code">OTP Code</Label>
                             <Input
-                                id="otp"
+                                id="otp_code"
                                 placeholder="123456"
-                                {...verifyForm.register("otp")}
-                                error={verifyForm.formState.errors.otp?.message}
+                                {...verifyForm.register("otp_code")}
+                                error={verifyForm.formState.errors.otp_code?.message}
                             />
                         </div>
                         <Button type="submit" className="w-full" isLoading={isLoading}>
