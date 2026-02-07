@@ -22,7 +22,7 @@ class User extends Authenticatable
         'status',
         'otp_code',
         'otp_verified_at',
-        'two_factor_enabled', // 👈 الجديد
+        'two_factor_enabled', 
         'banned_until',
         'avatar',
         'otp_expires_at'
