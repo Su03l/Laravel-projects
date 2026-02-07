@@ -19,10 +19,11 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
+import { Mail, KeyRound } from "lucide-react"
 
 const verifySchema = z.object({
     email: z.string().email(),
-    otp: z.string().min(6, "OTP must be 6 digits"),
+    otp: z.string().min(6, "الكود لازم يكون 6 أرقام"),
 })
 
 export function VerifyOtpForm() {
@@ -63,7 +64,7 @@ export function VerifyOtpForm() {
             })
             if (response.token && response.user) {
                 login(response.user, response.token)
-                toast.success("Account verified successfully!")
+                toast.success("تم تفعيل الحساب بنجاح! حياك الله.")
                 localStorage.removeItem('verification_email')
                 router.push("/profile") // Redirect to dashboard/profile
             }
@@ -71,6 +72,7 @@ export function VerifyOtpForm() {
             if (error.response?.data?.errors) {
                 // handle validation errors
             }
+            toast.error("الكود غلط أو انتهى وقته")
         } finally {
             setIsLoading(false)
         }
@@ -79,49 +81,58 @@ export function VerifyOtpForm() {
     async function onResend() {
         const email = form.getValues('email');
         if (!email) {
-            toast.error("Please enter email to resend OTP");
+            toast.error("اكتب الإيميل عشان نرسل لك الكود مرة ثانية");
             return;
         }
         try {
             await authService.resendOtp(email);
-            toast.success("OTP Code Resent");
+            toast.success("تم إعادة إرسال الكود");
         } catch (e) {
             // error handled by api
         }
     }
 
     return (
-        <Card className="w-full">
-            <CardHeader>
-                <CardTitle>Verify Account</CardTitle>
-                <CardDescription>Enter the code sent to your email.</CardDescription>
+        <Card className="w-full border-0 shadow-xl bg-white/80 backdrop-blur-md ring-1 ring-white/50">
+            <CardHeader className="text-center">
+                <CardTitle className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                    تفعيل الحساب
+                </CardTitle>
+                <CardDescription className="text-lg">
+                    وصلك كود على الإيميل، اكتبه هنا عشان نتأكد
+                </CardDescription>
             </CardHeader>
             <CardContent>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                     <div className="space-y-2">
-                        <Label htmlFor="email">Email</Label>
+                        <Label htmlFor="email">البريد الإلكتروني</Label>
                         <Input
                             id="email"
                             type="email"
+                            startIcon={<Mail className="h-4 w-4" />}
                             {...form.register("email")}
                             error={form.formState.errors.email?.message}
                         />
                     </div>
                     <div className="space-y-2">
-                        <Label htmlFor="otp">OTP Code</Label>
+                        <Label htmlFor="otp">كود التفعيل</Label>
                         <Input
                             id="otp"
                             placeholder="123456"
+                            className="text-center text-lg tracking-widest"
+                            startIcon={<KeyRound className="h-4 w-4" />}
                             {...form.register("otp")}
                             error={form.formState.errors.otp?.message}
                         />
                     </div>
-                    <Button type="submit" className="w-full" isLoading={isLoading}>
-                        Verify
+                    <Button type="submit" className="w-full text-lg h-12 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg hover:shadow-blue-500/25" isLoading={isLoading}>
+                        تفعيل
                     </Button>
                 </form>
-                <div className="mt-4 text-center">
-                    <Button variant="link" onClick={onResend} type="button">Resend Code</Button>
+                <div className="mt-6 text-center">
+                    <Button variant="link" onClick={onResend} type="button" className="text-sm text-muted-foreground hover:text-blue-600">
+                        ما وصلك الكود؟ أعد الإرسال
+                    </Button>
                 </div>
             </CardContent>
         </Card>
