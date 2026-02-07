@@ -34,5 +34,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/users', [AdminDashboardController::class, 'storeUser']); // إضافة مستخدم جديد
         Route::post('/users/{user}/ban', [AdminDashboardController::class, 'banUser']); // حظر مستخدم
         Route::delete('/users/{user}/avatar', [AdminDashboardController::class, 'removeAvatar']); // حذف صورة مستخدم مخالفة
+        Route::post('/users/{user}/role', [AdminDashboardController::class, 'changeRole']); // تغيير صلاحية المستخدم
     });
 });

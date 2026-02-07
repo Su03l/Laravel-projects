@@ -21,6 +21,14 @@ import { Dialog, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui
 import { Label } from "@/components/ui/label"
 import { Loader2, Trash2, Ban, CheckCircle, Shield, Plus } from "lucide-react"
 
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
+
 export default function AdminPage() {
     const { user } = useAuthStore()
     const router = useRouter()
@@ -49,6 +57,16 @@ export default function AdminPage() {
             toast.error("فشل في جلب قائمة المستخدمين")
         } finally {
             setIsLoading(false)
+        }
+    }
+
+    const handleRoleChange = async (userId: number, newRole: string) => {
+        try {
+            await api.post(`/admin/users/${userId}/role`, { role: newRole })
+            toast.success("تم تحديث الصلاحية بنجاح")
+            fetchUsers()
+        } catch (e: any) {
+            toast.error(e.response?.data?.message || "فشل تحديث الصلاحية")
         }
     }
 
@@ -134,9 +152,25 @@ export default function AdminPage() {
                                         </TableCell>
                                         <TableCell className="font-mono text-sm">{u.email}</TableCell>
                                         <TableCell>
-                                            <span className={`inline-flex items-center px-2 py-1 rounded-md text-xs font-medium ${u.role === 'admin' ? 'bg-purple-100 text-purple-700' : 'bg-slate-100 text-slate-700'}`}>
-                                                {u.role === 'admin' ? 'مسؤول' : 'مستخدم'}
-                                            </span>
+                                            {u.id !== user?.id ? (
+                                                <Select
+                                                    defaultValue={u.role}
+                                                    onValueChange={(val) => handleRoleChange(u.id, val)}
+                                                >
+                                                    <SelectTrigger className="w-[110px] h-8 text-xs">
+                                                        <SelectValue />
+                                                    </SelectTrigger>
+                                                    <SelectContent>
+                                                        <SelectItem value="user">مستخدم</SelectItem>
+                                                        <SelectItem value="employee">موظف</SelectItem>
+                                                        <SelectItem value="admin">مسؤول</SelectItem>
+                                                    </SelectContent>
+                                                </Select>
+                                            ) : (
+                                                <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-purple-100 text-purple-700">
+                                                    مسؤول
+                                                </span>
+                                            )}
                                         </TableCell>
                                         <TableCell>
                                             {u.is_banned ? (

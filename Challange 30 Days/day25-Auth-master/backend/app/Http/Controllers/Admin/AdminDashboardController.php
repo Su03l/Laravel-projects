@@ -59,12 +59,32 @@ class AdminDashboardController extends Controller
         ]);
     }
 
-// حذف صورة مسيئة
+    // حذف صورة مسيئة
     public function removeAvatar(User $user, AdminRemoveAvatarAction $action)
     {
         $action->execute($user);
         return response()->json([
             'message' => 'تم حذف صورة المستخدم المخالفة'
+        ]);
+    }
+
+    // تغيير صلاحية المستخدم (Role)
+    public function changeRole(Request $request, User $user)
+    {
+        $request->validate([
+            'role' => 'required|in:admin,user,employee'
+        ]);
+
+        // نمنع الأدمن من تغيير رول نفسه بالغلط
+        if ($user->id === auth()->id()) {
+            return response()->json(['message' => 'لا يمكنك تغيير صلاحياتك بنفسك.'], 403);
+        }
+
+        $user->update(['role' => $request->role]);
+
+        return response()->json([
+            'message' => 'تم تحديث صلاحية المستخدم بنجاح',
+            'user' => new AdminUserResource($user)
         ]);
     }
 }
