@@ -126,10 +126,10 @@ export default function AdminPage() {
                                                     <img src={u.avatar} className="w-8 h-8 rounded-full object-cover border border-white shadow-sm" />
                                                 ) : (
                                                     <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-xs font-bold">
-                                                        {u.name.charAt(0)}
+                                                        {u.name ? u.name.charAt(0) : "?"}
                                                     </div>
                                                 )}
-                                                <span className="font-medium">{u.name}</span>
+                                                <span className="font-medium">{u.name || "مستخدم غير معروف"}</span>
                                             </div>
                                         </TableCell>
                                         <TableCell className="font-mono text-sm">{u.email}</TableCell>
