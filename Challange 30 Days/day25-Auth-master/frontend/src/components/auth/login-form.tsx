@@ -66,7 +66,7 @@ export function LoginForm() {
             } else if (response.token && response.user) {
                 login(response.user, response.token)
                 toast.success("تم تسجيل الدخول بنجاح")
-                router.push("/profile")
+                router.push("/dashboard")
             }
         } catch (error: any) {
             console.error(error)
