@@ -61,6 +61,7 @@ class Room extends Model
         return $this->hasMany(Review::class);
     }
 
+    // accessor for average rating
     public function getAverageRatingAttribute(): float
     {
         return round($this->reviews()->avg('rating') ?? 0, 1);
