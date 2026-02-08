@@ -38,6 +38,7 @@ class Booking extends Model
         return $this->belongsTo(Room::class);
     }
 
+    // relationship between booking and user
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
