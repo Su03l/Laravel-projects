@@ -12,6 +12,7 @@ class RoomImage extends Model
 
     protected $fillable = ['room_id', 'image_path', 'is_featured'];
 
+    // relationship between room image and room
     public function room(): BelongsTo
     {
         return $this->belongsTo(Room::class);
