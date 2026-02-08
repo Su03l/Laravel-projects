@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Log;
 
 class OtpService
 {
+    // generate and send otp to the user
     public function generateAndSend(User $user, string $type = 'verification'): void
     {
         $code = (string) rand(1000, 9999);
