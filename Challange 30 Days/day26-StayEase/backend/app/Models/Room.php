@@ -37,6 +37,7 @@ class Room extends Model
         ];
     }
 
+    // relationship between room and amenity
     public function amenities(): BelongsToMany
     {
         return $this->belongsToMany(Amenity::class, 'amenity_room');
