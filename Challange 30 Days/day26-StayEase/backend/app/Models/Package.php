@@ -26,6 +26,7 @@ class Package extends Model
         ];
     }
 
+    // relationship between package and booking
     public function bookings(): HasMany
     {
         return $this->hasMany(Booking::class);
