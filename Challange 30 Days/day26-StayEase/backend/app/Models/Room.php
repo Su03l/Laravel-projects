@@ -37,31 +37,26 @@ class Room extends Model
         ];
     }
 
-    // relationship between room and amenity
     public function amenities(): BelongsToMany
     {
         return $this->belongsToMany(Amenity::class, 'amenity_room');
     }
 
-    // relationship between room and booking
     public function bookings(): HasMany
     {
         return $this->hasMany(Booking::class);
     }
 
-    // relationship between room and room image
     public function images(): HasMany
     {
         return $this->hasMany(RoomImage::class);
     }
 
-    // relationship between room and review
     public function reviews(): HasMany
     {
         return $this->hasMany(Review::class);
     }
 
-    // accessor for average rating
     public function getAverageRatingAttribute(): float
     {
         return round($this->reviews()->avg('rating') ?? 0, 1);

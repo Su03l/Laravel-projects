@@ -12,7 +12,6 @@ class Service extends Model
 
     protected $fillable = ['name', 'price', 'category', 'image'];
 
-    // relationship between service and booking
     public function bookings(): BelongsToMany
     {
         return $this->belongsToMany(Booking::class, 'booking_service')

@@ -34,7 +34,6 @@ class User extends Authenticatable
         'otp_code',
     ];
 
-    // cast attributes to appropriate types
     protected function casts(): array
     {
         return [
@@ -47,13 +46,11 @@ class User extends Authenticatable
         ];
     }
 
-    // relationship between user and booking
     public function bookings(): HasMany
     {
         return $this->hasMany(Booking::class);
     }
 
-    // relationship between user and room (favorites)
     public function favorites(): BelongsToMany
     {
         return $this->belongsToMany(Room::class, 'favorites');

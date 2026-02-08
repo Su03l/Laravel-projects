@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Log;
 
 class OtpService
 {
-    // generate and send otp to the user
     public function generateAndSend(User $user, string $type = 'verification'): void
     {
         $code = (string) rand(1000, 9999);
@@ -26,13 +25,13 @@ class OtpService
 
         // Send the appropriate email
         if ($type === 'verification') {
-            Mail::to($user->email)->send(new UserVerificationMail($code));
+            Mail::to($user->email)->send(new UserVerificationMail($user, $code));
         }
         elseif ($type === '2fa') {
-            Mail::to($user->email)->send(new TwoFactorLoginMail($code));
+            Mail::to($user->email)->send(new TwoFactorLoginMail($user, $code));
         }
         elseif ($type === 'reset_password') {
-            Mail::to($user->email)->send(new ResetPasswordMail($code));
+            Mail::to($user->email)->send(new ResetPasswordMail($user, $code));
         }
     }
 

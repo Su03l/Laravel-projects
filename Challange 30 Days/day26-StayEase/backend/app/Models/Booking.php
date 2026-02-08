@@ -32,28 +32,24 @@ class Booking extends Model
         ];
     }
 
-    // relationship between booking and room
     public function room(): BelongsTo
     {
         return $this->belongsTo(Room::class);
     }
 
-    // relationship between booking and user
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    // relationship between booking and package
     public function package(): BelongsTo
     {
         return $this->belongsTo(Package::class);
     }
 
-    // relationship between booking and service
     public function services(): BelongsToMany
     {
         return $this->belongsToMany(Service::class, 'booking_service')
-            ->withPivot('quantity', 'price_at_order', 'status', 'created_at');
+                    ->withPivot('quantity', 'price_at_order', 'status', 'created_at');
     }
 }

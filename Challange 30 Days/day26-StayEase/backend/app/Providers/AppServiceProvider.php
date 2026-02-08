@@ -9,13 +9,17 @@ use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
+    /**
+     * Register any application services.
+     */
     public function register(): void
     {
         //
     }
 
-  
-    // add bearer token to the open api documentation
+    /**
+     * Bootstrap any application services.
+     */
     public function boot(): void
     {
         Scramble::afterOpenApiGenerated(function (OpenApi $openApi) {
