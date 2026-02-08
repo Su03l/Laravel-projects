@@ -10,6 +10,7 @@ use Carbon\Carbon;
 
 class DashboardService
 {
+    // get stats for the dashboard
     public function getStats(): array
     {
         $revenue = Booking::whereIn('status', [BookingStatus::CONFIRMED, BookingStatus::COMPLETED])
