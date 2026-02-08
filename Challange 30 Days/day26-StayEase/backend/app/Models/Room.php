@@ -55,6 +55,7 @@ class Room extends Model
         return $this->hasMany(RoomImage::class);
     }
 
+    // relationship between room and review
     public function reviews(): HasMany
     {
         return $this->hasMany(Review::class);
