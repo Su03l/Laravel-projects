@@ -44,6 +44,7 @@ class Booking extends Model
         return $this->belongsTo(User::class);
     }
 
+    // relationship between booking and package
     public function package(): BelongsTo
     {
         return $this->belongsTo(Package::class);
