@@ -34,6 +34,7 @@ class User extends Authenticatable
         'otp_code',
     ];
 
+    // cast attributes to appropriate types
     protected function casts(): array
     {
         return [
