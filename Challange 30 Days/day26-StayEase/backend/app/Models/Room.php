@@ -49,6 +49,7 @@ class Room extends Model
         return $this->hasMany(Booking::class);
     }
 
+    // relationship between room and room image
     public function images(): HasMany
     {
         return $this->hasMany(RoomImage::class);
