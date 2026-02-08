@@ -24,6 +24,7 @@ class Review extends Model
         return $this->belongsTo(Room::class);
     }
 
+    // relationship between review and booking
     public function booking(): BelongsTo
     {
         return $this->belongsTo(Booking::class);
