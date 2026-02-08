@@ -43,6 +43,7 @@ class Room extends Model
         return $this->belongsToMany(Amenity::class, 'amenity_room');
     }
 
+    // relationship between room and booking
     public function bookings(): HasMany
     {
         return $this->hasMany(Booking::class);
