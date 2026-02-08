@@ -50,9 +50,10 @@ class Booking extends Model
         return $this->belongsTo(Package::class);
     }
 
+    // relationship between booking and service
     public function services(): BelongsToMany
     {
         return $this->belongsToMany(Service::class, 'booking_service')
-                    ->withPivot('quantity', 'price_at_order', 'status', 'created_at');
+            ->withPivot('quantity', 'price_at_order', 'status', 'created_at');
     }
 }
