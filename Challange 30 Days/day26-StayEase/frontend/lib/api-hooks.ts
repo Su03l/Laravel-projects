@@ -7,7 +7,6 @@ import type {
     SearchFilters, BookingFormData, DashboardStats, PaginatedResponse
 } from './types';
 
-// ============ ROOMS ============
 export function useRooms(filters?: SearchFilters) {
     return useQuery({
         queryKey: ['rooms', filters],
