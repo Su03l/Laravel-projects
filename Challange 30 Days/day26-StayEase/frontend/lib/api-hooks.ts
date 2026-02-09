@@ -179,7 +179,6 @@ export function useOrderService() {
     });
 }
 
-// ============ PROFILE ============
 export function useProfile() {
     return useQuery({
         queryKey: ['profile'],
