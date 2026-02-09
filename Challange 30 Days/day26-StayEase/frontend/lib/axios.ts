@@ -24,7 +24,6 @@ api.interceptors.response.use(
     (response) => {
         if (typeof response.data === 'string') {
             try {
-                // Find the start of the JSON object or array
                 const jsonStartIndex = response.data.search(/[{\[]/);
                 if (jsonStartIndex !== -1) {
                     const jsonString = response.data.substring(jsonStartIndex);
