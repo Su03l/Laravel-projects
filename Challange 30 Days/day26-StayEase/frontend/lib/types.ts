@@ -1,3 +1,4 @@
+// ============ ENUMS ============
 export type RoomType = 'standard' | 'double' | 'suite' | 'royal_suite' | 'honeymoon';
 export type RoomView = 'city' | 'sea' | 'pool' | 'garden';
 export type RoomStatus = 'available' | 'occupied' | 'maintenance' | 'disabled';
@@ -6,6 +7,7 @@ export type UserRole = 'admin' | 'customer';
 export type UserStatus = 'pending' | 'active' | 'suspended';
 export type PackageType = 'basic' | 'half_board' | 'royal';
 
+// ============ MODELS ============
 export interface User {
     id: number;
     name: string;
@@ -110,6 +112,7 @@ export interface ServiceOrder {
     service?: Service;
 }
 
+// ============ API RESPONSES ============
 export interface ApiResponse<T> {
     message?: string;
     data?: T;
@@ -149,6 +152,7 @@ export interface DashboardStats {
     monthly_revenue: { month: string; revenue: number }[];
 }
 
+// ============ FORM TYPES ============
 export interface LoginFormData {
     email: string;
     password: string;
