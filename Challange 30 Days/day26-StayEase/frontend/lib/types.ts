@@ -1,4 +1,3 @@
-// ============ ENUMS ============
 export type RoomType = 'standard' | 'double' | 'suite' | 'royal_suite' | 'honeymoon';
 export type RoomView = 'city' | 'sea' | 'pool' | 'garden';
 export type RoomStatus = 'available' | 'occupied' | 'maintenance' | 'disabled';
