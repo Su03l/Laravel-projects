@@ -149,7 +149,6 @@ export interface DashboardStats {
     monthly_revenue: { month: string; revenue: number }[];
 }
 
-// ============ FORM TYPES ============
 export interface LoginFormData {
     email: string;
     password: string;
