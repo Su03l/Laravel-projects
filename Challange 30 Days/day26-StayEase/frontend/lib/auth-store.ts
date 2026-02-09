@@ -11,6 +11,7 @@ interface AuthState {
     requires2FA: boolean;
     pendingEmail: string | null;
 
+    // Actions
     setUser: (user: User | null) => void;
     setToken: (token: string | null) => void;
     fetchUser: () => Promise<void>;
@@ -117,6 +118,7 @@ export const useAuthStore = create<AuthState>()(
                 try {
                     await api.post('/auth/logout');
                 } catch {
+                    // Ignore errors on logout
                 } finally {
                     localStorage.removeItem('auth_token');
                     set({ user: null, token: null, isAuthenticated: false });
