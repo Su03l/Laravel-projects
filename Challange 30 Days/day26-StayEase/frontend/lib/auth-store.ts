@@ -11,7 +11,6 @@ interface AuthState {
     requires2FA: boolean;
     pendingEmail: string | null;
 
-    // Actions
     setUser: (user: User | null) => void;
     setToken: (token: string | null) => void;
     fetchUser: () => Promise<void>;
