@@ -9,6 +9,7 @@ const api = axios.create({
     },
 });
 
+// Request interceptor to add token
 api.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem('auth_token');
@@ -20,10 +21,13 @@ api.interceptors.request.use(
     (error) => Promise.reject(error)
 );
 
+// Response interceptor to handle 401 and malformed JSON
 api.interceptors.response.use(
     (response) => {
+        // Handle malformed JSON response (e.g. starts with "2{" or similar artifacts)
         if (typeof response.data === 'string') {
             try {
+                // Find the start of the JSON object or array
                 const jsonStartIndex = response.data.search(/[{\[]/);
                 if (jsonStartIndex !== -1) {
                     const jsonString = response.data.substring(jsonStartIndex);
@@ -46,6 +50,7 @@ api.interceptors.response.use(
     }
 );
 
+// Helper to get CSRF cookie before auth requests
 export const getCsrfToken = async () => {
     await axios.get('http://localhost:8000/sanctum/csrf-cookie', {
         withCredentials: true,
