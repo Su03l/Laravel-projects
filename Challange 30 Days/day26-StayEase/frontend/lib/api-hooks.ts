@@ -7,6 +7,7 @@ import type {
     SearchFilters, BookingFormData, DashboardStats, PaginatedResponse
 } from './types';
 
+// ============ ROOMS ============
 export function useRooms(filters?: SearchFilters) {
     return useQuery({
         queryKey: ['rooms', filters],
@@ -48,6 +49,7 @@ export function useRoomReviews(roomId: number | string) {
     });
 }
 
+// ============ PACKAGES & AMENITIES ============
 export function usePackages() {
     return useQuery({
         queryKey: ['packages'],
@@ -68,6 +70,7 @@ export function useAmenities() {
     });
 }
 
+// ============ BOOKINGS ============
 export function useMyBookings() {
     return useQuery({
         queryKey: ['my-bookings'],
@@ -106,6 +109,7 @@ export function useCancelBooking() {
     });
 }
 
+// ============ FAVORITES ============
 export function useFavorites() {
     return useQuery({
         queryKey: ['favorites'],
@@ -130,6 +134,7 @@ export function useToggleFavorite() {
     });
 }
 
+// ============ REVIEWS ============
 export function useCreateReview() {
     const queryClient = useQueryClient();
 
@@ -144,6 +149,7 @@ export function useCreateReview() {
     });
 }
 
+// ============ ROOM SERVICES ============
 export function useServiceMenu() {
     return useQuery({
         queryKey: ['service-menu'],
@@ -179,6 +185,7 @@ export function useOrderService() {
     });
 }
 
+// ============ PROFILE ============
 export function useProfile() {
     return useQuery({
         queryKey: ['profile'],
@@ -238,6 +245,7 @@ export function useToggle2FA() {
     });
 }
 
+// ============ GENERAL ============
 export function useContact() {
     return useMutation({
         mutationFn: async (data: { name: string; email: string; subject: string; message: string }) => {
@@ -247,6 +255,7 @@ export function useContact() {
     });
 }
 
+// ============ ADMIN ============
 export function useAdminDashboard() {
     return useQuery({
         queryKey: ['admin-dashboard'],
