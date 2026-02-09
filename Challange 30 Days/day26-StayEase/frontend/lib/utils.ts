@@ -108,7 +108,6 @@ export function getLocalizedAmenity(name: string): string {
         'Iron': 'مكواة',
         'Hair Dryer': 'مجفف شعر',
     };
-    // Try to match case-insensitive if exact match fails
     if (amenities[name]) return amenities[name];
 
     const lowerName = name.toLowerCase();
