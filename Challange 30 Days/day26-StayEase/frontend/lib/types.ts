@@ -110,7 +110,6 @@ export interface ServiceOrder {
     service?: Service;
 }
 
-// ============ API RESPONSES ============
 export interface ApiResponse<T> {
     message?: string;
     data?: T;
