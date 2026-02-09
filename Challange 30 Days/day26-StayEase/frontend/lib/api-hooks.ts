@@ -238,7 +238,6 @@ export function useToggle2FA() {
     });
 }
 
-// ============ GENERAL ============
 export function useContact() {
     return useMutation({
         mutationFn: async (data: { name: string; email: string; subject: string; message: string }) => {
