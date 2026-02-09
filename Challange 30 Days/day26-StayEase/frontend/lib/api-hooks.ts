@@ -106,7 +106,6 @@ export function useCancelBooking() {
     });
 }
 
-// ============ FAVORITES ============
 export function useFavorites() {
     return useQuery({
         queryKey: ['favorites'],
