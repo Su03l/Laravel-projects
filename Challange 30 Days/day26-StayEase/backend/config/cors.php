@@ -1,8 +1,8 @@
 2<?php
 
-    return [
+return [
 
-        /*
+    /*
     |--------------------------------------------------------------------------
     | Cross-Origin Resource Sharing (CORS) Configuration
     |--------------------------------------------------------------------------
@@ -15,29 +15,29 @@
     |
     */
 
-        'paths' => [
-            'api/*',
-            'sanctum/csrf-cookie',
-            'login',
-            'logout',
-            'register',
-        ],
+    'paths' => [
+        'api/*',
+        'sanctum/csrf-cookie',
+        'login',
+        'logout',
+        'register',
+    ],
 
-        'allowed_methods' => ['*'],
+    'allowed_methods' => ['*'],
 
-        'allowed_origins' => [
-            'http://localhost:3000', // رابط الفرونت إند الخاص بك
-            'http://localhost:5173', // رابط Vite الافتراضي (للاحتياط)
-        ],
+    'allowed_origins' => [
+        'http://localhost:3000', // رابط الفرونت إند الخاص بك
+        'http://localhost:5173', // رابط Vite الافتراضي (للاحتياط)
+    ],
 
-        'allowed_origins_patterns' => [],
+    'allowed_origins_patterns' => [],
 
-        'allowed_headers' => ['*'],
+    'allowed_headers' => ['*'],
 
-        'exposed_headers' => [],
+    'exposed_headers' => [],
 
-        'max_age' => 0,
+    'max_age' => 0,
 
-        'supports_credentials' => true, 
+    'supports_credentials' => true, // 👈 هذا أهم سطر
 
-    ];
+];

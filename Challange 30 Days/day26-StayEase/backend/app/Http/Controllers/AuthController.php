@@ -40,6 +40,26 @@ class AuthController extends Controller
         ]);
     }
 
+    public function resendOtp(Request $request): JsonResponse
+    {
+        $request->validate([
+            'email' => 'required|email'
+        ]);
+
+        $user = \App\Models\User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        $otpService = new \App\Services\OtpService();
+        $otpService->generateAndSend($user, 'verification');
+
+        return response()->json([
+            'message' => 'تم إرسال رمز التأكيد الجديد'
+        ]);
+    }
+
     public function login(Request $request, LoginUserAction $action): JsonResponse
     {
         $request->validate([

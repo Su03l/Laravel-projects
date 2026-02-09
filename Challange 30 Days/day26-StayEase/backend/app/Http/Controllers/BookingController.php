@@ -39,7 +39,7 @@ class BookingController extends Controller
         $request->validate([
             'room_id' => 'required|exists:rooms,id',
             'package_id' => 'required|exists:packages,id',
-            'check_in' => 'required|date|after:today',
+            'check_in' => 'required|date|after_or_equal:today',
             'check_out' => 'required|date|after:check_in',
             'notes' => 'nullable|string',
             'coupon_code' => 'nullable|exists:coupons,code',
@@ -79,9 +79,9 @@ class BookingController extends Controller
         $hoursDifference = now()->diffInHours($checkInDate, false);
 
         if ($hoursDifference < 48) {
-             return response()->json([
-                 'message' => 'عذراً، لا يمكن إلغاء الحجز قبل أقل من 48 ساعة من موعد الوصول.'
-             ], 400);
+            return response()->json([
+                'message' => 'عذراً، لا يمكن إلغاء الحجز قبل أقل من 48 ساعة من موعد الوصول.'
+            ], 400);
         }
 
         $booking->update(['status' => \App\Enums\BookingStatus::CANCELLED]);

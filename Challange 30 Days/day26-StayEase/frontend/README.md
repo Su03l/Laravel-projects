@@ -1,36 +1,100 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
 
-## Getting Started
+# StayEase
 
-First, run the development server:
+### واجهة المستخدم لنظام إدارة الفنادق الفاخر
+
+<p>
+    <a href="#"><img src="https://img.shields.io/badge/Next.js-14-000000?style=for-the-badge&logo=next.js&logoColor=white" alt="Next.js" /></a>
+    <a href="#"><img src="https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS" /></a>
+    <a href="#"><img src="https://img.shields.io/badge/TypeScript-5.0-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" /></a>
+    <a href="#"><img src="https://img.shields.io/badge/Shadcn/ui-Components-000000?style=for-the-badge&logo=shadcnui&logoColor=white" alt="Shadcn/ui" /></a>
+</p>
+
+<p>
+    <img src="public/home.png" alt="StayEase Frontend Preview" width="100%">
+</p>
+
+</div>
+
+---
+
+## نبذة عن المشروع
+
+واجهة أمامية حديثة ومتجاوبة بالكامل مبنية باستخدام Next.js 14، مصممة لتقديم تجربة مستخدم سلسة وفاخرة لحجز الغرف وإدارة الإقامة. تدعم الواجهة اللغة العربية (RTL) بشكل كامل وتوفر لوحات تحكم مخصصة للعملاء والمسؤولين.
+
+## أبرز الحلول التقنية
+
+| التحدي             | الحل في StayEase                                                         |
+| :----------------- | :----------------------------------------------------------------------- |
+| **تجربة المستخدم** | واجهة تفاعلية ولغة تصميم فاخرة تعكس هوية الفندق مع دعم كامل للغة العربية |
+| **إدارة الحالة**   | استخدام Zustand لإدارة حالة التطبيق والمصادقة بسلاسة عبر جميع الصفحات    |
+| **الأداء**         | تحميل سريع وتحسين محركات البحث (SEO) بفضل تقنيات Next.js SSR و CSR       |
+| **التجاوب**        | تصميم متجاوب تماماً يعمل بكفاءة على جميع الأجهزة والأحجام                |
+
+<br>
+
+<br>
+
+## المميزات والصفحات
+
+### 1. الصفحات العامة
+
+| الصفحة            | الوصف                                                      |
+| :---------------- | :--------------------------------------------------------- |
+| **الرئيسية**      | واجهة ترحيبية تعرض الغرف المميزة والخدمات وآراء العملاء    |
+| **البحث**         | محرك بحث متقدم لفلترة الغرف حسب التاريخ، السعر، والإطلالة  |
+| **تفاصيل الغرفة** | عرض شامل لصور الغرفة، المرافق، والتقييمات مع إمكانية الحجز |
+| **تواصل معنا**    | نموذج اتصال مباشر مع الإدارة عبر البريد الإلكتروني         |
+
+### 2. لوحة تحكم العميل
+
+| الصفحة           | الوصف                                                               |
+| :--------------- | :------------------------------------------------------------------ |
+| **نظرة عامة**    | ملخص للحجوزات النشطة وحالة الحساب                                   |
+| **حجوزاتي**      | إدارة الحجوزات الحالية والسابقة وإمكانية الإلغاء                    |
+| **الملف الشخصي** | تعديل البيانات الشخصية، تغيير كلمة المرور، وتفعيل المصادقة الثنائية |
+| **المفضلة**      | قائمة الغرف التي تم حفظها للرجوع إليها لاحقاً                       |
+
+### 3. لوحة تحكم المسؤول
+
+| الصفحة             | الوصف                                               |
+| :----------------- | :-------------------------------------------------- |
+| **الرئيسية**       | إحصائيات شاملة عن الإيرادات، الحجوزات، ونسب الإشغال |
+| **إدارة الغرف**    | التحكم في حالة الغرف (متاح، صيانة، تنظيف)           |
+| **إدارة الحجوزات** | عرض جميع الحجوزات وتعديل حالاتها                    |
+
+---
+
+## خطوات التشغيل
+
+اتبع الخطوات التالية لتشغيل النسخة المحلية:
+
+**1. تثبيت الحزم**
+
+```bash
+npm install
+```
+
+**2. إعداد البيئة**
+
+قم بإنشاء ملف .env.local وأضف المتغيرات التالية:
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:8000/api
+NEXT_PUBLIC_STORAGE_URL=http://localhost:8000/storage
+```
+
+**3. تشغيل التطبيق**
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+يمكنك الآن الوصول للتطبيق عبر الرابط http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+<br>
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+<div align="center">
+    تم التطوير بواسطة <a href="https://github.com/your-username">Moath</a>
+</div>

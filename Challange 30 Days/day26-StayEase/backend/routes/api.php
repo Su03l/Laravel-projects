@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
@@ -27,6 +28,10 @@ Route::get('/amenities', [HomeController::class, 'amenities']);
 Route::get('/rooms/search', [BookingController::class, 'search']);
 Route::get('/rooms/{id}', [HomeController::class, 'roomDetails']);
 Route::get('/rooms/{id}/reviews', [ReviewController::class, 'index']);
+Route::get('/services/menu', [RoomServiceController::class, 'index']); // Moved to Public
+
+// Contact Us
+Route::post('/contact', [ContactController::class, 'send']);
 
 // Protected Routes (يحتاج توكن)
 Route::middleware('auth:sanctum')->group(function () {
@@ -51,7 +56,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/bookings/{id}/cancel', [BookingController::class, 'cancel']); // إلغاء
 
     //  Room Services
-    Route::get('/services/menu', [RoomServiceController::class, 'index']); // المنيو
     Route::post('/services/order', [RoomServiceController::class, 'store']); // اطلب
     Route::get('/bookings/{id}/orders', [RoomServiceController::class, 'myOrders']); // فاتورتي
 

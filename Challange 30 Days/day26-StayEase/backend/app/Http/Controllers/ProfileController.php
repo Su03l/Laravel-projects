@@ -52,6 +52,7 @@ class ProfileController extends Controller
     // 4. Toggle 2FA
     public function toggleTwoFactor(Request $request, ToggleTwoFactorAction $action): JsonResponse
     {
+        $request->merge(['enable' => $request->boolean('enable')]);
         $request->validate(['enable' => 'required|boolean']);
 
         $action->execute($request->user(), $request->boolean('enable'));

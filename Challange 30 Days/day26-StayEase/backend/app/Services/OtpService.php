@@ -13,7 +13,7 @@ class OtpService
 {
     public function generateAndSend(User $user, string $type = 'verification'): void
     {
-        $code = (string) rand(1000, 9999);
+        $code = (string)rand(1000, 9999);
 
         $user->update([
             'otp_code' => $code,
@@ -26,18 +26,27 @@ class OtpService
         // Send the appropriate email
         if ($type === 'verification') {
             Mail::to($user->email)->send(new UserVerificationMail($user, $code));
-        }
-        elseif ($type === '2fa') {
+        } elseif ($type === '2fa') {
             Mail::to($user->email)->send(new TwoFactorLoginMail($user, $code));
-        }
-        elseif ($type === 'reset_password') {
+        } elseif ($type === 'reset_password') {
             Mail::to($user->email)->send(new ResetPasswordMail($user, $code));
         }
     }
 
     public function verify(User $user, string $code): bool
     {
-        if ($user->otp_code === $code && $user->otp_expires_at && now()->lt($user->otp_expires_at)) {
+        // Debug logging
+        Log::info("OTP Verification attempt", [
+            'email' => $user->email,
+            'input_code' => $code,
+            'stored_code' => $user->otp_code,
+            'expires_at' => $user->otp_expires_at,
+            'now' => now(),
+            'is_expired' => $user->otp_expires_at ? now()->gte($user->otp_expires_at) : true,
+        ]);
+
+        // Cast both to string for comparison
+        if ((string)$user->otp_code === (string)$code && $user->otp_expires_at && now()->lt($user->otp_expires_at)) {
             // Clear OTP after successful verification
             $user->update(['otp_code' => null, 'otp_expires_at' => null]);
             return true;

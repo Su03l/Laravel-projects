@@ -11,7 +11,9 @@ use Illuminate\Validation\ValidationException;
 
 class LoginUserAction
 {
-    public function __construct(protected OtpService $otpService) {}
+    public function __construct(protected OtpService $otpService)
+    {
+    }
 
     public function execute(LoginUserDTO $data): array
     {
@@ -44,6 +46,12 @@ class LoginUserAction
         }
 
         // 5. Direct Login
+        if (request()->hasSession()) {
+            auth()->login($user, $data->remember);
+            $request = request();
+            $request->session()->regenerate();
+        }
+
         $token = $user->createToken('auth_token', [$user->role->value])->plainTextToken;
 
         return [
