@@ -6,7 +6,6 @@ export type UserRole = 'admin' | 'customer';
 export type UserStatus = 'pending' | 'active' | 'suspended';
 export type PackageType = 'basic' | 'half_board' | 'royal';
 
-// ============ MODELS ============
 export interface User {
     id: number;
     name: string;
