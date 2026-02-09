@@ -68,7 +68,6 @@ export function useAmenities() {
     });
 }
 
-// ============ BOOKINGS ============
 export function useMyBookings() {
     return useQuery({
         queryKey: ['my-bookings'],
