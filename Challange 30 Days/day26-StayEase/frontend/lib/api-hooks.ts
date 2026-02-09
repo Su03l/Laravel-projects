@@ -130,7 +130,6 @@ export function useToggleFavorite() {
     });
 }
 
-// ============ REVIEWS ============
 export function useCreateReview() {
     const queryClient = useQueryClient();
 
