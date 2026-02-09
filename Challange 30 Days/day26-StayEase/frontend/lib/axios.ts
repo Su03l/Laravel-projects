@@ -20,10 +20,8 @@ api.interceptors.request.use(
     (error) => Promise.reject(error)
 );
 
-// Response interceptor to handle 401 and malformed JSON
 api.interceptors.response.use(
     (response) => {
-        // Handle malformed JSON response (e.g. starts with "2{" or similar artifacts)
         if (typeof response.data === 'string') {
             try {
                 // Find the start of the JSON object or array
