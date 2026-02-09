@@ -117,7 +117,6 @@ export const useAuthStore = create<AuthState>()(
                 try {
                     await api.post('/auth/logout');
                 } catch {
-                    // Ignore errors on logout
                 } finally {
                     localStorage.removeItem('auth_token');
                     set({ user: null, token: null, isAuthenticated: false });
