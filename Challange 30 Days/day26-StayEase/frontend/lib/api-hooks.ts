@@ -48,7 +48,6 @@ export function useRoomReviews(roomId: number | string) {
     });
 }
 
-// ============ PACKAGES & AMENITIES ============
 export function usePackages() {
     return useQuery({
         queryKey: ['packages'],
