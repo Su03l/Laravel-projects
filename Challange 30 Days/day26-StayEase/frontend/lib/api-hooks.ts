@@ -144,7 +144,6 @@ export function useCreateReview() {
     });
 }
 
-// ============ ROOM SERVICES ============
 export function useServiceMenu() {
     return useQuery({
         queryKey: ['service-menu'],
