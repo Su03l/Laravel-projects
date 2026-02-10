@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeniusLab Terminal</title>
+    <style>
+        body {
+            background-color: #050505;
+            color: #22c55e;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            width: 100%;
+            border: 1px solid #22c55e;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.2);
+            background: #0a0a0a;
+        }
+        h1, h2 { text-align: center; text-transform: uppercase; margin-top: 0; text-shadow: 0 0 5px #22c55e; }
+        .hidden { display: none; }
+
+        .input-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; }
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            background: #000;
+            border: 1px solid #15803d;
+            color: #fff;
+            font-family: inherit;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #22c55e;
+            box-shadow: 0 0 10px rgba(34, 197, 94, 0.3);
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: #22c55e;
+            color: #000;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            text-transform: uppercase;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        button:hover { background: #16a34a; box-shadow: 0 0 15px rgba(34, 197, 94, 0.5); }
+
+        #output {
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px dashed #22c55e;
+            min-height: 150px;
+            white-space: pre-wrap;
+            background: #000;
+            color: #e5e7eb;
+            border-radius: 5px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .status { text-align: center; margin-top: 10px; font-size: 12px; color: #4ade80; }
+        .error-msg { color: #ef4444; text-align: center; margin-bottom: 15px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <!-- STEP 1: LOGIN -->
+    <div id="login-section" class="container">
+        <h1>🔐 Access Terminal</h1>
+        <div id="login-error" class="error-msg"></div>
+
+        <div class="input-group">
+            <label>Email:</label>
+            <input type="email" id="email" placeholder="admin@geniuslab.app">
+        </div>
+        <div class="input-group">
+            <label>Password:</label>
+            <input type="password" id="password" placeholder="********">
+        </div>
+        <button onclick="login()">Login</button>
+    </div>
+
+    <!-- STEP 2: OTP (If 2FA is on) -->
+    <div id="otp-section" class="container hidden">
+        <h1>🛡️ 2FA Required</h1>
+        <div id="otp-error" class="error-msg"></div>
+        <p style="text-align: center; margin-bottom: 20px;">Enter the code sent to your email.</p>
+
+        <div class="input-group">
+            <label>OTP Code:</label>
+            <input type="text" id="otp" placeholder="123456" style="text-align: center; letter-spacing: 5px; font-size: 24px;">
+        </div>
+        <button onclick="verifyLogin()">Verify & Enter</button>
+    </div>
+
+    <!-- STEP 3: CHAT -->
+    <div id="chat-section" class="container hidden">
+        <h2>🧪 AI Console</h2>
+        <div class="status">Logged in as: <span id="user-name">User</span> | Balance: <span id="user-balance">0</span> CR</div>
+        <hr style="border-color: #15803d; margin: 15px 0;">
+
+        <div class="input-group">
+            <label>Model:</label>
+            <select id="model">
+                <!-- The Golden Trio 🏆 -->
+                <option value="deepseek/deepseek-chat">🐋 DeepSeek V3 (Best)</option>
+                <option value="openai/gpt-4o-mini">🤖 GPT-4o Mini (Smart)</option>
+                <option value="anthropic/claude-3-haiku">🧠 Claude 3 Haiku (Fast)</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label>Prompt:</label>
+            <textarea id="prompt" rows="3" placeholder="Type your command here..."></textarea>
+        </div>
+
+        <button onclick="sendRequest()">🚀 Execute</button>
+
+        <div id="chat-status" class="status">Ready</div>
+        <div id="output">System Output...</div>
+    </div>
+
+    <script>
+        let authToken = '';
+
+        // 1. Login Function
+        async function login() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorDiv = document.getElementById('login-error');
+
+            errorDiv.innerText = '';
+
+            try {
+                const res = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await res.json();
+
+                if (!data.status) {
+                    errorDiv.innerText = data.message || 'Login failed';
+                    return;
+                }
+
+                if (data.data && data.data.require_otp) {
+                    document.getElementById('login-section').classList.add('hidden');
+                    document.getElementById('otp-section').classList.remove('hidden');
+                } else {
+                    setupSession(data.data);
+                }
+
+            } catch (e) {
+                errorDiv.innerText = 'Connection Error: ' + e.message;
+            }
+        }
+
+        // 2. Verify OTP Function
+        async function verifyLogin() {
+            const email = document.getElementById('email').value;
+            const otp = document.getElementById('otp').value;
+            const errorDiv = document.getElementById('otp-error');
+
+            try {
+                const res = await fetch('/api/login/verify', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify({ email, otp })
+                });
+
+                const data = await res.json();
+
+                if (!data.status) {
+                    errorDiv.innerText = data.message || 'Invalid OTP';
+                    return;
+                }
+
+                setupSession(data.data);
+
+            } catch (e) {
+                errorDiv.innerText = 'Connection Error';
+            }
+        }
+
+        // Helper: Setup Session
+        function setupSession(data) {
+            authToken = data.token;
+            document.getElementById('user-name').innerText = data.user.name;
+            document.getElementById('user-balance').innerText = data.user.wallet_balance;
+
+            document.getElementById('login-section').classList.add('hidden');
+            document.getElementById('otp-section').classList.add('hidden');
+            document.getElementById('chat-section').classList.remove('hidden');
+        }
+
+        // 3. Send Chat Request (Stream)
+        async function sendRequest() {
+            const model = document.getElementById('model').value;
+            const prompt = document.getElementById('prompt').value;
+            const outputDiv = document.getElementById('output');
+            const statusDiv = document.getElementById('chat-status');
+
+            if (!prompt) return;
+
+            outputDiv.innerText = "";
+            statusDiv.innerText = "Processing...";
+
+            const formData = new FormData();
+            formData.append('prompt', prompt);
+            formData.append('model_slug', model);
+
+            try {
+                const response = await fetch('/api/generate', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`,
+                        'Accept': 'text/event-stream'
+                    },
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    try {
+                        const err = await response.json();
+                        outputDiv.innerText = "Error: " + (err.message || JSON.stringify(err));
+                    } catch (e) {
+                        const textErr = await response.text();
+                        outputDiv.innerText = "Error: " + textErr;
+                    }
+                    statusDiv.innerText = "Failed ❌";
+                    return;
+                }
+
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                statusDiv.innerText = "Streaming... 🌊";
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+                    const text = decoder.decode(value, { stream: true });
+                    outputDiv.innerText += text;
+                    window.scrollTo(0, document.body.scrollHeight);
+                }
+
+                statusDiv.innerText = "Completed ✅";
+
+            } catch (error) {
+                outputDiv.innerText = "Error: " + error.message;
+            }
+        }
+    </script>
+
+</body>
+</html>
