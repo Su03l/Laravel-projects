@@ -41,7 +41,6 @@ class TemplateController extends Controller
         }
 
         // إرسال البرومبت الجاهز للمحرك (نفس دالة الشات)
-        // ملاحظة: هنا نستخدم الستريم مباشرة، لذا لا نستخدم ApiResponse Trait
         return $this->aiService->generate(
             $request->user(),
             $finalPrompt,
