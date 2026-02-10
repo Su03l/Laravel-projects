@@ -30,7 +30,7 @@ class AiController extends Controller
             $request->model_slug,
             $request->chat_id,
             $request->file('image'),
-            $request->file('code_file') // 👈 الملف الجديد
+            $request->file('code_file') 
         );
     }
 
