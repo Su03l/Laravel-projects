@@ -20,7 +20,7 @@ class AuthController extends Controller
 
     public function __construct(protected OtpService $otpService) {}
 
-    // Register
+    // Register User
     public function register(RegisterRequest $request, RegisterUserAction $action)
     {
         $dto = RegisterUserDTO::fromRequest($request);
