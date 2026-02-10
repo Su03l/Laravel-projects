@@ -12,6 +12,7 @@ class AdminController extends Controller
 {
     use ApiResponse;
 
+    // this for admin stats
     public function stats()
     {
         // 1. عدد المستخدمين
