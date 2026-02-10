@@ -11,6 +11,7 @@ class ProfileController extends Controller
 {
     use ApiResponse;
 
+    // Show User Profile
     public function show(Request $request)
     {
         return $this->success(new UserResource($request->user()));
