@@ -77,7 +77,7 @@ class AuthController extends Controller
         ], 'Login successful.');
     }
 
-    // Login Verify
+    // Login Verify User
     public function loginVerify(Request $request)
     {
         $request->validate(['email' => 'required|email', 'otp' => 'required']);
