@@ -11,6 +11,7 @@ class RegisterRequest extends FormRequest
         return true;
     }
 
+    // rules for register request
     public function rules(): array
     {
         return [
