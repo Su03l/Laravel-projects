@@ -31,6 +31,7 @@ class WalletController extends Controller
         ]);
     }
 
+
     // 2. الرصيد فقط (لتحديث الهيدر بسرعة بعد كل عملية)
     public function balance(Request $request)
     {
