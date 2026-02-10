@@ -14,7 +14,7 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'wallet_balance' => $this->wallet_balance,
-            'two_factor_enabled' => (bool) $this->two_factor_enabled, // 👈 الجديد
+            'two_factor_enabled' => (bool) $this->two_factor_enabled,
             'joined_at' => $this->created_at->format('Y-m-d'),
         ];
     }
