@@ -15,7 +15,7 @@ class OtpMail extends Mailable
     public function __construct(
         public string $otpCode,
         public string $subjectText,
-        public string $viewName // 👈 اسم ملف التصميم
+        public string $viewName 
     ) {}
 
     public function envelope(): Envelope
