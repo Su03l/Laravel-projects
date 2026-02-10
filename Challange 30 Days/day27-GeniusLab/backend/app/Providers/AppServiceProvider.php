@@ -25,7 +25,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Scramble Configuration
         Scramble::configure()
             ->routes(function (Route $route) {
                 return Str::startsWith($route->uri, 'api/');
@@ -36,7 +35,6 @@ class AppServiceProvider extends ServiceProvider
                 );
             });
 
-        // Allow access to API Docs
         Gate::define('viewApiDocs', function ($user = null) {
             return true;
         });
