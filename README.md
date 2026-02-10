@@ -59,6 +59,7 @@
 | 24  | [day24-ticket-system](./Challange%2030%20Days/day24-ticket-system)                     | نظام دعم فني وتذاكر (Ticket Support System)         | Smart SLA Calculation، RBAC Roles، Internal Comments، Ticket Assignment |
 | 25  | [day25-Auth-master](./Challange%2030%20Days/day25-Auth-master)                         | نظام المصادقة المتقدم (AuthMaster API)              | 2FA، OTP Verification، RBAC، Secure Sessions                            |
 | 26  | [day26-StayEase](./Challange%2030%20Days/day26-StayEase)                               | منصة حجز فنادق وإقامات (StayEase)                   | Next.js 16 Frontend، Laravel 12 Backend، Sanctum Auth، Tailwind CSS v4  |
+| 27  | [day27-GeniusLab](./Challange%2030%20Days/day27-GeniusLab)                             | منصة الذكاء الاصطناعي لتوليد المحتوى (GeniusLab)    | AI Content (Text, Image, Audio)، Smart Wallet، Templates، 2FA Security  |
 
 ---
 
