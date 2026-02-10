@@ -29,7 +29,7 @@ class AuthController extends Controller
         return $this->success(null, 'Account created. Please check your email for the OTP code.', 201);
     }
 
-    // Verify Account
+    // Verify Account user
     public function verifyAccount(Request $request)
     {
         $request->validate(['email' => 'required|email', 'otp' => 'required']);
