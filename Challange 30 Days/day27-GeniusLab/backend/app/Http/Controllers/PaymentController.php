@@ -29,7 +29,7 @@ class PaymentController extends Controller
         $package = CreditPackage::findOrFail($request->package_id);
         $user = $request->user();
 
-        // Simulate Payment Processing... ⏳
+        // Simulate Payment Processing... 
         // In a real app, here we would call Stripe/PayPal API.
 
         DB::transaction(function () use ($user, $package) {
