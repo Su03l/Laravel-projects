@@ -49,7 +49,7 @@ class AuthController extends Controller
         ], 'Account verified successfully.');
     }
 
-    // Login
+    // Login User
     public function login(Request $request)
     {
         $request->validate(['email' => 'required|email', 'password' => 'required']);
