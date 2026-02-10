@@ -38,9 +38,7 @@ class ProfileController extends Controller
         return $this->success(new UserResource($user), 'Profile updated successfully.');
     }
 
-    /**
-     * Toggle Two-Factor Authentication.
-     */
+    // Toggle Two-Factor Authentication
     public function toggleTwoFactor(Request $request)
     {
         $request->validate(['enable' => 'required|boolean']);
