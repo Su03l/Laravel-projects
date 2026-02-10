@@ -17,7 +17,7 @@ class GenerateRequest extends FormRequest
             'prompt' => 'required|string',
             'model_slug' => 'required|exists:ai_models,api_slug',
             'chat_id' => 'nullable|exists:chats,id',
-            'image' => 'nullable|image|max:5120', // 5MB Max
+            'image' => 'nullable|image|max:10240', 
             'code_file' => 'nullable|file|mimes:php,js,py,html,css,json,sql,java,cpp,txt,ts,tsx,jsx,vue,blade.php|max:10240',
         ];
     }
