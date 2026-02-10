@@ -17,6 +17,7 @@ class ProfileController extends Controller
         return $this->success(new UserResource($request->user()));
     }
 
+    // Update User Profile
     public function update(Request $request)
     {
         $user = $request->user();
