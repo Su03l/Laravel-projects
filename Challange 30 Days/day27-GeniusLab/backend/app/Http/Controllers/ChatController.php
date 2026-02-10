@@ -40,7 +40,7 @@ class ChatController extends Controller
         return $this->success(null, 'Chat deleted successfully');
     }
 
-    // 4. بحث في الرسائل القديمة 🔍
+    // 4. بحث في الرسائل القديمة 
     public function search(Request $request)
     {
         $request->validate(['q' => 'required|string|min:3']);
