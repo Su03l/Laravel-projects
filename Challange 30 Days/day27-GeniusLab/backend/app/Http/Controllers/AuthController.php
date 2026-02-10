@@ -94,7 +94,7 @@ class AuthController extends Controller
         ], 'Login successful.');
     }
 
-    // Forgot Password
+    // Forgot Password User
     public function forgotPassword(Request $request)
     {
         $request->validate(['email' => 'required|email|exists:users,email']);
