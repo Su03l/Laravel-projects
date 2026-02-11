@@ -17,6 +17,7 @@ class AuthController extends Controller
         return Inertia::render('Auth/Login');
     }
 
+    // this for login
     public function login(Request $request)
     {
         $credentials = $request->validate([
