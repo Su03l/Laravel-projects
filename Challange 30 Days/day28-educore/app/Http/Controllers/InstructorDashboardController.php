@@ -82,6 +82,7 @@ class InstructorDashboardController extends Controller
         ]);
     }
 
+    // this for publish course
     public function publish(Course $course)
     {
         $this->authorizeInstructor($course);
