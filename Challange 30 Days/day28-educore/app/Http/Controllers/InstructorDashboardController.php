@@ -114,6 +114,7 @@ class InstructorDashboardController extends Controller
         return back()->with('success', 'تم تحديث الفصل.');
     }
 
+    // this for destroy chapter
     public function destroyChapter(Chapter $chapter)
     {
         $this->authorizeInstructor($chapter->course);
