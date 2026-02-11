@@ -72,6 +72,7 @@ class InstructorDashboardController extends Controller
             ->with('success', 'تم إنشاء الدورة بنجاح!');
     }
 
+    // this for display course builder
     public function builder(Course $course)
     {
         $this->authorizeInstructor($course);
