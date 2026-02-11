@@ -141,6 +141,7 @@ class InstructorDashboardController extends Controller
         return back()->with('success', 'تم إضافة الدرس بنجاح.');
     }
 
+    // this for update lesson
     public function updateLesson(Request $request, Lesson $lesson)
     {
         $this->authorizeInstructor($lesson->chapter->course);
