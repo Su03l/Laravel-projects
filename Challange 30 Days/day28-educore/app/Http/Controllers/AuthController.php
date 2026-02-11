@@ -42,6 +42,7 @@ class AuthController extends Controller
         return Inertia::render('Auth/Register');
     }
 
+    // this for register
     public function register(Request $request)
     {
         $request->validate([
