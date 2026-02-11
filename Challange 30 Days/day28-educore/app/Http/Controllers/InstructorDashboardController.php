@@ -105,6 +105,7 @@ class InstructorDashboardController extends Controller
         return back()->with('success', 'تم إضافة الفصل بنجاح.');
     }
 
+    // this for update chapter
     public function updateChapter(Request $request, Chapter $chapter)
     {
         $this->authorizeInstructor($chapter->course);
