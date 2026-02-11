@@ -10,6 +10,7 @@ use Inertia\Inertia;
 
 class ClassroomController extends Controller
 {
+    // this for display course content
     public function show(Request $request, $courseId, $lessonId = null)
     {
         $user = $request->user();
