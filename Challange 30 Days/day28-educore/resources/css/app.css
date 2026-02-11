@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+@theme {
+  --color-secondary: #00D1FF;
+  --color-accent: #00D1FF;
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 0%;
+    --primary: 0 0% 0%;
+    --secondary: 191 100% 50%;
+    --accent: 191 100% 50%;
+    --border: 0 0% 89.8%;
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-zinc-200;
+  }
+  body {
+    @apply bg-white text-black;
+  }
+}
+
+.neon-glow {
+  box-shadow: 0 0 10px rgba(0, 209, 255, 0.5), 0 0 20px rgba(0, 209, 255, 0.3);
+}
+
+@keyframes progress {
+  from { width: 100%; }
+  to { width: 0%; }
+}
+
+.animate-progress {
+  animation: progress linear forwards;
+}
