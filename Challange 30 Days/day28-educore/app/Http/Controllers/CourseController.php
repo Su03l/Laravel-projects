@@ -34,6 +34,7 @@ class CourseController extends Controller
         ]);
     }
 
+    // this for display course details
     public function show(Course $course)
     {
         if (!$course->is_published) {
