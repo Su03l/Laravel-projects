@@ -10,6 +10,7 @@ use Inertia\Inertia;
 
 class DashboardController extends Controller
 {
+    // this for display dashboard 
     public function index(Request $request)
     {
         $user = $request->user();
