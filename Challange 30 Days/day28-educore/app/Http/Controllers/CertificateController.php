@@ -36,6 +36,7 @@ class CertificateController extends Controller
         ]);
     }
 
+    // this for 
     public function viewHTML($enrollmentId)
     {
         $enrollment = Enrollment::with(['course', 'user'])->findOrFail($enrollmentId);
@@ -50,6 +51,7 @@ class CertificateController extends Controller
         return view('pdf.certificate', $data);
     }
 
+    // this for download 
     public function download(Request $request, $enrollmentId)
     {
         $enrollment = Enrollment::where('user_id', $request->user()->id)
