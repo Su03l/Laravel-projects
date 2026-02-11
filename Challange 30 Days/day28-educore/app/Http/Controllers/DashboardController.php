@@ -66,6 +66,7 @@ class DashboardController extends Controller
         ]);
     }
 
+    // this for display my learning
     public function myLearning(Request $request)
     {
         $user = $request->user();
