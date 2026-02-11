@@ -122,7 +122,7 @@ class InstructorDashboardController extends Controller
         return back()->with('success', 'تم حذف الفصل.');
     }
 
-    // Lessons
+    // this for store new lesson
     public function storeLesson(Request $request, Chapter $chapter)
     {
         $this->authorizeInstructor($chapter->course);
