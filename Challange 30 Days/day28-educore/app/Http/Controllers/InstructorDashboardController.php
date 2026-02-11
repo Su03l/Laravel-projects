@@ -50,6 +50,7 @@ class InstructorDashboardController extends Controller
         ]);
     }
 
+    // this for store new course
     public function store(Request $request)
     {
         $validated = $request->validate([
