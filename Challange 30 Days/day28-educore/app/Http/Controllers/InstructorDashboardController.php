@@ -91,7 +91,7 @@ class InstructorDashboardController extends Controller
         return back()->with('success', $course->is_published ? 'تم نشر الدورة بنجاح!' : 'تم تحويل الدورة إلى مسودة.');
     }
 
-    // Chapters
+    // this for store new chapter
     public function storeChapter(Request $request, Course $course)
     {
         $this->authorizeInstructor($course);
