@@ -36,6 +36,7 @@ class AuthController extends Controller
         ])->onlyInput('email');
     }
 
+    // this for register page
     public function showRegister()
     {
         return Inertia::render('Auth/Register');
