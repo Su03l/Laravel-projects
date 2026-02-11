@@ -36,7 +36,7 @@ class CertificateController extends Controller
         ]);
     }
 
-    // this for 
+    // this for display certificate
     public function viewHTML($enrollmentId)
     {
         $enrollment = Enrollment::with(['course', 'user'])->findOrFail($enrollmentId);
