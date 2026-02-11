@@ -9,6 +9,7 @@ use Inertia\Inertia;
 
 class CourseController extends Controller
 {
+    // this for display all courses 
     public function index()
     {
         $courses = Course::with(['teacher'])
