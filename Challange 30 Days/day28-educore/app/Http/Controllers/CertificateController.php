@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 
 class CertificateController extends Controller
 {
+    // this for certificates page
     public function index(Request $request)
     {
         $user = $request->user();
