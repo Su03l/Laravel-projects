@@ -12,6 +12,7 @@ use Inertia\Inertia;
 
 class InstructorDashboardController extends Controller
 {
+    // this for display instructor dashboard
     public function index(Request $request)
     {
         $user = $request->user();
