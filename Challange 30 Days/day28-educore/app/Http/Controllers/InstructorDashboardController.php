@@ -150,6 +150,8 @@ class InstructorDashboardController extends Controller
         return back()->with('success', 'تم تحديث الدرس.');
     }
 
+    // this for destroy lesson
+
     public function destroyLesson(Lesson $lesson)
     {
         $this->authorizeInstructor($lesson->chapter->course);
@@ -157,6 +159,7 @@ class InstructorDashboardController extends Controller
         return back()->with('success', 'تم حذف الدرس.');
     }
 
+    // this for authorize instructor    
     protected function authorizeInstructor(Course $course)
     {
         if ($course->teacher_id !== auth()->id()) {
