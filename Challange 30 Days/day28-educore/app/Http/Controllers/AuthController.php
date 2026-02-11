@@ -11,6 +11,7 @@ use Inertia\Inertia;
 
 class AuthController extends Controller
 {
+    // this for login page
     public function showLogin()
     {
         return Inertia::render('Auth/Login');
