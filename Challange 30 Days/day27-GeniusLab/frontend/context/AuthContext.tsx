@@ -15,7 +15,7 @@ interface User {
     joined_at: string;
 }
 
-
+// Auth result interface
 interface AuthResult {
     success?: boolean;
     requireOtp?: boolean;
