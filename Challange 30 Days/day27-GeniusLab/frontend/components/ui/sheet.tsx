@@ -7,10 +7,13 @@ import { X } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
+// Sheet component
 const Sheet = SheetPrimitive.Root
 
+// SheetTrigger component
 const SheetTrigger = SheetPrimitive.Trigger
 
+// SheetClose component
 const SheetClose = SheetPrimitive.Close
 
 const SheetPortal = SheetPrimitive.Portal
