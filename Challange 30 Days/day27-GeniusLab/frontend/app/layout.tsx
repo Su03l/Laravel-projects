@@ -17,11 +17,13 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+// metadata
 export const metadata: Metadata = {
   title: "GeniusLab | AI Platform",
   description: "Next-gen AI SaaS Platform",
 };
 
+// layout
 export default function RootLayout({
   children,
 }: Readonly<{
