@@ -40,11 +40,13 @@ export function ChatInput({ onSend, isLoading }: ChatInputProps) {
             setFiles([...files, ...newFiles])
         }
     }
-
+    
+    // removeFile function
     const removeFile = (index: number) => {
         setFiles(files.filter((_, i) => i !== index))
     }
 
+    // getFileIcon function
     const getFileIcon = (file: File) => {
         if (file.type.startsWith("image/")) return <ImageIcon className="w-3 h-3 text-[#00d4ff]" />
         return <FileText className="w-3 h-3 text-[#a855f7]" />
