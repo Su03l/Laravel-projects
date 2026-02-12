@@ -1,5 +1,7 @@
 import { cn } from "@/lib/utils"
 
+
+// Skeleton component
 function Skeleton({
     className,
     ...props
