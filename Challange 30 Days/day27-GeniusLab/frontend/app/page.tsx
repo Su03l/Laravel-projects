@@ -27,6 +27,7 @@ const features = [
   { icon: Shield, title: "أمان عالي", desc: "حماية بياناتك بمصادقة ثنائية وتشفير", color: "#10b981" },
 ]
 
+// stats array
 const stats = [
   { value: "10+", label: "نموذج ذكاء" },
   { value: "50K+", label: "طلب يومياً" },
