@@ -7,11 +7,13 @@ import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism"
 import { Bot, User, Copy, Check } from "lucide-react"
 import { useState } from "react"
 
+// ChatBubbleProps interface 
 interface ChatBubbleProps {
     role: "user" | "assistant"
     content: string
 }
 
+// 
 export function ChatBubble({ role, content }: ChatBubbleProps) {
     const isAI = role === "assistant"
 
