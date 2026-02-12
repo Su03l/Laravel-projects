@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/table"
 import { useAuth } from "@/context/AuthContext"
 
+// interfaces 
 interface Transaction {
     id: number
     type: string
@@ -31,6 +32,7 @@ interface WalletData {
     transactions: Transaction[]
 }
 
+// component
 export default function WalletPage() {
     const { user } = useAuth()
 
