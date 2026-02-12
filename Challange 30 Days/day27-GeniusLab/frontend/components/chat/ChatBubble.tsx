@@ -13,7 +13,7 @@ interface ChatBubbleProps {
     content: string
 }
 
-// 
+// ChatBubble component
 export function ChatBubble({ role, content }: ChatBubbleProps) {
     const isAI = role === "assistant"
 
