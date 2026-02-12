@@ -77,6 +77,7 @@ export function ChatBubble({ role, content }: ChatBubbleProps) {
     )
 }
 
+// CodeBlock component
 function CodeBlock({ language, code }: { language: string; code: string }) {
     const [copied, setCopied] = useState(false)
 
