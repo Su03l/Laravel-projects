@@ -35,6 +35,7 @@ const stats = [
   { value: "24/7", label: "دعم فني" },
 ]
 
+// LandingPage component
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-background grid-pattern noise-overlay relative overflow-hidden">
