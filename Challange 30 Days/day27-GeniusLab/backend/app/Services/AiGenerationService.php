@@ -70,15 +70,12 @@ class AiGenerationService
 
         // Build Payload
         $messagesPayload = [];
-
-        // System Prompt
         $systemPrompt = $model->system_instruction ?? "You are a helpful AI assistant.";
         if ($codeFile) {
-            $systemPrompt .= " The user has attached a code file. Analyze it carefully, check for bugs, security issues, and performance improvements.";
+            $systemPrompt .= " The user has attached a code file. Analyze it carefully.";
         }
         $messagesPayload[] = ['role' => 'system', 'content' => $systemPrompt];
 
-        // History
         $history = $chat->messages()
             ->where('id', '!=', $currentMessage->id)
             ->latest()
@@ -90,7 +87,6 @@ class AiGenerationService
             $messagesPayload[] = ['role' => $msg->role, 'content' => $msg->content];
         }
 
-        // Current Message
         if ($image) {
             $messagesPayload[] = [
                 'role' => 'user',
@@ -105,6 +101,11 @@ class AiGenerationService
 
         // Stream Response
         return response()->stream(function () use ($chat, $model, $messagesPayload, $user) {
+
+            // Send chat ID first so frontend can track it
+            echo "CHAT_ID:" . $chat->id . "\n";
+            if (ob_get_level() > 0) ob_flush();
+            flush();
 
             try {
                 $stream = OpenAI::chat()->createStreamed([
@@ -124,27 +125,23 @@ class AiGenerationService
                     }
                 }
 
-                // Save AI Response
                 \App\Models\Message::create([
-                    'chat_id' => $chat->id, 'role' => 'assistant', 'content' => $fullAiResponse,
+                    'chat_id' => $chat->id,
+                    'role' => 'assistant',
+                    'content' => $fullAiResponse,
                 ]);
 
-                // Deduct Credits
                 $user->decrement('wallet_balance', $model->cost_credits);
                 Transaction::create([
                     'user_id' => $user->id,
                     'type' => 'usage',
                     'credits' => -$model->cost_credits,
-                    'description' => "Generated content with {$model->name}",
+                    'description' => "Used {$model->name}",
                 ]);
-
             } catch (Exception $e) {
-                // Log the error
-                Log::error("AI Generation Error: " . $e->getMessage());
-                // Send error to frontend
-                echo "\n\n[SYSTEM ERROR]: " . $e->getMessage();
+                Log::error("AI Error: " . $e->getMessage());
+                echo "\n[ERROR]: " . $e->getMessage();
             }
-
         }, 200, [
             'Cache-Control' => 'no-cache',
             'Content-Type' => 'text/event-stream',

@@ -6,56 +6,81 @@ use Illuminate\Http\Request;
 use App\Models\Chat;
 use App\Models\Message;
 use App\Traits\ApiResponse;
+use Exception;
 
 class ChatController extends Controller
 {
     use ApiResponse;
 
-    // 1. عرض قائمة المحادثات (Sidebar)
+    /**
+     * Display a listing of the chats.
+     */
     public function index(Request $request)
     {
-        $chats = Chat::where('user_id', $request->user()->id)
-            ->latest()
-            ->select('id', 'title', 'created_at')
-            ->get();
+        try {
+            $chats = Chat::where('user_id', $request->user()->id)
+                ->latest()
+                ->select('id', 'title', 'created_at')
+                ->get();
 
-        return $this->success($chats);
+            return $this->success($chats);
+        } catch (Exception $e) {
+            // إرجاع الخطأ الحقيقي بدلاً من 500 مبهمة
+            return $this->error($e->getMessage(), 500);
+        }
     }
 
-    // 2. عرض رسائل محادثة معينة
+    /**
+     * Display the specified chat with messages.
+     */
     public function show(Request $request, $id)
     {
-        $chat = Chat::where('user_id', $request->user()->id)
-            ->with('messages')
-            ->findOrFail($id);
+        try {
+            $chat = Chat::where('user_id', $request->user()->id)
+                ->with('messages')
+                ->findOrFail($id);
 
-        return $this->success($chat);
+            return $this->success($chat);
+        } catch (Exception $e) {
+            return $this->error($e->getMessage(), 500);
+        }
     }
 
-    // 3. حذف محادثة
+    /**
+     * Remove the specified chat.
+     */
     public function destroy(Request $request, $id)
     {
-        $chat = Chat::where('user_id', $request->user()->id)->findOrFail($id);
-        $chat->delete();
-        return $this->success(null, 'Chat deleted successfully');
+        try {
+            $chat = Chat::where('user_id', $request->user()->id)->findOrFail($id);
+            $chat->delete();
+            return $this->success(null, 'Chat deleted successfully');
+        } catch (Exception $e) {
+            return $this->error($e->getMessage(), 500);
+        }
     }
 
-    // 4. بحث في الرسائل القديمة 
+    /**
+     * Search in messages.
+     */
     public function search(Request $request)
     {
-        $request->validate(['q' => 'required|string|min:3']);
+        try {
+            $request->validate(['q' => 'required|string|min:3']);
+            $query = $request->q;
 
-        $query = $request->q;
-
-        $results = Message::whereHas('chat', function ($q) use ($request) {
+            $results = Message::whereHas('chat', function ($q) use ($request) {
                 $q->where('user_id', $request->user()->id);
             })
-            ->where('content', 'LIKE', "%{$query}%")
-            ->with('chat:id,title')
-            ->orderBy('created_at', 'desc')
-            ->limit(20)
-            ->get();
+                ->where('content', 'LIKE', "%{$query}%")
+                ->with('chat:id,title')
+                ->orderBy('created_at', 'desc')
+                ->limit(20)
+                ->get();
 
-        return $this->success($results);
+            return $this->success($results);
+        } catch (Exception $e) {
+            return $this->error($e->getMessage(), 500);
+        }
     }
 }
