@@ -5,6 +5,7 @@ import api from "@/lib/axios";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
+// User interface
 interface User {
     id: number;
     name: string;
@@ -13,6 +14,7 @@ interface User {
     two_factor_enabled: boolean;
     joined_at: string;
 }
+
 
 interface AuthResult {
     success?: boolean;
