@@ -5,11 +5,13 @@ import QueryProvider from "@/providers/QueryProvider";
 import { AuthProvider } from "@/context/AuthContext";
 import { Toaster } from "@/components/ui/sonner";
 
+// fonts
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
 
+// fonts
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
