@@ -25,6 +25,7 @@ export function ChatInput({ onSend, isLoading }: ChatInputProps) {
         }
     }
 
+    // handleSend function
     const handleSend = () => {
         if (!input.trim() && files.length === 0) return
         onSend(input, files)
