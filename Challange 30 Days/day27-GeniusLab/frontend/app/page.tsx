@@ -17,6 +17,7 @@ const fadeIn = {
   })
 }
 
+// features array
 const features = [
   { icon: MessageSquare, title: "محادثات ذكية", desc: "حوارات طبيعية مع نماذج ذكاء متعددة", color: "#39ff14" },
   { icon: Image, title: "توليد الصور", desc: "أنشئ صور احترافية من وصف نصي", color: "#00d4ff" },
