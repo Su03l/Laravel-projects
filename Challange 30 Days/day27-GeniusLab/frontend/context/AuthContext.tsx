@@ -23,6 +23,7 @@ interface AuthResult {
     email?: string;
 }
 
+// Auth context type
 interface AuthContextType {
     user: User | null;
     login: (data: { email: string; password: string }) => Promise<AuthResult>;
