@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Send, Paperclip, X, FileText, ImageIcon } from "lucide-react"
 
+
+// ChatInputProps interface
 interface ChatInputProps {
     onSend: (message: string, attachments: File[]) => void
     isLoading: boolean
