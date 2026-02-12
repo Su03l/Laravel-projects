@@ -8,6 +8,7 @@ import {
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
+// fadeIn animation
 const fadeIn = {
   hidden: { opacity: 0, y: 30 },
   visible: (i: number) => ({
