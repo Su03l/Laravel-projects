@@ -12,6 +12,7 @@ interface ChatInputProps {
     isLoading: boolean
 }
 
+// ChatInput component
 export function ChatInput({ onSend, isLoading }: ChatInputProps) {
     const [input, setInput] = useState("")
     const [files, setFiles] = useState<File[]>([])
