@@ -10,6 +10,7 @@ use App\Traits\ApiResponseTrait;
 
 class DashboardController extends Controller
 {
+    // traits
     use ApiResponseTrait;
 
     public function index()
