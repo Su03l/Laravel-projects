@@ -25,6 +25,7 @@ class DriverLocationUpdated implements ShouldBroadcastNow
         $this->data = new DriverResource($driver);
     }
 
+    // broadcast on
     public function broadcastOn(): array
     {
         return [
