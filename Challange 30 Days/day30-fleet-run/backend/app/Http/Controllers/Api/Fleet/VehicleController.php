@@ -40,6 +40,7 @@ class VehicleController extends Controller
         return $this->successResponse(new VehicleResource($vehicle), 'Vehicle updated successfully');
     }
 
+    // the destroy method for delete vehicle
     public function destroy(Vehicle $vehicle)
     {
         $vehicle->delete();
