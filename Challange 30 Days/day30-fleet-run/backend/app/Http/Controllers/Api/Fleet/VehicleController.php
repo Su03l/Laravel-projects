@@ -33,6 +33,7 @@ class VehicleController extends Controller
         return $this->successResponse(new VehicleResource($vehicle), 'Vehicle details');
     }
 
+    // the update method for update vehicle details
     public function update(UpdateVehicleRequest $request, Vehicle $vehicle)
     {
         $vehicle->update($request->validated());
