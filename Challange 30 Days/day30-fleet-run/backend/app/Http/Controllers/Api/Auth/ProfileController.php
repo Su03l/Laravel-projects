@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 
 class ProfileController extends Controller
 {
+    // traits
     use ApiResponseTrait;
 
     public function show(Request $request)
