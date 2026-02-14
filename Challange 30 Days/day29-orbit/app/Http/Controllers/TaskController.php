@@ -59,8 +59,7 @@ class TaskController extends Controller
             'position' => 'required|integer|min:0'
         ]);
 
-        // استدعاء الخدمة السحرية 🪄
-        $this->taskService->moveTask(
+        // استدعاء الخدمة السحرية         $this->taskService->moveTask(
             $task,
             $validated['column_id'],
             $validated['position']
@@ -69,6 +68,7 @@ class TaskController extends Controller
         return redirect()->back();
     }
 
+    // this for delete task
     public function destroy(Task $task)
     {
         $task->delete();
