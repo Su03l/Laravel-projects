@@ -7,6 +7,8 @@ use Inertia\Inertia;
 
 class DashboardController extends Controller
 {
+
+    // this for get all workspaces for user
     public function index(Request $request)
     {
         // جلب المساحات التي ينتمي لها المستخدم
