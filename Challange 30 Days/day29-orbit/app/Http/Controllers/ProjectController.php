@@ -33,6 +33,7 @@ class ProjectController extends Controller
         return redirect()->route('projects.show', $project->id);
     }
 
+    // this for show project
     public function show(Project $project)
     {
         $project->load([
