@@ -25,6 +25,7 @@ class TaskColumnController extends Controller
         return back();
     }
 
+    // this for delete column
     public function destroy(TaskColumn $column)
     {
         if ($column->tasks()->exists()) {
