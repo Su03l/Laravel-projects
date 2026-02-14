@@ -50,6 +50,7 @@ class ProjectController extends Controller
         ]);
     }
 
+    // this for move column
     public function moveColumn(Request $request, TaskColumn $column)
     {
         $request->validate(['position' => 'required|numeric']);
