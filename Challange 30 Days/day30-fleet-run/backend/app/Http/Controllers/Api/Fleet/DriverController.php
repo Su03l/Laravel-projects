@@ -44,6 +44,7 @@ class DriverController extends Controller
         });
     }
 
+    // the show method for show driver details
     public function show(Driver $driver)
     {
         $driver->load(['user', 'vehicle']);
