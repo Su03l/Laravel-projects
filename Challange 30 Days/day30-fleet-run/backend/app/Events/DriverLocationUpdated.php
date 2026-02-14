@@ -19,6 +19,7 @@ class DriverLocationUpdated implements ShouldBroadcastNow
 
     public $data;
 
+    // constructor
     public function __construct(Driver $driver)
     {
         $this->data = new DriverResource($driver);
