@@ -16,6 +16,7 @@ class DriverController extends Controller
 {
     use ApiResponseTrait;
 
+    // the index method for show all drivers
     public function index()
     {
         $drivers = Driver::with(['user', 'vehicle'])->latest()->get();
