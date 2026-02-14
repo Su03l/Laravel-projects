@@ -8,9 +8,13 @@ use Illuminate\Console\Command;
 
 class SimulateDrivers extends Command
 {
+    // this for testing the location update
     protected $signature = 'fleet:simulate';
+
+    // description of the command
     protected $description = 'Move drivers randomly around Riyadh';
 
+    // handle function
     public function handle()
     {
         $this->info('Starting simulation... Press Ctrl+C to stop.');
