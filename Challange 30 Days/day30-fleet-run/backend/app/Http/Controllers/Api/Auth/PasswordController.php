@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 
 class PasswordController extends Controller
 {
+    // traits
     use ApiResponseTrait;
 
     public function update(ChangePasswordRequest $request)
