@@ -27,6 +27,7 @@ class VehicleController extends Controller
         return $this->successResponse(new VehicleResource($vehicle), 'Vehicle created successfully', 201);
     }
 
+    // the show method for get vehicle details
     public function show(Vehicle $vehicle)
     {
         return $this->successResponse(new VehicleResource($vehicle), 'Vehicle details');
