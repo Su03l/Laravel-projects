@@ -27,6 +27,7 @@ class WorkspaceController extends Controller
         return back();
     }
 
+    // this for show workspace
     public function show(Request $request, Workspace $workspace)
     {
         // تأكد إن المستخدم عضو بالمساحة
