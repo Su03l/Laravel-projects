@@ -13,6 +13,7 @@ class ProfileController extends Controller
     // traits
     use ApiResponseTrait;
 
+    // the show method for show user profile
     public function show(Request $request)
     {
         return $this->successResponse(new UserResource($request->user()));
