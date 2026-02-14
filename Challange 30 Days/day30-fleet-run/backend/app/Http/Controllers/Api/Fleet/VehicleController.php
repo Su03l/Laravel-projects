@@ -20,6 +20,7 @@ class VehicleController extends Controller
         return $this->successResponse(VehicleResource::collection($vehicles), 'Vehicles retrieved successfully');
     }
 
+    // the store method for create new vehicle
     public function store(StoreVehicleRequest $request)
     {
         $vehicle = Vehicle::create($request->validated());
