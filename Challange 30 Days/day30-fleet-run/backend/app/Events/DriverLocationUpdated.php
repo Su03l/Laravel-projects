@@ -33,6 +33,7 @@ class DriverLocationUpdated implements ShouldBroadcastNow
         ];
     }
 
+    // broadcast as
     public function broadcastAs(): string
     {
         return 'driver.moved';
