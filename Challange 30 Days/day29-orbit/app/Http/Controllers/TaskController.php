@@ -51,6 +51,7 @@ class TaskController extends Controller
         return back();
     }
 
+    // this for move task
     public function move(Request $request, Task $task)
     {
         $validated = $request->validate([
