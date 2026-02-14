@@ -9,6 +9,7 @@ use Inertia\Inertia;
 
 class ProjectController extends Controller
 {
+    // this for create project
     public function store(Request $request)
     {
         $validated = $request->validate([
