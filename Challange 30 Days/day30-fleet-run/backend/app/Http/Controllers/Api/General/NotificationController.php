@@ -16,6 +16,7 @@ class NotificationController extends Controller
         return $this->successResponse($request->user()->notifications, 'Notifications retrieved');
     }
 
+    // the markAsRead method for mark all notifications as read
     public function markAsRead(Request $request)
     {
         $request->user()->unreadNotifications->markAsRead();
