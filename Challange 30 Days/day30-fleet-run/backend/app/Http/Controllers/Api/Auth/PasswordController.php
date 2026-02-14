@@ -12,6 +12,7 @@ class PasswordController extends Controller
     // traits
     use ApiResponseTrait;
 
+    // the update method for change password
     public function update(ChangePasswordRequest $request)
     {
         $user = $request->user();
