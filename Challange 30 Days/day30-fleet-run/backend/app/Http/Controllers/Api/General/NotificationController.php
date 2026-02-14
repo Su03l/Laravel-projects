@@ -10,6 +10,7 @@ class NotificationController extends Controller
 {
     use ApiResponseTrait;
 
+    // the index method for get all notifications
     public function index(Request $request)
     {
         return $this->successResponse($request->user()->notifications, 'Notifications retrieved');
