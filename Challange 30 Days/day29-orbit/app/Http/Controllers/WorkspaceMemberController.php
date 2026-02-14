@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 class WorkspaceMemberController extends Controller
 {
+    // this for invite member to workspace
     public function invite(Request $request, Workspace $workspace)
     {
         // تحقق أن المستخدم الحالي هو المالك أو أدمن (Policy)
