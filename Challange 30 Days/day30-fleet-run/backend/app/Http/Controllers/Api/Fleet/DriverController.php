@@ -58,6 +58,7 @@ class DriverController extends Controller
         return $this->successResponse(new DriverResource($driver), 'Driver updated successfully');
     }
 
+    // the destroy method for delete driver
     public function destroy(Driver $driver)
     {
         $driver->user->delete();
