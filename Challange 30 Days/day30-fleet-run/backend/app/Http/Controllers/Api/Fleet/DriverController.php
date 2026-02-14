@@ -23,6 +23,7 @@ class DriverController extends Controller
         return $this->successResponse(DriverResource::collection($drivers), 'Drivers retrieved successfully');
     }
 
+    // the store method for create new driver
     public function store(StoreDriverRequest $request)
     {
         return DB::transaction(function () use ($request) {
