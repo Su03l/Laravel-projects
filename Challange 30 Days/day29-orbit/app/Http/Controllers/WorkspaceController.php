@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 
 class WorkspaceController extends Controller
 {
+    // this for create workspace
     public function store(Request $request)
     {
         $validated = $request->validate([
