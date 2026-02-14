@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 class TaskCommentController extends Controller
 {
+    // this for create comment
     public function store(Request $request, Task $task)
     {
         $request->validate(['content' => 'required|string']);
@@ -16,7 +17,7 @@ class TaskCommentController extends Controller
             'content' => $request->content
         ]);
 
-        // ⚡ نسجل نشاط أيضاً!
+        //  نسجل نشاط أيضاً!
         $task->activities()->create([
             'user_id' => $request->user()->id,
             'description' => 'commented on this task'
