@@ -11,17 +11,20 @@ class Workspace extends Model
 
     protected $guarded = [];
 
+    // this for get projects that workspace have
     public function projects()
     {
         return $this->hasMany(Project::class);
     }
 
+    // this for get members that workspace have
     public function members()
     {
         return $this->belongsToMany(User::class, 'workspace_user')
                     ->withPivot('role');
     }
 
+    // this for get owner that workspace have
     public function owner()
     {
         return $this->belongsTo(User::class, 'owner_id');
