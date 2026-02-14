@@ -11,11 +11,13 @@ class Comment extends Model
 
     protected $guarded = [];
 
+    // this for get user who did comment
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
+    // this for get task that did comment
     public function task()
     {
         return $this->belongsTo(Task::class);
