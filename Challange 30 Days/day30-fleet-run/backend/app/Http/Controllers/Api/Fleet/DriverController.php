@@ -51,6 +51,7 @@ class DriverController extends Controller
         return $this->successResponse(new DriverResource($driver), 'Driver details');
     }
 
+    // the update method for update driver details
     public function update(UpdateDriverRequest $request, Driver $driver)
     {
         $driver->update($request->validated());
