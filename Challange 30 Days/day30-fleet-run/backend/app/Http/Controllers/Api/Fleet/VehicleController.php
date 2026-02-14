@@ -13,6 +13,7 @@ class VehicleController extends Controller
 {
     use ApiResponseTrait;
 
+    // the index method for get all vehicles
     public function index()
     {
         $vehicles = Vehicle::with('driver.user')->latest()->get();
