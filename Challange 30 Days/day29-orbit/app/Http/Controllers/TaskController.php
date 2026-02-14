@@ -8,11 +8,12 @@ use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-    // this for create task
+    // this for inject task service
     public function __construct(protected TaskService $taskService)
     {
     }
 
+    // this for create task
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -32,6 +33,7 @@ class TaskController extends Controller
         return redirect()->back(); // Inertia will update the props automatically
     }
 
+    // this for update task
     public function update(Request $request, Task $task)
     {
         $validated = $request->validate([
