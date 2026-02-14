@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 class TaskColumnController extends Controller
 {
+    // this for create column
     public function store(Request $request)
     {
         $validated = $request->validate([
