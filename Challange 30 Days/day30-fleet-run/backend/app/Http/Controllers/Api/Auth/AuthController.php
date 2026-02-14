@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+    // traits
     use ApiResponseTrait;
 
     // Login (Driver & Admin)
