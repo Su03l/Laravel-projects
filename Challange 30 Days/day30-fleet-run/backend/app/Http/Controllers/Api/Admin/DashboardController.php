@@ -13,6 +13,7 @@ class DashboardController extends Controller
     // traits
     use ApiResponseTrait;
 
+    // the index method for admin dashboard
     public function index()
     {
         $stats = [
