@@ -19,6 +19,7 @@ export const useEcho = () => useContext(EchoContext);
 export default function EchoProvider({ children }: { children: React.ReactNode }) {
     const [echoInstance, setEchoInstance] = useState<Echo<any> | null>(null);
 
+    // useEffect hook for initializing Echo instance on mount
     useEffect(() => {
         const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
 
