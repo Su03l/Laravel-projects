@@ -60,6 +60,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
         retry: false,
     });
 
+    // isLoading state
     const isLoading = !isInitialized || (!!token && isQueryLoading);
 
     const login = (newToken: string, newUser: User) => {
