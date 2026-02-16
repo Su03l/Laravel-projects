@@ -9,6 +9,7 @@ if (typeof window !== 'undefined') {
     (window as any).Pusher = Pusher;
 }
 
+// EchoContext
 const EchoContext = createContext<Echo<any> | null>(null);
 
 export const useEcho = () => useContext(EchoContext);
