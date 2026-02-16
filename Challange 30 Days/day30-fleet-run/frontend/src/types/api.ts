@@ -14,6 +14,7 @@ export interface DriveLocation {
     lng: number;
 }
 
+// Driver interface
 export interface Driver {
     id: number;
     user_id: number;
