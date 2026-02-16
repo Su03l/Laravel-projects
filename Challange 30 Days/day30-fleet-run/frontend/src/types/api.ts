@@ -27,6 +27,7 @@ export interface Driver {
     last_active: string;
 }
 
+// Shipment interface
 export interface Shipment {
     id: number;
     tracking_number: string;
