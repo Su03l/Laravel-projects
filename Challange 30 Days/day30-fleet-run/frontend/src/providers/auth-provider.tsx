@@ -42,6 +42,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
         setIsInitialized(true);
     }, []);
 
+    // useQuery hook for user data
     const { data: user, isLoading: isQueryLoading, isError } = useQuery({
         queryKey: ['user'],
         queryFn: async () => {
