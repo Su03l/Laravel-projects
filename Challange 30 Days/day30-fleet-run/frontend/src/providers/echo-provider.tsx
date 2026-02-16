@@ -12,8 +12,10 @@ if (typeof window !== 'undefined') {
 // EchoContext
 const EchoContext = createContext<Echo<any> | null>(null);
 
+// useEcho hook
 export const useEcho = () => useContext(EchoContext);
 
+// EchoProvider component
 export default function EchoProvider({ children }: { children: React.ReactNode }) {
     const [echoInstance, setEchoInstance] = useState<Echo<any> | null>(null);
 
