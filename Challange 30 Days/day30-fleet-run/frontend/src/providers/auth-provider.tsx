@@ -70,6 +70,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
         router.push('/dashboard');
     };
 
+    // logout function
     const logout = async () => {
         try {
             await api.post('/logout');
