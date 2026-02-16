@@ -8,6 +8,7 @@ export interface User {
     updated_at: string;
 }
 
+// DriveLocation interface
 export interface DriveLocation {
     lat: number;
     lng: number;
