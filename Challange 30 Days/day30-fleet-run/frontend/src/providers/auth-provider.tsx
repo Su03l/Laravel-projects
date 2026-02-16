@@ -7,6 +7,7 @@ import api from '@/lib/axios';
 import { User } from '@/types/api';
 import { toast } from 'sonner';
 
+// AuthContextType interface 
 interface AuthContextType {
     user: User | null;
     login: (token: string, user: User) => void;
