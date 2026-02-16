@@ -45,6 +45,7 @@ export interface Shipment {
     updated_at: string;
 }
 
+// DashboardStats interface
 export interface DashboardStats {
     total_drivers: number;
     active_shipments: number;
