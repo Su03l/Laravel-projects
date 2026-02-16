@@ -15,6 +15,7 @@ interface AuthContextType {
     isLoading: boolean;
 }
 
+// AuthContext
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export const useAuth = () => {
