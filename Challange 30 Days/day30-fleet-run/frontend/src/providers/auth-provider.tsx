@@ -27,6 +27,7 @@ export const useAuth = () => {
     return context;
 };
 
+// AuthProvider component
 export default function AuthProvider({ children }: { children: React.ReactNode }) {
     const [token, setToken] = useState<string | null>(null);
     const [isInitialized, setIsInitialized] = useState(false);
